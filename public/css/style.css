@@ -1,0 +1,200 @@
+
+/* ---Location: Public/css/--- */
+
+
+/* ---------------FONT - POPPINS-------------- */
+
+.poppins-regular{
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+.poppins-semibold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+  }
+
+.poppins-bold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+/* ---------------FONT - Raleway--------------- */
+
+.raleway-regular {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+.raleway-semibold {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+  }
+
+.raleway-bold {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+/* ---------------FONT/BORDER COLOR--------------- */
+
+.color-red{
+    color: #D24848;    
+}
+
+.color-Blue{
+    color:  #4496E3;
+}
+
+.color-green{
+    color: #66BFBF;
+}
+
+.color-navy{
+    color:  #3B3B6B;
+}
+
+.color-yellow{
+    color:  #FFBE0C;
+}
+
+
+/* ---------------BACKGROUND--------------- */
+.bg-blue{
+    background-color: #B4D5F4;
+}
+
+.bg-green{
+    background-color: #C2E5E5;
+}
+
+.bg-navy{
+    background-color: #3B3B6B;
+}
+
+/* ---------------AVATAR--------------- */
+
+/* for Username xsmall  */
+.avatar-xs{
+    height: 45px;
+    width: 45px;
+    object-fit: cover;
+}
+
+/* for beside Username  */
+.avatar-sm{
+    height: 60px;
+    width: 60px;
+    object-fit: cover;
+}
+
+/* for Tourist Profile  */
+.avatar-md{
+    height: 132px;
+    width: 132px;
+    object-fit: cover;
+}
+
+/* for Business Profile */
+.avatar-lg{
+    height: 166px;
+    width: 166px;
+    object-fit: cover;
+}
+
+/* ---------------ICON--------------- */
+
+/* FOR HEART, STAR , COMMENT, VIEW etc  */
+.icon-sm{
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+}
+
+/* FOR SNS ICONS */
+.icon-md{
+    height: 30px;
+    width: 30px;
+    font-size: 30px;
+}
+
+.icon-lg{
+    height: 45px;
+    width: 45px;
+    font-size: 45px;
+}
+
+/* ---------------BUTTON--------------- */
+
+/* FOLLOW */
+.btn-follow{
+    background-color: #4496E3;
+    color: white;
+    border: solid 2px #4496E3;
+    border-radius: 20px;
+    text-decoration: none;
+}
+/* UNFOLLOW */
+.btn-unfollow{
+    background-color: white;
+    border: solid 2px #4496E3;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+.btn-red{
+    background-color: #D24848;
+    color: white;
+    border: solid 2px #D24848;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-outline-red{
+    background-color: white;
+    color: #D24848;
+    border: solid 2px #D24848;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-navy{
+    background-color: #3B3B6B;
+    color: white;
+    border: solid 2px #3B3B6B;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-green{
+    background-color: #66BFBF;
+    color: white;
+    border: solid 2px #66BFBF;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-outline-green{
+    background-color: white;
+    color: #66BFBF;
+    border: solid 2px #66BFBF;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* ---------------ERROR MESSAGE--------------- */
+.xsmall{
+    font-size: 0.7rem;
+}
+
+
+
