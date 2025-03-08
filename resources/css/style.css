@@ -67,6 +67,16 @@
     color:  #FFBE0C;
 }
 
+/* placeholder */
+.color-ph{
+    color:#757B9D;
+}
+
+/* input border */
+.inp-border{
+color: #73B0E8
+}
+
 
 /* ---------------BACKGROUND--------------- */
 .bg-blue{
