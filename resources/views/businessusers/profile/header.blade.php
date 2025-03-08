@@ -4,50 +4,6 @@
 
 @section('content')
 
-<style>
-    .profile-header{
-        position: relative;
-        width: 100%;
-    }
-    
-    /* .profile-info{
-        position: absolute;
-        bottom: -200px;
-
-    } */
-
-
-
-    .background-blue{
-        background-color: #b4d5f4
-    }
-
-    .btn-edit{
-        background-color: #66bfbf  
-             
-    }
-
-    .btn-delete{
-        background-color: #d24848
-    }
-
-    .btn-add{
-        background-color: #3b3b6b
-    }
- 
-    .btn-hide{
-        background-color: white
-        /* outline-color:  */
-        }
-
-    .icon-lg{
-    font-size:6rem;
-}
-
-.body-image{
-    height:150px;
-}
-
 </style>
 
 <div class="mb-5 row justify-content-center background-blue">
@@ -55,7 +11,7 @@
         <div class="profile-header position-relative">
              <!-- Header image -->
             <div class="header-image">
-                <img src="{{ asset('images/resortpool.jpg') }}" class="img-fluid w-100 mb-3" style="height:200px " alt="">
+                <img src="{{ asset('images/resortpool.jpg') }}" class="img-fluid w-100 mb-3" style="height:250px " alt="">
             </div>
             <div class="profile-info container">
                 <div class="row ">
@@ -150,7 +106,7 @@
                         <img src="{{asset('images/kredocafeimage.jpg')}}" alt="" class="body-image">
                     </div>
                     <div class="card-footer">
-                        <h4>Mar 5 2025 ~ Apr 26/2025</h4>
+                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
                         <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
                     </div>
                 </div>
@@ -177,7 +133,7 @@
                         <img src="{{asset('images/kredohotelimage.jpg')}}" alt="" class="body-image">
                     </div>
                     <div class="card-footer">
-                        <h4>Mar 5 2025 ~ Apr 26/2025</h4>
+                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
                         <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
                     </div>
                 </div>
@@ -204,7 +160,7 @@
                         <img src="{{asset('images/kredopubimage.jpg')}}" alt="" class="body-image">
                     </div>
                     <div class="card-footer">
-                        <h4>Mar 5 2025 ~ Apr 26/2025</h4>
+                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
                         <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
                     </div>
                 </div>
