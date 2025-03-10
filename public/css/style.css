@@ -153,6 +153,12 @@
     font-size: 45px;
 }
 
+.icon-xl{
+    height: 6rem;
+    width: 6rem;
+    font-size: 6rem;
+}
+
 /* ---------------BUTTON--------------- */
 
 /* FOLLOW */
