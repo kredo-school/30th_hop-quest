@@ -1,90 +1,12 @@
+<div class="bg-blue">
 @extends('layouts.app')
 
-@section('title')
+@section('title', 'Articles')
 
 @section('content')
+    @include('businessusers.profiles.header')
 
-</style>
-
-<div class="mb-5 row justify-content-center background-blue">
-    <div class="col-8">
-        <div class="profile-header position-relative">
-             <!-- Header image -->
-            <div class="header-image">
-                <img src="{{ asset('images/resortpool.jpg') }}" class="img-fluid w-100 mb-3" style="height:250px " alt="">
-            </div>
-            <div class="profile-info container">
-                <div class="row ">
-                    <!-- Avatar image -->
-                    <div class="col-auto profile-image mt-0">
-                        <i class="fa-solid fa-circle-user icon-lg text-secondary d-block text-center"></i>
-                    </div>
-                    
-                    <!-- Username buttons -->
-                    <div class="col">
-                        <div class="row">
-                            <div class="col-8">
-                                <h3 class="mb-1">Business User name</h3>
-                            </div>
-                            <div class="col-2">
-                                <a href="#" class="btn btn-sm btn-edit fw-bold text-white mb-2 w-100">EDIT</a>
-                            </div>
-                            <div class="col-2">
-                                <a href="#" class="btn btn-sm btn-delete fw-bold text-white mb-2 w-100">DELETE</a>
-                            </div>
-                        </div>    
-                    
-                        {{-- url --}}
-                        <div class="row mb-3">
-                            <div class="col">
-                                <a href="#" class="text-decoration-none text-dark">www.hopquest.com</a>
-                            </div>
-                        </div> 
-                        
-                        {{-- items --}}
-                        <div class="row mb-3">
-                            <div class="col-auto">
-                                <a href="#" class="text-decoration-none text-dark fw-bold">3 posts</a>
-                            </div>
-                            <div class="col-auto">
-                                <a href="#" class="text-decoration-none text-dark fw-bold">5 followers</a>
-                            </div>
-                            <div class="col-auto">
-                                <a href="#" class="text-decoration-none text-dark fw-bold">7 reviews</a>
-                            </div>
-
-                            {{-- SNS icons --}}
-                            <div class="col-auto ms-auto">
-                                <a href="#">
-                                <i class="fa-brands fa-instagram text-dark display-6"></i>
-                                </a>
-                            </div>
-                            <div class="col-auto ms-auto">
-                                <a href="#">
-                                <i class="fa-brands fa-facebook text-dark display-6"></i>
-                                </a>
-                            </div>
-                            <div class="col-auto ms-auto">
-                                <a href="#">
-                                <i class="fa-brands fa-twitter text-dark display-6"></i>
-                                </a>
-                            </div>
-                            <div class="col-auto ms-auto">
-                                <a href="#">
-                                <i class="fa-brands fa-tiktok text-dark display-6"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div> 
-                </div>
-                {{-- introduction --}}
-                <div class="row mb-3">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti ea, adipisci enim neque explicabo doloribus qui aut nemo odit officia a reiciendis, magni beatae voluptates alias deserunt minus maiores! Porro quod vero consequuntur minima amet cum quos quaerat. Quisquam nesciunt natus explicabo quod magnam eum veniam laboriosam consectetur voluptatem suscipit!</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
+<div class="mb-5 row justify-content-center bg-blue">
 {{-- Management business --}}
     <div class="col-8 mb-5 ">
         <div class="row">
@@ -92,7 +14,7 @@
                 <h2>Management Business</h2>
             </div>
             <div class="col-2">
-                <a href="#" class="btn btn-sm btn-add fw-bold text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                <a href="#" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
         </div>
         <div class="row">
@@ -100,7 +22,7 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h3>Kredo Cafe</h3>
+                        <h4>Kredo Cafe</h4>
                     </div>
                     <div class="card-body mx-auto">
                         <img src="{{asset('images/kredocafeimage.jpg')}}" alt="" class="body-image">
@@ -116,10 +38,10 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-edit fw-bold text-white mb-2 w-100">EDIT</a>
+                        <a href="#" class="btn btn-sm btn-green fw-bold mb-2 w-100">EDIT</a>
                     </div>
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-hide fw-bold mb-2 w-100">HIDE</a>
+                        <a href="#" class="btn btn-sm btn-outline-green fw-bold mb-2 w-100">HIDE</a>
                     </div>
                 </div>
             </div>
@@ -127,7 +49,7 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h3>Kredo Hotel</h3>
+                        <h4>Kredo Hotel</h4>
                     </div>
                     <div class="card-body mx-auto">
                         <img src="{{asset('images/kredohotelimage.jpg')}}" alt="" class="body-image">
@@ -143,10 +65,10 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-edit fw-bold text-white mb-2 w-100">EDIT</a>
+                        <a href="#" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                     </div>
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-hide fw-bold mb-2 w-100">UNHIDE</a>
+                        <a href="#" class="btn btn-sm btn-red mb-2 w-100">UNHIDE</a>
                     </div>
                 </div>
             </div>
@@ -154,7 +76,7 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h3>Kredo Pub</h3>
+                        <h4>Kredo Pub</h4>
                     </div>
                     <div class="card-body mx-auto">
                         <img src="{{asset('images/kredopubimage.jpg')}}" alt="" class="body-image">
@@ -170,23 +92,23 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-edit fw-bold text-white mb-2 w-100">EDIT</a>
+                        <a href="#" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                     </div>
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-hide fw-bold mb-2 w-100">HIDE</a>
+                        <a href="#" class="btn btn-sm btn-outline-green mb-2 w-100">HIDE</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-{{-- Promotions --}}
+    {{-- Promotions --}}
     <div class="col-8 mb-5">
         <div class="row">
             <div class="col">
                 <h2>Promotions</h2>
             </div>
             <div class="col-2">
-                <a href="#" class="btn btn-sm btn-add fw-bold text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                <a href="#" class="btn btn-sm btn-navy mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
         </div>
         <div class="row">
@@ -194,10 +116,10 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h3>Experience the Magic of Summer at HopHotel!</h3>
+                        <h4>Experience the Magic of Summer at HopHotel!</h4>
                     </div>
-                    <div class="card-body mx-auto">
-                        <img src="{{asset('images/festival.jpg')}}" alt="" class="body-image">
+                    <div class="card-body ">
+                        <img src="{{asset('images/festival.jpg')}}" alt="" class="body-image ">
                     </div>
                     <div class="card-footer">
                         <h4>Mar 5 2025 ~ Apr 26/2025</h4>
@@ -210,10 +132,10 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-edit fw-bold text-white mb-2 w-100">EDIT</a>
+                        <a href="#" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                     </div>
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-hide fw-bold mb-2 w-100">HIDE</a>
+                        <a href="#" class="btn btn-sm btn-outline-green mb-2 w-100">HIDE</a>
                     </div>
                 </div>
             </div>
@@ -221,7 +143,7 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h3>Free Breakfast Promotion at HopHotel!</h3>
+                        <h4>Free Breakfast Promotion at HopHotel!</h4>
                     </div>
                     <div class="card-body mx-auto">
                         <img src="{{asset('images/breakfast.jpg')}}" alt="" class="body-image">
@@ -237,10 +159,10 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-edit fw-bold text-white mb-2 w-100">EDIT</a>
+                        <a href="#" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                     </div>
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-hide fw-bold mb-2 w-100">UNHIDE</a>
+                        <a href="#" class="btn btn-sm btn-red mb-2 w-100">UNHIDE</a>
                     </div>
                 </div>
             </div>
@@ -248,7 +170,7 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h3>Wine Tasting Night at HopHotel!</h3>
+                        <h4>Wine Tasting Night at HopHotel!</h4>
                     </div>
                     <div class="card-body mx-auto">
                         <img src="{{asset('images/winetasting.jpg')}}" alt="" class="body-image">
@@ -260,28 +182,28 @@
                 </div>
                 <div>
                     <h6>Status: <i class="fa-solid fa-circle text-success"></i> Visible</h6>
-                    <h6>Display period: Mar 5 2025 ~ Apr 26/2025</h6>
+                    <h6 class="">Display period: Mar 5 2025 ~ Apr 26/2025</h6>
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-edit fw-bold text-white mb-2 w-100">EDIT</a>
+                        <a href="#" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                     </div>
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-hide fw-bold mb-2 w-100">HIDE</a>
+                        <a href="#" class="btn btn-sm btn-outline-green mb-2 w-100">HIDE</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-{{-- Model Quests --}}
+    {{-- Model Quests --}}
     <div class="col-8">
         <div class="row">
             <div class="col">
                 <h2>Model Quests</h2>
             </div>
             <div class="col-2">
-                <a href="#" class="btn btn-sm btn-add fw-bold text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                <a href="#" class="btn btn-sm btn-navy mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
         </div>
         <div class="row">
@@ -289,7 +211,7 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h3>Excursion</h3>
+                        <h4>Excursion</h4>
                     </div>
                     <div class="card-body mx-auto">
                         <img src="{{asset('images/excursion.jpg')}}" alt="" class="body-image">
@@ -305,10 +227,10 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-edit fw-bold text-white mb-2 w-100">EDIT</a>
+                        <a href="#" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                     </div>
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-hide fw-bold mb-2 w-100">HIDE</a>
+                        <a href="#" class="btn btn-sm btn-outline-green mb-2 w-100">HIDE</a>
                     </div>
                 </div>
             </div>
@@ -316,7 +238,7 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h3>Seashore picnic</h3>
+                        <h4>Seashore picnic</h4>
                     </div>
                     <div class="card-body mx-auto">
                         <img src="{{asset('images/seashore.jpg')}}" alt="" class="body-image">
@@ -332,10 +254,10 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-edit fw-bold text-white mb-2 w-100">EDIT</a>
+                        <a href="#" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                     </div>
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-hide fw-bold mb-2 w-100">HIDE</a>
+                        <a href="#" class="btn btn-sm btn-red mb-2 w-100">UNHIDE</a>
                     </div>
                 </div>
             </div>
@@ -343,7 +265,7 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h3>Bird watching tour</h3>
+                        <h4>Bird watching tour</h4>
                     </div>
                     <div class="card-body mx-auto">
                         <img src="{{asset('images/birdwatching.jpg')}}" alt="" class="body-image">
@@ -359,16 +281,15 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-edit fw-bold text-white mb-2 w-100">EDIT</a>
+                        <a href="#" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                     </div>
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-hide fw-bold mb-2 w-100">HIDE</a>
+                        <a href="#" class="btn btn-sm btn-outline-green mb-2 w-100">HIDE</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>   
 </div>
-
-
+</div>
 @endsection
