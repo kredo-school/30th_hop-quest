@@ -62,9 +62,7 @@
         <div class="container">
             <div class="row justify-content-center">
 
-                <div class="col-9">
                     @yield('content')
-                </div>
             </div>
         </div>
     </main>
