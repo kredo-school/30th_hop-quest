@@ -1,9 +1,14 @@
-*{
+html{
+    font-size: 62.5%;
+}
+
+body{
     /* Raleway regular  */
     font-family: "Raleway", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+    font-size:  1.6rem;
 }
 
 /* ---------------FONT - POPPINS-------------- */
@@ -45,8 +50,62 @@
 
 /* ---------------ERROR MESSAGE--------------- */
 .xsmall{
-    font-size: 0.7rem;
+    font-size: 1rem;
 }
+
+/* ---------------Header--------------- */
+h1{
+    font-family: "Poppins", sans-serif;
+    font-size: 6.4rem;
+}
+
+h2{
+    font-family: "Poppins", sans-serif;
+    font-size: 4.8rem;
+}
+
+h3{
+    font-family: "Poppins", sans-serif;
+    font-size: 3.2rem;
+}
+
+h4{
+    font-family: "Poppins", sans-serif;
+    font-size: 2.4rem;
+}
+
+h5{
+    font-family: "Poppins", sans-serif;
+    font-size: 1.8rem;
+}
+
+h6{
+    font-family: "Poppins", sans-serif;
+    font-size: 1.6rem;
+}
+
+/* ---------------FORM--------------- */
+.form-label{
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+
+.input-box{
+    background-color: white;
+    border: solid 1px #73B0E8;
+    border-radius: 5px;
+}
+
+::placeholder{
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    color: #757890;
+    font-size: 1.6rem;
+}
+
 
 /* --------------- COLOR--------------- */
 .color-red{
@@ -86,36 +145,36 @@
 
 /* for body*/
 .avatar-xs{
-    height: 30px;
-    width: 30px;
+    height: 3rem;
+    width: 3rem;
     object-fit: cover;
 }
 
 /* for Username xsmall  */
 .avatar-sm{
-    height: 45px;
-    width: 45px;
+    height: 4.5rem;
+    width: 4.5rem;
     object-fit: cover;
 }
 
 /* for Username  */
 .avatar-md{
-    height: 60px;
-    width: 60px;
+    height: 6rem;
+    width: 6rem;
     object-fit: cover;
 }
 
 /* for Tourist Profile  */
 .avatar-lg{
-    height: 132px;
-    width: 132px;
+    height: 13.2rem;
+    width: 13.2rem;
     object-fit: cover;
 }
 
 /* for Business Profile */
 .avatar-xl{
-    height: 166px;
-    width: 166px;
+    height: 16.6rem;
+    width: 16.6rem;
     object-fit: cover;
 }
 
@@ -123,16 +182,16 @@
 
 /* FOR COMMENT, VIEW etc  */
 .icon-sm{
-    height: 20px;
-    width: 20px;
-    font-size: 20px;
+    height: 2rem;
+    width: 2rem;
+    font-size: 2rem;
 }
 
 /* FOR HEART, STAR ,*/
 .fa-heart{
-    height: 20px;
-    width: 20px;
-    font-size: 20px;
+    height: 2rem;
+    width: 2rem;
+    font-size: 2rem;
 }
 
 .fa-heart:hover{
@@ -142,21 +201,21 @@
 
 /* FOR SNS ICON */
 .icon-md{
-    height: 35px;
-    width: 35px;
-    font-size: 35px;
+    height: 3.5rem;
+    width: 3.5rem;
+    font-size: 3.5rem;
 }
 
 .icon-lg{
-    height: 45px;
-    width: 45px;
-    font-size: 45px;
+    height: 4.5rem;
+    width: 4.5rem;
+    font-size: 4.5rem;
 }
 
 .icon-xl{
-    height: 6rem;
-    width: 6rem;
-    font-size: 6rem;
+    height: 16.6rem;
+    width: 16.6rem;
+    font-size: 16.6rem;
 }
 
 /* ---------------BUTTON--------------- */
