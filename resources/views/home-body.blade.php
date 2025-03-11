@@ -1,75 +1,14 @@
-<style>
-    .card{
-        position: relative;
-        padding-left: 5%; 
-        padding-top: 5%;
-    }
-
-    .body-image{
-        widows: 100%;
-        height: auto;
-        /* height: 12rem;
-        width: 18rem; */
-        border-radius: 5px;
-    }
-
-    .official{
-        position: absolute;
-        left: -0.5%;
-        top: -0.5%;
-        width: 20%;
-        height: auto;
-    }
-
-    .official-personal{
-        width: 1.5rem;
-        height: 1.5rem;
-        /* width: 20px;
-        height: 20px; */
-    }
-
-    .card-body{
-        display: flow-root
-    }
-
-    .card-subtitle{
-        font-family: "Raleway", sans-serif;
-        font-size: 12px;
-
-    }
-
-    .card-title{
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .card-icon{
-        border-radius: 50%;
-        width: 2rem;
-        height: 2rem;
-        /* width: 30px;
-        height: 30px; */
-    }
-
-    .card_description{
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-
-</style>
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/homebody.css')}}">
+@endsection
 
 <div class="container">
     <div class="row">
         <div class="col-4">
-            <div class="card p-3" style="width: 80%;">
+            <div class="card p-3" style="width: 80%; max-height: 95%">
 
                 {{-- Card Image with official mark --}}
-                <img src="{{ asset('images/Official Badge.png') }}" class="card-img-top official" alt="official">
+                <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official">
                 <a href="#" class="">
                     <img src="{{ asset('images/金閣寺の紅葉.webp') }}" class="card-img-top body-image" alt="image">
                 </a>
@@ -97,7 +36,7 @@
                     </div>
 
                     {{-- Icon & Name & Official mark --}}
-                    <div class="d-flex flex-wrap align-items-center mt-2 ps-3 pe-4 personal_space">
+                    <div class="d-flex flex-wrap align-items-center personal_space" style="width: 110%;">
 
                         {{-- User Icon --}}
                         <div class="col-auto">
@@ -128,11 +67,11 @@
                         </div>
 
                         {{-- Follow Button --}}
-                        <div class="col-auto ms-auto pb-2">
+                        <div class="col-auto pb-2" style="margin-left: 0.5rem;">
                             <form action="#" method="post" class="">
                                 @csrf
                                 
-                                <button type="submit" class="btn btn-primary btn-sm">Follow</button>
+                                <button type="submit" class="btn btn-sm btn-follow-body">Follow</button>
                             </form>
                         </div>
                     </div>
