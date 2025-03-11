@@ -1,0 +1,23 @@
+.photo-container{
+    display: flex;
+
+}
+
+
+.custom-file-input {
+    flex-grow: 1;  
+    /* ァイル名の表示エリアを広げる（左端に表示される） */
+    border: 1px solid #ced4da;
+    padding: 8px;
+    border-radius: 5px;
+    text-align: right;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+    visibility: hidden;
+
+}
+
+.xsmall{
+    color: #757890;
+}
