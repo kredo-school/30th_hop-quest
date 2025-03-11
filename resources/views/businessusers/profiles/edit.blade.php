@@ -9,7 +9,7 @@
     <div class="col-8">
         <div class="row">
             <div class="col">
-                <h2 class="poppins-regular d-inline me-3">Edit Profile</h2>
+                <h4 class=" d-inline me-3">Edit Profile</h4>
                 <p class="d-inline ">   (<span class="color-red">*</span> is mandatory)<p>
             </div>
         </div>
@@ -23,11 +23,9 @@
 
         <!-- Header image -->
 <div class="row">
-    <div class="col">
-        <div class="pt-2">
-            <img src="{{ asset('images/resort.jpg') }}" class="header-image"  alt="">
-            
-        </div>
+    <div class="pt-2 px-0">
+        <img src="{{ asset('images/resort.jpg') }}" class="header-image"  alt="">
+        
     </div>
 </div>
 
@@ -36,9 +34,9 @@
     <div class="col-8"> 
           {{-- Header image upload --}}
         <div class="row mb-3">
-            <label for="header" class="mb-2">Header photo</label>
+            <label for="header" class="form-label mb-2">Header photo</label>
             <input type="file" name="header" id="header" class="form-control form-control-sm w-100 p-2" >
-                    <p class="mb-0 form-text text-danger ms-2">
+                    <p class="mb-0 form-text text-danger">
                         Acceptable formats: jpeg, jpg, png, gif only <br>
                         Max file size is 1048 KB
                     </p>
@@ -49,7 +47,7 @@
                 <i class="fa-solid fa-circle-user text-secondary d-block text-center icon-xl" ></i>
             </div>
             <div class="col">
-                <label for="avatar" class="mb-2">Avatar photo</label>
+                <label for="avatar" class="form-label mb-2">Avatar photo</label>
                 <input type="file" name="avatar" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
                 <p class="mb-0 form-text text-danger">
                     Acceptable formats: jpeg, jpg, png, gif only <br>

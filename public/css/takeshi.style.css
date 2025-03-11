@@ -3,13 +3,13 @@
     width: 100%;
     object-fit:cover;
 }
-
-*{
+body{
     /* Raleway regular  */
     font-family: "Raleway", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+    font-size:  1rem;
 }
 
 /* ---------------FONT - POPPINS-------------- */
@@ -51,7 +51,95 @@
 
 /* ---------------ERROR MESSAGE--------------- */
 .xsmall{
-    font-size: 0.7rem;
+    font-size: 0.75rem;
+}
+
+/* ---------------Header--------------- */
+h1{
+    font-family: "Poppins", sans-serif;
+    font-size: 4rem;
+}
+
+h2{
+    font-family: "Poppins", sans-serif;
+    font-size: 3rem;
+}
+
+h3{
+    font-family: "Poppins", sans-serif;
+    font-size: 2rem;
+}
+
+h4{
+    font-family: "Poppins", sans-serif;
+    font-size: 1.5rem;
+}
+
+h5{
+    font-family: "Poppins", sans-serif;
+    font-size: 1.125rem;
+}
+
+h6{
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+}
+
+/* ---------------FORM--------------- */
+.form-label{
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0;
+    margin: 0 0.5px;
+}
+
+.input-box{
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #73B0E8;
+    border-radius: 0.375rem;
+    height: calc(2.25rem + 2px);
+}
+
+.input-box::placeholder{
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    color: #757890;
+    font-size: 0.8rem;
+    opacity: 70%;
+}
+
+.text-area{
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #73B0E8;
+    border-radius: 0.375rem;
+    height: auto;
+}
+
+.text-area::placeholder{
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    color: #757890;
+    font-size: 0.8rem;
+    opacity: 70%;
 }
 
 /* --------------- COLOR--------------- */
@@ -78,50 +166,56 @@
 /* ---------------BACKGROUND--------------- */
 .bg-blue{
     background-color: #B4D5F4;
+    min-height: 100vh;
+    width: 100vw;
 }
 
 .bg-green{
     background-color: #C2E5E5;
+    min-height: 100vh;
+    width: 100vw;
 }
 
 .bg-navy{
     background-color: #3B3B6B;
+    min-height: 100vh;
+    width: 100vw;
 }
 
 /* ---------------AVATAR--------------- */
 
 /* for body*/
 .avatar-xs{
-    height: 30px;
-    width: 30px;
+    height: 1.875rem;
+    width: 1.875rem;
     object-fit: cover;
 }
 
 /* for Username xsmall  */
 .avatar-sm{
-    height: 45px;
-    width: 45px;
+    height: 2.8125rem;
+    width: 2.8125rem;
     object-fit: cover;
 }
 
 /* for Username  */
 .avatar-md{
-    height: 60px;
-    width: 60px;
+    height: 3.75rem;
+    width: 3.75rem;
     object-fit: cover;
 }
 
 /* for Tourist Profile  */
 .avatar-lg{
-    height: 132px;
-    width: 132px;
+    height: 8.25rem;
+    width: 8.25rem;
     object-fit: cover;
 }
 
 /* for Business Profile */
 .avatar-xl{
-    height: 166px;
-    width: 166px;
+    height: 10.375rem;
+    width: 10.375rem;
     object-fit: cover;
 }
 
@@ -129,16 +223,16 @@
 
 /* FOR COMMENT, VIEW etc  */
 .icon-sm{
-    height: 20px;
-    width: 20px;
-    font-size: 20px;
+    height: 1.25rem;
+    width: 1.25rem;
+    font-size: 1.25rem;
 }
 
 /* FOR HEART, STAR ,*/
 .fa-heart{
-    height: 20px;
-    width: 20px;
-    font-size: 20px;
+    height: 1.25rem;
+    width: 1.25rem;
+    font-size: 1.25rem;
 }
 
 .fa-heart:hover{
@@ -148,27 +242,21 @@
 
 /* FOR SNS ICON */
 .icon-md{
-    height: 35px;
-    width: 35px;
-    font-size: 35px;
+    height: 2.1875rem;
+    width: 2.1875rem;
+    font-size: 2.1875rem;
 }
 
 .icon-lg{
-    height: 45px;
-    width: 45px;
-    font-size: 45px;
+    height: 4.5rem;
+    width: 4.5rem;
+    font-size: 4.5rem;
 }
 
 .icon-xl{
-    height: 6rem;
-    width: 6rem;
+    height: 10.375rem;
+    width: 10.375rem;
     font-size: 6rem;
-}
-
-.icon-xxl{
-    height: 10rem;
-    width: 10rem;
-    font-size: 10rem;
 }
 
 /* ---------------BUTTON--------------- */

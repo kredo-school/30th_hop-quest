@@ -25,6 +25,10 @@ class HomeController extends Controller
         return view('businessusers.profiles.posts');
     }
 
+     public function profile(){
+        return view('businessusers.profiles.posts');
+    }
+
     public function followers(){
         return view('businessusers.profiles.followers');
     }

@@ -8,7 +8,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
 Route::get('/profile/edit', [App\Http\Controllers\HomeController::class, 'edit'])->name('profile.edit');
 Route::get('/profile/followers', [App\Http\Controllers\HomeController::class, 'followers'])->name('profile.followers');
 Route::get('/profile/reviews', [App\Http\Controllers\HomeController::class, 'reviews'])->name('profile.reviews');

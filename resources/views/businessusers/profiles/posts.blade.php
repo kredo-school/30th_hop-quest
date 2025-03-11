@@ -11,7 +11,7 @@
     <div class="col-8 mb-5 ">
         <div class="row">
             <div class="col">
-                <h2>Management Business</h2>
+                <h4>Management Business</h4>
             </div>
             <div class="col-2">
                 <a href="#" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
@@ -22,19 +22,19 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h4>Kredo Cafe</h4>
+                        <h5>Kredo Cafe</h5>
                     </div>
                     <div class="card-body mx-auto" >
                         <img src="{{asset('images/kredocafeimage.jpg')}}" alt="" class="body-image">
                     </div>
                     <div class="card-footer overflow-y-auto">
-                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
+                        <h6>Mar 5 2025 ~ Apr 26/2025</h6>
                         <p >Lorem ipsum dolor sit, amet consectetur </p>
                     </div>
                 </div>
                 <div>
-                    <h6>Status: <i class="fa-solid fa-circle text-success"></i> Visible</h6>
-                    <h6>Display period: Mar 5 2025 ~ Apr 26/2025</h6>
+                    <p>Status: <i class="fa-solid fa-circle text-success"></i> Visible</p>
+                    <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
                 </div>
                 <div class="row">
                     <div class="col-6">
