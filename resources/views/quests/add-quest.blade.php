@@ -4,12 +4,14 @@
     <link rel="stylesheet" href="{{ asset('css/add-quest.css') }}">
 @endsection
 
-<div class="bg-green">
+
 @section('content')
+<div class="bg-green">
+    <div class="container py-5 col-9">
     <h3 class="color-navy poppins-semibold text-center">Create Your Quest</h3>
     
     <section id="form1">
-        <form action="" method="post" enctype="multipart/form-data" class="bg-white rounded-5 p-5 my-5">
+        <form action="" method="post" enctype="multipart/form-data" class="bg-white rounded-4 p-5 my-3">
             @csrf
                 <div class="row pb-3">
                     <label for="title" class="form-label">Quest Title</label>
@@ -41,7 +43,7 @@
                     <div class="col-3 ms-auto pe-0">
                         <label for="h_photo" class="btn btn-green custom-file-label w-100"><i class="fa-solid fa-plus icon-xs d-inline"></i>Photo</label>
                     </div>
-                        <p class="mt-0 ps-0 xsmall">
+                        <p class="mt-0 ps-0 pb-0 xsmall">
                             Acceptable formats: jpeg, jpg, png, gif only.<br>Max size is 1048 KB
                         </p>
                 </div>
@@ -52,11 +54,16 @@
         </form>
     </section>      
     <section id="form2">
-        <form action="" method="post" enctype="multipart/form-data" class="bg-white rounded-5 p-5 my-5">
+        <form action="" method="post" enctype="multipart/form-data" class="bg-white rounded-5 px-5 py-3 my-5">
             @csrf
             <div class="row">
                 <label class="form-label">Choose the day</label>
-                <select id="day_select" class="w-25 p-2 border rounded mb-3"></select>
+                <select id="day_select" name="day_select" class="w-25 p-2 border rounded mb-3">
+                    <option value="1">Day1</option>
+                    <option value="2">Day2</option>
+                    <option value="3">Day3</option>
+                </select>
+                
             </div>
             <div class="row">
                 <div class="col-5 p-0">
@@ -113,8 +120,30 @@
             </div>
              </div>
     </section>
+    <section class="position-relative">
+        <img src="{{ asset('images/pexels-pixabay-459203.jpg') }}" alt="Header Photo" class="img-fluid w-100">
+    
+        <!-- 右上のオーバーレイ部分 -->
+        <div class="overlay position-absolute top-0 end-0 p-3 text-white">
+            <!-- 編集・削除ボタン -->
+            <div>
+                <button class="btn btn-sm btn-green"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button class="btn btn-sm btn-red"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
+        <div class="overlay position-absolute bottom-0 start-0 p-3 text-white">
+            <!-- タイトル -->
+            <h3 class="my-0">JAPAN FUN TRIP</h3>
+            <!-- 日付 -->
+            <h4 class="my-0">2025-03-11</h4>
+            <!-- 紹介文 -->
+            <p class="my-0">これは紹介文です。ここに簡単な説明を入れます。</p>
+        </div>
+    </section>
 
 <script src="script.js"></script>
+
+</div>
 </body>
 </html>
 

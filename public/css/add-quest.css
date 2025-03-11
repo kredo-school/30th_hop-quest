@@ -3,7 +3,6 @@
 
 }
 
-
 .custom-file-input {
     flex-grow: 1;  
     /* ァイル名の表示エリアを広げる（左端に表示される） */
@@ -21,3 +20,4 @@
 .xsmall{
     color: #757890;
 }
+
