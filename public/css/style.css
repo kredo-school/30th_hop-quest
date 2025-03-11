@@ -4,6 +4,7 @@ body{
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+    font-size:  1rem;
 }
 
 /* ---------------FONT - POPPINS-------------- */
@@ -45,7 +46,7 @@ body{
 
 /* ---------------ERROR MESSAGE--------------- */
 .xsmall{
-    font-size: 0.625rem;
+    font-size: 0.75rem;
 }
 
 /* ---------------Header--------------- */
@@ -71,7 +72,7 @@ h4{
 
 h5{
     font-family: "Poppins", sans-serif;
-    font-size: 1.128rem;
+    font-size: 1.125rem;
 }
 
 h6{
@@ -136,7 +137,6 @@ h6{
     opacity: 70%;
 }
 
-
 /* --------------- COLOR--------------- */
 .color-red{
     color: #D24848;    
@@ -181,36 +181,36 @@ h6{
 
 /* for body*/
 .avatar-xs{
-    height: 3rem;
-    width: 3rem;
+    height: 1.875rem;
+    width: 1.875rem;
     object-fit: cover;
 }
 
 /* for Username xsmall  */
 .avatar-sm{
-    height: 4.5rem;
-    width: 4.5rem;
+    height: 2.8125rem;
+    width: 2.8125rem;
     object-fit: cover;
 }
 
 /* for Username  */
 .avatar-md{
-    height: 6rem;
-    width: 6rem;
+    height: 3.75rem;
+    width: 3.75rem;
     object-fit: cover;
 }
 
 /* for Tourist Profile  */
 .avatar-lg{
-    height: 13.2rem;
-    width: 13.2rem;
+    height: 8.25rem;
+    width: 8.25rem;
     object-fit: cover;
 }
 
 /* for Business Profile */
 .avatar-xl{
-    height: 16.6rem;
-    width: 16.6rem;
+    height: 10.375rem;
+    width: 10.375rem;
     object-fit: cover;
 }
 
@@ -218,16 +218,16 @@ h6{
 
 /* FOR COMMENT, VIEW etc  */
 .icon-sm{
-    height: 2rem;
-    width: 2rem;
-    font-size: 2rem;
+    height: 1.25rem;
+    width: 1.25rem;
+    font-size: 1.25rem;
 }
 
 /* FOR HEART, STAR ,*/
 .fa-heart{
-    height: 2rem;
-    width: 2rem;
-    font-size: 2rem;
+    height: 1.25rem;
+    width: 1.25rem;
+    font-size: 1.25rem;
 }
 
 .fa-heart:hover{
@@ -237,9 +237,9 @@ h6{
 
 /* FOR SNS ICON */
 .icon-md{
-    height: 3.5rem;
-    width: 3.5rem;
-    font-size: 3.5rem;
+    height: 2.1875rem;
+    width: 2.1875rem;
+    font-size: 2.1875rem;
 }
 
 .icon-lg{
@@ -249,9 +249,9 @@ h6{
 }
 
 .icon-xl{
-    height: 16.6rem;
-    width: 16.6rem;
-    font-size: 16.6rem;
+    height: 10.375rem;
+    width: 10.375rem;
+    font-size: 10.375rem;
 }
 
 /* ---------------BUTTON--------------- */
