@@ -209,8 +209,13 @@ h6{
 
 /* for Business Profile */
 .avatar-xl{
-    height: 10.375rem;
-    width: 10.375rem;
+    height: 6rem;
+    width: 6rem;
+    object-fit: cover;
+}
+.avatar-xxl{
+    height: 10rem;
+    width: 10rem;
     object-fit: cover;
 }
 
@@ -218,15 +223,11 @@ h6{
 
 /* FOR COMMENT, VIEW etc  */
 .icon-sm{
-    height: 1.25rem;
-    width: 1.25rem;
     font-size: 1.25rem;
 }
 
 /* FOR HEART, STAR ,*/
 .fa-heart{
-    height: 1.25rem;
-    width: 1.25rem;
     font-size: 1.25rem;
 }
 
@@ -237,21 +238,19 @@ h6{
 
 /* FOR SNS ICON */
 .icon-md{
-    height: 2.1875rem;
-    width: 2.1875rem;
     font-size: 2.1875rem;
 }
 
 .icon-lg{
-    height: 4.5rem;
-    width: 4.5rem;
     font-size: 4.5rem;
 }
 
 .icon-xl{
-    height: 10.375rem;
-    width: 10.375rem;
-    font-size: 10.375rem;
+    font-size: 6rem;
+}
+
+.icon-xxl{
+    font-size: 10rem;
 }
 
 /* ---------------BUTTON--------------- */
@@ -262,8 +261,7 @@ h6{
     color: white;
     border: solid 2px #4496E3;
     border-radius: 20px;
-    text-decoration: none;
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 
 .btn-follow:hover{
@@ -278,9 +276,9 @@ h6{
     color: #4496E3;
     border: solid 2px #4496E3;
     border-radius: 20px;
-    text-decoration: none;
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
+
 
 .btn-following:hover{
     background-color: white;
@@ -292,6 +290,7 @@ h6{
 .btn-red{
     background-color: #D24848;
     color: white;
+    font-weight: bold;
     border: solid 2px #D24848;
     transition: all .5s;
     text-transform: uppercase;
@@ -307,6 +306,7 @@ h6{
 .btn-outline-red{
     background-color: white;
     color: #D24848;
+    font-weight: bold;
     border: solid 2px #D24848;
     text-transform: uppercase;
     transition: all .5s;
@@ -322,6 +322,7 @@ h6{
 .btn-navy{
     background-color: #3B3B6B;
     color: white;
+    font-weight: bold;
     border: solid 2px #3B3B6B;
     text-decoration: none;
     text-transform: uppercase;
@@ -338,6 +339,7 @@ h6{
 .btn-outline-navy{
     background-color: white;
     color: #3B3B6B;
+    font-weight: bold;
     border: solid 2px #3B3B6B;
     text-decoration: none;
     text-transform: uppercase;
@@ -354,6 +356,7 @@ h6{
 .btn-green{
     background-color: #66BFBF;
     color: white;
+    font-weight: bold;
     border: solid 2px #66BFBF;
     text-decoration: none;
     text-transform: uppercase;
@@ -370,6 +373,7 @@ h6{
 .btn-outline-green{
     background-color: white;
     color: #66BFBF;
+    font-weight: bold;
     border: solid 2px #66BFBF;
     text-decoration: none;
     text-transform: uppercase;
@@ -387,6 +391,7 @@ h6{
 .btn-blue{
     background-color: #CBD9FF;
     color: #3B3B6B;
+    font-weight: bold;
     border: solid 2px #CBD9FF;
     text-decoration: none;
     text-transform: uppercase;
@@ -398,4 +403,11 @@ h6{
     color: white;
     border: solid 2px #3B3B6B;
     border-radius: 5px;
+}
+
+/* ---------------IMG--------------- */
+
+/* Navbar LOGO */
+.navimg{
+    width: 23%;
 }
