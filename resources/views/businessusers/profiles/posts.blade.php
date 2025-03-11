@@ -21,15 +21,17 @@
             {{-- Kredo cafe --}}
             <div class="col-4">
                 <div class="card mb-3">
-                    <div class="card-header">
-                        <h5>Kredo Cafe</h5>
+                    <div class="card-header bg-white">
+                        <h5 class="fw-bold">Kredo Cafe</h5>                       
                     </div>
-                    <div class="card-body mx-auto" >
-                        <img src="{{asset('images/kredocafeimage.jpg')}}" alt="" class="body-image">
+                    <div class="card-body mx-auto bg-white">
+                        <img src="{{asset('images/kredocafeimage.jpg')}}" alt="" class="body-image mb-3">
                     </div>
-                    <div class="card-footer overflow-y-auto">
+                    <div class="card-footer bg-white border-0"> 
                         <h6>Mar 5 2025 ~ Apr 26/2025</h6>
-                        <p >Lorem ipsum dolor sit, amet consectetur </p>
+                        <div >
+                            <p class="card_description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, odit? ipsum dolor sit, amet consectetur </p>
+                        </div>                      
                     </div>
                 </div>
                 <div>
@@ -48,20 +50,22 @@
             {{-- Kredo hotel --}}
             <div class="col-4">
                 <div class="card mb-3">
-                    <div class="card-header">
-                        <h4>Kredo Hotel</h4>
+                    <div class="card-header bg-white">
+                        <h5 class="fw-bold">Kredo Hotel</h5>                       
                     </div>
-                    <div class="card-body mx-auto">
-                        <img src="{{asset('images/kredohotelimage.jpg')}}" alt="" class="body-image">
+                    <div class="card-body mx-auto bg-white">
+                        <img src="{{asset('images/kredohotelimage.jpg')}}" alt="" class="body-image mb-3">
                     </div>
-                    <div class="card-footer overflow-y-auto">
-                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
-                        <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
+                    <div class="card-footer bg-white border-0 "> 
+                        <h6>Mar 5 2025 ~ Apr 26/2025</h6>
+                        <div >
+                            <p class="card_description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, odit? ipsum dolor sit, amet consectetur </p>
+                        </div>                      
                     </div>
                 </div>
                 <div>
-                    <h6>Status: <i class="fa-solid fa-circle text-danger"></i> Invisible</h6>
-                    <h6>Display period: Mar 5 2025 ~ Apr 26/2025</h6>
+                    <p>Status: <i class="fa-solid fa-circle text-danger"></i> Invisible</p>
+                    <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
                 </div>
                 <div class="row">
                     <div class="col-6">
@@ -75,20 +79,22 @@
             {{-- Kredo Pub--}}
             <div class="col-4">
                 <div class="card mb-3">
-                    <div class="card-header">
-                        <h4>Kredo Pub</h4>
+                    <div class="card-header bg-white">
+                        <h5 class="fw-bold">Kredo Pub</h5>                       
                     </div>
-                    <div class="card-body mx-auto">
-                        <img src="{{asset('images/kredopubimage.jpg')}}" alt="" class="body-image">
+                    <div class="card-body mx-auto bg-white">
+                        <img src="{{asset('images/kredopubimage.jpg')}}" alt="" class="body-image mb-3">
                     </div>
-                    <div class="card-footer">
-                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
-                        <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
+                    <div class="card-footer bg-white border-0 "> 
+                        <h6 class="fw-bold">Mar 5 2025 ~ Apr 26/2025</h6>
+                        <div >
+                            <p class="card_description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, odit? ipsum dolor sit, amet consectetur </p>
+                        </div>                      
                     </div>
                 </div>
                 <div>
-                    <h6>Status: <i class="fa-solid fa-circle text-success"></i> Visible</h6>
-                    <h6>Display period: Mar 5 2025 ~ Apr 26/2025</h6>
+                    <p>Status: <i class="fa-solid fa-circle text-success"></i> Visible</p>
+                    <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
                 </div>
                 <div class="row">
                     <div class="col-6">
@@ -105,7 +111,7 @@
     <div class="col-8 mb-5">
         <div class="row">
             <div class="col">
-                <h2>Promotions</h2>
+                <h4>Promotions</h4>
             </div>
             <div class="col-2">
                 <a href="{{ route('profile.promotion.create')}}" class="btn btn-sm btn-navy mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
@@ -116,19 +122,21 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h4>Experience the Magic of Summer at HopHotel!</h4>
+                        <h5 class="fw-bold">Experience the Magic of Summer at HopHotel!</h5>
                     </div>
-                    <div class="card-body mx-auto">
-                        <img src="{{asset('images/festival.jpg')}}" alt="" class="body-image ">
+                    <div class="card-body mx-auto bg-white">
+                        <img src="{{asset('images/festival.jpg')}}" alt="" class="body-image mb-3">
                     </div>
-                    <div class="card-footer">
-                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
-                        <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
+                    <div class="card-footer bg-white border-0 "> 
+                        <h6 class="fw-bold">Mar 5 2025 ~ Apr 26/2025</h6>
+                        <div >
+                            <p class="card_description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, odit? ipsum dolor sit, amet consectetur </p>
+                        </div>                      
                     </div>
                 </div>
                 <div>
-                    <h6>Status: <i class="fa-solid fa-circle text-success"></i> Visible</h6>
-                    <h6>Display period: Mar 5 2025 ~ Apr 26/2025</h6>
+                    <p>Status: <i class="fa-solid fa-circle text-success"></i> Visible</p>
+                    <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
                 </div>
                 <div class="row">
                     <div class="col-6">
@@ -143,19 +151,21 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h4>Free Breakfast Promotion at HopHotel!</h4>
+                        <h5 class="fw-bold">Free Breakfast Promotion at HopHotel!</h5>
                     </div>
-                    <div class="card-body mx-auto">
-                        <img src="{{asset('images/breakfast.jpg')}}" alt="" class="body-image">
+                    <div class="card-body mx-auto bg-white">
+                        <img src="{{asset('images/breakfast.jpg')}}" alt="" class="body-image mb-3">
                     </div>
-                    <div class="card-footer">
-                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
-                        <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
+                    <div class="card-footer bg-white border-0 "> 
+                        <h6 class="fw-bold">Mar 5 2025 ~ Apr 26/2025</h6>
+                        <div >
+                            <p class="card_description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, odit? ipsum dolor sit, amet consectetur </p>
+                        </div>                      
                     </div>
                 </div>
                 <div>
-                    <h6>Status: <i class="fa-solid fa-circle text-danger"></i> Invisible</h6>
-                    <h6>Display period: Mar 5 2025 ~ Apr 26/2025</h6>
+                    <p>Status: <i class="fa-solid fa-circle text-danger"></i> Invisible</p>
+                    <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
                 </div>
                 <div class="row">
                     <div class="col-6">
@@ -170,19 +180,21 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h4>Wine Tasting Night at HopHotel!</h4>
+                        <h5 class="fw-bold">Wine Tasting Night at HopHotel!</h5>
                     </div>
-                    <div class="card-body mx-auto">
-                        <img src="{{asset('images/winetasting.jpg')}}" alt="" class="body-image">
+                    <div class="card-body mx-auto bg-white">
+                        <img src="{{asset('images/winetasting.jpg')}}" alt="" class="body-image mb-3">
                     </div>
-                    <div class="card-footer">
-                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
-                        <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
+                    <div class="card-footer bg-white border-0 "> 
+                        <h6 class="fw-bold">Mar 5 2025 ~ Apr 26/2025</h6>
+                        <div >
+                            <p class="card_description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, odit? ipsum dolor sit, amet consectetur </p>
+                        </div>                      
                     </div>
                 </div>
                 <div>
-                    <h6>Status: <i class="fa-solid fa-circle text-success"></i> Visible</h6>
-                    <h6 class="">Display period: Mar 5 2025 ~ Apr 26/2025</h6>
+                    <p>Status: <i class="fa-solid fa-circle text-success"></i> Visible</p>
+                    <p class="">Display period: Mar 5 2025 ~ Apr 26/2025</p>
                 </div>
                 <div class="row">
                     <div class="col-6">
@@ -200,7 +212,7 @@
     <div class="col-8">
         <div class="row">
             <div class="col">
-                <h2>Model Quests</h2>
+                <h4>Model Quests</h4>
             </div>
             <div class="col-2">
                 <a href="#" class="btn btn-sm btn-navy mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
@@ -211,19 +223,21 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h4>Excursion</h4>
+                        <h5 class="fw-bold">Excursion</h5>
                     </div>
-                    <div class="card-body mx-auto">
-                        <img src="{{asset('images/excursion.jpg')}}" alt="" class="body-image">
+                    <div class="card-body mx-auto bg-white">
+                        <img src="{{asset('images/excursion.jpg')}}" alt="" class="body-image mb-3">
                     </div>
-                    <div class="card-footer">
-                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
-                        <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
+                    <div class="card-footer bg-white border-0 "> 
+                        <h6 class="fw-bold">Mar 5 2025 ~ Apr 26/2025</h6>
+                        <div >
+                            <p class="card_description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, odit? ipsum dolor sit, amet consectetur </p>
+                        </div>                      
                     </div>
                 </div>
                 <div>
-                    <h6>Status: <i class="fa-solid fa-circle text-success"></i> Visible</h6>
-                    <h6>Display period: Mar 5 2025 ~ Apr 26/2025</h6>
+                    <p>Status: <i class="fa-solid fa-circle text-success"></i> Visible</p>
+                    <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
                 </div>
                 <div class="row">
                     <div class="col-6">
@@ -238,19 +252,21 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h4>Seashore picnic</h4>
+                        <h5 class="fw-bold">Seashore picnic</h5>
                     </div>
-                    <div class="card-body mx-auto">
-                        <img src="{{asset('images/seashore.jpg')}}" alt="" class="body-image">
+                    <div class="card-body mx-auto bg-white">
+                        <img src="{{asset('images/seashore.jpg')}}" alt="" class="body-image mb-3">
                     </div>
-                    <div class="card-footer">
-                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
-                        <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
+                    <div class="card-footer bg-white border-0 "> 
+                        <h6 class="fw-bold">Mar 5 2025 ~ Apr 26/2025</h6>
+                        <div >
+                            <p class="card_description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, odit? ipsum dolor sit, amet consectetur </p>
+                        </div>                      
                     </div>
                 </div>
                 <div>
-                    <h6>Status: <i class="fa-solid fa-circle text-danger"></i> Invisible</h6>
-                    <h6>Display period: Mar 5 2025 ~ Apr 26/2025</h6>
+                    <p>Status: <i class="fa-solid fa-circle text-danger"></i> Invisible</p>
+                    <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
                 </div>
                 <div class="row">
                     <div class="col-6">
@@ -265,19 +281,21 @@
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h4>Bird watching tour</h4>
+                        <h5 class="fw-bold">Bird watching tour</h5>
                     </div>
-                    <div class="card-body mx-auto">
-                        <img src="{{asset('images/birdwatching.jpg')}}" alt="" class="body-image">
+                    <div class="card-body mx-auto bg-white">
+                        <img src="{{asset('images/birdwatching.jpg')}}" alt="" class="body-image mb-3">
                     </div>
-                    <div class="card-footer">
-                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
-                        <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
+                    <div class="card-footer bg-white border-0 "> 
+                        <h6 class="fw-bold">Mar 5 2025 ~ Apr 26/2025</h6>
+                        <div >
+                            <p class="card_description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, odit? ipsum dolor sit, amet consectetur </p>
+                        </div>                      
                     </div>
                 </div>
                 <div>
-                    <h6>Status: <i class="fa-solid fa-circle text-success"></i> Visible</h6>
-                    <h6>Display period: Mar 5 2025 ~ Apr 26/2025</h6>
+                    <p>Status: <i class="fa-solid fa-circle text-success"></i> Visible</p>
+                    <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
                 </div>
                 <div class="row">
                     <div class="col-6">

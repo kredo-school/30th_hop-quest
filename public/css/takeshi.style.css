@@ -3,6 +3,28 @@
     width: 100%;
     object-fit:cover;
 }
+
+.body-image{
+    width:200px;
+    height:150px;
+}
+
+.card_description{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.review_comment{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 body{
     /* Raleway regular  */
     font-family: "Raleway", sans-serif;
@@ -254,8 +276,6 @@ h6{
 }
 
 .icon-xl{
-    height: 10.375rem;
-    width: 10.375rem;
     font-size: 6rem;
 }
 

@@ -6,10 +6,10 @@
 @section('content')
 
 <link rel="stylesheet" href="{{asset('css/takeshi.style.css')}}"  /> 
-    <div class="pb-5 row justify-content-center mt-0">
+    <div class="pb-5 row justify-content-center mt-4">
         <div class="col-8">
             <div class="row">
-                <h2 class="mb-3 poppins-regular">All Reviews</h2>
+                <h4 class="mb-3 poppins-regular">All Reviews</h4>
             </div>
             <table class="table border bg-white table-hover align-middle text-secondary">
                 <thead class="table-success text-secondary small">

@@ -6,7 +6,7 @@
 @section('content')
 
 <link rel="stylesheet" href="{{asset('css/takeshi.style.css')}}"  /> 
-    <div class="pb-5 row justify-content-center mt-0">
+    <div class="pb-5 row justify-content-center mt-4">
         <div class="col-8">
             <div class="row">
                 <div class="col-9">
