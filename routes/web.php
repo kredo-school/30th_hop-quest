@@ -15,4 +15,5 @@ Route::get('/profile/reviews', [App\Http\Controllers\HomeController::class, 'rev
 Route::get('/profile/review', [App\Http\Controllers\HomeController::class, 'showreview'])->name('show.review');
 Route::get('/profile/promotion/create', [App\Http\Controllers\HomeController::class, 'promotion_create'])->name('profile.promotion.create');
 Route::get('/profile/promotion/edit', [App\Http\Controllers\HomeController::class, 'promotion_edit'])->name('profile.promotion.edit');
+Route::get('/profile/edit', [App\Http\Controllers\HomeController::class, 'edit'])->name('profile.edit');
 
