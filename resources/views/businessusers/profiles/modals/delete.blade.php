@@ -5,7 +5,7 @@
                 <h3 class="h4 text-danger"><i class="fa-regular fa-trash-can"></i> Delete Profile</h3>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete this profile?</p>
+                <p>Are you sure you want to delete this Business user profile?</p>
             </div>
             <div class="modal-footer border-0">
                 <form action="#" method="post">

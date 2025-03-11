@@ -8,7 +8,6 @@
     bottom: 160px;
 } */
 .header-image{
-    background-image: url(../images/resortpool.jpg);
     height:250px;
     width: 100%;
     object-fit:cover;

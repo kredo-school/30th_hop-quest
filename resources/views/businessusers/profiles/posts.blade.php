@@ -24,12 +24,12 @@
                     <div class="card-header">
                         <h4>Kredo Cafe</h4>
                     </div>
-                    <div class="card-body mx-auto">
+                    <div class="card-body mx-auto" >
                         <img src="{{asset('images/kredocafeimage.jpg')}}" alt="" class="body-image">
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer overflow-y-auto">
                         <h5>Mar 5 2025 ~ Apr 26/2025</h5>
-                        <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
+                        <p >Lorem ipsum dolor sit, amet consectetur </p>
                     </div>
                 </div>
                 <div>
@@ -54,7 +54,7 @@
                     <div class="card-body mx-auto">
                         <img src="{{asset('images/kredohotelimage.jpg')}}" alt="" class="body-image">
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer overflow-y-auto">
                         <h5>Mar 5 2025 ~ Apr 26/2025</h5>
                         <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
                     </div>
@@ -108,7 +108,7 @@
                 <h2>Promotions</h2>
             </div>
             <div class="col-2">
-                <a href="#" class="btn btn-sm btn-navy mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                <a href="{{ route('profile.promotion.create')}}" class="btn btn-sm btn-navy mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
         </div>
         <div class="row">
@@ -118,11 +118,11 @@
                     <div class="card-header">
                         <h4>Experience the Magic of Summer at HopHotel!</h4>
                     </div>
-                    <div class="card-body ">
+                    <div class="card-body mx-auto">
                         <img src="{{asset('images/festival.jpg')}}" alt="" class="body-image ">
                     </div>
                     <div class="card-footer">
-                        <h4>Mar 5 2025 ~ Apr 26/2025</h4>
+                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
                         <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <a href="#" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
+                        <a href="{{ route('profile.promotion.edit')}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                     </div>
                     <div class="col-6">
                         <a href="#" class="btn btn-sm btn-outline-green mb-2 w-100">HIDE</a>
@@ -149,7 +149,7 @@
                         <img src="{{asset('images/breakfast.jpg')}}" alt="" class="body-image">
                     </div>
                     <div class="card-footer">
-                        <h4>Mar 5 2025 ~ Apr 26/2025</h4>
+                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
                         <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
                     </div>
                 </div>
@@ -176,7 +176,7 @@
                         <img src="{{asset('images/winetasting.jpg')}}" alt="" class="body-image">
                     </div>
                     <div class="card-footer">
-                        <h4>Mar 5 2025 ~ Apr 26/2025</h4>
+                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
                         <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
                     </div>
                 </div>
@@ -217,7 +217,7 @@
                         <img src="{{asset('images/excursion.jpg')}}" alt="" class="body-image">
                     </div>
                     <div class="card-footer">
-                        <h4>Mar 5 2025 ~ Apr 26/2025</h4>
+                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
                         <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
                     </div>
                 </div>
@@ -244,7 +244,7 @@
                         <img src="{{asset('images/seashore.jpg')}}" alt="" class="body-image">
                     </div>
                     <div class="card-footer">
-                        <h4>Mar 5 2025 ~ Apr 26/2025</h4>
+                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
                         <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
                     </div>
                 </div>
@@ -271,7 +271,7 @@
                         <img src="{{asset('images/birdwatching.jpg')}}" alt="" class="body-image">
                     </div>
                     <div class="card-footer">
-                        <h4>Mar 5 2025 ~ Apr 26/2025</h4>
+                        <h5>Mar 5 2025 ~ Apr 26/2025</h5>
                         <p>Join us for an unforgettable Summer Festival at Hop Hotel!</p>
                     </div>
                 </div>

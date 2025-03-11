@@ -1,11 +1,18 @@
 <link rel="stylesheet" href="{{asset('css/takeshi.style.css')}}"  /> 
-<div class="pb-5 row justify-content-center bg-blue mt-0">
+<!-- Header image -->
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <img src="{{ asset('images/resort.jpg') }}" class="header-image"  alt="">
+            </div>
+        </div>    
+    </div> 
+{{-- User information --}}
+<div class="row justify-content-center mt-0">        
     <div class="col-8">
         <div class="profile-header position-relative">
-             <!-- Header image -->
-            <div class="header-image mb-3">
-                {{-- <img src="{{ asset('images/resortpool.jpg') }}" class=" mb-3"  alt=""> --}}
-            </div>
+
+ 
             <div class="profile-info container">
                 <div class="row ">
                     <!-- Avatar image -->
@@ -23,9 +30,10 @@
                                 <a href="{{route('profile.edit')}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                             </div>
                             <div class="col-2">
-                                <button class="btn btn-sm btn-red text-white mb-2 w-100" data-bs-toggle="modal" data-bs-target="#delete-profile">DELETE</button>
+                                <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile">DELETE</button>
                             </div>
-                        </div>    
+                        </div>  
+                        @include('businessusers.profiles.modals.delete')  
                     
                         {{-- url --}}
                         <div class="row mb-3">
@@ -37,13 +45,13 @@
                         {{-- items --}}
                         <div class="row mb-3">
                             <div class="col-auto">
-                                <a href="#" class="text-decoration-none text-dark fw-bold h5">3 posts</a>
+                                <a href="{{ route('home') }}" class="text-decoration-none text-dark fw-bold h5">3 posts</a>
                             </div>
                             <div class="col-auto">
-                                <a href="#" class="text-decoration-none text-dark fw-bold h5">5 followers</a>
+                                <a href="{{ route('profile.followers') }}" class="text-decoration-none text-dark fw-bold h5">5 followers</a>
                             </div>
                             <div class="col-auto">
-                                <a href="#" class="text-decoration-none text-dark fw-bold h5">7 reviews</a>
+                                <a href="{{ route('profile.reviews')}}" class="text-decoration-none text-dark fw-bold h5">7 reviews</a>
                             </div>
 
                             {{-- SNS icons --}}
