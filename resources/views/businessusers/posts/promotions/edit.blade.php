@@ -19,6 +19,10 @@
                     <h2 class="mb-3 poppins-regular d-inline me-3">Edit Promotion</h2>
                     <p class="d-inline">   (<span class="color-red">*</span> is mandatory)<p>
                 </div>
+                <div class="col-2">
+                    <button class="btn btn-sm btn-red mb-2 w-100" data-bs-toggle="modal" data-bs-target="#delete-promotion">DELETE</button>
+                </div>
+                @include('businessusers.posts.promotions.modals.delete')
             </div>
             {{-- <form action="#" method="post" enctype="multipart/form-data">
                 @csrf
@@ -55,11 +59,11 @@
             {{-- Display period --}}
             <div class="row mb-3">
                 <div class="col-6">
-                    <label for="display_start" class="form-label">Display start date (optional)</label>
+                    <label for="display_start" class="form-label">Display start date</label>
                     <input type="date" name="display-start" id="display_start" value="" class="form-control">
                 </div>
                 <div class="col-6">
-                    <label for="display_end" class="form-label">Display end date (optional)</label>
+                    <label for="display_end" class="form-label">Display end date</label>
                     <input type="date" name="display-end" id="display_end" value="" class="form-control">
                 </div>
             </div>
@@ -78,10 +82,10 @@
                     <img src="{{asset('images/festival.jpg')}}" alt="" >
                 </div>
                 <div class="col-4 text-center">
-                    <i class="fa-solid fa-image text-secondary icon-lg"></i>
+                    <i class="fa-solid fa-image text-secondary icon-xxl"></i>
                 </div>
                 <div class="col-4 text-center">
-                    <i class="fa-solid fa-image text-secondary icon-lg"></i>
+                    <i class="fa-solid fa-image text-secondary icon-xxl"></i>
                 </div>
             </div>
             <div class="row">

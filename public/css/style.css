@@ -1,9 +1,3 @@
-.header-image{
-    height:250px;
-    width: 100%;
-    object-fit:cover;
-}
-
 *{
     /* Raleway regular  */
     font-family: "Raleway", sans-serif;
@@ -163,12 +157,6 @@
     height: 6rem;
     width: 6rem;
     font-size: 6rem;
-}
-
-.icon-xxl{
-    height: 10rem;
-    width: 10rem;
-    font-size: 10rem;
 }
 
 /* ---------------BUTTON--------------- */

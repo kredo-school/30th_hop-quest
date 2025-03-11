@@ -46,7 +46,7 @@
         <div class="row mb-3">
             <!-- Avatar image -->
             <div class="col-auto profile-image">
-                <i class="fa-solid fa-circle-user text-secondary d-block text-center icon-lg" ></i>
+                <i class="fa-solid fa-circle-user text-secondary d-block text-center icon-xl" ></i>
             </div>
             <div class="col">
                 <label for="avatar" class="mb-2">Avatar photo</label>

@@ -17,7 +17,7 @@
                 <div class="row ">
                     <!-- Avatar image -->
                     <div class="col-auto profile-image">
-                        <i class="fa-solid fa-circle-user text-secondary d-block text-center icon-lg" ></i>
+                        <i class="fa-solid fa-circle-user text-secondary d-block text-center icon-xl" ></i>
                     </div>
                     
                     <!-- Username -->
