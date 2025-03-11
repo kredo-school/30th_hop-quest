@@ -1,0 +1,318 @@
+.header-image{
+    height:250px;
+    width: 100%;
+    object-fit:cover;
+}
+
+*{
+    /* Raleway regular  */
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* ---------------FONT - POPPINS-------------- */
+
+.poppins-regular{
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+  }
+
+.poppins-semibold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+  }
+
+.poppins-bold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+  }
+
+/* ---------------FONT - Raleway--------------- */
+
+.raleway-regular {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+  }
+
+.raleway-semibold {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+  }
+
+.raleway-bold {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+  }
+
+/* ---------------ERROR MESSAGE--------------- */
+.xsmall{
+    font-size: 0.7rem;
+}
+
+/* --------------- COLOR--------------- */
+.color-red{
+    color: #D24848;    
+}
+
+.color-Blue{
+    color:  #4496E3;
+}
+
+.color-green{
+    color: #66BFBF;
+}
+
+.color-navy{
+    color:  #3B3B6B;
+}
+
+.color-yellow{
+    color:  #FFBE0C;
+}
+
+/* ---------------BACKGROUND--------------- */
+.bg-blue{
+    background-color: #B4D5F4;
+}
+
+.bg-green{
+    background-color: #C2E5E5;
+}
+
+.bg-navy{
+    background-color: #3B3B6B;
+}
+
+/* ---------------AVATAR--------------- */
+
+/* for body*/
+.avatar-xs{
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+}
+
+/* for Username xsmall  */
+.avatar-sm{
+    height: 45px;
+    width: 45px;
+    object-fit: cover;
+}
+
+/* for Username  */
+.avatar-md{
+    height: 60px;
+    width: 60px;
+    object-fit: cover;
+}
+
+/* for Tourist Profile  */
+.avatar-lg{
+    height: 132px;
+    width: 132px;
+    object-fit: cover;
+}
+
+/* for Business Profile */
+.avatar-xl{
+    height: 166px;
+    width: 166px;
+    object-fit: cover;
+}
+
+/* ---------------ICON--------------- */
+
+/* FOR COMMENT, VIEW etc  */
+.icon-sm{
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+}
+
+/* FOR HEART, STAR ,*/
+.fa-heart{
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+}
+
+.fa-heart:hover{
+    color: #D24848;
+    transform: scale(1.2, 1.2); 
+}
+
+/* FOR SNS ICON */
+.icon-md{
+    height: 35px;
+    width: 35px;
+    font-size: 35px;
+}
+
+.icon-lg{
+    height: 45px;
+    width: 45px;
+    font-size: 45px;
+}
+
+.icon-xl{
+    height: 6rem;
+    width: 6rem;
+    font-size: 6rem;
+}
+
+.icon-xxl{
+    height: 10rem;
+    width: 10rem;
+    font-size: 10rem;
+}
+
+/* ---------------BUTTON--------------- */
+
+/* FOLLOW */
+.btn-follow{
+    background-color: #4496E3;
+    color: white;
+    border: solid 2px #4496E3;
+    border-radius: 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.btn-follow:hover{
+    background-color: #4496E3;
+    color: white;
+    border: solid 2px #326a9f;
+}
+
+/* FOLLOWING, UNFOLLOW */
+.btn-following{
+    background-color: white;
+    color: #4496E3;
+    border: solid 2px #4496E3;
+    border-radius: 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.btn-following:hover{
+    background-color: white;
+    color: #4496E3;
+    border: solid 2px white;
+}
+
+/* red  */
+.btn-red{
+    background-color: #D24848;
+    color: white;
+    border: solid 2px #D24848;
+    transition: all .5s;
+    text-transform: uppercase;
+}
+
+.btn-red:hover{
+    background-color: #FFDFDF;
+    border: solid 2px #FFDFDF;
+    color: #D24848
+}
+
+/* outline red  */
+.btn-outline-red{
+    background-color: white;
+    color: #D24848;
+    border: solid 2px #D24848;
+    text-transform: uppercase;
+    transition: all .5s;
+}
+
+.btn-outline-red:hover{
+    background-color: #FFDFDF;
+    border: solid 2px #FFDFDF;
+    color: #D24848;
+}
+
+/* navy */
+.btn-navy{
+    background-color: #3B3B6B;
+    color: white;
+    border: solid 2px #3B3B6B;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all .5s;
+}
+
+.btn-navy:hover{
+    background-color: #CBD9FF;
+    border: solid 2px #CBD9FF;
+    color: #161672;
+}
+
+/* outline navy */
+.btn-outline-navy{
+    background-color: white;
+    color: #3B3B6B;
+    border: solid 2px #3B3B6B;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all .5s;
+}
+
+.btn-outline-navy:hover{
+    background-color: #CBD9FF;
+    border: solid 2px #CBD9FF;
+    color: #3B3B6B;
+}
+
+/* green  */
+.btn-green{
+    background-color: #66BFBF;
+    color: white;
+    border: solid 2px #66BFBF;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all .5s;
+}
+
+.btn-green:hover{
+    background-color: #BFE8E8;
+    border: solid 2px #BFE8E8;
+    color: #007F7F;
+}
+
+/* outline green  */
+.btn-outline-green{
+    background-color: white;
+    color: #66BFBF;
+    border: solid 2px #66BFBF;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all .5s;
+}
+
+.btn-outline-green:hover{
+    background-color: #BFE8E8;
+    color: #007F7F;
+    border: solid 2px #BFE8E8;
+    border-radius: 5px;
+}
+
+/* blue */
+.btn-blue{
+    background-color: #CBD9FF;
+    color: #3B3B6B;
+    border: solid 2px #CBD9FF;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all .5s;
+}
+
+.btn-blue:hover{
+    background-color: #3B3B6B;
+    color: white;
+    border: solid 2px #3B3B6B;
+    border-radius: 5px;
+}
