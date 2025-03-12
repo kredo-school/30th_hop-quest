@@ -262,6 +262,7 @@ h6{
     border: solid 2px #4496E3;
     border-radius: 20px;
     text-transform: capitalize;
+    font-size: 1rem;
 }
 
 .btn-follow:hover{
@@ -277,6 +278,7 @@ h6{
     border: solid 2px #4496E3;
     border-radius: 20px;
     text-transform: capitalize;
+    font-size: 1rem;
 }
 
 
@@ -291,6 +293,7 @@ h6{
     background-color: #D24848;
     color: white;
     font-weight: bold;
+    font-size: 1rem;
     border: solid 2px #D24848;
     transition: all .5s;
     text-transform: uppercase;
@@ -307,6 +310,7 @@ h6{
     background-color: white;
     color: #D24848;
     font-weight: bold;
+    font-size: 1rem;
     border: solid 2px #D24848;
     text-transform: uppercase;
     transition: all .5s;
@@ -323,6 +327,7 @@ h6{
     background-color: #3B3B6B;
     color: white;
     font-weight: bold;
+    font-size: 1rem;
     border: solid 2px #3B3B6B;
     text-decoration: none;
     text-transform: uppercase;
@@ -340,6 +345,7 @@ h6{
     background-color: white;
     color: #3B3B6B;
     font-weight: bold;
+    font-size: 1rem;
     border: solid 2px #3B3B6B;
     text-decoration: none;
     text-transform: uppercase;
@@ -357,6 +363,7 @@ h6{
     background-color: #66BFBF;
     color: white;
     font-weight: bold;
+    font-size: 1rem;
     border: solid 2px #66BFBF;
     text-decoration: none;
     text-transform: uppercase;
@@ -374,6 +381,7 @@ h6{
     background-color: white;
     color: #66BFBF;
     font-weight: bold;
+    font-size: 1rem;
     border: solid 2px #66BFBF;
     text-decoration: none;
     text-transform: uppercase;
@@ -392,6 +400,7 @@ h6{
     background-color: #CBD9FF;
     color: #3B3B6B;
     font-weight: bold;
+    font-size: 1rem;
     border: solid 2px #CBD9FF;
     text-decoration: none;
     text-transform: uppercase;
@@ -405,9 +414,32 @@ h6{
     border-radius: 5px;
 }
 
-/* ---------------IMG--------------- */
+/* ---------------Navbar--------------- */
 
 /* Navbar LOGO */
-.navimg{
-    width: 23%;
+.nav-img{
+    width: 10.5rem;
+}
+
+.nav-search{
+    width: 18rem;
+    display: flex;
+    align-items: center;
+    margin-top: 0.8rem;
+}
+
+ul, li{
+    margin-right: 0.625rem;
+    font-size: 0.8rem;
+}
+
+ul.navbar-nav {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-nav.d-flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
 }
