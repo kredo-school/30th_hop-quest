@@ -9,6 +9,9 @@ function initMap() {
     service = new google.maps.places.PlacesService(map);
 }
 
+// グローバルに公開
+window.initMap = initMap;
+
 function geocodeAddress() {
     const address = document.getElementById("address").value;
     const geocoder = new google.maps.Geocoder();
@@ -49,4 +52,5 @@ function getPlacePhoto(placeId) {
     });
 }
 
-window.initMap = initMap;
+// グローバルに公開
+window.geocodeAddress = geocodeAddress;

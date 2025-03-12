@@ -22,21 +22,18 @@
             <input type="file" id="photo" accept="image/*" style="width: 100%; padding: 8px; box-sizing: border-box;">
         </div>
 
-        <x-map />
+        <div>
+            <input type="text" id="address" placeholder="住所を入力">
+            <button onclick="geocodeAddress()">検索</button>
+            <div id="map" style="height: 500px;"></div>
+            <div id="place-photo"></div>
+        </div>
 
         <input type="submit" value="CHECK" style="width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
     </form>
-{{-- 
-    <div style="max-width: 600px; margin: auto; margin-top: 30px;">
-        <h3>Search symbol</h3>
-        <input type="text" id="address" placeholder="Enter address or place name" style="width: 100%; padding: 8px; box-sizing: border-box; margin-bottom: 10px;">
-        <button onclick="geocodeAddress()" style="width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">検索</button>
-        
-        <div id="map" style="height: 500px; width: 100%; margin-top: 10px;"></div>
-        <h3>場所の写真</h3>
-        <div id="place-photo" style="height: 100px; width: 50%; margin-top: 10px;"></div>
-    </div> --}}
 
-    
+
+@vite(['resources/js/map.js'])
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&libraries=places&callback=initMap" async defer></script>
 
 @endsection
