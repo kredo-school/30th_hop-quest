@@ -23,7 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('businessusers.profile.header');
+        return view('home');
     }
-
 }
