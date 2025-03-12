@@ -1,0 +1,8 @@
+body {
+    background-image: url('/images/town.jpg');
+}
+
+ .container-login{
+    max-width: 400px;
+ }
+
