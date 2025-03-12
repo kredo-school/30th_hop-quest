@@ -16,7 +16,7 @@
         <div class="col-8 mb-3">
             <div class="row">
                 <div class="col">
-                    <h2 class="mb-3 poppins-regular d-inline me-3">Edit Promotion</h2>
+                    <h4 class="mb-3 poppins-regular d-inline me-3">Edit Promotion</h4>
                     <p class="d-inline">   (<span class="color-red">*</span> is mandatory)<p>
                 </div>
                 <div class="col-2">
@@ -76,17 +76,20 @@
             </div>
             {{-- File --}}
             <div class="row mb-3 ">
-                <label for="photo" class="form-label">Photo upload<span class="color-red">*</span></label>
-                    
-                <div class="col-4">
-                    <img src="{{asset('images/festival.jpg')}}" alt="" >
-                </div>
-                <div class="col-4 text-center">
-                    <i class="fa-solid fa-image text-secondary icon-xxl"></i>
-                </div>
-                <div class="col-4 text-center">
-                    <i class="fa-solid fa-image text-secondary icon-xxl"></i>
-                </div>
+                <div class="col">
+                    <label for="photo" class="form-label">Photo upload<span class="color-red">*</span></label>
+                </div> 
+                <div class="row">  
+                    <div class="col-4">
+                        <img src="{{asset('images/festival.jpg')}}" alt="" >
+                    </div>
+                    <div class="col-4 text-center">
+                        <i class="fa-solid fa-image text-secondary icon-xxl"></i>
+                    </div>
+                    <div class="col-4 text-center">
+                        <i class="fa-solid fa-image text-secondary icon-xxl"></i>
+                    </div>
+                </div>     
             </div>
             <div class="row">
                 <div class="col">
