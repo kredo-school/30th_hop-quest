@@ -23,45 +23,47 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    @yield('css')
     
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('HopQuest_logo.png') }}" alt="Logo" style="height:50px">                  
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-0">
+            <div class="container d-flex align-items-center justify-content-between">
+                    <!-- left: LOGO -->
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                            <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="" class="nav-img me-5">
+                        </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    {{-- Search bar here --}}
+                    <div class="collapse navbar-collapse justify-content-between align-items-center" id="navbarSupportedContent">
+                        <div class="col d-flex justify-content-between">
+                        {{-- Search bar here --}}
                             <ul class="navbar-nav ms-auto">
-                                <form action="" style="width: 300px">
-                                    <input type="search" name="search" placeholder="Search..." class="form-control form-cotrol-sm">
+                                <form action="" class="nav-search">
+                                    <input type="search" name="search" placeholder="Search..." class="form-control form-cotrol-sm input-box">
                                 </form>
                             </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto" style="margin-right: 10px;">
-                        <li style="margin-right: 10px;">HOME</li>
-                        <li style="margin-right: 10px;">+Add</li>
-                        <li style="margin-right: 10px;">For Business</li>
-                        <li style="margin-right: 10px;">FAQ</li>
-                        <li style="margin-right: 10px;">Icon</li>
-                    </ul>
+                            <!-- Right Side Of Navbar -->
+                            <ul class="navbar-nav d-flex flex-row gap-1 ms-auto">
+                                <li class="nav-link">HOME</li>
+                                <li class="nav-link">+Add</li>
+                                <li class="nav-link">For Business</li>
+                                <li class="nav-link">FAQ</li>
+                                <li class="nav-link">Icon</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
-         
-    <main class="">
-        <div class="row justify-content-center">
-                @yield('content')
-        </div>
-    </main>
+        <main>
+            @yield('content')
+        </main>
+    </div>
 </body>
 </html>
 
