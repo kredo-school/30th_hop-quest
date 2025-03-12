@@ -54,4 +54,8 @@ class HomeController extends Controller
         return view('businessusers.posts.promotions.edit');
     }
 
+    public function posts_followings(){
+        return view('tourists.posts.followings');
+    }
+
 }
