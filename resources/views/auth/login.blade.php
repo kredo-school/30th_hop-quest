@@ -4,7 +4,7 @@
     <div class="container-fluid vh-80 d-flex">
         <!-- Login form -->
         <div class="col-md-6 d-flex align-items-center justify-content-center p-3 shadow-lg rounded">
-            <div class="w-100" style="max-width: 400px;">
+            <div class="container-login w-100">
                 <div class="text-center mb-4">
                     <h2 class="mt-2">Login
                         <img src="{{ asset('HopQuest_logo.png') }}" alt="HopQuest Logo" class="w-25">
@@ -70,9 +70,6 @@
             </div>
         </div>
 
-        <!-- Background-->
-        <div class="col-md-6 d-none d-md-block bg-image"
-            style="background-image: url('{{ asset('images/background.jpg') }}'); background-size: cover; background-position: center;">
-        </div>
+
     </div>
 @endsection
