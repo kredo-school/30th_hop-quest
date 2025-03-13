@@ -27,10 +27,9 @@
     @yield('css')
     
 </head>
-
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
             <div class="container">
                     <!-- left: LOGO -->
                         <a class="navbar-brand me-lg-5" href="{{ url('/') }}">
