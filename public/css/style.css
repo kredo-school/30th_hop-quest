@@ -414,32 +414,3 @@ h6{
     border-radius: 5px;
 }
 
-/* ---------------Navbar--------------- */
-
-/* Navbar LOGO */
-.nav-img{
-    width: 10.5rem;
-}
-
-.nav-search{
-    width: 18rem;
-    display: flex;
-    align-items: center;
-    margin-top: 0.8rem;
-}
-
-ul, li{
-    margin-right: 0.625rem;
-    font-size: 0.8rem;
-}
-
-ul.navbar-nav {
-    margin: 0;
-    padding: 0;
-}
-
-.navbar-nav.d-flex {
-    display: flex;
-    flex-direction: row;
-    align-items: center; 
-}
