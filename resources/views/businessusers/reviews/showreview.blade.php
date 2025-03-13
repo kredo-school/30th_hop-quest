@@ -8,7 +8,7 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/review.css') }}">
 @endsection
-    <div class="pb-5 row justify-content-center mt-4">
+    <div class="pb-5 row justify-content-center mt-4 pt-5">
         <div class="col-8">
             <div class="row mb-3">
                 <div class="col-9">
