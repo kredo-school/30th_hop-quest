@@ -177,6 +177,18 @@ h6{
     width: 100vw;
 }
 
+/* ---------------border--------------- */
+.border-red{
+    border: 1px solid #D24848;
+}
+
+.border-green{
+    border: 1px solid #C2E5E5;
+}
+
+.border-navy{
+    border: 1px solid #3B3B6B;
+}
 /* ---------------AVATAR--------------- */
 
 /* for body*/
@@ -413,4 +425,3 @@ h6{
     border: solid 2px #3B3B6B;
     border-radius: 5px;
 }
-
