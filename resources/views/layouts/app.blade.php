@@ -29,7 +29,7 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-0">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-0 fixed-top">
             <div class="container d-flex align-items-center justify-content-between">
                     <!-- left: LOGO -->
                         <a class="navbar-brand" href="{{ url('/') }}">
