@@ -1,0 +1,129 @@
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/post-body.css')}}">
+@endsection
+
+
+    <div class="card p-3">
+
+        {{-- Card Image with official mark --}}
+        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
+        <a href="#" class="">
+            <img src="{{ asset('images/kinkakuji.jpg') }}" class="card-img-top body-image" alt="image">
+        </a>
+
+
+        <div class="card-body">  
+            <div class="row mb-3">
+                {{-- Category --}}
+                <div class="col-auto p-0">
+                    <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
+                </div>
+                
+                {{-- Postdate --}}
+                <div class="col-auto pe-0 ms-auto">
+                    <h5 class="card-subtitle">2025/2/25</h5>
+                </div>
+            </div>                
+
+            
+            {{-- Title --}}
+            <div class="row mb-2">
+                <div class="col p-0">
+                    <a href="#" class="text-decoration-none">
+                        <h4 class="card-title text-dark fw-bold">Kinkakuji Temple of Kyoto</h4>
+                    </a>
+                </div>
+            </div>
+            {{-- Icon & Name & Official mark --}}
+            <div class="row align-items-center personal_space">
+
+                {{-- User Icon --}}
+                <div class="col-auto my-auto p-0">
+                    <a href="#" class="text-decoration-none h5 d-flex align-items-center">
+                        <i class="fa-solid fa-circle-user text-secondary d-block text-center icon-md"></i>
+                    </a>
+                </div>
+            
+                {{-- User Name --}}
+                <div class="col-6 ms-1 text-truncate ">
+                    <a href="#" class="text-decoration-none h5 align-items-center">
+                        <h1 class="username h6 fw-bold" id="username">Bruno Marsssssssssssss</h1>
+                    </a>
+                </div>
+
+                {{-- Javascript for character limit --}}
+                {{-- <script>
+                    const usernameElem = document.getElementById('username');
+                    const text = usernameElem.textContent;
+                    if (text.length > 10){
+                        usernameElem.textContent = text.substring(0, 10) + "...";
+                    }
+                </script> --}}
+
+                {{-- User official mark --}}
+                {{-- <div class="col-auto pb-2">
+                    <img src="{{ asset('images/名称未設定のデザイン (8) 1.png')}}" class="official-personal ms-2" alt="official-personal">
+                </div> --}}
+
+                {{-- Follow Button --}}
+                <div class="col-auto ms-auto my-auto p-0">
+                    <form action="#" method="post" class="">
+                        @csrf
+                        
+                        <button type="submit" class="btn btn-sm btn-follow-body">Follow</button>
+                    </form>
+                </div>
+            </div>
+            
+            {{-- Heart icon & Like function --}}
+            <div class="row align-items-center ">
+                <div class="col-1 ms-2 p-0">
+                    <form action="#" method="post">
+                        @csrf      
+                        <button type="submit" class="btn btn-sm shadow-none">
+                            <i class="fa-regular fa-heart pt-3"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="col-2 ms-1 px-2">
+                    <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#">
+                        10
+                    </button>
+                </div>
+                {{-- Modal for displaying all users who liked owner of post--}}
+                                                                
+                {{-- Comment icon & Number of comments --}}
+                <div class="col-1 ms-3 p-0">
+                    <div>
+                        <i class="fa-regular fa-comment"></i>
+                    </div>
+                </div>
+                <div class="col-2 ms-1 px-0">
+                    <button class="dropdown-item text-dark">
+                        52
+                    </button>
+                </div>
+
+                {{-- Number of viewers --}}
+                <div class="col-1 ms-3 p-0">
+                    <div>
+                        <i class="fa-solid fa-chart-simple"></i>
+                    </div>
+                </div>
+                <div class="col-2 ms-1 px-0">
+                    <button class="dropdown-item text-dark">
+                        201
+                    </button>
+                </div>
+            </div>
+
+            {{-- Description of posts --}}
+            <div class="row">
+                <div class="col p-0">
+                    <p class="card_description">
+                        Kinkakuji (金閣寺, Golden Pavilion) is a Zen temple in northern Kyoto whose top two floors are completely covered in gold leaf. Formally known as Rokuonji, the temple was the retirement villa of the shogun Ashikaga Yoshimitsu, and according to his will it became a Zen temple of the Rinzai sect after his death in 1408. Kinkakuji was the inspiration for the similarly named Ginkakuji (Silver Pavilion), built by Yoshimitsu's grandson, Ashikaga Yoshimasa, on the other side of the city a few decades later.
+                    </p>
+                </div>    
+            </div>
+        </div>
+    </div>
