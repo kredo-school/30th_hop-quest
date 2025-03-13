@@ -4,13 +4,7 @@
     @section('title', 'Articles')
     
     @section('content')
-    <link rel="stylesheet" href="{{asset('css/takeshi.style.css')}}"> 
-
-  <style>
-    .form-label{
-        font-weight: bold
-    }
-    </style>          
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">         
 
     <div class="pb-5 row justify-content-center pt-3">       
         <div class="col-8 mb-3">
@@ -106,7 +100,7 @@
                     <button type="submit" class="btn btn-green w-100 mb-2">CHECK</button>
                 </div>
                 <div class="col mb-0 mx-auto">
-                    <a href="{{route('home')}}">
+                    <a href="{{route('profile')}}">
                         <button class="btn btn-red w-100 ">CANCEL</button>
                     </a>
                 </div>
