@@ -4,13 +4,13 @@
 
 
     <div class="card p-3">
-
-        {{-- Card Image with official mark --}}
-        <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official" alt="official">
-        <a href="#" class="">
-            <img src="{{ asset('images/kinkakuji.jpg') }}" class="card-img-top body-image" alt="image">
-        </a>
-
+        <div class="card-header border-0 bg-light p-0 overflow-hidden">
+            {{-- Card Image with official mark --}}
+            {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
+            <a href="#" class="">
+                <img src="{{ asset('images/kinkakuji.jpg') }}" class="card-img-top post-image" alt="image">
+            </a>
+        </div>
 
         <div class="card-body">  
             <div class="row mb-3">
