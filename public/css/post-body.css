@@ -77,3 +77,8 @@
     border-radius: 20px !important;
     text-decoration: none !important;
 }
+
+.navbar-nav .nav-link.active {
+    color: #D24848 !important; 
+    font-weight: bold; 
+}

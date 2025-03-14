@@ -6,7 +6,7 @@
     <div class="card p-3">
 
         {{-- Card Image with official mark --}}
-        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
+        <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official" alt="official">
         <a href="#" class="">
             <img src="{{ asset('images/kinkakuji.jpg') }}" class="card-img-top body-image" alt="image">
         </a>
@@ -36,40 +36,47 @@
             </div>
             {{-- Icon & Name & Official mark --}}
             <div class="row align-items-center personal_space">
-
                 {{-- User Icon --}}
-                <div class="col-auto my-auto p-0">
+                <div class="col-auto my-auto">
                     <a href="#" class="text-decoration-none h5 d-flex align-items-center">
-                        <i class="fa-solid fa-circle-user text-secondary d-block text-center icon-md"></i>
+                        <img src="{{ asset('images/tom.jpg') }}" alt="" class="rounded-circle avatar-sm">
+                        {{-- <i class="fa-solid fa-circle-user text-secondary d-block text-center icon-md"></i> --}}
                     </a>
                 </div>
             
                 {{-- User Name --}}
-                <div class="col-6 ms-1 text-truncate ">
-                    <a href="#" class="text-decoration-none h5 align-items-center">
-                        <h1 class="username h6 fw-bold" id="username">Bruno Marsssssssssssss</h1>
-                    </a>
+                <div class="col-auto ms-0 ">
+                    <a href="#" class="text-decoration-none h5 d-inline align-items-center">
+                        <p class="username h5 fw-bold" id="username">Tom Cruise top gun</p></a>
+                   
                 </div>
 
                 {{-- Javascript for character limit --}}
+                <script>
+                    document.querySelectorAll('.username').forEach(elem => {     //変更①　idではなくclassから引っ張ってくる。
+                        const text = elem.textContent;   //変更②　前まではusernameElemという変数を使っていましたが、上記の理由からただのelemに変更。
+                        if (text.length > 12){
+                        elem.textContent = text.substring(0, 12) + "...";　//変更③　変更②と同じ修正です。
+                        }
+                    });
+                </script>
                 {{-- <script>
                     const usernameElem = document.getElementById('username');
                     const text = usernameElem.textContent;
-                    if (text.length > 10){
-                        usernameElem.textContent = text.substring(0, 10) + "...";
+                    if (text.length > 12){
+                        usernameElem.textContent = text.substring(0, 12) + "...";
                     }
                 </script> --}}
 
                 {{-- User official mark --}}
-                {{-- <div class="col-auto pb-2">
-                    <img src="{{ asset('images/名称未設定のデザイン (8) 1.png')}}" class="official-personal ms-2" alt="official-personal">
-                </div> --}}
+                <div class="col-auto pb-2">
+                    <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0" alt="official-personal"> 
+                </div>
 
                 {{-- Follow Button --}}
-                <div class="col-auto ms-auto my-auto p-0">
+                <div class="col-auto ms-auto my-auto">
                     <form action="#" method="post" class="">
-                        @csrf
-                        
+                        @csrf                       
                         <button type="submit" class="btn btn-sm btn-follow-body">Follow</button>
                     </form>
                 </div>
