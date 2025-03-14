@@ -13,6 +13,14 @@
     border-radius: 5px;
 }
 
+.body-image{
+    widows: 100%;
+    height: auto;
+    /* height: 12rem;
+    width: 18rem; */
+    border-radius: 5px;
+}
+
 .official{
     position: absolute;
     left: -0.5%;
@@ -82,4 +90,9 @@
     border: solid 2px #4496E3 !important;
     border-radius: 20px !important;
     text-decoration: none !important;
+}
+
+.navbar-nav .nav-link.active {
+    color: #D24848 !important; 
+    font-weight: bold; 
 }
