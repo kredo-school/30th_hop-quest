@@ -95,11 +95,12 @@
                 </div>
             </div>
             {{-- Buttons --}}
-            <div class="row mt-3 ">
-                <div class="col">                        
+            <div class="row mt-3 justify-content-center">
+                <div class="col-4 ">                        
                     <button type="submit" class="btn btn-green w-100 mb-2">CHECK</button>
                 </div>
-                <div class="col mb-0 mx-auto">
+                <div class="col-1"></div>
+                <div class="col-4 ">
                     <a href="{{route('profile')}}">
                         <button class="btn btn-red w-100 ">CANCEL</button>
                     </a>

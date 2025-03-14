@@ -425,3 +425,10 @@ h6{
     border: solid 2px #3B3B6B;
     border-radius: 5px;
 }
+
+/* ---------------PROFILE--------------- */
+.header-image{
+    height:250px;
+    width: 100%;
+    object-fit:cover;
+}

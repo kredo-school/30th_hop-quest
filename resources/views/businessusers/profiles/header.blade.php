@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{asset('css/takeshi.style.css')}}"> 
+<link rel="stylesheet" href="{{asset('css/style.css')}}"> 
 <!-- Header image -->
     <div class="row">
         <div class="mb-3 px-0 pt-3">
@@ -60,7 +60,7 @@
                             </a>
                         
                             <a href="#" class="text-decoration-none">
-                            <i class="fa-brands fa-twitter text-dark icon-md px-4"></i>
+                            <i class="fa-brands fa-x-twitter text-dark icon-md px-4"></i>
                             </a>
                         
                             <a href="#" class="text-decoration-none">

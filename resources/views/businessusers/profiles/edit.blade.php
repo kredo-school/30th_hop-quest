@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col">
                 <h4 class=" d-inline me-3">Edit Profile</h4>
-                <p class="d-inline ">   (<span class="color-red">*</span> is mandatory)<p>
+                <p class="d-inline ">   (<span class="color-red fw-bold">* Required items</span>)<p>
             </div>
         </div>
     </div>
@@ -91,31 +91,33 @@
 
         <div class="row mb-3">
             <div class="col-6">
-                <label for="instagram" class="form-label">Instagram</label>
-                <input type="text" name="instagram" id="instagram" value="" class="form-control">
+                <label for="instagram" class="form-label"><i class="fa-brands fa-instagram text-dark icon-md pe-2"></i></label>
+                <input type="text" name="instagram" id="instagram" value="" class="form-control" placeholder="@Instagram account name">
             </div>
             <div class="col-6">
-                <label for="facebook" class="form-label">facebook</label>
-                <input type="text" name="facebook" id="facebook" value="" class="form-control">
+                <label for="facebook" class="form-label"><i class="fa-brands fa-facebook text-dark icon-md pe-3"></i></label>
+                <input type="text" name="facebook" id="facebook" value="" class="form-control" placeholder="facebook account name">
             </div>
         </div>
         <div class="row mb-5">
             <div class="col-6">
-                <label for="X" class="form-label">X</label>
-                <input type="text" name="X" id="X" value="" class="form-control">
+                <label for="X" class="form-label"><i class="fa-brands fa-x-twitter text-dark icon-md px-0"></i></label>
+                <input type="text" name="X" id="X" value="" class="form-control" placeholder="@X account name">
             </div>
             <div class="col-6">
-                <label for="tiktok" class="form-label">TikTok</label>
-                <input type="text" name="tiktok" id="tiktok" value="" class="form-control">
+                <label for="tiktok" class="form-label"><i class="fa-brands fa-tiktok text-dark icon-md px-0"></i></label>
+                <input type="text" name="tiktok" id="tiktok" value="" class="form-control" placeholder="TikTok account name">
             </div>
         </div>
-        <div class="row mt-3 ">
-            <div class="col">                        
+
+        <div class="row mt-3 justify-content-center">
+            <div class="col-4 ">                        
                 <button type="submit" class="btn btn-green w-100 mb-2">SAVE</button>
                 <input type="checkbox" class="form-check-input mb-2" name="" id="" value=""> Apply for Official certification badge
             </div>
-            <div class="col mb-0 mx-auto">
-                <a href="{{route('home')}}">
+            <div class="col-2"></div>
+            <div class="col-4 ">
+                <a href="{{route('profile')}}">
                     <button class="btn btn-red w-100 ">CANCEL</button>
                 </a>
             </div>
