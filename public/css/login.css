@@ -6,31 +6,30 @@ body {
     max-width: 400px;
  }
 
- /* 全体の背景 */
-.reset-container {
-    background: url('/images/background.jpg') no-repeat center center;
-    background-size: cover;
-    height: 100vh;
-}
 
-/* 左側のフォームデザイン */
+
+
 .reset-card {
-    width: 90%;
     max-width: 400px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 10px;
-    margin-left: 50px; /* 左寄せ */
+    
+    margin-left: 120px; 
 }
 
-/* ロゴ */
+
 .logo {
     width: 50px;
 }
 
-/* 背景画像エリア */
+
 .reset-bg {
     background: url('/images/background.jpg') no-repeat center center;
     background-size: cover;
     height: 100vh;
+}
+
+.card-reset, .card-login{
+    background-color: #FFFBF0;
+    opacity: 0.8;
+    border-radius: 10px;
 }
 

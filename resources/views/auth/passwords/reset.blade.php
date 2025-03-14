@@ -1,70 +1,48 @@
 @extends('layouts.app')
-
+<link rel="stylesheet" href="{{ asset('css/login.css') }}">
 @section('content')
     <div class="container-fluid reset-container vh-100 d-flex align-items-center">
-        <div class="row w-100">
-            <!-- 左側のフォーム部分 -->
-            <div class="col-md-5 d-flex align-items-center">
-                <div class="card reset-card shadow-lg p-4">
-                    <div class="text-center">
-                        <img src="{{ asset('images/logo.png') }}" alt="HopQuest" class="logo mb-3">
-                        <h3 class="fw-bold">Reset Password</h3>
-                    </div>
 
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('password.update') }}">
-                            @csrf
-                            <input type="hidden" name="token" value="{{ $token }}">
+        {{-- Form --}}
+        <div class="col-md-5 d-flex align-items-center justify-content-center">
+            <div class="card-reset reset-card shadow-lg p-4 m-3 w-75 mx-auto">
+                <div class="text-center mb-4">
+                    <h4 class="fw-bold">Reset Password
+                        <img src="{{ asset('HopQuest_logo.png') }}" alt="HopQuest Logo" class="w-25">
+                    </h4>
+                </div>
 
-                            <!-- Email Input -->
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email Address</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                    <input id="email" type="email"
-                                        class="form-control @error('email') is-invalid @enderror" name="email"
-                                        value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-                                    @error('email')
-                                        <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
-                                    @enderror
-                                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ route('password.update') }}">
+                        @csrf
+
+                        <!-- Email Input -->
+                        <div class="m-3">
+                            <label for="email" class="form-label">Email</label>
+                            <div class="input-group">
+                                <input id="email" type="email"
+                                    class="form-control @error('email') is-invalid @enderror" name="email"
+                                    value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+                                <span class="input-group-text"><i class="fas fa-envelope text-primary"></i></span>
+                                @error('email')
+                                    <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
+                                @enderror
                             </div>
+                        </div>
 
-                            <!-- Password Input -->
-                            <div class="mb-3">
-                                <label for="password" class="form-label">New Password</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                    <input id="password" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        required autocomplete="new-password">
-                                    @error('password')
-                                        <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
-                                    @enderror
-                                </div>
-                            </div>
 
-                            <!-- Confirm Password Input -->
-                            <div class="mb-3">
-                                <label for="password-confirm" class="form-label">Confirm Password</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
-                                    <input id="password-confirm" type="password" class="form-control"
-                                        name="password_confirmation" required autocomplete="new-password">
-                                </div>
-                            </div>
 
-                            <!-- Reset Button -->
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-danger fw-bold">RESET</button>
-                            </div>
-                        </form>
-                    </div>
+                        <!-- Reset Button -->
+                        <div class="d-grid mb-5 mt-5 pt-5 pb-5">
+                            <button type="submit" class="btn btn-danger fw-bold w-75 mx-auto">RESET</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            <!-- 右側の背景画像エリア -->
-            <div class="col-md-7 d-none d-md-block reset-bg"></div>
         </div>
+
+        <!-- Background -->
+        <div class="col-md-7 d-none d-md-block reset-bg"></div>
+
     </div>
 @endsection

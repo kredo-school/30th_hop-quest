@@ -18,3 +18,5 @@ Route::get('/profile/promotion/create', [App\Http\Controllers\HomeController::cl
 Route::get('/profile/promotion/edit', [App\Http\Controllers\HomeController::class, 'promotion_edit'])->name('profile.promotion.edit');
 Route::get('/profile/edit', [App\Http\Controllers\HomeController::class, 'edit'])->name('profile.edit');
 
+// password reset
+Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'show'])->name('password.request');
