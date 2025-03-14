@@ -1,0 +1,35 @@
+body {
+    background-image: url('/images/town.jpg');
+}
+
+ .container-login{
+    max-width: 400px;
+ }
+
+
+
+
+.reset-card {
+    max-width: 400px;
+    
+    margin-left: 120px; 
+}
+
+
+.logo {
+    width: 50px;
+}
+
+
+.reset-bg {
+    background: url('/images/background.jpg') no-repeat center center;
+    background-size: cover;
+    height: 100vh;
+}
+
+.card-reset, .card-login{
+    background-color: #FFFBF0;
+    opacity: 0.8;
+    border-radius: 10px;
+}
+
