@@ -7,9 +7,9 @@ export default defineConfig({
             input: [
                 'resources/sass/app.scss',
                 'resources/js/app.js',
-                'resources/js/map.js',
+                'resources/js/map.js' //GoogleMap module
             ],
             refresh: true,
         }),
-    ],
+    ]
 });
