@@ -8,9 +8,7 @@
 @endsection
 
 @section('content')
-
-<link rel="stylesheet" href="{{asset('css/takeshi.style.css')}}"  /> 
-    <div class="pb-5 row justify-content-center mt-4">
+    <div class="row justify-content-center mt-5 pb-5 ">
         <div class="col-8">
             <div class="row">
                 <h4 class="mb-3 poppins-regular">All Reviews</h4>

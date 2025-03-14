@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="{{asset('css/takeshi.style.css')}}"> 
+<link rel="stylesheet" href="{{asset('css/style.css')}}"> 
 <!-- Header image -->
     <div class="row">
-        <div class="mb-3 p-0">
+        <div class="mb-3 px-0 pt-3">
             <img src="{{ asset('images/resort.jpg') }}" class="header-image"  alt="">
         </div>
     </div> 
@@ -9,7 +9,7 @@
 <div class="row justify-content-center mt-0">        
     <div class="col-8">
         <div class="profile-header position-relative"> 
-            <div class="row ">
+            <div class="row">
                 <!-- Avatar image -->
                 <div class="col-auto profile-image">
                     <i class="fa-solid fa-circle-user text-secondary d-block text-center icon-xl"></i>
@@ -40,7 +40,7 @@
                     {{-- items --}}
                     <div class="row mb-3">
                         <div class="col-auto">
-                            <a href="{{ route('home') }}" class="text-decoration-none text-dark fw-bold">3 posts</a>
+                            <a href="{{ route('profile') }}" class="text-decoration-none text-dark fw-bold">3 posts</a>
                         </div>
                         <div class="col-auto">
                             <a href="{{ route('profile.followers') }}" class="text-decoration-none text-dark fw-bold">5 followers</a>
@@ -60,7 +60,7 @@
                             </a>
                         
                             <a href="#" class="text-decoration-none">
-                            <i class="fa-brands fa-twitter text-dark icon-md px-4"></i>
+                            <i class="fa-brands fa-x-twitter text-dark icon-md px-4"></i>
                             </a>
                         
                             <a href="#" class="text-decoration-none">

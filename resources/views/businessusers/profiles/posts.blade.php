@@ -26,14 +26,14 @@
             {{-- Kredo cafe --}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-body ">  
-                    {{-- Card Image with official mark --}}
-                    {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                    <div class="row justify-content-center">
-                            <img src="{{ asset('images/kredocafeimage.jpg') }}" class="body-image p-0 mb-3" alt="image">
+                    <div class="card-header border-0 bg-light">
+                        {{-- Card Image with official mark --}}
+                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
+                        <div class="row justify-content-center">
+                            <img src="{{ asset('images/kredocafeimage.jpg') }}" class="post-image w-100 p-0 rounded-2" alt="image">
+                        </div>
                     </div>
-            
-
+                    <div class="card-body">  
                         <div class="row mb-3">
                             {{-- Category --}}
                             <div class="col-auto p-0">
@@ -48,7 +48,7 @@
             
                         
                         {{-- Title --}}
-                        <div class="row mb-2">
+                        <div class="row">
                             <div class="col p-0">
                                 <a href="#" class="text-decoration-none">
                                     <h4 class="card-title text-dark fw-bold">Hop Cafe</h4>
@@ -57,12 +57,12 @@
                         </div>
                        
                         {{-- Heart icon & Like function --}}
-                        <div class="row align-items-center ">
+                        <div class="row align-items-center">
                             <div class="col-1 ms-2 p-0">
                                 <form action="#" method="post">
                                     @csrf      
                                     <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-2"></i>
+                                        <i class="fa-regular fa-heart pt-3"></i>
                                     </button>
                                 </form>
                             </div>
@@ -84,7 +84,7 @@
                                     52
                                 </button>
                             </div>
-            
+       
                             {{-- Number of viewers --}}
                             <div class="col-1 ms-3 p-0">
                                 <div>
@@ -102,7 +102,7 @@
                         <div class="row">
                             <div class="col p-0">
                                 <p class="card_description">
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime facere, quisquam adipisci saepe cupiditate reprehenderit laborum consequatur incidunt necessitatibus temporibus? Suscipit, quos! Ipsam, qui veniam nemo debitis harum dolore voluptate fugit atque eius odit vero quibusdam quasi excepturi ipsum vel maxime nihil? Laudantium nisi dolore, alias aut hic consectetur itaque.
+                                    Lorem ipsum dolor, sit amet 
                                 </p>
                             </div>    
                         </div>
@@ -131,18 +131,18 @@
             {{-- Kredo hotel --}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-body ">  
-                    {{-- Card Image with official mark --}}
-                    {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                    <div class="row justify-content-center">
-                            <img src="{{ asset('images/kredohotelimage.jpg') }}" class="body-image p-0 mb-3" alt="image">
+                    <div class="card-header border-0 bg-light overflow-hidden">
+                        {{-- Card Image with official mark --}}
+                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
+                        <div class="row justify-content-center">
+                            <img src="{{ asset('images/fireworks.jpg') }}" class="post-image w-100 p-0" alt="image">
+                        </div>
                     </div>
-            
-
+                    <div class="card-body bg-light">  
                         <div class="row mb-3">
                             {{-- Category --}}
                             <div class="col-auto p-0">
-                                <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
+                                <h5 class="card-subtitle">Category: <strong>Event</strong></h5>
                             </div>
                             
                             {{-- Postdate --}}
@@ -153,10 +153,10 @@
             
                         
                         {{-- Title --}}
-                        <div class="row mb-2">
+                        <div class="row">
                             <div class="col p-0">
                                 <a href="#" class="text-decoration-none">
-                                    <h4 class="card-title text-dark fw-bold">Hop Hotel</h4>
+                                    <h4 class="card-title text-dark fw-bold">Sumida River Fireworks Festival</h4>
                                 </a>
                             </div>
                         </div>
@@ -167,7 +167,7 @@
                                 <form action="#" method="post">
                                     @csrf      
                                     <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-2"></i>
+                                        <i class="fa-regular fa-heart pt-3"></i>
                                     </button>
                                 </form>
                             </div>
@@ -207,7 +207,7 @@
                         <div class="row">
                             <div class="col p-0">
                                 <p class="card_description">
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime facere, quisquam adipisci saepe cupiditate reprehenderit laborum consequatur incidunt necessitatibus temporibus? Suscipit, quos! Ipsam, qui veniam nemo debitis harum dolore voluptate fugit atque eius odit vero quibusdam quasi excepturi ipsum vel maxime nihil? Laudantium nisi dolore, alias aut hic consectetur itaque.
+                                    The Sumida River Fireworks Festival is one of Tokyo’s most spectacular and historic summer events. Held annually on the last Saturday of July, this breathtaking fireworks display lights up the night sky along the Sumida River, attracting over a million spectators.
                                 </p>
                             </div>    
                         </div>
@@ -215,9 +215,11 @@
 
                     <div class="card-footer bg-white">
                     {{-- status --}}
-                        <div>
-                            <p>Status: <i class="fa-solid fa-circle text-danger"></i> Invisible</p>
-                            <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
+                        <div class="row">
+                            <div class="col p-0">
+                                <p>Status: <i class="fa-solid fa-circle text-danger"></i> Invisible</p>
+                                <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
+                            </div>    
                         </div>
                         <div class="row">
                             <div class="col-6">
@@ -235,14 +237,14 @@
             {{-- Kredo Pub--}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-body ">  
-                    {{-- Card Image with official mark --}}
-                    {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                    <div class="row justify-content-center">
-                            <img src="{{ asset('images/kredopubimage.jpg') }}" class="body-image p-0 mb-3"  alt="image">
+                    <div class="card-header border-0 bg-light overflow-hidden">
+                        {{-- Card Image with official mark --}}
+                        <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official">
+                        <div class="row justify-content-center">
+                                <img src="{{ asset('images/kredopubimage.jpg') }}" class="post-image w-100 p-0" alt="image">
+                        </div>
                     </div>
-            
-
+                    <div class="card-body"> 
                         <div class="row mb-3">
                             {{-- Category --}}
                             <div class="col-auto p-0">
@@ -257,10 +259,10 @@
             
                         
                         {{-- Title --}}
-                        <div class="row mb-2">
+                        <div class="row">
                             <div class="col p-0">
                                 <a href="#" class="text-decoration-none">
-                                    <h4 class="card-title text-dark fw-bold">Hop Hotel</h4>
+                                    <h4 class="card-title text-dark fw-bold">Hop Pub</h4>
                                 </a>
                             </div>
                         </div>
@@ -271,7 +273,7 @@
                                 <form action="#" method="post">
                                     @csrf      
                                     <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-2"></i>
+                                        <i class="fa-regular fa-heart pt-3"></i>
                                     </button>
                                 </form>
                             </div>
@@ -356,19 +358,19 @@
             {{-- Festival --}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-body ">  
-                    {{-- Card Image with official mark --}}
-                    {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                    <div class="row justify-content-center">
-                            <img src="{{ asset('images/festival.jpg') }}" class="body-image p-0 mb-3" alt="image">
+                    <div class="card-header border-0 bg-light overflow-hidden">
+                        {{-- Card Image with official mark --}}
+                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
+                        <div class="row justify-content-center">
+                                <img src="{{ asset('images/festival.jpg') }}" class="post-image w-100 p-0" alt="image">
+                        </div>
                     </div>
-            
-
+                    <div class="card-body ">            
                         <div class="row mb-3">
                             {{-- Category --}}
-                            <div class="col-auto p-0">
+                            {{-- <div class="col-auto p-0">
                                 <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
-                            </div>
+                            </div> --}}
                             
                             {{-- Postdate --}}
                             <div class="col-auto pe-0 ms-auto">
@@ -378,7 +380,7 @@
             
                         
                         {{-- Title --}}
-                        <div class="row mb-2">
+                        <div class="row">
                             <div class="col p-0">
                                 <a href="#" class="text-decoration-none">
                                     <h4 class="card-title text-dark fw-bold">Experience the Magic of Summer at HopHotel!</h4>
@@ -392,7 +394,7 @@
                                 <form action="#" method="post">
                                     @csrf      
                                     <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-2"></i>
+                                        <i class="fa-regular fa-heart pt-3"></i>
                                     </button>
                                 </form>
                             </div>
@@ -461,19 +463,19 @@
             {{-- Breakfast --}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-body ">  
-                    {{-- Card Image with official mark --}}
-                    {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                    <div class="row justify-content-center">
-                            <img src="{{ asset('images/breakfast.jpg') }}" class="body-image p-0 mb-3" alt="image">
+                    <div class="card-header border-0 bg-light overflow-hidden">
+                        {{-- Card Image with official mark --}}
+                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
+                        <div class="row justify-content-center">
+                                <img src="{{ asset('images/breakfast.jpg') }}" class="post-image w-100 p-0" alt="image">
+                        </div>
                     </div>
-            
-
+                    <div class="card-body ">             
                         <div class="row mb-3">
                             {{-- Category --}}
-                            <div class="col-auto p-0">
+                            {{-- <div class="col-auto p-0">
                                 <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
-                            </div>
+                            </div> --}}
                             
                             {{-- Postdate --}}
                             <div class="col-auto pe-0 ms-auto">
@@ -483,7 +485,7 @@
             
                         
                         {{-- Title --}}
-                        <div class="row mb-2">
+                        <div class="row">
                             <div class="col p-0">
                                 <a href="#" class="text-decoration-none">
                                     <h4 class="card-title text-dark fw-bold">Breakfast</h4>
@@ -497,7 +499,7 @@
                                 <form action="#" method="post">
                                     @csrf      
                                     <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-2"></i>
+                                        <i class="fa-regular fa-heart pt-3"></i>
                                     </button>
                                 </form>
                             </div>
@@ -545,10 +547,12 @@
 
                     <div class="card-footer bg-white">
                     {{-- status --}}
-                        <div>
+                    <div class="row">
+                        <div class="col p-0">
                             <p>Status: <i class="fa-solid fa-circle text-danger"></i> Invisible</p>
                             <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
-                        </div>
+                        </div>    
+                    </div>
                         <div class="row">
                             <div class="col-6">
                                 <a href="#" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
@@ -565,19 +569,19 @@
             {{-- Winetasting--}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-body ">  
-                    {{-- Card Image with official mark --}}
-                    {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                    <div class="row justify-content-center">
-                            <img src="{{ asset('images/winetasting.jpg') }}" class="body-image p-0 mb-3"  alt="image">
+                    <div class="card-header border-0 bg-light overflow-hidden">
+                        {{-- Card Image with official mark --}}
+                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
+                        <div class="row justify-content-center">
+                                <img src="{{ asset('images/winetasting.jpg') }}" class="post-image w-100 p-0" alt="image">
+                        </div>
                     </div>
-            
-
+                    <div class="card-body ">             
                         <div class="row mb-3">
                             {{-- Category --}}
-                            <div class="col-auto p-0">
+                            {{-- <div class="col-auto p-0">
                                 <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
-                            </div>
+                            </div> --}}
                             
                             {{-- Postdate --}}
                             <div class="col-auto pe-0 ms-auto">
@@ -587,7 +591,7 @@
             
                         
                         {{-- Title --}}
-                        <div class="row mb-2">
+                        <div class="row">
                             <div class="col p-0">
                                 <a href="#" class="text-decoration-none">
                                     <h4 class="card-title text-dark fw-bold">Wine tasting</h4>
@@ -601,7 +605,7 @@
                                 <form action="#" method="post">
                                     @csrf      
                                     <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-2"></i>
+                                        <i class="fa-regular fa-heart pt-3"></i>
                                     </button>
                                 </form>
                             </div>
@@ -686,19 +690,19 @@
             {{-- Festival --}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-body ">  
-                    {{-- Card Image with official mark --}}
-                    {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                    <div class="row justify-content-center">
-                            <img src="{{ asset('images/excursion.jpg') }}" class="body-image p-0 mb-3" alt="image">
+                    <div class="card-header border-0 bg-light overflow-hidden">
+                        {{-- Card Image with official mark --}}
+                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
+                        <div class="row justify-content-center">
+                                <img src="{{ asset('images/excursion.jpg') }}" class="post-image w-100 p-0" alt="image">
+                        </div>
                     </div>
-            
-
+                    <div class="card-body ">             
                         <div class="row mb-3">
                             {{-- Category --}}
-                            <div class="col-auto p-0">
+                            {{-- <div class="col-auto p-0">
                                 <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
-                            </div>
+                            </div> --}}
                             
                             {{-- Postdate --}}
                             <div class="col-auto pe-0 ms-auto">
@@ -708,7 +712,7 @@
             
                         
                         {{-- Title --}}
-                        <div class="row mb-2">
+                        <div class="row">
                             <div class="col p-0">
                                 <a href="#" class="text-decoration-none">
                                     <h4 class="card-title text-dark fw-bold">Lunch at garden</h4>
@@ -722,7 +726,7 @@
                                 <form action="#" method="post">
                                     @csrf      
                                     <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-2"></i>
+                                        <i class="fa-regular fa-heart pt-3"></i>
                                     </button>
                                 </form>
                             </div>
@@ -791,19 +795,19 @@
             {{-- Seashore --}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-body ">  
-                    {{-- Card Image with official mark --}}
-                    {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                    <div class="row justify-content-center">
-                            <img src="{{ asset('images/seashore.jpg') }}" class="body-image p-0 mb-3" alt="image">
+                    <div class="card-header border-0 bg-light overflow-hidden">
+                        {{-- Card Image with official mark --}}
+                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
+                        <div class="row justify-content-center">
+                                <img src="{{ asset('images/seashore.jpg') }}" class="post-image w-100 p-0" alt="image">
+                        </div>
                     </div>
-            
-
+                    <div class="card-body ">              
                         <div class="row mb-3">
                             {{-- Category --}}
-                            <div class="col-auto p-0">
+                            {{-- <div class="col-auto p-0">
                                 <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
-                            </div>
+                            </div> --}}
                             
                             {{-- Postdate --}}
                             <div class="col-auto pe-0 ms-auto">
@@ -813,7 +817,7 @@
             
                         
                         {{-- Title --}}
-                        <div class="row mb-2">
+                        <div class="row">
                             <div class="col p-0">
                                 <a href="#" class="text-decoration-none">
                                     <h4 class="card-title text-dark fw-bold">Seashore picnic</h4>
@@ -827,13 +831,13 @@
                                 <form action="#" method="post">
                                     @csrf      
                                     <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-2"></i>
+                                        <i class="fa-regular fa-heart pt-3"></i>
                                     </button>
                                 </form>
                             </div>
                             <div class="col-2 ms-1 px-2">
                                 <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#">
-                                    10
+                                    18
                                 </button>
                             </div>
                             {{-- Modal for displaying all users who liked owner of post--}}
@@ -875,10 +879,12 @@
 
                     <div class="card-footer bg-white">
                     {{-- status --}}
-                        <div>
+                    <div class="row">
+                        <div class="col p-0">
                             <p>Status: <i class="fa-solid fa-circle text-danger"></i> Invisible</p>
                             <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
-                        </div>
+                        </div>    
+                    </div>
                         <div class="row">
                             <div class="col-6">
                                 <a href="#" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
@@ -895,19 +901,19 @@
             {{-- Bird watching--}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-body ">  
-                    {{-- Card Image with official mark --}}
-                    {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                    <div class="row justify-content-center">
-                            <img src="{{ asset('images/birdwatching.jpg') }}" class="body-image p-0 mb-3"  alt="image">
+                    <div class="card-header border-0 bg-light overflow-hidden">
+                        {{-- Card Image with official mark --}}
+                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
+                        <div class="row justify-content-center">
+                                <img src="{{ asset('images/birdwatching.jpg') }}" class="post-image w-100 p-0" alt="image">
+                        </div>
                     </div>
-            
-
+                    <div class="card-body ">             
                         <div class="row mb-3">
                             {{-- Category --}}
-                            <div class="col-auto p-0">
+                            {{-- <div class="col-auto p-0">
                                 <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
-                            </div>
+                            </div> --}}
                             
                             {{-- Postdate --}}
                             <div class="col-auto pe-0 ms-auto">
@@ -917,7 +923,7 @@
             
                         
                         {{-- Title --}}
-                        <div class="row mb-2">
+                        <div class="row">
                             <div class="col p-0">
                                 <a href="#" class="text-decoration-none">
                                     <h4 class="card-title text-dark fw-bold">Bird watching at forest</h4>
@@ -931,7 +937,7 @@
                                 <form action="#" method="post">
                                     @csrf      
                                     <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-2"></i>
+                                        <i class="fa-regular fa-heart pt-3"></i>
                                     </button>
                                 </form>
                             </div>

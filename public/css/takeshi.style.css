@@ -4,11 +4,6 @@
     object-fit:cover;
 }
 
-.body-image{
-    width:200px;
-    height:150px;
-}
-
 .card_description{
     display: -webkit-box;
     -webkit-box-orient: vertical;
