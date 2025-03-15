@@ -16,25 +16,31 @@
             </div>
         </div> --}}
         <div class="row mb-3">
-            <div class="col-4">
-                @include('tourists.posts.post-body')
+            <div class="col-3">
+                @include('tourists.posts.post-body-col3')
             </div>
-            <div class="col-4">
-                @include('tourists.posts.post-body')
+            <div class="col-3">
+                @include('tourists.posts.post-body-col3')
             </div>
-            <div class="col-4">
-                @include('tourists.posts.post-body')
+            <div class="col-3">
+                @include('tourists.posts.post-body-col3')
+            </div>
+            <div class="col-3">
+                @include('tourists.posts.post-body-col3')
             </div>
         </div>
-        <div class="row">
-            <div class="col-4">
-                @include('tourists.posts.post-body')
+        <div class="row mb-3">
+            <div class="col-3">
+                @include('tourists.posts.post-body-col3')
             </div>
-            <div class="col-4">
-                @include('tourists.posts.post-body')
+            <div class="col-3">
+                @include('tourists.posts.post-body-col3')
             </div>
-            <div class="col-4">
-                @include('tourists.posts.post-body')
+            <div class="col-3">
+                @include('tourists.posts.post-body-col3')
+            </div>
+            <div class="col-3">
+                @include('tourists.posts.post-body-col3')
             </div>
         </div>
     </div>   

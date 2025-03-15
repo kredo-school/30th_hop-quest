@@ -46,7 +46,7 @@
         <div class="row">     
             <div class="col-2 ms-auto dropdown">
                 <select name="sorting" id="sorting" class="form-control small">
-                    <option value="" >Sorting</option>
+                    <option value="" disabled selected>Sorting</option>
                     <option value="" >Number of viewers</option>
                     <option value="" >Number of likes</option>
                     <option value="" >Number of comments</option>
