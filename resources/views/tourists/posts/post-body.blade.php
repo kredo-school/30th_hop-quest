@@ -12,7 +12,7 @@
             </a>
         </div>
 
-        <div class="card-body">  
+        <div class="card-body content">  
             <div class="row mb-3">
                 {{-- Category --}}
                 <div class="col-auto p-0">
@@ -47,7 +47,7 @@
                 {{-- User Name --}}
                 <div class="col-auto ms-0 ">
                     <a href="#" class="text-decoration-none h5 d-inline align-items-center">
-                        <p class="username h5 fw-bold" id="username">Tom Cruise top gun</p></a>
+                        <p class="username h5" id="username">Tom Cruise top gun</p></a>
                    
                 </div>
 
