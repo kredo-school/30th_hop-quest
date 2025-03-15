@@ -9,14 +9,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
-Route::get('/profile/edit', [App\Http\Controllers\HomeController::class, 'edit'])->name('profile.edit');
-Route::get('/profile/followers', [App\Http\Controllers\HomeController::class, 'followers'])->name('profile.followers');
-Route::get('/profile/reviews', [App\Http\Controllers\HomeController::class, 'reviews'])->name('profile.reviews');
-Route::get('/profile/review', [App\Http\Controllers\HomeController::class, 'showreview'])->name('show.review');
-Route::get('/profile/promotion/create', [App\Http\Controllers\HomeController::class, 'promotion_create'])->name('profile.promotion.create');
-Route::get('/profile/promotion/edit', [App\Http\Controllers\HomeController::class, 'promotion_edit'])->name('profile.promotion.edit');
-Route::get('/profile/edit', [App\Http\Controllers\HomeController::class, 'edit'])->name('profile.edit');
+Route::get('/business/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
+Route::get('/business/profile/edit', [App\Http\Controllers\HomeController::class, 'edit'])->name('profile.edit');
+Route::get('/business/profile/followers', [App\Http\Controllers\HomeController::class, 'followers'])->name('profile.followers');
+Route::get('/business/profile/reviews', [App\Http\Controllers\HomeController::class, 'reviews'])->name('profile.reviews');
+Route::get('/business/profile/review', [App\Http\Controllers\HomeController::class, 'showreview'])->name('show.review');
+Route::get('/business/profile/promotion/create', [App\Http\Controllers\HomeController::class, 'promotion_create'])->name('profile.promotion.create');
+Route::get('/business/profile/promotion/edit', [App\Http\Controllers\HomeController::class, 'promotion_edit'])->name('profile.promotion.edit');
+Route::get('/business/profile/edit', [App\Http\Controllers\HomeController::class, 'edit'])->name('profile.edit');
 // Post
 Route::get('/tourist/posts/followings', [App\Http\Controllers\HomeController::class, 'posts_followings'])->name('posts.followings');
 Route::get('/tourist/posts/quests', [App\Http\Controllers\HomeController::class, 'posts_quests'])->name('posts.quests');

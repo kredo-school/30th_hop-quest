@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col">
                 <h4 class=" d-inline me-3">Edit Profile</h4>
-                <p class="d-inline ">   (<span class="color-red fw-bold">* Required items</span>)<p>
+                <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items)<p>
             </div>
         </div>
     </div>
