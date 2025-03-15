@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="{{ asset('css/post-body.css')}}">
 @endsection
 
-<div class="mt-4 row justify-content-center">
+<div class="mt-5 row justify-content-center">
     <div class="col-8">
         <div class="row">
             <div class="col justify-content-center">
