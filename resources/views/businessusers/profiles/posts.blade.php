@@ -26,12 +26,12 @@
             {{-- Kredo cafe --}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-header border-0 bg-light">
+                    <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Card Image with official mark --}}
                         {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                        <div class="row justify-content-center">
-                            <img src="{{ asset('images/kredocafeimage.jpg') }}" class="post-image w-100 p-0 rounded-2" alt="image">
-                        </div>
+                        <a href="#" class="">
+                            <img src="{{ asset('images/kredocafeimage.jpg') }}" class="card-img-top post-image" alt="image">
+                        </a>
                     </div>
                     <div class="card-body">  
                         <div class="row mb-3">
@@ -131,12 +131,12 @@
             {{-- Kredo hotel --}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-header border-0 bg-light overflow-hidden">
+                    <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Card Image with official mark --}}
                         {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                        <div class="row justify-content-center">
-                            <img src="{{ asset('images/fireworks.jpg') }}" class="post-image w-100 p-0" alt="image">
-                        </div>
+                        <a href="#" class="">
+                            <img src="{{ asset('images/fireworks.jpg') }}" class="card-img-top post-image" alt="image">
+                        </a>
                     </div>
                     <div class="card-body bg-light">  
                         <div class="row mb-3">
@@ -237,12 +237,12 @@
             {{-- Kredo Pub--}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-header border-0 bg-light overflow-hidden">
+                    <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Card Image with official mark --}}
                         <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official">
-                        <div class="row justify-content-center">
-                                <img src="{{ asset('images/kredopubimage.jpg') }}" class="post-image w-100 p-0" alt="image">
-                        </div>
+                        <a href="#" class="">
+                            <img src="{{ asset('images/kredopubimage.jpg') }}" class="card-img-top post-image" alt="image">
+                        </a>
                     </div>
                     <div class="card-body"> 
                         <div class="row mb-3">
@@ -358,12 +358,12 @@
             {{-- Festival --}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-header border-0 bg-light overflow-hidden">
+                    <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Card Image with official mark --}}
-                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                        <div class="row justify-content-center">
-                                <img src="{{ asset('images/festival.jpg') }}" class="post-image w-100 p-0" alt="image">
-                        </div>
+                        <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official">
+                        <a href="#" class="">
+                            <img src="{{ asset('images/festival.jpg') }}" class="card-img-top post-image" alt="image">
+                        </a>
                     </div>
                     <div class="card-body ">            
                         <div class="row mb-3">
@@ -463,12 +463,12 @@
             {{-- Breakfast --}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-header border-0 bg-light overflow-hidden">
+                    <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Card Image with official mark --}}
-                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                        <div class="row justify-content-center">
-                                <img src="{{ asset('images/breakfast.jpg') }}" class="post-image w-100 p-0" alt="image">
-                        </div>
+                        {{-- <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official"> --}}
+                        <a href="#" class="">
+                            <img src="{{ asset('images/breakfast.jpg') }}" class="card-img-top post-image" alt="image">
+                        </a>
                     </div>
                     <div class="card-body ">             
                         <div class="row mb-3">
@@ -569,12 +569,12 @@
             {{-- Winetasting--}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-header border-0 bg-light overflow-hidden">
+                    <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Card Image with official mark --}}
-                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                        <div class="row justify-content-center">
-                                <img src="{{ asset('images/winetasting.jpg') }}" class="post-image w-100 p-0" alt="image">
-                        </div>
+                        {{-- <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official"> --}}
+                        <a href="#" class="">
+                            <img src="{{ asset('images/winetasting.jpg') }}" class="card-img-top post-image" alt="image">
+                        </a>
                     </div>
                     <div class="card-body ">             
                         <div class="row mb-3">
@@ -690,12 +690,12 @@
             {{-- Festival --}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-header border-0 bg-light overflow-hidden">
+                    <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Card Image with official mark --}}
-                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                        <div class="row justify-content-center">
-                                <img src="{{ asset('images/excursion.jpg') }}" class="post-image w-100 p-0" alt="image">
-                        </div>
+                        {{-- <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official"> --}}
+                        <a href="#" class="">
+                            <img src="{{ asset('images/excursion.jpg') }}" class="card-img-top post-image" alt="image">
+                        </a>
                     </div>
                     <div class="card-body ">             
                         <div class="row mb-3">
@@ -795,12 +795,12 @@
             {{-- Seashore --}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-header border-0 bg-light overflow-hidden">
+                    <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Card Image with official mark --}}
-                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                        <div class="row justify-content-center">
-                                <img src="{{ asset('images/seashore.jpg') }}" class="post-image w-100 p-0" alt="image">
-                        </div>
+                        {{-- <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official"> --}}
+                        <a href="#" class="">
+                            <img src="{{ asset('images/seashore.jpg') }}" class="card-img-top post-image" alt="image">
+                        </a>
                     </div>
                     <div class="card-body ">              
                         <div class="row mb-3">
@@ -901,12 +901,12 @@
             {{-- Bird watching--}}
             <div class="col-4">
                 <div class="card p-3">
-                    <div class="card-header border-0 bg-light overflow-hidden">
+                    <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Card Image with official mark --}}
-                        {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
-                        <div class="row justify-content-center">
-                                <img src="{{ asset('images/birdwatching.jpg') }}" class="post-image w-100 p-0" alt="image">
-                        </div>
+                        {{-- <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official"> --}}
+                        <a href="#" class="">
+                            <img src="{{ asset('images/birdwatching.jpg') }}" class="card-img-top post-image" alt="image">
+                        </a>
                     </div>
                     <div class="card-body ">             
                         <div class="row mb-3">
