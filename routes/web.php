@@ -16,6 +16,8 @@ Route::get('/business/profile/reviews', [App\Http\Controllers\HomeController::cl
 Route::get('/business/profile/review', [App\Http\Controllers\HomeController::class, 'showreview'])->name('show.review');
 Route::get('/business/profile/promotion/create', [App\Http\Controllers\HomeController::class, 'promotion_create'])->name('profile.promotion.create');
 Route::get('/business/profile/promotion/edit', [App\Http\Controllers\HomeController::class, 'promotion_edit'])->name('profile.promotion.edit');
+Route::get('/business/profile/promotion/check', [App\Http\Controllers\HomeController::class, 'promotion_check'])->name('profile.promotion.check');
+Route::get('/business/profile/promotion/show', [App\Http\Controllers\HomeController::class, 'promotion_show'])->name('profile.promotion.show');
 Route::get('/business/profile/edit', [App\Http\Controllers\HomeController::class, 'edit'])->name('profile.edit');
 // Post
 Route::get('/tourist/posts/followings', [App\Http\Controllers\HomeController::class, 'posts_followings'])->name('posts.followings');

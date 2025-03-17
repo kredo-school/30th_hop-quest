@@ -79,8 +79,11 @@
             </div>
             {{-- Buttons --}}
             <div class="row mt-3 justify-content-center">
-                <div class="col-4">                        
-                    <button type="submit" class="btn btn-green w-100 mb-2">CHECK</button>
+                <div class="col-4"> 
+                    <a href="{{route('profile.promotion.check')}}">
+                        <button class="btn btn-green w-100 ">CHECK</button>
+                    </a>                       
+                    {{-- <button type="submit" class="btn btn-green w-100 mb-2">CHECK</button> --}}
                 </div>
                 <div class="col-2"></div>
                 <div class="col-4">
