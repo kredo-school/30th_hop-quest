@@ -2,7 +2,7 @@
 <!-- Header image -->
     <div class="row">
         <div class="mb-3 px-0 pt-3">
-            <img src="{{ asset('images/resort.jpg') }}" class="header-image"  alt="">
+            <img src="{{ asset('images/businessprofile/resort.jpg') }}" class="header-image"  alt="">
         </div>
     </div> 
 {{-- User information --}}
