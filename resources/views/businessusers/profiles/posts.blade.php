@@ -365,7 +365,7 @@
                             <img src="{{ asset('images/businessprofile/festival.jpg') }}" class="card-img-top post-image" alt="image">
                         </a>
                     </div>
-                    <div class="card-body ">            
+                    <div class="card-body promotion">            
                         <div class="row mb-3">
                             {{-- Category --}}
                             {{-- <div class="col-auto p-0">
@@ -385,48 +385,6 @@
                                 <a href="#" class="text-decoration-none">
                                     <h4 class="card-title text-dark fw-bold">Experience the Magic of Summer at HopHotel!</h4>
                                 </a>
-                            </div>
-                        </div>
-                        
-                        {{-- Heart icon & Like function --}}
-                        <div class="row align-items-center ">
-                            <div class="col-1 ms-2 p-0">
-                                <form action="#" method="post">
-                                    @csrf      
-                                    <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-3"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="col-2 ms-1 px-2">
-                                <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#">
-                                    10
-                                </button>
-                            </div>
-                            {{-- Modal for displaying all users who liked owner of post--}}
-                                                                            
-                            {{-- Comment icon & Number of comments --}}
-                            <div class="col-1 ms-3 p-0">
-                                <div>
-                                    <i class="fa-regular fa-comment"></i>
-                                </div>
-                            </div>
-                            <div class="col-2 ms-1 px-0">
-                                <button class="dropdown-item text-dark">
-                                    52
-                                </button>
-                            </div>
-            
-                            {{-- Number of viewers --}}
-                            <div class="col-1 ms-3 p-0">
-                                <div>
-                                    <i class="fa-solid fa-chart-simple"></i>
-                                </div>
-                            </div>
-                            <div class="col-2 ms-1 px-0">
-                                <button class="dropdown-item text-dark">
-                                    201
-                                </button>
                             </div>
                         </div>
             
@@ -470,7 +428,7 @@
                             <img src="{{ asset('images/businessprofile/breakfast.jpg') }}" class="card-img-top post-image" alt="image">
                         </a>
                     </div>
-                    <div class="card-body ">             
+                    <div class="card-body promotion">             
                         <div class="row mb-3">
                             {{-- Category --}}
                             {{-- <div class="col-auto p-0">
@@ -490,48 +448,6 @@
                                 <a href="#" class="text-decoration-none">
                                     <h4 class="card-title text-dark fw-bold">Breakfast</h4>
                                 </a>
-                            </div>
-                        </div>
-                        
-                        {{-- Heart icon & Like function --}}
-                        <div class="row align-items-center ">
-                            <div class="col-1 ms-2 p-0">
-                                <form action="#" method="post">
-                                    @csrf      
-                                    <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-3"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="col-2 ms-1 px-2">
-                                <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#">
-                                    10
-                                </button>
-                            </div>
-                            {{-- Modal for displaying all users who liked owner of post--}}
-                                                                            
-                            {{-- Comment icon & Number of comments --}}
-                            <div class="col-1 ms-3 p-0">
-                                <div>
-                                    <i class="fa-regular fa-comment"></i>
-                                </div>
-                            </div>
-                            <div class="col-2 ms-1 px-0">
-                                <button class="dropdown-item text-dark">
-                                    52
-                                </button>
-                            </div>
-            
-                            {{-- Number of viewers --}}
-                            <div class="col-1 ms-3 p-0">
-                                <div>
-                                    <i class="fa-solid fa-chart-simple"></i>
-                                </div>
-                            </div>
-                            <div class="col-2 ms-1 px-0">
-                                <button class="dropdown-item text-dark">
-                                    201
-                                </button>
                             </div>
                         </div>
             
@@ -576,7 +492,7 @@
                             <img src="{{ asset('images/businessprofile/winetasting.jpg') }}" class="card-img-top post-image" alt="image">
                         </a>
                     </div>
-                    <div class="card-body ">             
+                    <div class="card-body promotion">             
                         <div class="row mb-3">
                             {{-- Category --}}
                             {{-- <div class="col-auto p-0">
@@ -596,48 +512,6 @@
                                 <a href="#" class="text-decoration-none">
                                     <h4 class="card-title text-dark fw-bold">Wine tasting</h4>
                                 </a>
-                            </div>
-                        </div>
-                        
-                        {{-- Heart icon & Like function --}}
-                        <div class="row align-items-center ">
-                            <div class="col-1 ms-2 p-0">
-                                <form action="#" method="post">
-                                    @csrf      
-                                    <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-3"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="col-2 ms-1 px-2">
-                                <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#">
-                                    10
-                                </button>
-                            </div>
-                            {{-- Modal for displaying all users who liked owner of post--}}
-                                                                            
-                            {{-- Comment icon & Number of comments --}}
-                            <div class="col-1 ms-3 p-0">
-                                <div>
-                                    <i class="fa-regular fa-comment"></i>
-                                </div>
-                            </div>
-                            <div class="col-2 ms-1 px-0">
-                                <button class="dropdown-item text-dark">
-                                    52
-                                </button>
-                            </div>
-            
-                            {{-- Number of viewers --}}
-                            <div class="col-1 ms-3 p-0">
-                                <div>
-                                    <i class="fa-solid fa-chart-simple"></i>
-                                </div>
-                            </div>
-                            <div class="col-2 ms-1 px-0">
-                                <button class="dropdown-item text-dark">
-                                    201
-                                </button>
                             </div>
                         </div>
             

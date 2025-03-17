@@ -47,6 +47,11 @@
     height:230px;
 }
 
+.card-body.promotion{
+    display: flow-root;
+    height:170px;
+}
+
 .card-subtitle{
     font-family: "Raleway", sans-serif;
     font-size: 12px;
