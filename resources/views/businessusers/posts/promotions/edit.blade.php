@@ -76,13 +76,7 @@
                 </div> 
                 <div class="row">  
                     <div class="col-4">
-                        <img src="{{asset('images/festival.jpg')}}" alt="" >
-                    </div>
-                    <div class="col-4 text-center">
-                        <i class="fa-solid fa-image text-secondary icon-xxl"></i>
-                    </div>
-                    <div class="col-4 text-center">
-                        <i class="fa-solid fa-image text-secondary icon-xxl"></i>
+                        <img src="{{asset('images/businessprofile/festival.jpg')}}" alt="" >
                     </div>
                 </div>     
             </div>

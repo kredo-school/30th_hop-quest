@@ -15,7 +15,7 @@
     <div class="col-8 mb-3">
         <div class="row">
             <div class="col">
-                <h4>Management Business</h4>
+                <h3>Management Business</h3>
             </div>
             <div class="col-2">
                 <a href="#" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
@@ -30,7 +30,7 @@
                         {{-- Card Image with official mark --}}
                         {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
                         <a href="#" class="">
-                            <img src="{{ asset('images/kredocafeimage.jpg') }}" class="card-img-top post-image" alt="image">
+                            <img src="{{ asset('images/businessprofile/kredocafeimage.jpg') }}" class="card-img-top post-image" alt="image">
                         </a>
                     </div>
                     <div class="card-body">  
@@ -135,7 +135,7 @@
                         {{-- Card Image with official mark --}}
                         {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
                         <a href="#" class="">
-                            <img src="{{ asset('images/fireworks.jpg') }}" class="card-img-top post-image" alt="image">
+                            <img src="{{ asset('images/businessprofile/fireworks.jpg') }}" class="card-img-top post-image" alt="image">
                         </a>
                     </div>
                     <div class="card-body bg-light">  
@@ -241,7 +241,7 @@
                         {{-- Card Image with official mark --}}
                         <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official">
                         <a href="#" class="">
-                            <img src="{{ asset('images/kredopubimage.jpg') }}" class="card-img-top post-image" alt="image">
+                            <img src="{{ asset('images/businessprofile/kredopubimage.jpg') }}" class="card-img-top post-image" alt="image">
                         </a>
                     </div>
                     <div class="card-body"> 
@@ -347,7 +347,7 @@
     <div class="col-8 mb-3">
         <div class="row">
             <div class="col">
-                <h4>Promotions</h4>
+                <h3>Promotions</h3>
             </div>
             <div class="col-2">
                 <a href="{{ route('profile.promotion.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
@@ -362,7 +362,7 @@
                         {{-- Card Image with official mark --}}
                         <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official">
                         <a href="#" class="">
-                            <img src="{{ asset('images/festival.jpg') }}" class="card-img-top post-image" alt="image">
+                            <img src="{{ asset('images/businessprofile/festival.jpg') }}" class="card-img-top post-image" alt="image">
                         </a>
                     </div>
                     <div class="card-body ">            
@@ -467,7 +467,7 @@
                         {{-- Card Image with official mark --}}
                         {{-- <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official"> --}}
                         <a href="#" class="">
-                            <img src="{{ asset('images/breakfast.jpg') }}" class="card-img-top post-image" alt="image">
+                            <img src="{{ asset('images/businessprofile/breakfast.jpg') }}" class="card-img-top post-image" alt="image">
                         </a>
                     </div>
                     <div class="card-body ">             
@@ -573,7 +573,7 @@
                         {{-- Card Image with official mark --}}
                         {{-- <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official"> --}}
                         <a href="#" class="">
-                            <img src="{{ asset('images/winetasting.jpg') }}" class="card-img-top post-image" alt="image">
+                            <img src="{{ asset('images/businessprofile/winetasting.jpg') }}" class="card-img-top post-image" alt="image">
                         </a>
                     </div>
                     <div class="card-body ">             
@@ -679,7 +679,7 @@
     <div class="col-8 mb-3">
         <div class="row">
             <div class="col">
-                <h4>Model Quests</h4>
+                <h3>Model Quests</h3>
             </div>
             <div class="col-2">
                 <a href="#" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
@@ -694,7 +694,7 @@
                         {{-- Card Image with official mark --}}
                         {{-- <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official"> --}}
                         <a href="#" class="">
-                            <img src="{{ asset('images/excursion.jpg') }}" class="card-img-top post-image" alt="image">
+                            <img src="{{ asset('images/businessprofile/excursion.jpg') }}" class="card-img-top post-image" alt="image">
                         </a>
                     </div>
                     <div class="card-body ">             
@@ -799,7 +799,7 @@
                         {{-- Card Image with official mark --}}
                         {{-- <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official"> --}}
                         <a href="#" class="">
-                            <img src="{{ asset('images/seashore.jpg') }}" class="card-img-top post-image" alt="image">
+                            <img src="{{ asset('images/businessprofile/seashore.jpg') }}" class="card-img-top post-image" alt="image">
                         </a>
                     </div>
                     <div class="card-body ">              
@@ -905,7 +905,7 @@
                         {{-- Card Image with official mark --}}
                         {{-- <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official"> --}}
                         <a href="#" class="">
-                            <img src="{{ asset('images/birdwatching.jpg') }}" class="card-img-top post-image" alt="image">
+                            <img src="{{ asset('images/businessprofile/birdwatching.jpg') }}" class="card-img-top post-image" alt="image">
                         </a>
                     </div>
                     <div class="card-body ">             

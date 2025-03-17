@@ -24,7 +24,7 @@
         <!-- Header image -->
 <div class="row">
     <div class="pt-2 px-0">
-        <img src="{{ asset('images/resort.jpg') }}" class="header-image"  alt="">
+        <img src="{{ asset('images/businessprofile/resort.jpg') }}" class="header-image"  alt="">
         
     </div>
 </div>
