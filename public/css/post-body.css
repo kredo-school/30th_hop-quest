@@ -3,7 +3,7 @@
     /* padding-left: 5%; 
     padding-top: 5%; */
     /* width: 80%; */
-    max-height: 100%;
+    max-height: 95%;
 }
 
 .post-image{
@@ -98,6 +98,16 @@
 }
 
 .navbar-nav .nav-link.active {
+    color: #D24848 !important; 
+    font-weight: bold; 
+}
+
+.tag-category .col-auto h1{
+    font-size: 1.5rem;
+}
+
+.tag-category .col-auto h1.active{
+    font-size: 1.5rem;
     color: #D24848 !important; 
     font-weight: bold; 
 }

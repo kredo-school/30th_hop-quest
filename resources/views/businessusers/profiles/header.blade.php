@@ -19,7 +19,7 @@
                 <div class="col">
                     <div class="row">
                         <div class="col-8">
-                            <h4 class="mb-1 text-truncate">HopQuest Hotel</h4>
+                            <h3 class="mb-1 text-truncate">HopQuest Hotel</h3>
                         </div>
                         <div class="col-2">
                             <a href="{{route('profile.edit')}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>

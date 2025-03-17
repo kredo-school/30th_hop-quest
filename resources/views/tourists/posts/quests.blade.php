@@ -10,11 +10,11 @@
 <div class="mt-4 mb-5 row justify-content-center">
     <div class="col-8 mb-5 ">
 {{-- Followings --}}
-        <div class="row mb-3">
+        {{-- <div class="row mb-3">
             <div class="col">
                 <h4>Quests</h4>
             </div>
-        </div>
+        </div> --}}
         <div class="row mb-3">
             <div class="col-4">
                 @include('tourists.posts.post-body')

@@ -2,31 +2,51 @@
     <link rel="stylesheet" href="{{ asset('css/post-body.css')}}">
 @endsection
 
-<div class="mt-5 row justify-content-center">
+<main></main>
+<div class="row justify-content-center tag-category">
+    <div class="col-auto">
+        <a href="{{ route('posts.followings') }}" class="text-decoration-none text-dark" data-category="followings">
+            <h1 class="poppins-semibold {{ request()->is('tourist/posts/followings*') ? 'active' : '' }}">
+                <i class="fa-solid fa-bookmark"></i> Followings'
+            </h1>
+        </a>
+    </div>
+    <div class="col-auto ms-5">
+        <a href="{{ route('posts.spots') }}" class="text-decoration-none text-dark" data-category="spot">
+            <h1 class="poppins-semibold {{ request()->is('tourist/posts/spots*') ? 'active' : '' }}">
+                <i class="fa-solid fa-location-dot"></i> Spots
+            </h1>
+        </a>
+    </div>
+    <div class="col-auto ms-5">
+        <a href="{{ route('posts.quests') }}" class="text-decoration-none text-dark" data-category="quest">
+            <h1 class="poppins-semibold {{ request()->is('tourist/posts/quest*') ? 'active' : '' }}">
+                <i class="fa-solid fa-plane fa-rotate-by" style="--fa-rotate-angle: -30deg;"></i> Quests
+            </h1>
+        </a>
+    </div>
+    <div class="col-auto ms-5">
+        <a href="{{ route('posts.locations') }}" class="text-decoration-none text-dark" data-category="location">
+            <h1 class="poppins-semibold {{ request()->is('tourist/posts/locations*') ? 'active' : '' }}">
+                <i class="fa-solid fa-map"></i> Locations
+            </h1>
+        </a>
+    </div>
+    <div class="col-auto ms-5">
+        <a href="{{ route('posts.events') }}" class="text-decoration-none text-dark" data-category="event">
+            <h1 class="poppins-semibold {{ request()->is('tourist/posts/events*') ? 'active' : '' }}">
+                <i class="fa-solid fa-calendar"></i> Events
+            </h1>
+        </a>
+    </div>
+</div>
+<hr>
+<div class="mt-3 row justify-content-center">
     <div class="col-8">
-        <div class="row">
-            <div class="col justify-content-center">
-                <ul class="navbar-nav d-flex flex-row gap-3 me-auto h5">
-                    <li class="nav-item">
-                        <a href="{{ route('posts.followings') }}" class="nav-link {{ request()->is('tourist/posts/followings*') ? 'active' : '' }}">Followings'</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('posts.quests') }}" class="nav-link {{ request()->is('tourist/posts/quests*') ? 'active' : '' }}" >Quests</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('posts.spots') }}" class="nav-link {{ request()->is('tourist/posts/spots*') ? 'active' : '' }}">Spots</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('posts.locations') }}" class="nav-link {{ request()->is('tourist/posts/locations*') ? 'active' : '' }}">Locations</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('posts.events') }}" class="nav-link {{ request()->is('tourist/posts/events*') ? 'active' : '' }}">Events</a>
-                    </li>
-                </ul>
-            </div>       
-            <div class="col-2 align-self-end dropdown">
+        <div class="row">     
+            <div class="col-2 ms-auto dropdown">
                 <select name="sorting" id="sorting" class="form-control small">
-                    <option value="" >Sorting</option>
+                    <option value="" disabled selected>Sorting</option>
                     <option value="" >Number of viewers</option>
                     <option value="" >Number of likes</option>
                     <option value="" >Number of comments</option>
@@ -45,5 +65,5 @@
             </div>  
         </div>    
     </div>
+</main>
 </div>  
-<hr>
