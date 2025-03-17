@@ -1,17 +1,18 @@
 <div class="bg-blue">
-    @extends('layouts.app')
-    
-    @section('title', 'Articles')
-    
-    @section('content')
-    <link rel="stylesheet" href="{{asset('css/style.css')}}">         
+@extends('layouts.app')
 
-    <div class="pb-5 row justify-content-center pt-3">       
+@section('title', 'Articles')
+
+@section('content')
+<link rel="stylesheet" href="{{asset('css/style.css')}}">         
+
+<main>
+    <div class="pb-5 row justify-content-center pt-1">       
         <div class="col-8 mb-3">
             <div class="row">
                 <div class="col">
                     <h4 class="mb-3 poppins-regular d-inline me-3">Edit Promotion</h4>
-                    <p class="d-inline">   (<span class="color-red">*</span> is mandatory)<p>
+                    <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items)<p>
                 </div>
                 <div class="col-2">
                     <button class="btn btn-sm btn-red mb-2 w-100" data-bs-toggle="modal" data-bs-target="#delete-promotion">DELETE</button>
@@ -99,7 +100,7 @@
                 <div class="col-4 ">                        
                     <button type="submit" class="btn btn-green w-100 mb-2">CHECK</button>
                 </div>
-                <div class="col-1"></div>
+                <div class="col-2"></div>
                 <div class="col-4 ">
                     <a href="{{route('profile')}}">
                         <button class="btn btn-red w-100 ">CANCEL</button>
@@ -109,5 +110,6 @@
             {{-- </form> --}}
         </div>
     </div>
+</main>
 </div>
 @endsection
