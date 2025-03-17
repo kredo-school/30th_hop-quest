@@ -1,0 +1,60 @@
+.custom-table{
+    
+}
+
+.custom-table tbody tr{
+    height:50px;
+    background-color: white;
+    color: gray;
+}
+
+.custom-table tbody tr{
+    border-collapse: collapse;
+    border-bottom: 1px solid gray;
+}
+
+.custom-table thead{
+    background-color: #3B3B6B ;
+    color: white;
+    height: 40px;
+}
+
+.table-from{
+    width:100px;
+}
+
+.table-spot{
+    width:150px;
+}
+
+.table-rating{
+    width:150px;
+}
+
+.table-comment{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.table-time{
+    width:200px;
+}
+
+.cell-short{
+    width:300px;
+}
+
+.cell-middle{
+    width:1000px;
+    margin-right:20px;
+}
+
+.cell-long{
+    width:1300px;
+}
+
+
