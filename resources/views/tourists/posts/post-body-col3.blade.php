@@ -15,9 +15,9 @@
         <div class="card-body content">  
             <div class="row mb-3">
                 {{-- Category --}}
-                <div class="col-auto p-0">
+                {{-- <div class="col-auto p-0">
                     <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
-                </div>
+                </div> --}}
                 
                 {{-- Postdate --}}
                 <div class="col-auto pe-0 ms-auto">
@@ -47,7 +47,7 @@
                 {{-- User Name --}}
                 <div class="col-auto ms-2 p-0">
                     <a href="#" class="text-decoration-none h5 d-inline align-items-center">
-                        <p class="username h5" id="username">Tom Cruise top gun</p></a>
+                        <p class="username h5" id="username">Tom Cruise </p></a>
                    
                 </div>
 
@@ -69,12 +69,12 @@
                 </script> --}}
 
                 {{-- User official mark --}}
-                <div class="col-1 pb-2 p-1">
+                <div class="col-1 pb-3 p-1">
                     <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0" alt="official-personal"> 
                 </div>
 
                 {{-- Follow Button --}}
-                <div class="col-auto ms-auto my-auto">
+                <div class="col-auto ms-auto my-auto p-0">
                     <form action="#" method="post" class="">
                         @csrf                       
                         <button type="submit" class="btn btn-sm btn-follow-body">Follow</button>
