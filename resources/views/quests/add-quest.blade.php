@@ -110,25 +110,24 @@
                     
                     <!-- 📌 アップロードした画像のファイル名を表示するエリア -->
                     <div id="uploaded-file-names" class="mt-2"></div>
-                </div>
                     
-                <div class="row pb-3 mx-0 ps-0">
-                    <label for="spot-description" class="form-label">Description</label>
-                    <textarea id="spot-description" class="text-area" rows="5" placeholder="How was your expericence there!"></textarea>
-                </div>
-                <div class="row pb-3">
-                    <div class="form-check form-switch ps-0">
-                        <input type="checkbox" name="agenda" id="agenda" class="form-check-input mx-0">
-                        <label for="agenda" class="form-check-label ms-3 radio-inline raleway-semibold">Add to Agenda</label>
-                        <p class="mt-0 xsmall">
-                            The Agenda will display a summary of your Quest. You can select up to three items per day. <br>
-                            You can later modify the content displayed in the Agenda on the Edit page.
-                        </p>
+                    <div class="row pb-3 mx-0 ps-0">
+                        <label for="spot-description" class="form-label">Description</label>
+                        <textarea id="spot-description" class="text-area" rows="5" placeholder="How was your expericence there!"></textarea>
                     </div>
-                </div>
-                <div class="row pb-3 mx-0 justify-content-end">
-                    <button type="submit" id="addon" class="btn btn-navy w-50"><i class="fa-solid fa-plus icon-xs d-inline"></i>Add on your quest</button>
-                </div>
+                    <div class="row pb-3">
+                        <div class="form-check form-switch ps-0">
+                            <input type="checkbox" name="agenda" id="agenda" class="form-check-input mx-0">
+                            <label for="agenda" class="form-check-label ms-3 radio-inline raleway-semibold">Add to Agenda</label>
+                            <p class="mt-0 xsmall">
+                                The Agenda will display a summary of your Quest. You can select up to three items per day. <br>
+                                You can later modify the content displayed in the Agenda on the Edit page.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row pb-3 mx-0 justify-content-end">
+                        <button type="submit" id="addon" class="btn btn-navy w-50"><i class="fa-solid fa-plus icon-xs d-inline"></i>Add on your quest</button>
+                    </div>
                 </div>
         </section>
 
@@ -217,30 +216,9 @@
 
             <button class="btn btn-navy w-100 mb-5 d-none" id="confirmBtn"><a href="" class="text-decoration-none text-white">Check</a></button>
     </div>
-
-    <div class="row">
-
-        <div class="row pb-3 px-0 mx-0 mt-3">
-            <label for="spot-images" class="form-label">Photos</label>
-            <div class="col-9 ps-0">
-                <input type="file" name="spot-images" id="spot-images" class="custom-file-input form-control ms-0" multiple>
-            </div>
-            <div class="col-3">
-                <button class="btn btn-green custom-file-label w-100" id="upload-btn">
-                    <i class="fa-solid fa-plus icon-xs d-inline"></i>Photo
-                </button>
-            </div>
-            <p class="mt-0 ps-0 xsmall">
-                Acceptable formats: jpeg, jpg, png, gif only.<br>Max size is 1048 KB
-            </p>
-        </div>
-        
-        <!-- 📌 アップロードした画像のファイル名を表示するエリア -->
-        <div id="uploaded-file-names" class="mt-2"></div>
-    </div>
 </body>
 </html>
 
 </div>
-@vite(['resources/js/test.js'])
+@vite(['resources/js/quest/add-quest.js'])
 @endsection
