@@ -273,14 +273,23 @@ document.getElementById("addon").addEventListener("click", function(event) {
     console.log("Confirm button の d-none を削除しました！");
 });
 
-    function saveSpotData(day, spot, description, imageSrcList, isAgendaChecked) {
-        const newSpot = { day, spot, description, images: imageSrcList, agenda: isAgendaChecked };
-        console.log(newSpot);
-        spotList.push(newSpot); // 新しいスポットをリストに追加
-        localStorage.setItem("spotList", JSON.stringify(spotList)); // `localStorage` に保存
+function saveSpotData(day, spot, description, imageSrcList, isAgendaChecked) {
+    const newSpot = {
+        day,
+        spot,
+        description,
+        images: imageSrcList,
+        agenda: isAgendaChecked // ✅ ここで `agenda` の値を保存
+    };
 
-        displayAllSpots(); // 画面を更新
-    }
+    console.log("💾 保存するスポット:", newSpot);
+
+    spotList.push(newSpot);
+    localStorage.setItem("spotList", JSON.stringify(spotList)); // `localStorage` に保存
+
+    displayAllSpots(); // 画面を更新
+}
+
     
     function displayAllSpots() {
         const dayContainer = document.getElementById("day-container");
@@ -296,57 +305,120 @@ document.getElementById("addon").addEventListener("click", function(event) {
 
     function addSpotToContainer(spotData) {
         const dayContainer = document.getElementById("day-container");
-
-        //check if the dame day is exist
+    
+        // `day-group` を探す
         let dayElement = document.querySelector(`.day-group[data-day='${spotData.day}']`);
-
-        //make a new day container
+    
+        // `day-group` がなければ新しく作成
         if (!dayElement) {
             dayElement = document.createElement("div");
             dayElement.classList.add("bg-white", "rounded-3", "p-3", "my-5", "day-group");
             dayElement.setAttribute("data-day", spotData.day);
             dayElement.classList.add(getBorderColorClass(spotData.day));
-
+    
             const dayTitle = document.createElement("p");
             dayTitle.classList.add("day-number", "p-4", getColorClass(spotData.day), "text-center", "fs-3");
             dayTitle.textContent = `DAY ${spotData.day}`;
             dayElement.appendChild(dayTitle);
-
+    
             dayContainer.appendChild(dayElement);
         }
-
-        // もし `dayElement` にすでにスポットがあるなら、区切り線を追加
+    
+        // すでにスポットがあるなら区切り線を追加
         if (dayElement.children.length > 1) {
             const hr = document.createElement("hr");
             hr.classList.add("my-3"); // スペースを確保
             dayElement.appendChild(hr);
         }
-
+    
+        // スポットを追加
         const spotElement = createSpotElement(spotData);
         dayElement.appendChild(spotElement);
+    
+        console.log("✅ スポットを追加:", spotData);
     }
+    
 
     function createSpotElement(spotData) {
-        const template = document.getElementById("day-template");
-        const newSpot = template.cloneNode(true);
-        newSpot.classList.remove("d-none");
-
-        // 必要なデータをセット
-        newSpot.querySelector(".spot-name").textContent = spotData.spot;
-        newSpot.querySelector(".spot-description").textContent = spotData.description;
-
-        const imgContainer = newSpot.querySelector(".col-lg-6");
-        imgContainer.innerHTML = ""; // 画像をクリアして追加
-
-        spotData.images.forEach(src => {
-            const spotImg = document.createElement("img");
-            spotImg.classList.add("spot-image", "img-fluid","m-2", "d-block");
-            spotImg.src = src;
-            imgContainer.appendChild(spotImg);
+        const newSpot = document.createElement("div");
+        newSpot.classList.add("spot-entry");
+    
+        // **スポットタイトルと編集・削除ボタン**
+        const spotHeader = document.createElement("div");
+        spotHeader.classList.add("row", "pb-3", "justify-content-between", "align-items-center");
+    
+        const spotTitle = document.createElement("h4");
+        spotTitle.classList.add("spot-name", "poppins-bold", "col-md-10");
+        spotTitle.textContent = spotData.spot;
+    
+        const buttonContainer = document.createElement("div");
+        buttonContainer.classList.add("col-md-2", "text-end");
+    
+        buttonContainer.innerHTML = `
+            <div class="justify-content-end">
+                <button class="btn btn-sm btn-green col-5 py-3"><a href="#form1" class="text-decoration-none text-white"><i class="fa-solid fa-pen-to-square"></i></a></button>
+                <button class="btn btn-sm btn-red col-5 py-3 ms-2" data-bs-toggle="modal" data-bs-target="#delete-post"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        `;
+    
+        // **Agenda チェックボックス**
+        const agendaCheckbox = document.createElement("input");
+        agendaCheckbox.type = "checkbox";
+        agendaCheckbox.classList.add("form-check-input");
+        agendaCheckbox.checked = spotData.agenda; // ✅ ここでチェック状態をセット
+        agendaCheckbox.addEventListener("change", function () {
+            spotData.agenda = agendaCheckbox.checked;
+            console.log("📝 アジェンダ変更:", spotData.agenda);
         });
-
+    
+        const agendaLabel = document.createElement("label");
+        agendaLabel.appendChild(agendaCheckbox);
+        agendaLabel.append(" Agenda ");
+    
+        const agendaRow = document.createElement("div");
+        agendaRow.classList.add("row", "mt-2");
+        agendaRow.appendChild(agendaLabel);
+    
+        buttonContainer.appendChild(agendaRow);
+    
+        spotHeader.appendChild(spotTitle);
+        spotHeader.appendChild(buttonContainer);
+    
+        // **画像表示エリア**
+        const imgContainer = document.createElement("div");
+        imgContainer.classList.add("col-lg-6");
+    
+        if (spotData.images.length > 0) {
+            spotData.images.forEach(src => {
+                const spotImg = document.createElement("img");
+                spotImg.classList.add("spot-image", "img-fluid", "mb-2");
+                spotImg.src = src;
+                imgContainer.appendChild(spotImg);
+            });
+        }
+    
+        // **説明文**
+        const descContainer = document.createElement("div");
+        descContainer.classList.add("col-lg-6", "mt-4", "mt-lg-0");
+    
+        const spotDesc = document.createElement("p");
+        spotDesc.classList.add("spot-description", "w-100");
+        spotDesc.textContent = spotData.description;
+    
+        descContainer.appendChild(spotDesc);
+    
+        // **スポットのコンテンツ**
+        const spotContent = document.createElement("div");
+        spotContent.classList.add("row");
+        spotContent.appendChild(imgContainer);
+        spotContent.appendChild(descContainer);
+    
+        newSpot.appendChild(spotHeader);
+        newSpot.appendChild(spotContent);
+    
         return newSpot;
     }
+    
 
     function getBorderColorClass(day) {
         const borderColors = ["border-quest-red", "border-quest-navy", "border-quest-green", "border-quest-blue"];
