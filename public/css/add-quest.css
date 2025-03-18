@@ -1,0 +1,72 @@
+.xsmall{
+    color: #757890;
+}
+
+.border-quest-red{
+    border: 2px solid #D24848;  
+}
+
+.border-quest-navy { 
+    border: 2px solid #3B3B6B;
+ }
+.border-quest-green { 
+    border: 2px solid #66BFBF; 
+}
+.border-quest-blue {
+     border: 2px solid #4496E3; 
+    }
+
+.color-blue{
+    color: #4496E3;
+}
+
+.spot-entry {
+    padding: 10px;
+}
+
+p{
+    width: 100%;  /* コンテナの幅いっぱいに広げる */
+    word-wrap: break-word;/* 長い単語を折り返す */
+    margin: 0 auto; /* 左右中央寄せ */
+    padding: 10px; /* 適度な余白 */
+}
+
+
+/* -----------------------Scroll Bar----------------------- */
+.spot-description {
+    max-height: 40rem; /* 高さを制限 */
+    overflow-y: auto;      /* 縦スクロールを許可 */
+    padding: 0;            /* 内側の余白なし */
+    flex: 1;               /* 残りのスペースを埋める */
+}
+
+.spot-image-container {
+    flex: 1;               /* 画像のサイズを `.spot-description` に合わせる */
+    display: flex;
+    align-items: center;    /* 画像を中央寄せ */
+    justify-content: center;
+}
+
+.spot-image {
+    max-width: 100%;       /* 親の幅に収める */
+    max-height: 100%;      /* 高さを `.spot-description` と揃える */
+    object-fit: cover;     /* 画像のアスペクト比を維持 */
+}
+
+.spot-description::-webkit-scrollbar {
+    width: 0.625rem; /* スクロールバーの幅 */
+}
+
+.spot-description::-webkit-scrollbar-track {
+    background: #dce8f3; /* スクロールバーの背景 */
+    border-radius: 2rem; /* 角を丸く */
+}
+
+.spot-description::-webkit-scrollbar-thumb {
+    background: #BFE8E8; /* スクロールバーの色 */
+    border-radius: 2rem; /* 角を丸く */
+}
+
+.spot-description::-webkit-scrollbar-thumb:hover {
+    background: #66BFBF; /* ホバー時の色 */
+}

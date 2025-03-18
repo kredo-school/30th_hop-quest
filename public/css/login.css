@@ -27,9 +27,18 @@ body {
     height: 100vh;
 }
 
-.card-reset, .card-login{
-    background-color: #FFFBF0;
-    opacity: 0.8;
+.card-reset,
+.card-login,
+.card-register {
+    background-color: rgba(255, 251, 240, 0.8);
     border-radius: 10px;
 }
+
+
+.logo-small {
+    width: 75px;  
+    height: auto;
+    vertical-align: middle; 
+}
+
 

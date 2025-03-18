@@ -54,4 +54,29 @@ class HomeController extends Controller
         return view('businessusers.posts.promotions.edit');
     }
 
+    public function promotion_check(){
+        return view('businessusers.posts.promotions.check');
+    }
+
+    public function promotion_show(){
+        return view('businessusers.posts.promotions.show');
+    }
+
+// Posts
+    public function posts_followings(){
+        return view('tourists.posts.followings');
+    }
+    public function posts_quests(){
+        return view('tourists.posts.quests');
+    }
+    public function posts_spots(){
+        return view('tourists.posts.spots');
+    }
+    public function posts_locations(){
+        return view('tourists.posts.locations');
+    }
+    public function posts_events(){
+        return view('tourists.posts.events');
+    }
+
 }
