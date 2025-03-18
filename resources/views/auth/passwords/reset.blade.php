@@ -8,7 +8,7 @@
             <div class="card-reset reset-card shadow-lg p-4 m-3 w-75 mx-auto">
                 <div class="text-center mb-4">
                     <h4 class="fw-bold">Reset Password
-                        <img src="{{ asset('HopQuest_logo.png') }}" alt="HopQuest Logo" class="w-25">
+                        <img src="{{ asset('images/logo/HopQuest_logo.png') }}" alt="HopQuest Logo" class="w-25">
                     </h4>
                 </div>
 

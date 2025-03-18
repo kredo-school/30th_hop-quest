@@ -7,8 +7,9 @@
             <div class="card-login shadow-lg login-card p-5 w-75">
                 <div class="container-login w-100 mx-auto">
                     <div class="text-center mb-4">
-                        <h2 class="mt-2 poppins-bold">Login
-                            <img src="{{ asset('images/logo/HopQuest_logo.png') }}" alt="HopQuest Logo" class="w-25">
+                        <h2 class="mt-2 poppins-bold">Login<span class="h4"> for Business Users
+                                <img src="{{ asset('images/logo/HopQuest_logo.png') }}" alt="HopQuest Logo"
+                                    class="logo-small"></span>
                         </h2>
 
                     </div>

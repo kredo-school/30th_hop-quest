@@ -28,3 +28,9 @@ Route::get('/tourist/posts/events', [App\Http\Controllers\HomeController::class,
 
 // password reset
 Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'show'])->name('password.request');
+
+// register business
+Route::get('/register/business', [App\Http\Controllers\Auth\RegisterController::class, 'show'])->name('register.business');
+
+// login business
+Route::get('/login/business', [App\Http\Controllers\Auth\LoginController::class, 'show'])->name('login.business');
