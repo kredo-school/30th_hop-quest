@@ -11,7 +11,7 @@
         <div class="col-8 mb-3">
             <div class="row">
                 <div class="col">
-                    <h4 class="mb-3 poppins-regular d-inline me-3">Edit Promotion</h4>
+                    <h3 class="mb-3 poppins-regular d-inline me-3">Edit Promotion</h3>
                     <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items)<p>
                 </div>
                 <div class="col-2">
@@ -92,7 +92,10 @@
             {{-- Buttons --}}
             <div class="row mt-3 justify-content-center">
                 <div class="col-4 ">                        
-                    <button type="submit" class="btn btn-green w-100 mb-2">CHECK</button>
+                    <a href="{{route('profile.promotion.check')}}">
+                        <button class="btn btn-green w-100 ">CHECK</button>
+                    </a>                       
+                    {{-- <button type="submit" class="btn btn-green w-100 mb-2">CHECK</button> --}}
                 </div>
                 <div class="col-2"></div>
                 <div class="col-4 ">

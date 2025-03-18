@@ -53,6 +53,15 @@ class HomeController extends Controller
     public function promotion_edit(){
         return view('businessusers.posts.promotions.edit');
     }
+
+    public function promotion_check(){
+        return view('businessusers.posts.promotions.check');
+    }
+
+    public function promotion_show(){
+        return view('businessusers.posts.promotions.show');
+    }
+
 // Posts
     public function posts_followings(){
         return view('tourists.posts.followings');
