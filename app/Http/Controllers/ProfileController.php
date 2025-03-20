@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Business;
+use App\Models\Promotion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -12,10 +14,16 @@ use Illuminate\Support\Facades\Storage;
 class ProfileController extends Controller
 {
     private $user;
-    public function __construct(User $user){
+    private $business;
+    private $promotion;
+
+    public function __construct(User $user, Business $business, Promotion $promotion){
         $this->user = $user;
+        $this->business = $business;
+        $this->promotion = $promotion;
     }
 
+    
     public function posts($id){
         //get data of 1 user
         $user_a = $this->user->findOrFail($id);
@@ -35,8 +43,8 @@ class ProfileController extends Controller
     $request->validate([
         'avatar' => 'max:1048|mimes:jpeg,jpg,png,gif',
         'header' => 'max:1048|mimes:jpeg,jpg,png,gif',
-        'name' =>'required|max:50',
-        'email' => 'required|max:50|email|unique:users,email,'.Auth::user()->id,
+        'name' =>'required|max:50|unique:users,name,'.Auth::user()->id,
+        'email' => 'required|max:50|email',
         //UPDATING: unique:<table>,<column>,<id of updated row>
         // CREATING: unique:<table>,<column>
         'introduction' => 'max:1000',
@@ -92,6 +100,14 @@ class ProfileController extends Controller
 
 //     return response()->json(['success' => false, 'message' => '画像の削除に失敗しました'], 400);
 // }
+
+public function showPosts($id){
+    //get data of 1 user
+    $user_a = $this->user->findOrFail($id);
+    $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
+    $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
+    return view('businessusers.profiles.posts')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_promotions', $all_promotions);
+}
 
     public function reviews(){
         return view('businessusers.reviews.allreviews');

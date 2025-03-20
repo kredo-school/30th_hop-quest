@@ -38,13 +38,13 @@
 
 .card-header{
     display: flow-root;
-    height:260px;
+    height:300px;
     overflow: hidden;
 }
 
 .card-body{
     display: flow-root;
-    height:230px;
+    height:180px;
 }
 
 .card-body.content{

@@ -15,17 +15,18 @@
         <div class="profile-header position-relative"> 
             <div class="row">
                 <!-- Avatar image -->
-                <div class="col-auto profile-image">
+                <div class="profile-image mb-3">
                     @if($user->avatar)
-                        <img src="{{$user->avatar}}" alt="" class="rounded-circle avatar-xl">
+                        <img src="{{$user->avatar}}" alt="" class="rounded-circle avatar-xxl">
                     @else
                         <i class="fa-solid fa-circle-user text-secondary icon-xl d-block text-center"></i>
                     @endif
                 </div>
-                
+                <div class="col-2"></div>
                 <!-- Username -->
                 <div class="col">
                     <div class="row">
+                        
                         <div class="col-auto">
                             <h3 class="mb-1 text-truncate">{{ $user->name }}</h3>
                         </div>

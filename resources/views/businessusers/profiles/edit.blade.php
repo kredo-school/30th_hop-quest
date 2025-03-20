@@ -99,13 +99,19 @@
         </div>
         {{-- User information --}}
         <div class="row mb-3">
-            <div class="col-6">
+            <div class="col">
                 <label for="name" class="form-label">Business user name<span class="color-red">*</span></label>
                 <input type="text" name="name" id="name" value="{{old('name', Auth::user()->name)}}" class="form-control">
             </div>
+        </div>
+        <div class="row mb-3">
             <div class="col-6">
                 <label for="email" class="form-label">E-mail address<span class="color-red">*</span></label>
                 <input type="email" name="email" id="email" value="{{old('email', Auth::user()->email)}}" class="form-control">
+            </div>
+            <div class="col-6">
+                <label for="website_url" class="form-label">Website URL</label>
+                <input type="text" name="website_url" id="website_url" value="{{old('email', Auth::user()->website_url)}}" class="form-control">
             </div>
         </div>
         <div class="row mb-3">
@@ -136,7 +142,7 @@
         <div class="row mb-3">
             <div class="col">
                 <label for="introduction" class="form-label">Introduction<span class="color-red">*</span></label>
-                <textarea name="introduction" id="introduction" rows="3" class="form-control">{{old('introduction', Auth::user()->introduction)}}
+                <textarea name="introduction" id="introduction" rows="5" class="form-control">{{old('introduction', Auth::user()->introduction)}}
                 </textarea>
                 @error('introduction')
                 <p class="mb-0 text-danger small">{{ $message }}</p>
@@ -144,24 +150,57 @@
             </div>    
         </div>
 
-        <div class="row mb-3">
-            <div class="col-6">
-                <label for="instagram" class="form-label"><i class="fa-brands fa-instagram text-dark icon-md pe-2"></i></label>
-                <input type="text" name="instagram" id="instagram" value="{{old('instagram', Auth::user()->instagram)}}" class="form-control" placeholder="Instagram account name">
-            </div>
-            <div class="col-6">
-                <label for="facebook" class="form-label"><i class="fa-brands fa-facebook text-dark icon-md pe-3"></i></label>
-                <input type="text" name="facebook" id="facebook" value="{{old('facebook', Auth::user()->facebook)}}" class="form-control" placeholder="facebook account name">
-            </div>
-        </div>
         <div class="row mb-5">
-            <div class="col-6">
-                <label for="X" class="form-label"><i class="fa-brands fa-x-twitter text-dark icon-md px-0"></i></label>
-                <input type="text" name="X" id="X" value="{{old('x', Auth::user()->x)}}" class="form-control" placeholder="X account name">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <label for="sns" class="form-label">Social media</label>
+                    </div>
+                </div>
+            </div> 
+            <div class="row mb-2">
+                <div class="col-6">   
+                    <div class="row">
+                        <div class="col-1">
+                            <label for="instagram" class="form-label"><i class="fa-brands fa-instagram text-dark icon-md pe-2"></i></label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="instagram" id="instagram" value="{{old('instagram', Auth::user()->instagram)}}" class="form-control" placeholder="Instagram account name">
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-1">
+                            <label for="facebook" class="form-label"><i class="fa-brands fa-facebook text-dark icon-md pe-2"></i></label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="facebook" id="facebook" value="{{old('instagram', Auth::user()->facebook)}}" class="form-control" placeholder="facebook account name">
+                        </div>
+                    </div>    
+                </div>
             </div>
-            <div class="col-6">
-                <label for="tiktok" class="form-label"><i class="fa-brands fa-tiktok text-dark icon-md px-0"></i></label>
-                <input type="text" name="tiktok" id="tiktok" value="{{old('tiktok', Auth::user()->tiktok)}}" class="form-control" placeholder="TikTok account name">
+            <div class="row">
+                <div class="col-6">   
+                    <div class="row">
+                        <div class="col-1">
+                            <label for="x" class="form-label"><i class="fa-brands fa-x-twitter text-dark icon-md pe-2"></i></label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="x" id="x" value="{{old('x', Auth::user()->x)}}" class="form-control" placeholder="X account name">
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-1">
+                            <label for="tiktok" class="form-label"><i class="fa-brands fa-tiktok text-dark icon-md pe-2"></i></label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="tiktok" id="tiktok" value="{{old('tiktok', Auth::user()->tiktok)}}" class="form-control" placeholder="tiktok account name">
+                        </div>
+                    </div>    
+                </div>
             </div>
         </div>
 

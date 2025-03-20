@@ -43,6 +43,7 @@
                     {{-- Search bar here --}}
                     <ul class="navbar-nav mx-auto">
                             <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto">
+                            <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto">
                                 <input type="search" name="search" placeholder="Search..." class="form-control form-control-sm">
                             </form>
                     </ul>
@@ -66,6 +67,7 @@
                             <a href="{{ route('home') }}" class="nav-link" href="">HOME</a>
                         </li>
                         <li class="nav-item dropdown my-auto">
+                        <li class="nav-item dropdown my-auto">
                             <a id="navbarDropdown" class="nav-link btn " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>+Add</a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 @if(Auth::user()->role_id == 1)
@@ -79,7 +81,7 @@
                                 <a href="#" class="dropdown-item text-dark">
                                     <i class="fa-solid fa-circle-plus icon-sm"></i> Add Business
                                 </a>
-                                <a href="{{ route('profile.promotion.create') }}" class="dropdown-item text-dark">
+                                <a href="{{ route('promotion.create') }}" class="dropdown-item text-dark ">
                                     <i class="fa-solid fa-circle-plus icon-sm"></i> Add Promotion
                                 </a>
                                 <a href="#" class="dropdown-item text-dark">
@@ -90,13 +92,15 @@
                             </div>
                         </li>
                         <li class="nav-item my-auto">
+                        <li class="nav-item my-auto">
                             <a href="#" class="nav-link" href="">FAQ</a>
                         </li>
+                        <li class="nav-item my-auto">
                         <li class="nav-item my-auto">
                             <a href="" class="nav-link d-xl-block d-none" href="">For Business</a>
                             <a class="nav-link d-block d-xl-none text-center business"><img src="{{asset('images/navbar/icomoon-free--office.svg')}}" alt="For business"><br>business</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown my-auto">
                             <!-- ICON -->
                             <a id="navbarDropdown" class="nav-link btn " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{-- {{ Auth::user()->name }} --}}
