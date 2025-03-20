@@ -2,6 +2,8 @@
 window.addEventListener("beforeunload", function() {
     localStorage.clear();
 });
+
+
 // load==========================================================
 // **アップロードした画像を保存するリスト**
 let uploadedImagesList = []; 
@@ -261,16 +263,18 @@ document.getElementById("addon").addEventListener("click", function(event) {
     //save spot
     saveSpotData(day, spot, description, imageSrcList, isAgendaChecked);
 
+
+
     // **🔥 `localStorage` を削除（少し遅らせる）**
     setTimeout(() => {
         localStorage.removeItem("spotList"); // `spotList` だけ削除
         console.log("🗑️ `spotList` を削除しました");
     }, 500); // 0.5秒後に削除
-
-    clearForm2(); // 入力をクリア
     
     document.getElementById("confirmBtn").classList.remove("d-none");
     console.log("Confirm button の d-none を削除しました！");
+
+    clearForm2(); // 入力をクリア
 });
 
 function saveSpotData(day, spot, description, imageSrcList, isAgendaChecked) {
@@ -291,17 +295,30 @@ function saveSpotData(day, spot, description, imageSrcList, isAgendaChecked) {
 }
 
     
-    function displayAllSpots() {
-        const dayContainer = document.getElementById("day-container");
-        dayContainer.innerHTML = ""; // 画面をクリア
-        console.log(dayContainer);
+function displayAllSpots() {
+    const dayContainer = document.getElementById("day-container");
 
-        spotList.sort((a, b) => a.day - b.day); // `day` の順番でソート
+    console.log("🛠 displayAllSpots 実行！");
 
-        spotList.forEach(spotData => {
-            addSpotToContainer(spotData);
-        });
-    }
+    // **🔥 既存の内容をリセット**
+    dayContainer.innerHTML = "";
+
+    // `spotList` を `day` の順番でソート
+    spotList.sort((a, b) => a.day - b.day);
+
+    spotList.forEach(spotData => {
+        addSpotToContainer(spotData);
+    });
+
+    // **🔥 すべてのスポットが描画された後に高さを調整**
+    setTimeout(() => {
+        console.log("✅ displayAllSpots: 高さ調整を実行");
+        adjustDescriptionHeight();
+    }, 500); // 0.5秒遅らせる
+}
+
+
+
 
     function addSpotToContainer(spotData) {
         const dayContainer = document.getElementById("day-container");
@@ -336,7 +353,12 @@ function saveSpotData(day, spot, description, imageSrcList, isAgendaChecked) {
         dayElement.appendChild(spotElement);
     
         console.log("✅ スポットを追加:", spotData);
+    
+        // **🔥 高さ調整を少し遅らせて実行**
+        console.log("高さ調整：addSpotContainer");
+        setTimeout(adjustDescriptionHeight, 500);
     }
+    
     
 
     function createSpotElement(spotData) {
@@ -348,17 +370,15 @@ function saveSpotData(day, spot, description, imageSrcList, isAgendaChecked) {
         spotHeader.classList.add("row", "pb-3", "justify-content-between", "align-items-center");
     
         const spotTitle = document.createElement("h4");
-        spotTitle.classList.add("spot-name", "poppins-bold", "col-md-10");
+        spotTitle.classList.add("spot-name", "poppins-bold", "col-md-10", "text-start");
         spotTitle.textContent = spotData.spot;
     
         const buttonContainer = document.createElement("div");
-        buttonContainer.classList.add("col-md-2", "text-end");
+        buttonContainer.classList.add("col","ms-0","text-end", "pe-0");
     
         buttonContainer.innerHTML = `
-            <div class="justify-content-end">
-                <button class="btn btn-sm btn-green col-5 py-3"><a href="#form1" class="text-decoration-none text-white"><i class="fa-solid fa-pen-to-square"></i></a></button>
-                <button class="btn btn-sm btn-red col-5 py-3 ms-2" data-bs-toggle="modal" data-bs-target="#delete-post"><i class="fa-solid fa-trash"></i></button>
-            </div>
+            <button class="btn btn-sm btn-green"><a href="#form1" class="text-decoration-none text-white"><i class="fa-solid fa-pen-to-square"></i></a></button>
+                            <button class="btn btn-sm btn-red" data-bs-toggle="modal" data-bs-target="#delete-post"><i class="fa-solid fa-trash"></i></button>
         `;
     
         // **Agenda チェックボックス**
@@ -386,7 +406,7 @@ function saveSpotData(day, spot, description, imageSrcList, isAgendaChecked) {
     
         // **画像表示エリア**
         const imgContainer = document.createElement("div");
-        imgContainer.classList.add("col-lg-6");
+        imgContainer.classList.add("col-lg-6", "spot-image-container","d-block","flex-column");
     
         if (spotData.images.length > 0) {
             spotData.images.forEach(src => {
@@ -397,9 +417,13 @@ function saveSpotData(day, spot, description, imageSrcList, isAgendaChecked) {
             });
         }
     
+    // **🔥 高さ調整を少し遅らせて実行**
+    console.log("高さ調整：createSpotElement");
+    setTimeout(adjustDescriptionHeight, 500);
+
         // **説明文**
         const descContainer = document.createElement("div");
-        descContainer.classList.add("col-lg-6", "mt-4", "mt-lg-0");
+        descContainer.classList.add("col-lg-6", "mt-4", "mt-lg-0", "spot-description-container");
     
         const spotDesc = document.createElement("p");
         spotDesc.classList.add("spot-description", "w-100");
@@ -435,7 +459,7 @@ function saveSpotData(day, spot, description, imageSrcList, isAgendaChecked) {
         console.log("🧹 フォーム2をクリアします！");
         document.getElementById("spot-name").value = "";
         document.getElementById("spot-description").value = "";
-        document.getElementById("spot-image").value = "";
+        document.getElementById("spot-images").value = "";
         // **アップロード画像リストをクリア**
         uploadedImagesList = [];
         document.getElementById("uploaded-file-names").innerHTML = ""; // 表示もクリア
@@ -448,3 +472,50 @@ document.getElementById("confirmBtn").addEventListener("click", function () {
     localStorage.clear();
     console.log("✅ localStorage をクリアしました！");
 });
+
+
+function adjustDescriptionHeight() {
+    let spotImageContainers = document.querySelectorAll(".spot-image-container");
+    let descriptions = document.querySelectorAll(".spot-description");
+
+    if (spotImageContainers.length === 0 || descriptions.length === 0) {
+        console.warn("⚠️ adjustDescriptionHeight: 必要な要素が見つかりません");
+        return;
+    }
+
+    console.log("🎯 adjustDescriptionHeight: 実行開始！");
+
+    spotImageContainers.forEach((container, index) => {
+        let images = container.querySelectorAll(".spot-image");
+        let description = descriptions[index];
+
+        if (!description) return;
+
+        // 画像の合計高さを計算
+        let totalImageHeight = 0;
+        images.forEach(image => {
+            totalImageHeight += image.clientHeight;
+        });
+
+        let descriptionHeight = description.scrollHeight;
+
+        console.log(`📏 [Spot ${index + 1}] 画像の合計高さ:`, totalImageHeight, " 説明文の高さ:", descriptionHeight);
+
+        if (descriptionHeight > totalImageHeight) {
+            console.log("🟢 説明文が長いので高さ制限");
+            description.style.maxHeight = totalImageHeight + "px";
+            description.style.overflowY = "auto";
+        } else {
+            console.log("🔵 説明文が短いので制限なし");
+            description.style.maxHeight = "none";
+            description.style.overflowY = "hidden";
+        }
+    });
+}
+
+// ウィンドウのリサイズ時にも適用
+window.addEventListener("load", adjustDescriptionHeight);
+window.addEventListener("resize", adjustDescriptionHeight);
+
+
+

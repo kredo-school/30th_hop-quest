@@ -175,42 +175,6 @@
                 </div>
             </div>
         </div>
-
-        <section id="day-template" class="d-none spot-container">
-            <div class="mx-2">
-                <div class="row">
-                    <p class="" id="day-number"></p>
-                </div>
-                <div class="row">
-                    <h4 class="col-md-10 spot-name text-start poppins-bold py-3 px-0" id="spot-name">SPOT NAME</h4>
-                    
-                    <!-- 編集・削除ボタン -->
-                    <div class="col-md-2 text-end">
-                        <div class="justify-content-end">
-                            <button class="btn btn-sm btn-green col-5 py-3"><a href="#form1" class="text-decoration-none text-white"><i class="fa-solid fa-pen-to-square"></i></a></button>
-                            <button class="btn btn-sm btn-red col-5 py-3 ms-2" data-bs-toggle="modal" data-bs-target="#delete-post"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="text-end">
-                        <div class="form-check form-check-inline me-0">
-                            <input type="checkbox" name="day-agenda" id="day-agenda" class="form-check-input">
-                            <label for="day-agenda" class="xsmall">Agenda</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row px-0">
-                    <div class="col-lg-6">
-                        <img  src="{{asset('images/quest/pexels-pixabay-459203.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail" id="spot-image">
-                    </div>
-                    <div class="col-lg-6 mt-4 mt-lg-0">
-                        <p class="spot-description w-100" id="spot-description">Description Here------Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantium animi, sunt impedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quam nobis ullam corrupti optio voluptates libero, labore hic sint debitis nisi iste repellat, beatae dolorem voluptas a, placeat enim repudiandae dicta minus aliquid dolore! Vitae reprehenderit libero nisi hic adipisci amet accusantium pariatur, error molestiae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantium animi, sunt impedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quam nobis ullam corrupti optio voluptates libero, labore hic sint debitis nisi iste repellat, beatae dolorem voluptas a, placeat enim repudiandae dicta minus aliquid dolore! Vitae reprehenderit libero nisi hic adipisci amet accusantium pariatur, error molestiae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantium animi, sunt impedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quam nobis ullam corrupti optio voluptates libero, labore hic sint debitis nisi iste repellat, beatae dolorem voluptas a, placeat enim repudiandae dicta minus aliquid dolore! Vitae reprehenderit libero nisi hic adipisci amet accusantium pariatur, error molestiae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantium animi, sunt impedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quam nobis ullam corrupti optio voluptates libero, labore hic sint debitis nisi iste repellat, beatae dolorem voluptas a, placeat enim repudiandae dicta minus aliquid dolore! Vitae reprehenderit libero nisi hic adipisci amet accusantium pariatur, error molestiae.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
         <!-- dayセクションを追加する場所 -->
         <div id="day-container"></div>
 
