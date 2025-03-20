@@ -4,49 +4,46 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/map.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/spot/addspot.css')}}">
 @endsection
 
 @section('content')
-    <h2  class="container">Add Spot</h2>
+    <h2 class="container">Add Spot</h2>
     <div class="container justify-content-center align-items-center text-center">
         <div class="row row-cols-1 row-cols-md-4">
-          <div class="col-12 col-md-4" style="background-color: #4CAF50">
-            <form action="" name="add-spot" style="max-width: 600px; margin: auto;">
-            <div style="margin-bottom: 20px;">
-                <label for="title" style="display: block; margin-bottom: 5px;">Spot title</label>
-                <input type="text" id="title" placeholder="What unique spot did you find?" style="width: 100%; padding: 8px; box-sizing: border-box;">
+          <div class="col-12 col-md-4 add-spot-container">
+            <form action="" name="add-spot" class="add-spot-form">
+            <div class="form-group">
+                <label for="title" class="form-label">Spot title</label>
+                <input type="text" id="title" placeholder="What unique spot did you find?" class="form-input">
             </div>
-            <div style="margin-bottom: 20px;">
-                <label for="image" style="display: block; margin-bottom: 5px;">Spot image</label>
-                <!-- 隠されたファイル入力 -->
+            <div class="form-group">
+                <label for="image" class="form-label">Spot image</label>
                 <input type="file" id="file-input" class="custom-file-input">
-                <!-- カスタムボタン（ラベル） -->
                 <label for="file-input" class="custom-file-label">Select your header image</label>
-                <!-- ファイル名表示エリア -->
                 <span id="file-name" class="file-name">No Selected</span>
-
             </div>
-            <div style="margin-bottom: 20px;">
-                <label for="detail" style="display: block; margin-bottom: 5px;">Spot detail</label>
-                <textarea id="detail" placeholder="This photo viewing header on spot page" style="width: 100%; height: 250px; padding: 8px; box-sizing: border-box;"></textarea>
+            <div class="form-group">
+                <label for="detail" class="form-label">Spot detail</label>
+                <textarea id="detail" placeholder="This photo viewing header on spot page" class="form-textarea"></textarea>
             </div>
-            <div style="margin-bottom: 20pxpx;">
-                <label for="photo" style="display: block; margin-bottom: 5px;">Upload photo</label>
-                <input type="file" id="photo" accept="image/*" style="width: 100%; padding: 8px; box-sizing: border-box;">
+            <div class="form-group">
+                <label for="photo" class="form-label">Upload photo</label>
+                <input type="file" id="photo" accept="image/*" class="form-input">
             </div>
             </form>
           </div>
-          <div class="col-12 col-md-8" style="background-color: #b92836">
-            <label for="title" style="display: block; margin-bottom: 5px;">Search Symbol</label>
-            <div style="display: flex; margin-bottom: 15px;">
-                <input type="text" id="address" placeholder="住所を入力" style="flex: 1; padding: 8px; box-sizing: border-box;">
-                <button onclick="geocodeAddress(); return false;" style="padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; margin-left: 10px;">Search</button>
+          <div class="col-12 col-md-8 map-container">
+            <label for="title" class="form-label">Search Symbol</label>
+            <div class="search-container">
+                <input type="text" id="address" placeholder="住所を入力" class="search-input">
+                <button onclick="geocodeAddress(); return false;" class="search-button">Search</button>
             </div>
-            <div id="map" style="height: calc(100vh - 100px); width: 100%; margin-bottom: 10px"></div>
-            <div id="place-photo" style="width: 20%; height:10%"></div>
+            <div id="map" class="spot-map-container"></div>
+            <div id="place-photo" class="place-photo"></div>
           </div>
           <div class="col-12 col-md-4">
-            <input type="submit" value="CHECK" style="width: 100%; padding: 10px; background-color: #3b28b9; color: white; border: none; cursor: pointer; margin-top: 10px;">
+            <input type="submit" value="CHECK" class="submit-button">
           </div>
         </div>
     </div>
