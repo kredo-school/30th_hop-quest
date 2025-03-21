@@ -60,4 +60,14 @@ class User extends Authenticatable
         return $this->hasMany(BusinessReviewLike::class);
     }
 
+    //user has manyu follows (user follows many users)
+    public function follows(){
+        return $this->hasMany(Follow::class, 'follower_id');
+    }
+
+    //user has many followers
+    public function followers(){
+        return $this->hasMany(Follow::class, 'followed_id');
+    }
+
 }
