@@ -10,7 +10,7 @@
         </div>
     </div> 
 {{-- User information --}}
-<div class="row justify-content-center mt-0">        
+<div class="row justify-content-center mt-0 mb-4">        
     <div class="col-8">
         <div class="profile-header position-relative"> 
             <div class="row">
@@ -64,9 +64,11 @@
                         <div class="col-auto">
                             <a href="{{ route('profile.followers') }}" class="text-decoration-none text-dark fw-bold">5 followers</a>
                         </div>
+                        @if($user->id == Auth::user()->id)
                         <div class="col-auto">
-                            <a href="{{ route('profile.reviews')}}" class="text-decoration-none text-dark fw-bold">7 reviews</a>
+                            <a href="{{ route('profile.reviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->reviews->count()}}</span> {{$user->reviews->count()==1 ? 'review' : 'reviews'}}</a>
                         </div>
+                        @endif
 
                         {{-- SNS icons --}}
                         <div class="col-auto ms-auto">

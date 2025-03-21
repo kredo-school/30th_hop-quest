@@ -49,6 +49,15 @@ class User extends Authenticatable
     }
 
     public function businesses(){
-        return $this->hasMany(Business::class)->latest();
+        return $this->hasMany(Business::class)->withTrashed()->latest();
     }
+
+    public function reviews(){
+        return $this->hasMany(Review::class)->withTrashed()->latest();
+    }
+
+    public function BusinessReviewLikes(){
+        return $this->hasMany(BusinessReviewLike::class);
+    }
+
 }

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,15 +16,17 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //PROFILES
-Route::get('/business/profile/{id}/index', [ProfileController::class, 'index'])->name('profile.index');
-Route::get('/business/profile/{user_id}/posts', [ProfileController::class, 'showPosts'])->name('profile.posts');
-Route::get('/business/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::delete('/business/profile/image', [ProfileController::class, 'deleteAvatar'])->name('profile.avatar.delete');
-Route::patch('/business/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-// Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
-Route::get('/business/profile/followers', [ProfileController::class, 'followers'])->name('profile.followers');
-Route::get('/business/profile/reviews', [ProfileController::class, 'reviews'])->name('profile.reviews');
-Route::get('/business/profile/review', [ProfileController::class, 'showreview'])->name('show.review');
+Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
+    Route::get('/{id}/index', [ProfileController::class, 'index'])->name('index');
+    Route::get('/{id}/posts', [ProfileController::class, 'showPosts'])->name('posts');
+    Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
+    Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
+    Route::patch('/update', [ProfileController::class, 'update'])->name('update');
+    // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
+    Route::get('/followers', [ProfileController::class, 'followers'])->name('followers');
+    Route::get('/{id}/reviews', [ReviewController::class, 'reviews'])->name('reviews');
+    Route::get('/{id}/review', [ReviewController::class, 'showReview'])->name('review');
+});
 
 //BUSINESS
 Route::get('/business/business', [BusinessController::class, 'index'])->name('business.index');

@@ -19,4 +19,8 @@ class Business extends Model
     public function promotions(){
         return $this->hasMany(Promotion::class);
     }
+
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
 }
