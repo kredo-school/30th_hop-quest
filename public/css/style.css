@@ -265,6 +265,19 @@ h6{
     font-size: 10rem;
 }
 
+/* ---------------IMAGE--------------- */
+.img-lg{
+    height:8rem;
+    width:12rem;
+    object-fit:cover;
+}
+
+.img-xl{
+    height:24rem;
+    width:36rem;
+    object-fit:cover;
+}
+
 /* ---------------BUTTON--------------- */
 
 /* FOLLOW */
@@ -428,7 +441,16 @@ h6{
 
 /* ---------------PROFILE--------------- */
 .header-image{
+    position: relative;
     height:250px;
     width: 100%;
     object-fit:cover;
+}
+
+.profile-image{
+    position: absolute;
+    left: 0%;
+    top: -25%;
+    width: 20%;
+    height: auto;
 }

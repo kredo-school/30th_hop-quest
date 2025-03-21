@@ -1,10 +1,10 @@
 <div class="bg-blue">
 @extends('layouts.app')
 
-@section('title', 'Articles')
+@section('title', 'Add Promotion')
 
 @section('content')
-<link rel="stylesheet" href="{{asset('css/takeshi.style.css')}}"> 
+<link rel="stylesheet" href="{{asset('css/style.css')}}"> 
 
         
 <main>
@@ -16,54 +16,66 @@
                     <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items)<p>
                 </div>
             </div>
-            {{-- <form action="#" method="post" enctype="multipart/form-data">
+            <form action="{{ route('promotion.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
-                @method('PATCH') --}}
+                {{-- @method('PATCH') --}}
             {{-- Promotion title --}}
             <div class="row mb-3">
                 <div class="col">
                     <label for="title" class="form-label fw-bold">Title<span class="color-red">*</span></label>
                     <input type="text" name="title" id="title" value="" class="form-control">
+                    @error('title')
+                    <p class="mb-0 text-danger small">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
             {{-- Retalted business --}}
-            <div class="row mb-3">
+            <div class="row">
                 <div class="col">
                     <label for="business_id" class="form-label fw-bold">Related Business<span class="color-red">*</span></label>
-                    <select name="business_id" id="business_id" class="form-control" placeholder="Select">
-                        <option value=""></option>
-                        <option value="">Hop Cafe</option>
-                        <option value="">Hop Pub</option>
-                    </select>
+                        <select name="business_id" id="business_id" class="form-control">
+                            <option  value="" disabled selected>Select one</option>
+                            @forelse($all_businesses as $business)
+                                <option value="{{$business->id}}">{{$business->name}}</option>
+                            @empty
+                            @endforelse
+                        </select>
+                        @error('business_id')
+                        <p class="mb-0 text-danger small">{{ $message }}</p>
+                        @enderror
                 </div>
             </div>
+
             {{-- Promotion period --}}
             <div class="row mb-3">
                 <div class="col-6">
-                    <label for="start_date" class="form-label">Promotion start date<span class="color-red">*</span></label>
-                    <input type="date" name="start-date" id="start_date" value="" class="form-control">
+                    <label for="promotion_start" class="form-label">Promotion start date<span class="color-red">*</span></label>
+                    <input type="date" name="promotion_start" id="promotion_start" value="" class="form-control">
                 </div>
                 <div class="col-6">
-                    <label for="end_date" class="form-label">Promotion end date<span class="color-red">*</span></label>
-                    <input type="date" name="end-date" id="end_date" value="" class="form-control">
+                    <label for="promotion_end" class="form-label">Promotion end date<span class="color-red">*</span></label>
+                    <input type="date" name="promotion_end" id="promotion_end" value="" class="form-control">
                 </div>
             </div>
             {{-- Display period --}}
             <div class="row mb-3">
                 <div class="col-6">
                     <label for="display_start" class="form-label">Display start date (optional)</label>
-                    <input type="date" name="display-start" id="display_start" value="" class="form-control">
+                    <input type="date" name="display_start" id="display_start" value="" class="form-control">
                 </div>
                 <div class="col-6">
                     <label for="display_end" class="form-label">Display end date (optional)</label>
-                    <input type="date" name="display-end" id="display_end" value="" class="form-control">
+                    <input type="date" name="display_end" id="display_end" value="" class="form-control">
                 </div>
             </div>
             {{-- Introduction --}}
             <div class="row mb-3">
                 <div class="col">
-                    <label for="description" class="form-label">Introduction<span class="color-red">*</span></label>
-                    <textarea name="description" id="description" rows="3" class="form-control"></textarea>
+                    <label for="introduction" class="form-label">Introduction<span class="color-red">*</span></label>
+                    <textarea name="introduction" id="introduction" rows="3" class="form-control"></textarea>
+                    @error('introduction')
+                    <p class="mb-0 text-danger small">{{ $message }}</p>
+                    @enderror
                 </div>    
             </div>
             {{-- File --}}
@@ -71,6 +83,9 @@
                 <div class="col">
                     <label for="photo" class="form-label">Photo upload<span class="color-red">*</span></label>
                     <input type="file" name="photo" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
+                    @error('photo')
+                    <p class="mb-0 text-danger small">{{ $message }}</p>
+                    @enderror
                     <p class="form-text text-danger">
                         Acceptable formats: jpeg, jpg, png, gif only <br>
                         Max file size is 1048 KB
@@ -80,19 +95,20 @@
             {{-- Buttons --}}
             <div class="row mt-3 justify-content-center">
                 <div class="col-4"> 
-                    <a href="{{route('profile.promotion.check')}}">
+                    {{-- <a href="{{route('promotion.check')}}">
                         <button class="btn btn-green w-100 ">CHECK</button>
-                    </a>                       
-                    {{-- <button type="submit" class="btn btn-green w-100 mb-2">CHECK</button> --}}
+                    </a>                        --}}
+                    <button type="submit" class="btn btn-green w-100 mb-2">SAVE</button>
                 </div>
                 <div class="col-2"></div>
+                         
                 <div class="col-4">
-                    <a href="{{route('profile')}}">
-                        <button class="btn btn-red w-100 ">CANCEL</button>
+                    <a href="{{route('profile.posts', Auth::user()->id)}}">
+                        <div class="btn btn-red w-100 ">CANCEL</div>
                     </a>
                 </div>
             </div>               
-            {{-- </form> --}}
+            </form> 
         </div>
     </div>
 </main>

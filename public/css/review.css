@@ -1,5 +1,5 @@
-.custom-table{
-    
+.table-container{
+    width:100%;    
 }
 
 .custom-table tbody tr{
@@ -20,15 +20,51 @@
 }
 
 .table-from{
-    width:100px;
+    width:200px;
 }
 
 .table-spot{
-    width:150px;
+    width:200px;
+}
+
+.table-comment{
+    width:500px;
 }
 
 .table-rating{
-    width:150px;
+    width:200px;
+}
+
+.table-likes{
+    width:100px;
+}
+
+.table-time{
+    width:200px;
+}
+
+.table-from-a{
+    width:900px;
+}
+
+.table-rating-a{
+    width:200px;
+}
+
+.table-likes-a{
+    width:200px
+}
+
+.table-spot-a{
+    width:900px;
+}
+
+.table-time-a{
+    width:400px;
+}
+
+.table-comment-a{
+    width:1300px;
 }
 
 .table-comment{
@@ -40,9 +76,7 @@
 
 }
 
-.table-time{
-    width:200px;
-}
+
 
 .cell-short{
     width:300px;

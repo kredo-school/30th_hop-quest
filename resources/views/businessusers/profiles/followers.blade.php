@@ -1,7 +1,7 @@
 <div class="bg-blue">
 @extends('layouts.app')
 
-@section('title', 'Articles')
+@section('title', 'Followers')
 
 @section('content')
     @include('businessusers.profiles.header')

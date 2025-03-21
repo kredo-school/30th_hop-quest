@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -11,9 +13,12 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    private $user;
+
+    public function __construct(User $user)
     {
-        $this->middleware('auth');
+        $this->user = $user;
+        // $this->middleware('auth');
     }
 
     /**
@@ -26,26 +31,7 @@ class HomeController extends Controller
         return view('home');
     }
 
-     public function profile(){
-        return view('businessusers.profiles.posts');
-    }
-
-    public function followers(){
-        return view('businessusers.profiles.followers');
-    }
-
-    public function edit(){
-        return view('businessusers.profiles.edit');
-    }
-
-    public function reviews(){
-        return view('businessusers.reviews.allreviews');
-    }
-
-    public function showreview(){
-        return view('businessusers.reviews.showreview');
-    }
-
+    
     public function promotion_create(){
         return view('businessusers.posts.promotions.create');
     }
