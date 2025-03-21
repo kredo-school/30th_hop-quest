@@ -32,4 +32,5 @@ ul li{
 main{
     padding-top: 3.095rem;
     width:100%;
+    overflow-x: hidden;
 }
