@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('spots', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->text('title');
             $table->text('address');
             $table->text('introduction');

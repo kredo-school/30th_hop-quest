@@ -13,7 +13,17 @@ return new class extends Migration
     {
         Schema::create('quests', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->text('title');
+            $table->text('introduction');
+            $table->text('start_date');
+            $table->text('end_date');
+            $table->text('duration');
+            $table->text('main_photo');
+            $table->text('is_public');
             $table->timestamps();
+        
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

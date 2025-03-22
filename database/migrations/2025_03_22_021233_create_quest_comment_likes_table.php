@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('quest_comment_likes', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('quest_comment_id');
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('quest_comment_id')->references('id')->on('quest_comments');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

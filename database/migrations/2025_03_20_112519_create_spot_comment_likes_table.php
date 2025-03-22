@@ -11,23 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('spot_comments', function (Blueprint $table) {
+        Schema::create('spot_comment_likes', function (Blueprint $table) {
             $table->id();
-            $table->text('body');
+            $table->unsignedBigInteger('spot_comment_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('spot_id');
-            $table->timestamps();
-        
+
+            $table->foreign('spot_comment_id')->references('id')->on('spot_comments');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('spot_id')->references('id')->on('spots')->onDelete('cascade');
         });
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('spot_comments');
+        Schema::dropIfExists('spot_comment_likes');
     }
 };

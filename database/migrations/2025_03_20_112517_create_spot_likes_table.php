@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('quests_spots', function (Blueprint $table) {
+        Schema::create('spot_likes', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('spot_id');
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('spot_id')->references('id')->on('spots');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quests_spots');
+        Schema::dropIfExists('spot_likes');
     }
 };

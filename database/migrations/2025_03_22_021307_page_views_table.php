@@ -11,7 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('page_views', function (Blueprint $table) {
+            $table->id();
+            $table->integer('page_id');
+            $table->integer('page_type');
+            $table->integer('views');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('page_views');
     }
 };
