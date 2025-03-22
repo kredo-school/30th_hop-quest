@@ -94,6 +94,7 @@
                     </div>
                 </div>
                 <div class="row">
+
                     <div class="col-lg-5">
                         <form action="" method="get">
                             @csrf
@@ -103,6 +104,7 @@
                     <div class="col-lg-2">
                         <p class="m-0 fs-4 text-center fw-bold">or</p>
                     </div>
+
                     <div class="col-lg-5">
                         <p class="m-0 p-0 xsmall d-lg-none">No spot on HopQuest? Tell us your fav spot!</p>
                         <a href="" class="btn btn-blue w-100 px-0"><i class="fa-solid fa-plus icon-xs d-inline"></i>ADD SPOT</a>
@@ -140,6 +142,7 @@
                         <div class="form-check form-switch mx-2">
                             <input type="checkbox" name="agenda" id="agenda" class="form-check-input">
                             <label for="agenda" class="form-check-label radio-inline raleway-semibold">Add to Agenda</label>
+
                             <p class="mt-0 xsmall">
                                 The Agenda will display a summary of your Quest. You can select up to three items per day. <br>
                                 You can later modify the content displayed in the Agenda on the Edit page.
@@ -159,10 +162,9 @@
             <div class="overlay position-absolute top-0 end-0 p-3 text-white">
                 <!-- 編集・削除ボタン -->
                 <div>
-                    <button class="btn btn-sm btn-green" data-bs-toggle="collapse" data-bs-target="#modify-post"><i class="fa-solid fa-pen-to-square"></i></a></button>
+                    <button class="btn btn-sm btn-green"><a href="#form1" class="text-decoration-none text-white"><i class="fa-solid fa-pen-to-square"></i></a></button>
                     <button class="btn btn-sm btn-red" data-bs-toggle="modal" data-bs-target="#delete-post"><i class="fa-solid fa-trash"></i></button>
                 </div>
-
             </div>
             <div class="overlay position-absolute bottom-0 start-0 p-3 text-white">
                 <!-- タイトル -->
@@ -173,7 +175,9 @@
                 <p class="my-0" id="header-intro"></p>
             </div>
         </section>
+
         @include('quests.modals.delete-modal')
+
         <!-- dayセクションを追加する場所 -->
         <div id="day-container"></div>
 
