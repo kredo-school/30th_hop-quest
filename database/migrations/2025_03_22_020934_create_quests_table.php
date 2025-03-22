@@ -22,7 +22,8 @@ return new class extends Migration
             $table->text('main_photo');
             $table->text('is_public');
             $table->timestamps();
-        
+            $table->softDeletes();
+            
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

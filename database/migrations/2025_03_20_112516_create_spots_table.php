@@ -15,13 +15,15 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->text('title');
+            $table->text('main_image');
             $table->text('address');
             $table->text('introduction');
             $table->text('geo_location');
             $table->text('geo_lat');
             $table->text('geo_lng');
-            $table->text('photo');
+            $table->text('photos');
             $table->timestamps();
+            $table->softDeletes();
         
             $table->foreign('user_id')->references('id')->on('users');
         });
