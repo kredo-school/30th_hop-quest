@@ -24,15 +24,15 @@
 
                         <!-- Username -->
                         <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
+                            <label for="name" class="form-label">Username</label>
                             <div class="input-group">
-                                <input id="username" type="text" name="username" value="{{ old('username') }}"
+                                <input id="name" type="text" name="name" value="{{ old('name') }}"
                                     placeholder="Enter your username" required class="form-control">
                                 <span class="input-group-text">
                                     <i class="fas fa-user text-primary"></i>
                                 </span>
                             </div>
-                            @error('username')
+                            @error('name')
                                 <div class="text-danger small">{{ $message }}</div>
                             @enderror
                         </div>
