@@ -95,3 +95,10 @@ p{
     font-size: 5rem;
 }
 
+.update-text {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+

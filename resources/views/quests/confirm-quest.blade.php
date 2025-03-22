@@ -12,7 +12,7 @@
         <h3 class="color-navy poppins-semibold text-center">Check Your Quest</h3>
 
         <section class="position-relative my-5" id="header">
-            <img src="{{asset('images/quest/pexels-pixabay-459203.jpg')}}" alt="header-img" id="header-img" class="img-fluid w-100">
+            <img src="{{asset('images/quest/pexels-pixabay-459203_optimized_.jpg')}}" alt="header-img" id="header-img" class="img-fluid w-100">
         
             <!-- 右上のオーバーレイ部分 -->
             <div class="overlay position-absolute top-0 end-0 p-3 text-white">
@@ -60,7 +60,7 @@
         <div class="container mt-4">
             <div class="row justify-content-between mt-4">
                 <!-- 左側: Quest - Agenda -->
-                <div class="col-md-5 col-lg-5 bg-white rounded-3 mb-4" id="agenda-list">
+                <div class="col-md-6 col-lg-5 bg-white rounded-3 mb-4" id="agenda-list">
                     <h4>Quest - Agenda</h4>
                     <ul>
                         <li class="day-tag">Day - 1
@@ -98,9 +98,8 @@
                         referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
-            
-                {{-- </div> --}}
             </div>
+            
         </div>
     
             <section id="day-template" class="container bg-white my-5 rounded-3 p-3 border-red">
@@ -126,6 +125,8 @@
 
                 <div class="row px-0">
                     <div class="col-md-6 spot-image-container">
+                        <img  src="{{asset('images/quest/pexels-pixabay-459203.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail" id="spot-image">
+                        <img  src="{{asset('images/quest/pexels-pixabay-459203.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail" id="spot-image">
                         <img  src="{{asset('images/quest/pexels-pixabay-459203.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail" id="spot-image">
                     </div>
                     <div class="col-md-6 mt-4 mt-md-0">

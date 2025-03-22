@@ -4,13 +4,13 @@
     <link rel="stylesheet" href="css/add-quest.css">
 @endsection
 
-@section('title', 'Add Quest - confirmation')
+@section('title', 'Quest')
 
 @section('content')
 <div class="bg-green">
-    <div class="container py-5 col-9 px-0">
+    <div class="container py-4 col-9 px-0">
     <section class="position-relative my-5" id="header">
-            <img src="{{asset('images/quest/pexels-pixabay-459203.jpg')}}" alt="header-img" id="header-img" class="img-fluid w-100">
+            <img src="{{asset('images/quest/pexels-pixabay-459203_optimized_.jpg')}}" alt="header-img" id="header-img" class="img-fluid w-100">
         
             <div class="overlay position-absolute bottom-0 start-0 p-3 text-white">
                 <!-- タイトル -->
@@ -21,33 +21,13 @@
                 <p class="m-0 p-0" id="header-intro">with my family! this is my sisters birthday trip!</p>
             </div>
      </section>
-{{-- DELETE MODAL --}}
-        <div class="modal fade" id="delete-post">
-            <div class="modal-dialog">
-                <div class="modal-content border-red">
-                    <div class="modal-header">
-                        <h3 class="h3"> <i class="fa-solid fa-trash"></i> Delete Post</h3>
-                    </div>
-                    <div class="modal-body">
-                        <p> Are you sure you want to delete this post?</p>
-                        {{-- <img src="{{ $post->image }}" alt="" class="img-lg"> --}}
-                        <p class="text-center">POST TITLE</p>
-                    </div>
-                    <div class="modal-footer border-0">
-                        <form action="" method="">
-                            {{-- {{ route('admin.posts.hide', $post->id) }} --}}
-                            @csrf
-                            @method('DELETE')
-                            <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-outline-red">Cancel</button>
-                            <button type="submit" class="btn btn-sm btn-red">Delete</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-{{-- ---------------------------@yeild user information --}}
-        <div class="container mt-4">
+     <section>
+        @include('quests.user-bar')
+            
+     </section>
+
+        <div class="container mt-5">
             <div class="row justify-content-between mt-4">
                 <!-- 左側: Quest - Agenda -->
                 <div class="col-md-5 col-lg-5 bg-white rounded-3 mb-4" id="agenda-list">
@@ -100,7 +80,7 @@
 
             <div class="row px-0">
                 <div class="col-md-6 spot-image-container">
-                    <img  src="{{asset('images/quest/pexels-pixabay-459203.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail" id="spot-image">
+                    <img  src="{{asset('images/quest/pexels-pixabay-459203_optimized_.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail" id="spot-image">
                 </div>
                 <div class="col-md-6 mt-4 mt-md-0">
                     <p class="spot-description w-100" id="spot-description">Description Here------Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantium animi, sunt impedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quamisi hic adipisci amet accusantium pariatur, error molestiae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantium animi, sunt impedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quam nobis ullam corrupti optio voluptates libero, labore hic sint debitis nisi iste repellat, beatae dolorem voluptas a, placeat enim repudiandae dicta minus aliquid dolore! Vitae reprehenderit libero nisi hic adipisci amet accusantium pariatur, error molestiae.</p>
@@ -116,9 +96,9 @@
 
             <div class="row px-0">
                 <div class="col-md-6 spot-image-container">
-                    <img  src="{{asset('images/quest/pexels-pixabay-459203.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail d-block" id="spot-image">
-                    <img  src="{{asset('images/quest/pexels-pixabay-459203.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail d-block" id="spot-image">
-                    <img  src="{{asset('images/quest/pexels-pixabay-459203.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail d-block" id="spot-image">
+                    <img  src="{{asset('images/quest/pexels-pixabay-459203_optimized_.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail d-block" id="spot-image">
+                    <img  src="{{asset('images/quest/pexels-pixabay-459203_optimized_.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail d-block" id="spot-image">
+                    <img  src="{{asset('images/quest/pexels-pixabay-459203_optimized_.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail d-block" id="spot-image">
                 </div>
                 <div class="col-md-6 mt-4 mt-md-0">
                     <p class="spot-description w-100" id="spot-description">Description Here------Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantium animi, sunt impedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quamisi hic adipisci amet accusantium pariatur, error molestiae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quamisi hic adipisci amet accusantium pariatur, error molestiae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantium animi, sunt impedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quam nobis ullam corrupti optio voluptates libero, labore hic sint debitis nisi iste repellat, beatae dolorem voluptas a, placeat enim repudiandae dicta minus aliquid dolore! Vitae reprehenderit libero nisi hic adipisci amet accusantium pariatur, error molestiae.</p>
@@ -126,11 +106,21 @@
             </div>
         </section>
 
-        {{--------------------COMMENT FORM --------------}}
+        <section>
+            <div class="bg-white rounded-3 mb-4">
+                <div class="row px-2 py-3 m-0">
+                    <div class="col">
+                        <img src="{{ asset('images/quest/pexels-pixabay-459203_optimized_.jpg') }}" alt="" class="rounded-circle avatar-sm">
+                    </div>
+                </div>
+            </div>
+         </section>
 
         </div>
     </div>
+    
 </div>
+
 </body>
 </html>
 
