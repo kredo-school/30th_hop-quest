@@ -10,11 +10,11 @@ class Follow extends Model
     
     //follow belongs to user (opposite to follows())
     public function followed(){
-        return $this->belongsTo(User::class, 'followed_id')->withTrashed();
+        return $this->belongsTo(User::class, 'followed_id');
     }
 
     //follow belongs to user (opposite of followers())
     public function follower(){
-        return $this->belongsTo(User::class, 'follower_id')->withTrashed();
+        return $this->belongsTo(User::class, 'follower_id');
     }
 }

@@ -52,6 +52,10 @@ class User extends Authenticatable
         return $this->hasMany(Business::class)->withTrashed()->latest();
     }
 
+    public function promotions(){
+        return $this->hasMany(Promotion::class)->withTrashed()->latest();
+    }
+
     public function reviews(){
         return $this->hasMany(Review::class)->withTrashed()->latest();
     }
@@ -68,6 +72,11 @@ class User extends Authenticatable
     //user has many followers
     public function followers(){
         return $this->hasMany(Follow::class, 'followed_id');
+    }
+
+    //return true if $this user is followed by Auth user
+    public function isFollowed(){
+        return $this->followers()->where('follower_id', Auth::user()->id)->exists();
     }
 
 }
