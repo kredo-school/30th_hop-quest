@@ -52,12 +52,31 @@ class User extends Authenticatable
         return $this->hasMany(Business::class)->withTrashed()->latest();
     }
 
+    public function promotions(){
+        return $this->hasMany(Promotion::class)->withTrashed()->latest();
+    }
+
     public function reviews(){
         return $this->hasMany(Review::class)->withTrashed()->latest();
     }
 
     public function BusinessReviewLikes(){
         return $this->hasMany(BusinessReviewLike::class);
+    }
+
+    //user has manyu follows (user follows many users)
+    public function follows(){
+        return $this->hasMany(Follow::class, 'follower_id');
+    }
+
+    //user has many followers
+    public function followers(){
+        return $this->hasMany(Follow::class, 'followed_id');
+    }
+
+    //return true if $this user is followed by Auth user
+    public function isFollowed(){
+        return $this->followers()->where('follower_id', Auth::user()->id)->exists();
     }
 
 }

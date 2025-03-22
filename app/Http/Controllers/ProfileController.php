@@ -23,18 +23,6 @@ class ProfileController extends Controller
         $this->promotion = $promotion;
     }
 
-    
-    public function posts($id){
-        //get data of 1 user
-        $user_a = $this->user->findOrFail($id);
-
-        return view('businessusers.profiles.posts')->with('user', $user_a);
-    }
-
-    public function followers(){
-        return view('businessusers.profiles.followers');
-    }
-
     public function edit(){
         return view('businessusers.profiles.edit');
     }
@@ -84,36 +72,24 @@ class ProfileController extends Controller
 
     }
 
-//     public function deleteAvatar(Request $request)
-// {
-//     $user = Auth::user();
-//     $imageName = $request->input('image'); // 送信された画像名を取得
-
-//     // ユーザーの現在の avatar が送られた画像名と一致しているか確認
-//     if ($imageName && $user->avatar === $imageName) {
-//         Storage::delete($imageName); // ストレージから削除
-//         $user = User::find(Auth::user()->id);
-//         $user->update(['avatar' => null]); // データベースの avatar を null に更新
-
-//         return response()->json(['success' => true]);
-//     }
-
-//     return response()->json(['success' => false, 'message' => '画像の削除に失敗しました'], 400);
-// }
-
-public function showPosts($id){
+public function showPromotions($id){
     //get data of 1 user
     $user_a = $this->user->findOrFail($id);
     $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
     $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
     return view('businessusers.profiles.posts')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_promotions', $all_promotions);
-}
+    }
+
+    public function followers($id){
+        $user_a = $this->user->findOrFail($id);
+        return view('businessusers.profiles.followers')->with('user', $user_a);
+    }
 
     public function reviews(){
         return view('businessusers.reviews.allreviews');
     }
 
-    public function showreview(){
+    public function showReview(){
         return view('businessusers.reviews.showreview');
     }
 

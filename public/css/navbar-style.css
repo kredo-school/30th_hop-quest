@@ -31,6 +31,8 @@ ul li{
 
 main{
     padding-top: 3.095rem;
-    width:100%;
+}
+
+html, body{
     overflow-x: hidden;
 }
