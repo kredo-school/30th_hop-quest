@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -41,14 +42,15 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                     {{-- Search bar here --}}
                     <ul class="navbar-nav mx-auto">
-                            <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5">
+                            <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto">
+                            <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto">
                                 <input type="search" name="search" placeholder="Search..." class="form-control form-control-sm">
                             </form>
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-lg-5">
                     <!-- Authentication Links -->
-                    {{-- @guest
+                    @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -60,58 +62,70 @@
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li>
                         @endif
-                    @else --}}
-                        <li class="nav-item">
+                    @else
+                        <li class="nav-item my-auto">
                             <a href="{{ route('home') }}" class="nav-link" href="">HOME</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown my-auto">
+                        <li class="nav-item dropdown my-auto">
                             <a id="navbarDropdown" class="nav-link btn " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>+Add</a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                
+                                @if(Auth::user()->role_id == 1)
                                 <a href="#" class="dropdown-item text-dark">
                                     <i class="fa-solid fa-circle-plus icon-sm"></i> Add Quest
-                                </a>
-                                {{-- if 必要 --}}
+                                </a>                              
                                 <a href="#" class="dropdown-item text-dark">
                                     <i class="fa-solid fa-circle-plus icon-sm"></i> Add Spot
                                 </a>
-                                {{-- if 必要 --}}
+                                @elseif(Auth::user()->role_id == 2)
                                 <a href="#" class="dropdown-item text-dark">
                                     <i class="fa-solid fa-circle-plus icon-sm"></i> Add Business
                                 </a>
-                                <a href="{{ route('profile.promotion.create') }}" class="dropdown-item text-dark">
+                                <a href="{{ route('promotion.create') }}" class="dropdown-item text-dark ">
                                     <i class="fa-solid fa-circle-plus icon-sm"></i> Add Promotion
                                 </a>
+                                <a href="#" class="dropdown-item text-dark">
+                                    <i class="fa-solid fa-circle-plus icon-sm"></i> Add Quest
+                                </a>  
+                                @endif
 
                             </div>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item my-auto">
+                        <li class="nav-item my-auto">
                             <a href="#" class="nav-link" href="">FAQ</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item my-auto">
+                        <li class="nav-item my-auto">
                             <a href="" class="nav-link d-xl-block d-none" href="">For Business</a>
                             <a class="nav-link d-block d-xl-none text-center business"><img src="{{asset('images/navbar/icomoon-free--office.svg')}}" alt="For business"><br>business</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown my-auto">
                             <!-- ICON -->
                             <a id="navbarDropdown" class="nav-link btn " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{-- {{ Auth::user()->name }} --}}
 
                                 {{-- DROPDOWN --}}
-                                {{-- @if(Auth::user()->avatar)
+                                @if(Auth::user()->avatar)
                                     <img src="{{Auth::user()->avatar}}" alt="" class="rounded-circle avatar-sm">
-                                @else --}}
+                                @else
                                     <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
-                                {{-- @endif --}}
+                                @endif
                             </a>
                             <!-- Dropdown menu -->
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 {{-- PROFILE --}}
-                                <a href="#" class="dropdown-item">
-                                    <i class="fa-solid fa-circle-user"></i> Profile
-                                </a>
+                                @if(Auth::user()->role_id == 2)
+                                    <a href="{{route('profile.promotions', Auth::user()->id)}}" class="dropdown-item">
+                                        <i class="fa-solid fa-circle-user"></i> Profile
+                                    </a>
+                                @elseif(Auth::user()->role_id == 1)
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fa-solid fa-circle-user"></i> Profile
+                                    </a>
+                                @endif
                                 <hr class="dropdown-divider">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                <a class="dropdown-item" href="{{ route('home') }}"
                                    onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
                                     <i class="fa-solid fa-arrow-right-from-bracket"></i> {{ __('Logout') }}
@@ -122,7 +136,7 @@
                                 </form>
                             </div>
                         </li>
-                        {{-- @endguest --}}
+                        @endguest
                     </ul>
                 </div>
             </div>

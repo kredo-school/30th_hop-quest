@@ -2,8 +2,6 @@
 window.addEventListener("beforeunload", function() {
     localStorage.clear();
 });
-
-
 // load==========================================================
 // **アップロードした画像を保存するリスト**
 let uploadedImagesList = []; 
@@ -263,8 +261,6 @@ document.getElementById("addon").addEventListener("click", function(event) {
     //save spot
     saveSpotData(day, spot, description, imageSrcList, isAgendaChecked);
 
-
-
     // **🔥 `localStorage` を削除（少し遅らせる）**
     setTimeout(() => {
         localStorage.removeItem("spotList"); // `spotList` だけ削除
@@ -294,7 +290,6 @@ function saveSpotData(day, spot, description, imageSrcList, isAgendaChecked) {
     displayAllSpots(); // 画面を更新
 }
 
-    
 function displayAllSpots() {
     const dayContainer = document.getElementById("day-container");
 
@@ -316,9 +311,6 @@ function displayAllSpots() {
         adjustDescriptionHeight();
     }, 500); // 0.5秒遅らせる
 }
-
-
-
 
     function addSpotToContainer(spotData) {
         const dayContainer = document.getElementById("day-container");
@@ -353,13 +345,11 @@ function displayAllSpots() {
         dayElement.appendChild(spotElement);
     
         console.log("✅ スポットを追加:", spotData);
-    
+
         // **🔥 高さ調整を少し遅らせて実行**
         console.log("高さ調整：addSpotContainer");
         setTimeout(adjustDescriptionHeight, 500);
     }
-    
-    
 
     function createSpotElement(spotData) {
         const newSpot = document.createElement("div");
@@ -370,6 +360,7 @@ function displayAllSpots() {
         spotHeader.classList.add("row", "pb-3", "justify-content-between", "align-items-center");
     
         const spotTitle = document.createElement("h4");
+
         spotTitle.classList.add("spot-name", "poppins-bold", "col-md-10", "text-start");
         spotTitle.textContent = spotData.spot;
     
@@ -407,7 +398,7 @@ function displayAllSpots() {
         // **画像表示エリア**
         const imgContainer = document.createElement("div");
         imgContainer.classList.add("col-lg-6", "spot-image-container","d-block","flex-column");
-    
+      
         if (spotData.images.length > 0) {
             spotData.images.forEach(src => {
                 const spotImg = document.createElement("img");
@@ -424,6 +415,7 @@ function displayAllSpots() {
         // **説明文**
         const descContainer = document.createElement("div");
         descContainer.classList.add("col-lg-6", "mt-4", "mt-lg-0", "spot-description-container");
+
     
         const spotDesc = document.createElement("p");
         spotDesc.classList.add("spot-description", "w-100");
@@ -460,6 +452,7 @@ function displayAllSpots() {
         document.getElementById("spot-name").value = "";
         document.getElementById("spot-description").value = "";
         document.getElementById("spot-images").value = "";
+
         // **アップロード画像リストをクリア**
         uploadedImagesList = [];
         document.getElementById("uploaded-file-names").innerHTML = ""; // 表示もクリア
@@ -516,6 +509,3 @@ function adjustDescriptionHeight() {
 // ウィンドウのリサイズ時にも適用
 window.addEventListener("load", adjustDescriptionHeight);
 window.addEventListener("resize", adjustDescriptionHeight);
-
-
-
