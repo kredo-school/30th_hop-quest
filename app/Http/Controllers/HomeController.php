@@ -26,6 +26,10 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function search(){
+        return view('search');
+    }
+
      public function profile(){
         return view('businessusers.profiles.posts');
     }

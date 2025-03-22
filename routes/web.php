@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -8,7 +9,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/business/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
 Route::get('/business/profile/edit', [App\Http\Controllers\HomeController::class, 'edit'])->name('profile.edit');
 Route::get('/business/profile/followers', [App\Http\Controllers\HomeController::class, 'followers'])->name('profile.followers');
