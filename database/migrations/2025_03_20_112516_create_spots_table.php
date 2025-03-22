@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('geo_lng');
             $table->text('photo');
             $table->timestamps();
+            $table->softDeletes();
         
             $table->foreign('user_id')->references('id')->on('users');
         });

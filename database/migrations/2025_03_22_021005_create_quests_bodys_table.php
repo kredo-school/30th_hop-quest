@@ -21,7 +21,8 @@ return new class extends Migration
             $table->integer('is_agenda');
             $table->text('photo');
             $table->timestamps();
-
+            $table->softDeletes();
+            
             $table->foreign('quest_id')->references('id')->on('quests');
             $table->foreign('spot_id')->references('id')->on('spots');
             $table->foreign('business_id')->references('id')->on('businesses');

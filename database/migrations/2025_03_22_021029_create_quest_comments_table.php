@@ -17,7 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->text('content');
             $table->timestamps();
-
+            $table->softDeletes();
+            
             $table->foreign('quest_id')->references('id')->on('quests');
             $table->foreign('user_id')->references('id')->on('users');
         });
