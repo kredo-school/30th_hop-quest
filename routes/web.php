@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\FollowController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,16 +18,19 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //PROFILES
 Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
-    Route::get('/{id}/index', [ProfileController::class, 'index'])->name('index');
-    Route::get('/{id}/posts', [ProfileController::class, 'showPosts'])->name('posts');
+    Route::get('/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions');
     Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
     Route::patch('/update', [ProfileController::class, 'update'])->name('update');
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
-    Route::get('/followers', [ProfileController::class, 'followers'])->name('followers');
+    Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
     Route::get('/{id}/reviews', [ReviewController::class, 'reviews'])->name('reviews');
     Route::get('/{id}/review', [ReviewController::class, 'showReview'])->name('review');
 });
+
+//FOLLOWS
+Route::post('/follow/{user_id}/store', [FollowController::class, 'store'])->name('follow.store');
+Route::delete('/follow/{user_id}/delete', [FollowController::class, 'delete'])->name('follow.delete');
 
 //BUSINESS
 Route::get('/business/business', [BusinessController::class, 'index'])->name('business.index');

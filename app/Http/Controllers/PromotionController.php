@@ -90,7 +90,7 @@ class PromotionController extends Controller
         return redirect()->route('profile.posts', Auth::user()->id)->with('all_promotions', $all_promotions)->with('all_businesses', $all_businesses);
     }
 
-    public function show($id){
+    public function showPromotions($id){
         //get the data of 1 post where ID = $id
         $promotion_a = $this->promotion->findOrFail($id);
         

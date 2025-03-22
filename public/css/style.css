@@ -441,16 +441,17 @@ h6{
 
 /* ---------------PROFILE--------------- */
 .header-image{
-    position: relative;
+    /* position: relative; */
     height:250px;
     width: 100%;
     object-fit:cover;
 }
 
-.profile-image{
+/* .profile-image{
     position: absolute;
     left: 0%;
     top: -25%;
     width: 20%;
     height: auto;
-}
+} */
+ 
