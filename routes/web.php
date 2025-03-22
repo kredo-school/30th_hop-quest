@@ -7,6 +7,7 @@ use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\PhotoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,7 +19,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //PROFILES
 Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
-    Route::get('/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions');
+    Route::get('/promotions/{id}', [ProfileController::class, 'showPromotions'])->name('promotions');
+    Route::get('/businesses/{id}', [ProfileController::class, 'showBusinesses'])->name('businesses');
+    Route::get('/modelquests/{id}', [ProfileController::class, 'showModelQuests'])->name('modelquests');
     Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
     Route::patch('/update', [ProfileController::class, 'update'])->name('update');
@@ -41,10 +44,20 @@ Route::group(['prefix' => '/business/promotion', 'as' => 'promotion.'], function
     Route::get('/{id}/edit', [PromotionController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [PromotionController::class, 'update'])->name('update');
     Route::post('/store', [PromotionController::class, 'store'])->name('store');
-    Route::get('/{id}/show', [PromotionController::class, 'show'])->name('show');
+    Route::post('/show/{id}', [PromotionController::class, 'show'])->name('show');
     Route::get('/confirm', [PromotionController::class, 'confirm'])->name('confirm');
     Route::delete('/{id}/deactivate', [PromotionController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [PromotionController::class, 'activate'])->name('activate');
+});
+
+//MANAGEMENT BUSINESS
+Route::group(['prefix' => '/business/business', 'as' => 'business.'], function(){
+    Route::get('/create', [BusinessController::class, 'create'])->name('create');
+    Route::get('/{id}/edit', [BusinessController::class, 'edit'])->name('edit');
+    Route::patch('/{id}/update', [BusinessController::class, 'update'])->name('update');
+    Route::post('/store', [BusinessController::class, 'store'])->name('store');
+    Route::delete('/{id}/deactivate', [BusinessController::class, 'deactivate'])->name('deactivate');
+    Route::patch('/{id}/activate', [BusinessController::class, 'activate'])->name('activate');
 });
 
 // Post

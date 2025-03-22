@@ -115,12 +115,12 @@
                             <!-- Dropdown menu -->
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 {{-- PROFILE --}}
-                                @if(Auth::user()->role_id == 2)
-                                    <a href="{{route('profile.promotions', Auth::user()->id)}}" class="dropdown-item">
+                                @if(Auth::user()->role_id == 1)
+                                    <a href="#" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
-                                @elseif(Auth::user()->role_id == 1)
-                                    <a href="#" class="dropdown-item">
+                                @elseif(Auth::user()->role_id == 2)
+                                    <a href="{{route('profile.businesses', Auth::user()->id)}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
                                 @endif

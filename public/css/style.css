@@ -454,4 +454,10 @@ h6{
     width: 20%;
     height: auto;
 } */
+
+.tag-category .col-auto h3.active{
+    color: #D24848 !important; 
+    font-weight: bold; 
+}
+
  

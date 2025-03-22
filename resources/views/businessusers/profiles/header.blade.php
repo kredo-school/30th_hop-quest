@@ -10,7 +10,7 @@
         </div>
     </div> 
 {{-- User information --}}
-<div class="row justify-content-center mt-2 mb-4">        
+<div class="row justify-content-center mt-2 mb-0">        
     <div class="col-8">
         <div class="profile-header position-relative"> 
             <div class="row">
@@ -25,8 +25,7 @@
                 {{-- <div class="col-2"></div> --}}
                 <!-- Username -->
                 <div class="col">
-                    <div class="row">
-                        
+                    <div class="row">                      
                         <div class="col-auto">
                             <h3 class="mb-1 text-truncate">{{ $user->name }}</h3>
                         </div>
@@ -119,11 +118,36 @@
                 @if($user->introduction)
                     <p>{{ $user->introduction}}</p>
                 @endif               
-            </div>
-            
+            </div>           
         </div>
     </div>
-    
+
+    {{-- Tabs for categories --}}
+    <div class="col-8">
+        <div class="row tag-category">
+            <div class="col-auto">
+                <a href="{{ route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark" data-category="business">
+                    <h3 class="poppins-semibold {{ request()->is('business/profile/businesses*') ? 'active' : '' }}">
+                        Management Business
+                    </h3>
+                </a>
+            </div>
+            <div class="col-auto ms-5">
+                <a href="{{ route('profile.promotions', $user->id) }}" class="text-decoration-none text-dark" data-category="promotions">
+                    <h3 class="poppins-semibold {{ request()->is('business/profile/promotions*') ? 'active' : '' }}">
+                        Promotions
+                    </h3>
+                </a>
+            </div>
+            <div class="col-auto ms-5">
+                <a href="{{ route('profile.modelquests', $user->id) }}" class="text-decoration-none text-dark" data-category="quest">
+                    <h3 class="poppins-semibold {{ request()->is('business/profile/modelquests*') ? 'active' : '' }}">
+                        Model Quests
+                    </h3>
+                </a>
+            </div>
+        </div> 
+    </div>   
 </div>
 
 
