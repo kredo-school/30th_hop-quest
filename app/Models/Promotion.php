@@ -15,4 +15,8 @@ class Promotion extends Model
         return $this->belongsTo(Business::class);
     }
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
 }

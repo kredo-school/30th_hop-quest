@@ -60,8 +60,12 @@ class User extends Authenticatable
         return $this->hasMany(Review::class)->withTrashed()->latest();
     }
 
-    public function BusinessReviewLikes(){
+    public function businessReviewLikes(){
         return $this->hasMany(BusinessReviewLike::class);
+    }
+
+    public function businessLikes(){
+        return $this->hasMany(BusinessLike::class);
     }
 
     //user has manyu follows (user follows many users)

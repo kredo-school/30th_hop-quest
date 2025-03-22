@@ -37,7 +37,7 @@
                         @if($user->id == Auth::user()->id)
                         {{-- edit profile --}}
                         <div class="col-2 ms-auto">
-                            <a href="{{route('profile.edit')}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
+                            <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                         </div>
                         <div class="col-2">
                             <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile">DELETE</button>

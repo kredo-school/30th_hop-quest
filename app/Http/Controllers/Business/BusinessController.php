@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -24,5 +24,15 @@ class BusinessController extends Controller
     public function create(){
         $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
         return view('businessusers.posts.promotions.create')->with('all_businesses',$all_businesses);
+    }
+
+    public function deactivate($id){
+        $this->business->destroy($id);
+        return redirect()->back();
+    }
+
+    public function activate($id){
+        $this->business->onlyTrashed()->findOrFail($id)->restore();
+        return redirect()->back();
     }
 }

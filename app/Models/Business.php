@@ -27,4 +27,13 @@ class Business extends Model
     public function photos(){
         return $this->hasMany(Photo::class);
     }
+
+    public function businessLikes(){
+        return $this->hasMany(BusinessLike::class);
+    }
+
+    public function isLiked(){
+        return $this->businessLikes()->where('user_id', Auth::user()->id)->exists();
+    }
+
 }

@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<form action="{{ route('profile.update') }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('profile.update', Auth::user()->id) }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('PATCH')
 
@@ -213,7 +213,7 @@
             </div>
             <div class="col-2"></div>
             <div class="col-4 ">
-                <a href="{{route('profile.posts', Auth::user()->id)}}">
+                <a href="{{route('profile.businesses', Auth::user()->id)}}">
                     <button class="btn btn-red w-100 ">CANCEL</button>
                 </a>
             </div>

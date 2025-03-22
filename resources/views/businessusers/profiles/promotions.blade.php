@@ -87,7 +87,7 @@
                                     @if($promotion->display_start && $promotion->display_end)
                                     <p>Display period: {{date('M d Y', strtotime($promotion->display_start))}} ~ {{date('M d Y', strtotime($promotion->display_end))}}</p>
                                     @else
-                                    <p>Display period: Not defined.</p>
+                                    <p>Display period: Not defined</p>
                                     @endif
                                 </div>    
                             </div>
@@ -115,7 +115,7 @@
                 </div>
             </div>
             @empty
-                <h4 class="h4 text-center text-secondary">No Promotions yet.</h4>
+                <h4 class="h4 text-center text-secondary">No Promotions yet</h4>
             @endforelse 
         </div>
         <div class="d-flex justify-content-end">
