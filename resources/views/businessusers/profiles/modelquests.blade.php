@@ -13,9 +13,10 @@
 <div class="mb-5 row justify-content-center bg-blue">
     {{-- Model Quests --}}
     <div class="col-8 mb-3">
+        <hr>
         <div class="row">
             @if($user->id == Auth::user()->id)
-            <div class="col-2">
+            <div class="col-2 ms-auto mb-2">
                 <a href="#" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
             @endif

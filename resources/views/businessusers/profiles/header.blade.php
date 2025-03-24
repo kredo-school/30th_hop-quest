@@ -27,11 +27,11 @@
                 <div class="col">
                     <div class="row">                      
                         <div class="col-auto">
-                            <h3 class="mb-1 text-truncate">{{ $user->name }}</h3>
+                            <h3 class="mb-1 text-truncate fw-bold">{{ $user->name }}</h3>
                         </div>
                         <div class="col-1 pb-2 p-1">
                             @if($user->official_certification == 1)
-                            <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0 avatar-xs" alt="official-personal"> 
+                                <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0 avatar-xs" alt="official-personal"> 
                             @endif
                         </div>
                         @if($user->id == Auth::user()->id)
@@ -76,7 +76,11 @@
                     {{-- items --}}
                     <div class="row mb-3">
                         <div class="col-auto">
-                            <a href="{{ route('profile.promotions', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotions->count()}}</span> {{$user->promotions->count()==1 ? 'post' : 'posts'}}</a>
+                            @if($user->id == Auth::user()->id)
+                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotions->count()+$user->businesses->count()}}</span> {{$user->promotions->count()+$user->businesses->count()==1 ? 'post' : 'posts'}}</a>
+                            @elseif($user->id != Auth::user()->id)
+                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotionsVisible->count()+$user->businessesVisible->count()}}</span> {{$user->promotionsVisible->count()+$user->businessesVisible->count()==1 ? 'post' : 'posts'}}</a>
+                            @endif
                         </div>
                         <div class="col-auto">
                             <a href="{{ route('profile.followers', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->followers->count()}}</span> {{$user->followers->count()==1 ? 'follower' : 'followers'}}</a>

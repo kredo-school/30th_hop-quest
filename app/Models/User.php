@@ -52,8 +52,16 @@ class User extends Authenticatable
         return $this->hasMany(Business::class)->withTrashed()->latest();
     }
 
+    public function businessesVisible(){
+        return $this->hasMany(Business::class)->latest();
+    }
+
     public function promotions(){
         return $this->hasMany(Promotion::class)->withTrashed()->latest();
+    }
+
+    public function promotionsVisible(){
+        return $this->hasMany(Promotion::class)->latest();
     }
 
     public function reviews(){

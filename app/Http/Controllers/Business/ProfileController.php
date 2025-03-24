@@ -74,20 +74,20 @@ class ProfileController extends Controller
     public function showPromotions($id){
         //get data of 1 user
         $user_a = $this->user->findOrFail($id);
-        $all_businesses = $this->business->withTrashed()->where('user_id', Auth::user()->id)->latest()->get();
+        $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
         $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
         return view('businessusers.profiles.promotions')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_promotions', $all_promotions);
     }
 
     public function showBusinesses($id){
-    $user_a = $this->user->findOrFail($id);
-    $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-    return view('businessusers.profiles.businesses')->with('user', $user_a)->with('all_businesses', $all_businesses);
+        $user_a = $this->user->findOrFail($id);
+        $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
+        return view('businessusers.profiles.businesses')->with('user', $user_a)->with('all_businesses', $all_businesses);
     }
 
     public function showModelQuests($id){
-    $user_a = $this->user->findOrFail($id);
-    return view('businessusers.profiles.modelquests')->with('user', $user_a);
+        $user_a = $this->user->findOrFail($id);
+        return view('businessusers.profiles.modelquests')->with('user', $user_a);
     }
 
     public function followers($id){

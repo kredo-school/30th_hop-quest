@@ -14,12 +14,12 @@
     {{-- Promotions --}}
     <div class="col-8 mb-5">
         <hr>
-        <div class="row">
-            @if($user->id == Auth::user()->id)
-                <div class="col-2 ms-auto mb-2">
-                    <a href="{{ route('promotion.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
-                </div>
-            @endif
+        @if($user->id == Auth::user()->id)
+        <div class="row">            
+            <div class="col-2 ms-auto mb-2">
+                <a href="{{ route('promotion.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+            </div>
+           
         </div>
         {{-- forelse --}}
         <div class="row mb-1">
@@ -115,8 +115,9 @@
                 </div>
             </div>
             @empty
-                <h4 class="h4 text-center text-secondary">No Promotions yet</h4>
+                <h4 class="h4 text-center text-secondary">No posts yet</h4>
             @endforelse 
+            @endif
         </div>
         <div class="d-flex justify-content-end">
         {{ $all_promotions->links() }}

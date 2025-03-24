@@ -29,25 +29,30 @@
                 <div class="card p-3">
                     <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Image --}}   
-
+                        @forelse($business->photos as $photo)
                         <a href="#" class="">
-                            <img src="#" class="card-img-top post-image" alt="image">
-                        </a>                       
+                            <img src="" class="card-img-top post-image" alt="image">
+                        </a> 
+                        @empty
+                        <p>No image</p>
+                        @endforelse                      
                     </div>
                     <div class="card-body content">  
                         <div class="row mb-3">
                             {{-- Category --}}
                             <div class="col-auto p-0">
-                                @if($business->category_id = 1 )
-                                <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
+                                @if($business->category_id == 1 )
+                                    <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
                                 @elseif($business->category_id ==2 )
-                                <h5 class="card-subtitle">Category: <strong>Event</strong></h5>
+                                    <h5 class="card-subtitle">Category: <strong>Event</strong></h5>
                                 @endif
                             </div>
                             
                             {{-- Postdate --}}
                             <div class="col-auto pe-0 ms-auto">
-                                <h5 class="card-subtitle"><span>{{date('M d Y', strtotime($business->created_at))}}</span></h5>
+                                @if($business->created_at)
+                                    <h5 class="card-subtitle"><span>{{date('M d Y', strtotime($business->created_at))}}</span></h5>
+                                @endif
                             </div>
                         </div> 
                         {{-- Title --}}
@@ -175,94 +180,14 @@
                 </div>
             </div>
             @empty
-            <h4 class="h4 text-center text-secondary">No Promotions yet.</h4>
+            <h4 class="h4 text-center text-secondary">No posts yet</h4>
             @endforelse 
+        </div>
+        <div class="d-flex justify-content-end">
+            {{ $all_businesses->links() }}
         </div>
 
         <div class="row mb-5">
-            {{-- Kredo cafe --}}
-            <div class="col-4">
-                <div class="card p-3">
-
-                    <div class="card-body content">  
-                 
-             
-            
-                        
-
-                    
-                        {{-- Heart icon & Like function --}}
-                        <div class="row align-items-center">
-                            <div class="col-1 ms-2 p-0">
-                                <form action="#" method="post">
-                                    @csrf      
-                                    <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-3"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="col-2 ms-1 px-2">
-                                <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#">
-                                    10
-                                </button>
-                            </div>
-                            {{-- Modal for displaying all users who liked owner of post--}}
-                                                                            
-                            {{-- Comment icon & Number of comments --}}
-                            <div class="col-1 ms-3 p-0">
-                                <div>
-                                    <i class="fa-regular fa-comment"></i>
-                                </div>
-                            </div>
-                            <div class="col-2 ms-1 px-0">
-                                <button class="dropdown-item text-dark">
-                                    52
-                                </button>
-                            </div>
-    
-                            {{-- Number of viewers --}}
-                            <div class="col-1 ms-3 p-0">
-                                <div>
-                                    <i class="fa-solid fa-chart-simple"></i>
-                                </div>
-                            </div>
-                            <div class="col-2 ms-1 px-0">
-                                <button class="dropdown-item text-dark">
-                                    201
-                                </button>
-                            </div>
-                        </div>
-            
-                        {{-- Description of posts --}}
-                        <div class="row">
-                            <div class="col p-0">
-                                <p class="card_description">
-                                    Lorem ipsum dolor, sit amet 
-                                </p>
-                            </div>    
-                        </div>
-                    </div>
-
-                    <div class="card-footer bg-white">
-                    {{-- status --}}
-                        <div class="row ">
-                            <div class="col p-0">
-                                <p>Status: <i class="fa-solid fa-circle text-success"></i> Visible</p>
-                                <p>Display period: Mar 5 2025 ~ Apr 26/2025</p>
-                            </div>    
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <a href="#" class="btn btn-sm btn-green fw-bold mb-2 w-100">EDIT</a>
-                            </div>
-                            <div class="col-6">
-                                <a href="#" class="btn btn-sm btn-outline-green fw-bold mb-2 w-100">HIDE</a>
-                            </div>
-                        </div>
-                    </div>   
-                </div>
-            </div>
-            
             {{-- Kredo hotel --}}
             <div class="col-4">
                 <div class="card p-3">
