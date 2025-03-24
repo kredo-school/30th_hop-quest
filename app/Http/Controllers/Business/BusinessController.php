@@ -35,4 +35,5 @@ class BusinessController extends Controller
         $this->business->onlyTrashed()->findOrFail($id)->restore();
         return redirect()->back();
     }
+    
 }
