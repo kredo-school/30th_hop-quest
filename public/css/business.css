@@ -1,3 +1,4 @@
+
 .main-image-section {
     position: relative;
 }
@@ -51,6 +52,7 @@
 .fs-7{
     font-size: 0.8rem;
 }
+
 .fs-8{
     font-size: 0.6rem;
 }
@@ -82,4 +84,3 @@
 
 .fa-solid:hover{
     transform: scale(1.1, 1.1); 
-}
