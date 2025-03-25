@@ -3,16 +3,20 @@
 
 @section('title', 'Followers')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/review.css') }}">
+@endsection
+
 @section('content')
-    @include('businessusers.profiles.header')
+    {{-- @include('businessusers.profiles.header') --}}
 
     @if($user->followers->isNotEmpty())
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5">
         <div class="col-4">
             <h3 class="text-center">Followers</h3>
 
             @foreach($user->followers as $follower)
-                <div class="row mb-3 align-items-center bg-white p-3 rounded-4">
+                <div class="row mb-3 align-items-center bg-white p-2 rounded-4">
                     <div class="col-auto">
                         {{-- icon/avatar --}}
                         {{-- <a href="{{route('profile.show', $follower->follower->id)}}"> --}}
@@ -58,5 +62,13 @@
 @else
     <h4 class="h5 text-center text-secondary">No followers yet.</h4>
 @endif
+
+<div class="row mt-5">       
+    <div class="col align-center mb-0">
+        <a href="{{route('profile.promotions', Auth::user()->id)}}">
+            <button class="btn btn-green text-uppercase w-25 position-absolute start-50 translate-middle mt-1">Back to Profile</button>
+        </a>
+    </div>
+</div>
 
 @endsection

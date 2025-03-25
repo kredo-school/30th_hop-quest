@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\Promotion;
+use App\Models\Quest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -16,11 +17,13 @@ class ProfileController extends Controller
     private $user;
     private $business;
     private $promotion;
+    private $quest;
 
-    public function __construct(User $user, Business $business, Promotion $promotion){
+    public function __construct(User $user, Business $business, Promotion $promotion, Quest $quest){
         $this->user = $user;
         $this->business = $business;
         $this->promotion = $promotion;
+        $this->quest = $quest;
     }
 
     public function edit($id){
@@ -87,7 +90,8 @@ class ProfileController extends Controller
 
     public function showModelQuests($id){
         $user_a = $this->user->findOrFail($id);
-        return view('businessusers.profiles.modelquests')->with('user', $user_a);
+        $all_quests = $this->quest->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
+        return view('businessusers.profiles.modelquests')->with('user', $user_a)->with('all_quests', $all_quests);
     }
 
     public function followers($id){
