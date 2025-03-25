@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,6 +10,7 @@ use App\Models\BusinessReviewLike;
 class BusinessReviewLikeController extends Controller
 {
     private $business_review_like;
+    
     public function __construct(BusinessReviewLike $business_review_like){
         $this->business_review_like -> $business_review_like;
     }

@@ -53,7 +53,7 @@
         </div>
         <div class="row justify-content-center mb-5">
             <div class="col-4">
-                <a href="{{route('profile.posts', $promotion->user_id)}}">
+                <a href="{{route('profile.promotions', $promotion->user_id)}}">
                     <button class="btn btn-red w-100 ">BACK</button>
                 </a>
             </div>

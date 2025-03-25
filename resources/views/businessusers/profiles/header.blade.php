@@ -10,7 +10,7 @@
         </div>
     </div> 
 {{-- User information --}}
-<div class="row justify-content-center mt-2 mb-4">        
+<div class="row justify-content-center mt-2 mb-0">        
     <div class="col-8">
         <div class="profile-header position-relative"> 
             <div class="row">
@@ -25,20 +25,19 @@
                 {{-- <div class="col-2"></div> --}}
                 <!-- Username -->
                 <div class="col">
-                    <div class="row">
-                        
+                    <div class="row">                      
                         <div class="col-auto">
-                            <h3 class="mb-1 text-truncate">{{ $user->name }}</h3>
+                            <h3 class="mb-1 text-truncate fw-bold">{{ $user->name }}</h3>
                         </div>
                         <div class="col-1 pb-2 p-1">
                             @if($user->official_certification == 1)
-                            <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0 avatar-xs" alt="official-personal"> 
+                                <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0 avatar-xs" alt="official-personal"> 
                             @endif
                         </div>
                         @if($user->id == Auth::user()->id)
                         {{-- edit profile --}}
                         <div class="col-2 ms-auto">
-                            <a href="{{route('profile.edit')}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
+                            <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                         </div>
                         <div class="col-2">
                             <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile">DELETE</button>
@@ -77,7 +76,11 @@
                     {{-- items --}}
                     <div class="row mb-3">
                         <div class="col-auto">
-                            <a href="{{ route('profile.promotions', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotions->count()}}</span> {{$user->promotions->count()==1 ? 'post' : 'posts'}}</a>
+                            @if($user->id == Auth::user()->id)
+                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotions->count()+$user->businesses->count()}}</span> {{$user->promotions->count()+$user->businesses->count()==1 ? 'post' : 'posts'}}</a>
+                            @elseif($user->id != Auth::user()->id)
+                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotionsVisible->count()+$user->businessesVisible->count()}}</span> {{$user->promotionsVisible->count()+$user->businessesVisible->count()==1 ? 'post' : 'posts'}}</a>
+                            @endif
                         </div>
                         <div class="col-auto">
                             <a href="{{ route('profile.followers', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->followers->count()}}</span> {{$user->followers->count()==1 ? 'follower' : 'followers'}}</a>
@@ -119,11 +122,36 @@
                 @if($user->introduction)
                     <p>{{ $user->introduction}}</p>
                 @endif               
-            </div>
-            
+            </div>           
         </div>
     </div>
-    
+
+    {{-- Tabs for categories --}}
+    <div class="col-8">
+        <div class="row tag-category">
+            <div class="col-auto">
+                <a href="{{ route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark" data-category="business">
+                    <h3 class="poppins-semibold {{ request()->is('business/profile/businesses*') ? 'active' : '' }}">
+                        Management Business
+                    </h3>
+                </a>
+            </div>
+            <div class="col-auto ms-5">
+                <a href="{{ route('profile.promotions', $user->id) }}" class="text-decoration-none text-dark" data-category="promotions">
+                    <h3 class="poppins-semibold {{ request()->is('business/profile/promotions*') ? 'active' : '' }}">
+                        Promotions
+                    </h3>
+                </a>
+            </div>
+            <div class="col-auto ms-5">
+                <a href="{{ route('profile.modelquests', $user->id) }}" class="text-decoration-none text-dark" data-category="quest">
+                    <h3 class="poppins-semibold {{ request()->is('business/profile/modelquests*') ? 'active' : '' }}">
+                        Model Quests
+                    </h3>
+                </a>
+            </div>
+        </div> 
+    </div>   
 </div>
 
 

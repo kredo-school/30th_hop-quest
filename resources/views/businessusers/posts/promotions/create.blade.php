@@ -103,7 +103,7 @@
                 <div class="col-2"></div>
                          
                 <div class="col-4">
-                    <a href="{{route('profile.posts', Auth::user()->id)}}">
+                    <a href="{{route('profile.promotions', Auth::user()->id)}}">
                         <div class="btn btn-red w-100 ">CANCEL</div>
                     </a>
                 </div>
