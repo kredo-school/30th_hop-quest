@@ -15,27 +15,27 @@
                 <div class="card-header border-0 bg-light p-0 ">
                     <div class="row mt-3 justify-content-center">
                         <div class="col-auto">
-                            <h3 >🌟Experience the Magic of Summer at HopHotel!🌟</h3>
+                            <h3>{{$promotion->title}}</h3>
                         </div>    
                     </div> 
                     <div class="row justify-content-center">
                         <div class="col-auto">
-                            <h4>2025/01/01 - 2025/01/3</h4>
+                            @if($promotion->promotion_start && $promotion->promotion_end)
+                            <h4 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_start))}} ~ {{date('M d Y', strtotime($promotion->promotion_end))}}</h4>
+                            {{-- @else
+                            <p>Day: -- --</p> --}}
+                            @endif
                         </div>    
                     </div>     
                 </div>
                 <div class="card-body promotion">  
                     <div class="row mb-0">
-                        {{-- Card Image with official mark --}}
-                        <img src="{{ asset('images/businessprofile/festival.jpg') }}" class="card-img-top promotion-image" alt="image">
+                        <img src="{{ $promotion->photo }}" class="card-img-top post-image" alt="image">
                         {{-- Postdate --}}
                         {{-- <div class="col-auto pe-0 ms-auto">
                             <h5 class="card-subtitle">2025/2/25</h5>
                         </div> --}}
-                    </div>                
-
-                    {{-- Description of posts --}}
-                    
+                    </div>                                 
                 </div>
 
                 <div class="card-footer bg-white border-0">
@@ -43,11 +43,19 @@
                     <div class="row ">
                         <div class="col p-3">
                             <p class="card_description">
-                                Join us for an unforgettable Summer Festival at [HopHotel! <br>Enjoy a vibrant evening filled with traditional Japanese performances, delicious street food, fun games, and dazzling fireworks. Whether you're visiting with family, friends, or that special someone, there’s something for everyone to enjoy!<br>🎤 Live Performances – Taiko drumming, dance shows, and more!🍢 Food Stalls – Savor authentic festival treats like yakitori, takoyaki, and kakigori.🎯 Game Booths – Try your luck at classic Japanese festival games!🎆 Fireworks Display – A spectacular show to light up the summer sky!<br>📌 Admission: [Free]📞 For Reservations & Inquiries: [Hotel Contact Information]<br>Come and celebrate summer with us at HopHotel]! <br>We look forward to welcoming you!
+                                {{$promotion->introduction}}
                             </p>
                         </div>    
                     </div>   
                 </div>
+
+            </div>
+        </div>
+        <div class="row justify-content-center mb-5">
+            <div class="col-4">
+                <a href="{{route('profile.promotions', $promotion->user_id)}}">
+                    <button class="btn btn-red w-100 ">BACK</button>
+                </a>
             </div>
         </div>
     </div>   

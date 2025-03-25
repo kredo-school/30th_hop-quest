@@ -32,7 +32,7 @@
                                     <i class="fas fa-user text-primary"></i>
                                 </span>
                             </div>
-                            @error('username')
+                            @error('name')
                                 <div class="text-danger small">{{ $message }}</div>
                             @enderror
                         </div>

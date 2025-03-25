@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Models\Business; // Businessモデルをインポート
 
 class HomeController extends Controller
@@ -12,9 +14,12 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    private $user;
+
+    public function __construct(User $user)
     {
-        $this->middleware('auth');
+        $this->user = $user;
+        // $this->middleware('auth');
     }
 
     /**
@@ -28,39 +33,27 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function profile()
-    {
+     public function profile(){
         return view('businessusers.profiles.posts');
     }
 
-    public function followers()
-    {
+    public function followers(){
         return view('businessusers.profiles.followers');
     }
 
-    public function edit()
-    {
-        $$business = Business::where('user_id', auth()->id())->first();
-
-        if (!$business) {
-            $business = new Business(); // 空のBusinessオブジェクトを生成
-        }
-    
-        return view('businesses.edit', compact('business'));
+    public function edit(){
+        return view('businessusers.profiles.edit');
     }
-    
-    public function reviews()
-    {
+
+    public function reviews(){
         return view('businessusers.reviews.allreviews');
     }
 
-    public function showreview()
-    {
+    public function showreview(){
         return view('businessusers.reviews.showreview');
     }
 
-    public function promotion_create()
-    {
+    public function promotion_create(){
         return view('businessusers.posts.promotions.create');
     }
 

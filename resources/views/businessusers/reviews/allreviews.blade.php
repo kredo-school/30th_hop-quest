@@ -13,81 +13,61 @@
             <div class="row">
                 <h4 class="mb-3 poppins-regular">All Reviews</h4>
             </div>
+            <div class="row">
             <div class="table-container">
                 <table class="custom-table text-secondary">
                     <thead>
                         <tr class="text-uppercase">
-                            <th></th>
-                            <th class="table-from">From</th>
+                            <th class="table-from ps-2">From</th>
                             <th class="table-spot">Spot</th>
-                            <th class="table-rating">Rating</th>
-                            <th class="">Comments</th>
-                            <th class="table-time">Posted at</th>
+                            <th class="table-body">Comments</th>
+                            <th class="table-rating text-center">Rating</th>
+                            <th class="table-likes text-center">Likes</th>
+                            <th class="table-time text-center">Posted at</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody class="">
+                        @forelse($all_reviews as $review)
                         <tr>
-                            <td></td>
-                            <td><a href="{{ route('show.review')}}" class="text-decoration-none text-secondary">Romeo</a></td>
-                            <td>Hop Cafe</td>
-                            <td>
+                            <td class="ps-2"><a href="{{ route('profile.review', $review->id) }}" class="text-decoration-none text-secondary">{{ $review->user->name }}</a></td>
+                            <td><a href="{{ route('profile.review', $review->id) }}" class="text-decoration-none text-secondary">{{ $review->business->name }}</a></td>
+                            <td class="table-comment"><a href="{{ route('profile.review', $review->id) }}" class="text-decoration-none text-secondary">{{ $review->body }}</a></td> 
+                            <td class="text-center">
+                                @for($i=1; $i <= $review->rating; $i++)
                                 <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-solid fa-star color-yellow"></i>
+                                @endfor
+                                @for($i=1; $i <= 5 - $review->rating; $i++)
                                 <i class="fa-regular fa-star color-navy"></i>
+                                @endfor
+
                             </td>
-                            <td class="table-comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, quis. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, ipsa autem! Nostrum debitis earum sunt repellendus accusamus ullam cumque necessitatibus. </td>
-                            <td>2025/03/10/21:10</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>Juliet</td>
-                            <td>Hop Pub</td>
-                            <td>
-                                <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-regular fa-star color-navy"></i>
-                                <i class="fa-regular fa-star color-navy"></i>
+                            <td class="text-center">
+                                @if($review->BusinessReviewLikes->count() == 0)
+                                <p class="my-auto"><i class="fa-regular fa-heart me-2 align-middle"></i>{{$review->BusinessReviewLikes->count()}}</p>
+                                @else
+                                <p class="my-auto"><i class="fa-solid fa-heart color-red me-2 align-middle"></i>{{$review->BusinessReviewLikes->count()}}</p>
+                                @endif
                             </td>
-                            <td class="table-comment">Lorem ipsum dolor sit amet sit amet.  </td>
-                            <td>2025/03/10/21:10</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>Romeo</td>
-                            <td>Hop Cafe</td>
-                            <td>
-                                <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-regular fa-star color-navy"></i>
+                            <td class="text-center">{{ $review->created_at }}</td>
+                            <td class="pe-2">
+                                {{-- delete --}}
+                                <button class="btn btn-sm btn-red " data-bs-toggle="modal" data-bs-target="#delete-review{{$review->id}}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                @include('businessusers.reviews.modals.delete')
                             </td>
-                            <td class="table-comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, quis. Lorem ipsum dolor sit amet.  </td>
-                            <td>2025/03/10/21:10</td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td>Juliet</td>
-                            <td>Hop Pub</td>
-                            <td>
-                                <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-solid fa-star color-yellow"></i>
-                                <i class="fa-regular fa-star color-navy"></i>
-                                <i class="fa-regular fa-star color-navy"></i>
-                            </td>
-                            <td class="table-comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, quis. Lorem ipsum dolor sit amet.  </td>
-                            <td>2025/03/10/21:10</td>
-                        </tr>
+                        @empty
+                        @endforelse
                     </tbody>
                 </table> 
-            </div>   
+                {{ $all_reviews->links() }}
+            </div>  
+            </div>
             <div class="row mt-5">       
                 <div class="col align-center mb-0">
-                    <a href="{{route('profile')}}">
+                    <a href="{{route('profile.promotions', Auth::user()->id)}}">
                         <button class="btn btn-green text-uppercase w-25 position-absolute start-50 translate-middle mt-1">Back to Profile</button>
                     </a>
                 </div>
