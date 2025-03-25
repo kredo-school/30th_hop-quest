@@ -70,14 +70,14 @@
                     </div>
                     <div class="row">
                         <div class="col mb-3">
-                            <label for="address" class="form-label">Address 1<span style="color: #D24848;">*</span></label>
-                            <input type="text" name="address" id="address" class="form-control" >
+                            <label for="address_1" class="form-label">Address 1<span style="color: #D24848;">*</span></label>
+                            <input type="text" name="address_1" id="address_1" class="form-control" >
                         </div>
                     </div>
                     <div class="row">
                         <div class="col mb-3">
-                            <label for="address2" class="form-label">Address 2</label>
-                            <input type="text" name="address2" id="address2" class="form-control">
+                            <label for="address_2" class="form-label">Address 2</label>
+                            <input type="text" name="address_2" id="address_2" class="form-control">
                         </div>
                     </div>
                     <!-- Social Media -->
@@ -311,7 +311,7 @@
                     </div>
                 </div>
                 <!-- Business/Event photos -->
-                <div class="row">
+                {{-- <div class="row">
                     <div class="mb-4 p-4 border rounded bg-light">
                         <h4 class="font-bold mb-3">Business/Event photos</h4>
                         <div class="row">
@@ -336,7 +336,7 @@
                             @endfor
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <!-- Term for display to public this location/event -->
                 <div class="row">
                     <div class="mb-4 p-4 border rounded bg-light">

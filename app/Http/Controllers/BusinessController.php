@@ -40,12 +40,12 @@ class BusinessController extends Controller
         $request->validate([
             'name'            => ['required', 'string', 'max:255'],
             'category_id'     => ['required', 'integer'],
-            'address'         => ['required', 'string', 'max:255'],
+            'address_1'         => ['nullable', 'string', 'max:255'],
             'phonenumber'     => ['nullable', 'string', 'max:20'],
-            'email'           => ['nullable', 'email', 'max:255'],
+            'email'           => ['required', 'email', 'max:255'],
             // 'website_url'    => ['nullable', 'url', 'max:255'],
             'introduction'    => ['nullable', 'string'],
-            'photos.*'        => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // ← 追加: 写真のバリデーション
+            // 'photos.*'        => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // ← 追加: 写真のバリデーション
         ]);
 
         // ビジネス情報の保存
@@ -53,7 +53,6 @@ class BusinessController extends Controller
         $this->business->email = $request->email;
         $this->business->category_id = $request->category_id;
         $this->business->official_certification = 1;
-        $this->business->is_public = 1;
         // $this->promotion->introduction = $request->introduction;
         // $this->promotion->promotion_start = $request->promotion_start;
         // $this->promotion->promotion_end = $request->promotion_end;
