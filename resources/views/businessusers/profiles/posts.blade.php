@@ -18,7 +18,7 @@
                 <h3>Management Business</h3>
             </div>
             <div class="col-2">
-                <a href="#" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                <a href="{{route('profile.create')}}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
         </div>
 

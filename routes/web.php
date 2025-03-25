@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BusinessController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,6 +21,12 @@ Route::get('/business/profile/promotion/edit', [App\Http\Controllers\HomeControl
 Route::get('/business/profile/promotion/check', [App\Http\Controllers\HomeController::class, 'promotion_check'])->name('profile.promotion.check');
 Route::get('/business/profile/promotion/show', [App\Http\Controllers\HomeController::class, 'promotion_show'])->name('profile.promotion.show');
 Route::get('/business/profile/edit', [App\Http\Controllers\HomeController::class, 'edit'])->name('profile.edit');
+Route::get('/business/business/create', [App\Http\Controllers\BusinessController::class, 'createBusiness'])->name('profile.create');
+Route::post('/business/business/store', [App\Http\Controllers\BusinessController::class, 'store'])->name('business.store');
+Route::get('/business/business/edit', [App\Http\Controllers\BusinessController::class, 'edit'])->name('profile.edit');
+Route::put('/businesses/{id}', [BusinessController::class, 'update'])->name('businesses.update');
+Route::post('/businesses/{id}/save_official', [BusinessController::class, 'saveOfficial'])->name('businesses.save_official');
+
 // Post
 Route::get('/tourist/posts/followings', [App\Http\Controllers\HomeController::class, 'posts_followings'])->name('posts.followings');
 Route::get('/tourist/posts/quests', [App\Http\Controllers\HomeController::class, 'posts_quests'])->name('posts.quests');

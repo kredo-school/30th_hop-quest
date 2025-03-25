@@ -465,3 +465,7 @@ ul.navbar-nav {
     flex-direction: row;
     align-items: center; 
 }
+
+body, html {
+    overflow-x: hidden;
+}
