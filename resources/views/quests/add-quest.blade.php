@@ -183,9 +183,6 @@
 
             <button class="btn btn-navy w-100 mb-5 d-none" id="confirmBtn"><a href="" class="text-decoration-none text-white">Check</a></button>
     </div>
-</body>
-</html>
-
 </div>
 @vite(['resources/js/quest/add-quest.js'])
 @endsection
