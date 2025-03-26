@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Business;
 use App\Models\Promotion;
 use App\Models\Quest;
+use App\Models\Photo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -84,7 +85,10 @@ class ProfileController extends Controller
 
     public function showBusinesses($id){
         $user_a = $this->user->findOrFail($id);
-        $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
+        // $user_a->load(['businesses.photos' => function ($query) {
+        //     $query->orderBy('priority', 'asc')->limit(1);
+        // }]);
+        $all_businesses = $this->business->withTrashed()->with('topPhoto')->where('user_id', $user_a->id)->latest()->paginate(3);
         return view('businessusers.profiles.businesses')->with('user', $user_a)->with('all_businesses', $all_businesses);
     }
 

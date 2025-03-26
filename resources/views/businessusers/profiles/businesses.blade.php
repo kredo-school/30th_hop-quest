@@ -29,9 +29,15 @@
                 <div class="card p-3">
                     <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Image --}}   
-                        <a href="#" class="">
-                            <img src="" class="card-img-top post-image" alt="image">
-                        </a>                      
+                        <div class="business">                         
+                            <div class="photos">
+                                @if($business->topPhoto)
+                                    <img src="{{ $business->topPhoto->image }}" alt="" class="post-image">
+                                @else
+                                    No photo
+                                @endif
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body content">  
                         <div class="row mb-3">
@@ -153,7 +159,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <a href="#" class="btn btn-sm btn-green fw-bold mb-2 w-100">EDIT</a>
+                                    <a href="{{ route('business.edit', $business->id) }}" class="btn btn-sm btn-green fw-bold mb-2 w-100">EDIT</a>
                                 </div>
                                 <div class="col-6">
                                     @if($business->trashed())

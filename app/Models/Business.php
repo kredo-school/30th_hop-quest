@@ -28,6 +28,10 @@ class Business extends Model
         return $this->hasMany(Photo::class);
     }
 
+    public function topPhoto(){
+        return $this->hasOne(Photo::class)->orderBy('priority', 'asc');
+    }
+
     public function businessLikes(){
         return $this->hasMany(BusinessLike::class);
     }
