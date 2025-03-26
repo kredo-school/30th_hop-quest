@@ -323,7 +323,7 @@
 
 
                 <!-- Business/Event photos -->
-                <div class="mb-4 p-4 border rounded bg-light">
+                {{-- <div class="mb-4 p-4 border rounded bg-light">
                     <h4 class="form-label d-inline">Business/Event photos</h4>
                     <div class="row">
                         @for ($i = 1; $i <= 3; $i++)
@@ -346,22 +346,19 @@
                         </div>
                         @endfor
                     </div>
-                </div>
+                </div> --}}
                 <div class="mb-4 p-4 border rounded bg-light">
                     <label for="images" class="form-label">Upload Photos (max 3):</label>
                     <div class="row">
                         <!-- Priority 1 -->
                         @forelse ($business->photos as $photo) 
                         <div class="col-md-4">                       
-                            <label for="images" class="form-label d-block">Priority 1:</label>  
-                                                       
-                                    {{-- @if($photo->image) --}}
-                                        <img src="{{ old('image', $photo->image)}}" alt="Business Photo" class="img-lg">
-                                    {{-- @else --}}
-                                        {{-- <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
-                                    @endif  
-                                   --}}
-                                    
+                            <label for="images" class="form-label d-block">Priority 1:</label>                                                        
+                                @if($photo->image)
+                                    <img src="{{ $photo->image}}" alt="Business Photo" class="img-lg">
+                                @else
+                                    <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
+                                @endif                                     
                             <input type="file" name="images[]" accept="image/*" class="form-control">                                              
                         </div>
                         @empty 
@@ -372,6 +369,23 @@
                         <!-- Priority 3 -->
 
                     </div>
+                    {{-- @for ($i = 1; $i <= 3; $i++)
+                        @php
+                            $targetPhoto = $business->photos->firstWhere('priority', $i);
+                        @endphp
+
+                        <div class="col-md-4">
+                            <label class="form-label d-block">Priority {{ $i }}:</label>
+
+                            @if($targetPhoto && $targetPhoto->image)
+                                <img src="{{ $targetPhoto->image }}" alt="Photo {{ $i }}" class="img-lg">
+                            @else
+                                <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
+                            @endif
+
+                            <input type="file" name="images[]" accept="image/*" class="form-control">
+                        </div>
+                    @endfor --}}
                 </div>
 
                 <!-- Term for display to public this location/event -->

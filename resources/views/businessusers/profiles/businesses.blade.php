@@ -13,11 +13,35 @@
 <div class="mb-5 row justify-content-center bg-blue">
 {{-- Management business --}}
     <div class="col-8 mb-3 ">
+    {{-- Tabs for categories --}}
+        <div class="row tag-category">
+            <div class="col-auto">
+                <a href="{{ route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark" data-category="business">
+                    <h3 class="poppins-semibold {{ request()->is('business/profile/businesses*') ? 'active' : '' }}">
+                        Management Business
+                    </h3>
+                </a>
+            </div>
+            <div class="col-auto ms-5">
+                <a href="{{ route('profile.promotions', $user->id) }}" class="text-decoration-none text-dark" data-category="promotions">
+                    <h3 class="poppins-semibold {{ request()->is('business/profile/promotions*') ? 'active' : '' }}">
+                        Promotions
+                    </h3>
+                </a>
+            </div>
+            <div class="col-auto ms-5">
+                <a href="{{ route('profile.modelquests', $user->id) }}" class="text-decoration-none text-dark" data-category="quest">
+                    <h3 class="poppins-semibold {{ request()->is('business/profile/modelquests*') ? 'active' : '' }}">
+                        Model Quests
+                    </h3>
+                </a>
+            </div>
+        </div> 
         <hr>
         <div class="row">
             @if($user->id == Auth::user()->id)
             <div class="col-2 ms-auto mb-2 ">
-                <a href="#" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                <a href="{{ route('business.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
             @endif
         </div>

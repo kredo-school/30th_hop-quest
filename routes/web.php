@@ -59,9 +59,9 @@ Route::group(['prefix' => '/business/business', 'as' => 'business.'], function()
     Route::post('/store', [BusinessController::class, 'store'])->name('store');
     Route::get('/show/{id}', [BusinessController::class, 'show'])->name('show');
     Route::resource('businesses', BusinessController::class);
-    Route::post('photos/store/{business}', [PhotoController::class, 'store'])->name('photos.store');
-    Route::get('photos/edit/{business}', [PhotoController::class, 'edit'])->name('photos.edit');
-    Route::patch('photos/update/{business}', [PhotoController::class, 'update'])->name('photos.update');
+    Route::post('photos/store/{business_id}', [PhotoController::class, 'store'])->name('photos.store');
+    Route::get('photos/edit/{business_id}', [PhotoController::class, 'edit'])->name('photos.edit');
+    Route::patch('photos/update/{business_id}', [PhotoController::class, 'update'])->name('photos.update');
     Route::delete('/{id}/deactivate', [BusinessController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [BusinessController::class, 'activate'])->name('activate');
     //LIKES

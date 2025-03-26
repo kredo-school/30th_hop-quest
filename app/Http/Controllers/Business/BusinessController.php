@@ -70,7 +70,7 @@ class BusinessController extends Controller
 
         // PhotoController の store を呼び出して写真を保存
         if ($request->hasFile('images')) {
-            app(PhotoController::class)->update($request, $business_a);
+            app(PhotoController::class)->store($request, $business_a);
             }
         
 

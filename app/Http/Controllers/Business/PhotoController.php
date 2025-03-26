@@ -41,15 +41,50 @@ class PhotoController extends Controller
     }
     }
 
-    public function update(Request $request, Business $business)
-    {
-        $request->validate([
-            'images'   => 'required|array|max:3', 
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
-        ]);
-    $photos = $request->file('images');
+//     public function update(Request $request, Business $business){
+//     $request->validate([
+//         'images'   => 'nullable|array|max:3',
+//         'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+//     ]);
 
-    if (!$photos) return; // 写真がない場合は何もしない
+//     $photos = $request->file('images');
+
+//     for ($i = 0; $i < 3; $i++) {
+//         $uploaded = $photos[$i] ?? null;
+
+//         // 既存の Photo を priority で取得
+//         $existingPhoto = Photo::where('business_id', $business->id)
+//                               ->where('priority', $i + 1)
+//                               ->first();
+
+//         if ($uploaded) {
+//             $encoded = "data:photo/" . $uploaded->extension() . ";base64," . base64_encode(file_get_contents($uploaded));
+
+//             if ($existingPhoto) {
+//                 // 上書き保存
+//                 $existingPhoto->image = $encoded;
+//                 $existingPhoto->save();
+//             } else {
+//                 // 新しく作成
+//                 Photo::create([
+//                     'business_id' => $business->id,
+//                     'image' => $encoded,
+//                     'priority' => $i + 1,
+//                 ]);
+//             }
+//         }
+//         // 画像が未アップロードなら何もしない（既存画像を保持）
+//     }
+// }
+
+    public function update(Request $request, Business $business)
+{
+    $request->validate([
+        'images'   => 'nullable|array|max:3',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $photos = $request->file('images'); // images[0], images[1], images[2] が priority 1〜3 に対応
 
     for ($i = 0; $i < 3; $i++) {
         $uploaded = $photos[$i] ?? null;
@@ -79,5 +114,5 @@ class PhotoController extends Controller
     }
 
     return back()->with('success', '写真を更新しました。');
-    }
+}
 }

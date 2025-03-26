@@ -125,33 +125,6 @@
             </div>           
         </div>
     </div>
-
-    {{-- Tabs for categories --}}
-    <div class="col-8">
-        <div class="row tag-category">
-            <div class="col-auto">
-                <a href="{{ route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark" data-category="business">
-                    <h3 class="poppins-semibold {{ request()->is('business/profile/businesses*') ? 'active' : '' }}">
-                        Management Business
-                    </h3>
-                </a>
-            </div>
-            <div class="col-auto ms-5">
-                <a href="{{ route('profile.promotions', $user->id) }}" class="text-decoration-none text-dark" data-category="promotions">
-                    <h3 class="poppins-semibold {{ request()->is('business/profile/promotions*') ? 'active' : '' }}">
-                        Promotions
-                    </h3>
-                </a>
-            </div>
-            <div class="col-auto ms-5">
-                <a href="{{ route('profile.modelquests', $user->id) }}" class="text-decoration-none text-dark" data-category="quest">
-                    <h3 class="poppins-semibold {{ request()->is('business/profile/modelquests*') ? 'active' : '' }}">
-                        Model Quests
-                    </h3>
-                </a>
-            </div>
-        </div> 
-    </div>   
 </div>
 
 
