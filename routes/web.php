@@ -62,3 +62,17 @@ Route::get('/register/business', [App\Http\Controllers\Auth\RegisterController::
 
 // login business
 // Route::get('/login/business', [App\Http\Controllers\Auth\LoginController::class, 'show'])->name('login.business');
+
+Route::get('/businesses/{id}', [App\Http\Controllers\HomeController::class, 'viewBusiness'])->name('view.business');
+
+//QUESTS
+Route::group(['prefix' => '/quests', 'as' => 'quest.'], function(){
+    //Add
+    Route::get('/add-quest', [App\Http\Controllers\QuestController::class, 'showAddQuest'])->name('add');
+    Route::post('/add-quest/store', [QuestController::class, 'storeQuest'])->name('store');
+
+    //Confirm
+    Route::get('/confirm-quest/{id}', [App\Http\Controllers\QuestController::class, 'showConfirmQuest'])->name('confirm');
+    //View
+    Route::get('/{id}', [App\Http\Controllers\QuestController::class, 'showViewQuest'])->name('show');
+});

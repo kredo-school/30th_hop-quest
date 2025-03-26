@@ -7,12 +7,13 @@
 @section('title', 'Add Quest')
 
 @section('content')
+
 <div class="bg-green">
     <div class="container py-5 col-9">
         <h3 class="color-navy poppins-semibold text-center">Create Your Quest</h3>
     
         <section id="form1">
-            <form action="" method="" enctype="multipart/form-data" class="bg-white rounded-4 p-5 my-3">
+            <form action="{{ route('quest.store') }}" method="post" enctype="multipart/form-data" class="bg-white rounded-4 p-5 my-3">
                 @csrf
                     <div class="row pb-3">
                         <label for="title" class="form-label">Quest Title</label>
@@ -96,7 +97,7 @@
                 <div class="row">
 
                     <div class="col-lg-5">
-                        <form action="" method="get">
+                        <form action=" " method="get">
                             @csrf
                             <input type="text" name="search" id="spot-name" value="" placeholder="Tokyo Tower" class="input-box form-control ms-auto w-100">
                         </form>
@@ -104,7 +105,7 @@
                     <div class="col-lg-2">
                         <p class="m-0 fs-4 text-center fw-bold">or</p>
                     </div>
-
+{{-- for responsive use --}}
                     <div class="col-lg-5">
                         <p class="m-0 p-0 xsmall d-lg-none">No spot on HopQuest? Tell us your fav spot!</p>
                         <a href="" class="btn btn-blue w-100 px-0"><i class="fa-solid fa-plus icon-xs d-inline"></i>ADD SPOT</a>
