@@ -34,7 +34,7 @@ class PromotionController extends Controller
             'title' => 'required',
             'business_id' => 'required',
             'introduction' => 'required|max:2000',
-            'photo' => 'required|max:1048|mimes:jpeg,jpg,png,gif'
+            'image' => 'required|max:1048|mimes:jpeg,jpg,png,gif'
         ]);
 
         $this->promotion->title = $request->title;
@@ -45,7 +45,7 @@ class PromotionController extends Controller
         $this->promotion->display_end = $request->display_end;
         $this->promotion->business_id = $request->business_id;
         $this->promotion->user_id = Auth::user()->id;
-        $this->promotion->photo = "data:photo/".$request->photo->extension().";base64,".base64_encode (file_get_contents($request->photo)); 
+        $this->promotion->image = "data:photo/".$request->image->extension().";base64,".base64_encode (file_get_contents($request->image)); 
 
         $this->promotion->save();
 
@@ -65,7 +65,7 @@ class PromotionController extends Controller
             'title' => 'required',
             'business_id' => 'required',
             'introduction' => 'required|max:2000',
-            'photo' => 'max:1048|mimes:jpeg,jpg,png,gif'
+            'image' => 'max:1048|mimes:jpeg,jpg,png,gif'
         ]);
 
         $all_promotions = $this->promotion->where('user_id', Auth::user()->id)->latest()->get();
@@ -81,8 +81,8 @@ class PromotionController extends Controller
         $promotion_a->business_id = $request->business_id;
         $promotion_a->user_id = Auth::user()->id;
 
-        if($request->photo){
-            $promotion_a->photo = "data:photo/".$request->photo->extension().";base64,".base64_encode(file_get_contents($request->photo));
+        if($request->image){
+            $promotion_a->image = "data:photo/".$request->image->extension().";base64,".base64_encode(file_get_contents($request->image));
         }
         $promotion_a->save();
 
