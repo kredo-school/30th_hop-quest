@@ -7,6 +7,7 @@ use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\QuestController;
 
 Route::get('/', function () {
     return view('welcome');

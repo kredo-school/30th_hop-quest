@@ -49,13 +49,13 @@
                         </select>
                     </div> --}}
                     <div class="row pb-3">
-                        <label for="intro" class="form-label">Introduction</label>
-                        <input type="text" name="intro" id="intro" class="input-box" placeholder="3 days trip with my family!">
+                        <label for="introduction" class="form-label">Introduction</label>
+                        <input type="text" name="introduction" id="introduction" class="input-box" placeholder="3 days trip with my family!">
                     </div>
                     <div class="row pb-3">
                         <label for="h_photo" class="form-label">Header photo</label>
                         <div class="col-9 ps-0">
-                            <input type="file" name="h-photo" id="h_photo" class="custom-file-input form-control">
+                            <input type="file" name="h_photo" id="h_photo" class="custom-file-input form-control">
                         </div>
                         <div class="col-3 ms-auto pe-0">
                             <label for="h_photo" class="btn btn-green custom-file-label w-100"><i class="fa-solid fa-plus icon-xs d-inline"></i>Photo</label>

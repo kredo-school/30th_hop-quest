@@ -37,9 +37,27 @@ class QuestController extends Controller
         $this->quest->start_date = $request->start_date;
         $this->quest->end_date = $request->end_date;
         $this->quest->duration = $request->duration;
-        $this->quest->introduction = $request->intro;
-        $this->quest->h_photo = "data:image/".$request->h_photo->extension().";base64,".base64_encode(file_get_contents($request->h_photo));
+        $this->quest->introduction = $request->introduction;
+
+        if ($request->hasFile('h_photo')) {
+            $file = $request->file('h_photo');
+            $fileContents = file_get_contents($file->getRealPath());
+        
+            if (!$fileContents) {
+                dd("Error: Could not read file contents"); // デバッグ
+            }
+        
+            $this->quest->main_photo = "data:image/".$file->extension().";base64,".base64_encode($fileContents);
+        } else {
+            dd("Error: No file uploaded"); // デバッグ
+        }
+        
+
+        $this->quest->main_photo = "data:image/".$request->h_photo->extension().";base64,".base64_encode(file_get_contents($request->h_photo));
+        $this->quest->is_public = $request->is_public ?? "no";
+        
         $this->quest->save();
+        dd($quest->all()); // 保存後のデータを確認
 
         return redirect()->route('quest.add', ['user_id' => Auth::id()]);
     }
