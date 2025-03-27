@@ -93,10 +93,6 @@
                 </div>
 
                 <div class="row">
-
-                </div>
-
-                <div class="row">
                     <div class="col mb-3">
                         <label for="address_1" class="form-label">Address 1<span style="color: #D24848;">*</span></label>
                         <input type="text" name="address_1" id="address_1" class="form-control" >
