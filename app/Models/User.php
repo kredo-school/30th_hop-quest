@@ -92,7 +92,15 @@ class User extends Authenticatable
     }
 
     public function quests(){
-        return $this->hasMany(Quest::class)->latest();
+        return $this->hasMany(Quest::class)->withTrashed()->latest();
+    }
+
+    public function questsVisible(){
+        return $this->hasMany(Promotion::class)->latest();
+    }
+
+    public function questLikes(){
+        return $this->hasMany(QuestLike::class);
     }
 
 }

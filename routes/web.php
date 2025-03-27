@@ -10,6 +10,7 @@ use App\Http\Controllers\FollowController;
 use App\Http\Controllers\Business\PhotoController;
 use App\Http\Controllers\Business\BusinessLikeController;
 use App\Http\Controllers\Business\QuestController;
+use App\Http\Controllers\Business\QuestLikeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -76,6 +77,10 @@ Route::group(['prefix' => '/business/modelquest', 'as' => 'modelquest.'], functi
     Route::get('/{id}/edit', [QuestController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [QuestController::class, 'update'])->name('update');
     Route::post('/store', [QuestController::class, 'store'])->name('store');
+    Route::post('/like/{quest_id}/store', [QuestLikeController::class, 'storeLike'])->name('like.store');
+    Route::delete('/like/{quest_id}/delete', [QuestLikeController::class, 'deleteLike'])->name('like.delete');
+    Route::delete('/{id}/deactivate', [QuestController::class, 'deactivate'])->name('deactivate');
+    Route::patch('/{id}/activate', [QuestController::class, 'activate'])->name('activate');
 });
 
 // Post

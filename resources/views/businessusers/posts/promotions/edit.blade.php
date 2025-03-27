@@ -77,7 +77,7 @@
             <div class="row mb-3">
                 <div class="col">
                     <label for="introduction" class="form-label">Introduction<span class="color-red">*</span></label>
-                    <textarea name="introduction" id="introduction" rows="5" class="form-control">{{old('introduction', $promotion->introduction)}}</textarea>
+                    <textarea name="introduction" id="introduction" rows="5" class="form-control" aria-valuemax="{{old('introduction', $promotion->introduction)}}"></textarea>
                     @error('introduction')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror

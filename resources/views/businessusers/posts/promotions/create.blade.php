@@ -30,7 +30,7 @@
                 </div>
             </div>
             {{-- Retalted business --}}
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col">
                     <label for="business_id" class="form-label fw-bold">Related Business<span class="color-red">*</span></label>
                         <select name="business_id" id="business_id" class="form-control">

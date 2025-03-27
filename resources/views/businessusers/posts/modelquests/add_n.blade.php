@@ -1,6 +1,6 @@
 @extends('layouts.app')
     
-@section('title', 'Add A Business - Location or Event')
+@section('title', 'Create Model Quest')
     
 @section('content')
 <div class="bg-blue">
@@ -68,7 +68,7 @@
                         <div class="col-2"></div>
                         <div class="col-4 ">
                             <a href="{{route('profile.modelquests', Auth::user()->id)}}">
-                                <button class="btn btn-red w-100 ">CANCEL</button>
+                                <div class="btn btn-red w-100 ">CANCEL</div>
                             </a>
                         </div>
                     </div>

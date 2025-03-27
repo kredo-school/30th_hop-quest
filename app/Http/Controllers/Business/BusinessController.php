@@ -37,6 +37,9 @@ class BusinessController extends Controller
         $this->business->user_id = Auth::user()->id;
         $this->business->name = $request->name;
         $this->business->email = $request->email;
+        $this->business->term_start = $request->term_start;
+        $this->business->term_end = $request->term_end;
+        $this->business->introduction = $request->introduction;
         $this->business->official_certification = 1;
         $this->business->save();
 
@@ -71,6 +74,9 @@ class BusinessController extends Controller
         $business_a->user_id = Auth::user()->id;
         $business_a->name = $request->name;
         $business_a->email = $request->email;
+        $business_a->term_start = $request->term_start;
+        $business_a->term_end = $request->term_end;
+        $business_a->introduction = $request->introduction;
         $business_a->official_certification = 1;
         $business_a->save();
 
