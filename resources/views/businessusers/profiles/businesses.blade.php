@@ -10,7 +10,7 @@
 @section('content')
     @include('businessusers.profiles.header')
 
-<div class="mb-5 row justify-content-center bg-blue">
+<div class="row justify-content-center bg-blue">
 {{-- Management business --}}
     <div class="col-8 mb-3 ">
     {{-- Tabs for categories --}}
@@ -53,15 +53,15 @@
                 <div class="card p-3">
                     <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Image --}}   
-                        <div class="business">                         
-                            <div class="photos">
+                        {{-- <div class="business">                         
+                            <div class="photos"> --}}
                                 @if($business->topPhoto)
                                     <img src="{{ $business->topPhoto->image }}" alt="" class="post-image">
                                 @else
                                     No photo
                                 @endif
-                            </div>
-                        </div>
+                            {{-- </div>
+                        </div> --}}
                     </div>
                     <div class="card-body content">  
                         <div class="row mb-3">
@@ -209,7 +209,7 @@
             <h4 class="h4 text-center text-secondary">No posts yet</h4>
             @endforelse 
         </div>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end mb-5">
             {{ $all_businesses->links() }}
         </div>
     </div>

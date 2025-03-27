@@ -10,7 +10,7 @@
 @section('content')
     @include('businessusers.profiles.header')
 
-<div class="mb-5 row justify-content-center bg-blue">
+<div class="row justify-content-center bg-blue">
     {{-- Promotions --}}
     <div class="col-8 mb-5">
             {{-- Tabs for categories --}}
@@ -53,7 +53,7 @@
                     <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Image --}}                         
                         <a href="{{ route('promotion.show', $promotion->id)}}" class="">
-                            <img src="{{ $promotion->photo }}" class="card-img-top post-image" alt="image">
+                            <img src="{{ $promotion->photo }}" class="post-image" alt="image">
                         </a>                       
                     </div>
                     <div class="card-body pt-0">            
@@ -143,7 +143,7 @@
             @endforelse 
             @endif
         </div>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end mb-5">
         {{ $all_promotions->links() }}
         </div>
     </div>

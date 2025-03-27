@@ -30,7 +30,7 @@ class BusinessController extends Controller
 
     public function store(Request $request){
         $request->validate([
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
         $this->business->category_id = $request->category_id;
@@ -41,22 +41,28 @@ class BusinessController extends Controller
         $this->business->save();
 
         // PhotoController の store を呼び出して写真を保存
-        if ($request->hasFile('images')) {
-            app(PhotoController::class)->store($request, $this->business);
-            }
-        
-
-        return redirect()->route('profile.businesses',Auth::user()->id)->with('success', 'Business created successfully!');
+        if ($request->hasFile('image')) {
+            $uploaded = $request->file('image');
+            $encoded = "data:photo/" . $uploaded->extension() . ";base64," . base64_encode(file_get_contents($uploaded));
+    
+            Photo::create([
+                'business_id' => $this->business->id,
+                'image' => $encoded,
+                'priority' => 1,
+            ]);
+        }
+    
+        return redirect()->route('profile.businesses', Auth::id());
     }
 
     public function edit($id){
         $business_a = $this->business->findOrFail($id);
-        return view('businessusers.posts.businesses.edit')->with('business', $business_a);
+        return view('businessusers.posts.businesses.edit_n')->with('business', $business_a);
     }
 
     public function update(Request $request, $id){
         $request->validate([
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
         $business_a = $this->business->findOrFail($id);
@@ -68,9 +74,14 @@ class BusinessController extends Controller
         $business_a->official_certification = 1;
         $business_a->save();
 
-        // PhotoController の store を呼び出して写真を保存
-        if ($request->hasFile('images')) {
-            app(PhotoController::class)->store($request, $business_a);
+        if ($request->hasFile('image')) {
+            // PhotoController をインスタンス化
+            $photoController = app(\App\Http\Controllers\Business\PhotoController::class);
+
+            // 呼び出して結果を受け取る
+            $response = $photoController->update($request, $business_a);
+
+           
             }
         
 

@@ -82,25 +82,14 @@
                 </div> --}}
 
                 {{-- images --}}
-                <label for="images" class="form-label">Upload Photos (max 3):</label>
+                <label for="image" class="form-label">Upload Photos</label>
                 <div class="row">
                     <!-- Priority 1 -->
                     <div class="col-md-4">
-                        <label for="images">Priority 1:</label>
-                        <input type="file" name="images[]" accept="image/*" class="form-control">
+                        <label for="image"></label>
+                        <input type="file" name="image" id="image" class="form-control">
                     </div>
-                    
-                    <!-- Priority 2 -->
-                    <div class="col-md-4">
-                        <label for="images">Priority 2:</label>
-                        <input type="file" name="images[]" accept="image/*" class="form-control">
-                    </div>
-                    
-                    <!-- Priority 3 -->
-                    <div class="col-md-4">
-                        <label for="images">Priority 3:</label>
-                        <input type="file" name="images[]" accept="image/*" class="form-control">
-                    </div>
+                
                 </div>
                 
             <!-- Submission Buttons -->

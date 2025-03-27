@@ -19,27 +19,45 @@ class PhotoController extends Controller
         $this->business = $business;
     }
 
-    public function store(Request $request, Business $business)
-    {
+    public function store(Request $request, Business $business){
         $request->validate([
-            'images'   => 'required|array|max:3', 
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    $photos = $request->file('images');
 
-    if (!$photos) return; // 写真がない場合は何もしない
+        $photo = $request->file('image');
 
-    foreach ($photos as $index => $photo) {
-        if ($photo){ // 最大3枚まで
+        $encoded = "data:photo/" . $photo->extension() . ";base64," . base64_encode(file_get_contents($photo));
 
-            $newPhoto = new Photo();
-            $newPhoto->image = "data:photo/" . $photo->extension() . ";base64," . base64_encode(file_get_contents($photo));
-            $newPhoto->business_id = $business->id;
-            $newPhoto->priority = $index + 1;
-            $newPhoto->save();
+        $business->photos()->create([
+            'image' => $encoded,
+            'priority' => 1,
+        ]);
+        return redirect()->back();
+    }
+    
+    public function update(Request $request, Business $business){
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $uploaded = $request->file('image');
+        $encoded = "data:image/" . $uploaded->extension() . ";base64," . base64_encode(file_get_contents($uploaded));
+
+        $photo = $business->photos()->where('priority', 1)->first();
+
+        if ($photo) {
+            $photo->update([
+                'image' => $encoded,
+            ]);
+        } else {
+            $business->photos()->create([
+                'image' => $encoded,
+                'priority' => 1,
+            ]);
         }
-    }
-    }
+
+        return redirect()->back();
+}
 
 //     public function update(Request $request, Business $business){
 //     $request->validate([
@@ -77,42 +95,35 @@ class PhotoController extends Controller
 //     }
 // }
 
-    public function update(Request $request, Business $business)
-{
-    $request->validate([
-        'images'   => 'nullable|array|max:3',
-        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    // public function update(Request $request, Business $business){
+    //     $request->validate([
+    //         'images'   => 'nullable|array|max:3',
+    //         'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    //     ]);
 
-    $photos = $request->file('images'); // images[0], images[1], images[2] が priority 1〜3 に対応
+    //     $photos = $request->file('images'); // images[0], images[1], images[2] が priority 1〜3 に対応
+    //     for ($i = 0; $i < 3; $i++) {
+    //         $uploaded = $photos[$i] ?? null;
 
-    for ($i = 0; $i < 3; $i++) {
-        $uploaded = $photos[$i] ?? null;
+    //         // 既存の priority=$i+1 のPhotoを取得
+    //         $existingPhoto = Photo::where('business_id', $business->id)
+    //                             ->where('priority', $i + 1)
+    //                             ->first();
 
-        // 既存の priority=$i+1 のPhotoを取得
-        $existingPhoto = Photo::where('business_id', $business->id)
-                              ->where('priority', $i + 1)
-                              ->first();
+    //         if ($uploaded) {
+    //             // 新しい画像がアップロードされていれば、上書き
+    //             $encoded = "data:photo/" . $uploaded->extension() . ";base64," . base64_encode(file_get_contents($uploaded));
 
-        if ($uploaded) {
-            // 新しい画像がアップロードされていれば、上書き
-            $encoded = "data:photo/" . $uploaded->extension() . ";base64," . base64_encode(file_get_contents($uploaded));
-
-            if ($existingPhoto) {
-                $existingPhoto->image = $encoded;
-                $existingPhoto->save(); // 上書き保存
-            } else {
-                // なければ新規作成
-                Photo::create([
-                    'business_id' => $business->id,
-                    'image' => $encoded,
-                    'priority' => $i + 1
-                ]);
-            }
-        }
-        // 何もアップロードされてなければ何もしない（保持）
-    }
-
-    return back()->with('success', '写真を更新しました。');
-}
+    //             Photo::updateOrCreate(
+    //                 [
+    //                     'business_id' => $business->id,
+    //                     'priority' => $i + 1
+    //                 ],
+    //                 [
+    //                     'image' => $encoded
+    //                 ]
+    //             );
+    //         }
+    //     }
+    // }
 }

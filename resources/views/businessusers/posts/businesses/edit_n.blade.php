@@ -20,7 +20,7 @@
                 </div>
                 @include('businessusers.posts.businesses.modals.delete')
 
-        <form action="{{ route('business.update', Auth::user()->id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('business.update', $business, Auth::user()->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
                 
@@ -31,9 +31,11 @@
                     <select class="form-control w-25" id="business-type" name="category_id">
                         <option value="{{ old('category_id', $business->category_id) }}" selected>
                             @if($business->category_id == 1)
-                                Location
+                                Location</option>
+                                <option value="2">Event
                             @elseif($business->category_id == 2)
-                                Event
+                                Event</option>
+                                <option value="1">Location
                             @endif
                         </option>
                         {{-- <option value="2">Event</option> --}}
@@ -348,21 +350,22 @@
                     </div>
                 </div> --}}
                 <div class="mb-4 p-4 border rounded bg-light">
-                    <label for="images" class="form-label">Upload Photos (max 3):</label>
+                    <label for="images" class="form-label">Upload Photo</label>
                     <div class="row">
                         <!-- Priority 1 -->
-                        @forelse ($business->photos as $photo) 
-                        <div class="col-md-4">                       
-                            <label for="images" class="form-label d-block">Priority 1:</label>                                                        
-                                @if($photo->image)
-                                    <img src="{{ $photo->image}}" alt="Business Photo" class="img-lg">
-                                @else
-                                    <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
-                                @endif                                     
-                            <input type="file" name="images[]" accept="image/*" class="form-control">                                              
+                       
+
+                        <div class="col-md-4">  
+                            @if($business->topPhoto)                   
+                                <label for="image" class="form-label d-block"> </label>                                                        
+                                <img src="{{ $business->topPhoto->image }}" alt="Business Photo" class="img-lg">  
+                                <input type="file" name="image" id="image" class="form-control">  
+                            @else
+                                <label for="image" class="form-label d-block"> </label>
+                                <input type="file" name="image" id="image" class="form-control"> 
+                            @endif    
                         </div>
-                        @empty 
-                        @endforelse  
+
                         <!-- Priority 2 -->
 
                         
