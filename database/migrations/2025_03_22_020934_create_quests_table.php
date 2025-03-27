@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('start_date');
             $table->text('end_date');
             $table->text('duration');
-            $table->text('main_photo');
+            $table->text('main_image');
             $table->text('is_public');
             $table->timestamps();
             $table->softDeletes();
