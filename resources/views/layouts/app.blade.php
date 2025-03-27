@@ -27,14 +27,14 @@
     @yield('css')
 
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/home/jquery-3.6.0.min.js"></script>
 
     <!-- CSS of slick -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <link rel="stylesheet" href="{{ asset('css/slick/slick.css')}}" />
+    <link rel="stylesheet" href="{{ asset('css/slick/slick-theme.css')}}" />
 
     <!-- JS of slick -->
-    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="js/home/slick.min.js"></script>
     
 </head>
 <body>
