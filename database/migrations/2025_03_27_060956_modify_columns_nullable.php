@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('spot_id')->nullable()->change();
             $table->unsignedBigInteger('business_id')->nullable()->change();
             $table->string('business_title', 255)->change();
-            $table->tinyInteger('is_agenda')->default(0)->change();
+            $table->boolean('is_agenda')->default(true)->change();
         });
     }
 

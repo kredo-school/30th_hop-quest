@@ -10,7 +10,7 @@ return new class extends Migration {
             $table->date('start_date')->nullable()->change();
             $table->date('end_date')->nullable()->change();
             $table->integer('duration')->nullable()->change();
-            $table->tinyInteger('is_public')->default(0)->change();
+            $table->boolean('is_public')->default(false)->change();
             $table->string('title', 255)->change();
             $table->string('introduction', 255)->change();
         });
