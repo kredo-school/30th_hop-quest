@@ -13,7 +13,7 @@
         <h3 class="color-navy poppins-semibold text-center">Create Your Quest</h3>
     
         <section id="form1">
-            <form action="{{ route('quest.store') }}" method="post" enctype="multipart/form-data" class="bg-white rounded-4 p-5 my-3">
+            <form action="{{ route('quest.store') }}" method="post" enctype="multipart/form-data" id="form1" class="bg-white rounded-4 p-5 my-3">
                 @csrf
                     <div class="row pb-3">
                         <label for="title" class="form-label">Quest Title</label>
@@ -53,7 +53,7 @@
                         <input type="text" name="introduction" id="introduction" class="input-box" placeholder="3 days trip with my family!">
                     </div>
                     <div class="row pb-3">
-                        <label for="h_photo" class="form-label">Header photo</label>
+                        <label for="main_photo" class="form-label">Header photo</label>
                         <div class="col-9 ps-0">
                             <input type="file" name="main_photo" id="main_photo" class="custom-file-input form-control">
                         </div>
@@ -72,7 +72,7 @@
         </section>   
 
         <section id="form2" class="d-none">
-            <form action="" method="" enctype="multipart/form-data" class="bg-white rounded-5 px-5 py-3 my-5">
+            <form action="{{ route('quest.storebody')}}" method="post" enctype="multipart/form-data" id="form2" class="bg-white rounded-5 px-5 py-3 my-5">
                 @csrf
                 <div class="row p-2">
                     <label for="day_select" class="form-label">Choose the day</label>

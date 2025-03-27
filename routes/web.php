@@ -67,8 +67,9 @@ Route::get('/register/business', [App\Http\Controllers\Auth\RegisterController::
 Route::get('/businesses/{id}', [App\Http\Controllers\HomeController::class, 'viewBusiness'])->name('view.business');
 
 //QUESTS
-Route::get('quest/add-quest', [App\Http\Controllers\QuestController::class, 'showAddQuest'])->name('quest.hadd');
+Route::get('quest/add-quest', [App\Http\Controllers\QuestController::class, 'showAddQuest'])->name('quest.add');
 Route::post('quest/add-quest/store', [QuestController::class, 'storeQuest'])->name('quest.store');
+Route::post('quest/add-quest/store', [QuestController::class, 'storeQuestBody'])->name('quest.storebody');
 
 //Confirm
 Route::get('quest/confirm-quest/{id}', [App\Http\Controllers\QuestController::class, 'showConfirmQuest'])->name('confirm');

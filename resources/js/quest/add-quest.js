@@ -92,6 +92,7 @@ function updateUploadedFileNames() {
 
     // `form2` が表示されたらリスナーを適用
     document.getElementById("submit1").addEventListener("click", function () {
+        alert('clicked');
         setTimeout(() => {
             if (!form2.classList.contains("d-none")) {
                 initializeForm2Listeners();
@@ -136,7 +137,7 @@ function updateUploadedFileNames() {
 
 
 // ======================================FORM1=============================================================d
-document.getElementById("submit1").addEventListener("click", function(event) {
+document.getElementById("submit1").addEventListener("click",async function(event) {
     event.preventDefault(); // フォーム送信を防ぐ
 
     console.log("Createボタンがクリックされました！");
@@ -225,10 +226,31 @@ document.getElementById("submit1").addEventListener("click", function(event) {
         reader.readAsDataURL(file);
     }
         
- // `form2` も表示
+// `form2` も表示
     document.getElementById("form2").classList.remove("d-none");
     document.getElementById("header").classList.remove("d-none");
     console.log("form2 の d-none を削除しました！");
+
+    let form = document.getElementById('form1'); 
+    let formData = new FormData(form);
+    try {
+        let response = await fetch('/quest/add-quest/store', { // Replace with your Laravel route
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure CSRF token is included
+            }
+        });
+        let result = await response.json();
+        if (response.ok) {
+            document.getElementById('responseMessage').innerHTML = "<p style='color: green;'>Success! Data saved.</p>";
+        } else {
+            let errors = Object.values(result).map(error => `<p style='color: red;'>${error}</p>`).join("");
+            document.getElementById('responseMessage').innerHTML = errors;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
 });
 
 
