@@ -11,6 +11,11 @@ class Quest extends Model
     protected $table = 'quests'; // テーブル名を指定
     use SoftDeletes;
 
+    protected $fillable = [
+        'title', 'user_id', 'start_date', 'end_date', 'duration',
+        'introduction', 'main_photo', 'is_public'
+    ];
+    
     //Quest belongs to user
     public function user(){
         return $this->belongsTo(User::class)->withTrashed();

@@ -10,12 +10,13 @@ use App\Models\User;
 
 class QuestController extends Controller
 {
-    private $questbody;
+    // private $questbody;
     private $quest;
-    private $user;
+    // private $user;
 
-    public function __construct(QuestBody $questbody, Quest $quest){
-        $this->questbody = $questbody;
+    public function __construct(Quest $quest){
+        $this->quest = new Quest();
+        // $this->questbody = $questbody;
         $this->quest = $quest;
     }
 
@@ -31,7 +32,6 @@ class QuestController extends Controller
             'is_public' => 'nullable|in:0,1',
         ]);
         
-        $this->quest = new Quest(); // ここを追加！
         $this->quest->title = $request->title;
         $this->quest->user_id = Auth::user()->id;
         $this->quest->start_date = $request->start_date;
@@ -47,17 +47,18 @@ class QuestController extends Controller
                 dd("Error: Could not read file contents"); // デバッグ
             }
         
-            $this->quest->main_photo = "data:image/".$file->extension().";base64,".base64_encode($fileContents);
-        } else {
-            dd("Error: No file uploaded"); // デバッグ
+            $this->quest->main_photo = "data:image/" . $file->extension() . ";base64," . base64_encode($fileContents);
         }
         
-
-        $this->quest->main_photo = "data:image/".$request->h_photo->extension().";base64,".base64_encode(file_get_contents($request->h_photo));
-        $this->quest->is_public = $request->is_public ?? "no";
+        $this->quest->is_public = $request->is_public ?? "0";
         
         $this->quest->save();
-        dd($quest->all()); // 保存後のデータを確認
+
+// 保存後のデータを確認するなら、ログを出力する
+\Log::info('Quest saved:', $this->quest->toArray());
+
+return redirect()->route('quest.add', ['user_id' => Auth::id()]);
+
 
         return redirect()->route('quest.add', ['user_id' => Auth::id()]);
     }
