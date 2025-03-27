@@ -10,16 +10,18 @@ return new class extends Migration {
         Schema::table('quests_bodys', function (Blueprint $table) {
             $table->unsignedBigInteger('spot_id')->nullable()->change();
             $table->unsignedBigInteger('business_id')->nullable()->change();
-            $table->text('business_title')->nullable()->change();
+            $table->string('business_title', 255)->change();
+            $table->tinyInteger('is_agenda')->default(0)->change();
         });
     }
 
     public function down()
     {
         Schema::table('quests_bodys', function (Blueprint $table) {
-            $table->unsignedBigInteger('spot_id')->nullable(false)->change();
-            $table->unsignedBigInteger('business_id')->nullable(false)->change();
-            $table->text('business_title')->nullable(false)->change();
+            $table->unsignedBigInteger('spot_id')->change();
+            $table->unsignedBigInteger('business_id')->change();
+            $table->text('business_title')->change();
+            $table->integer('is_agenda')->change();
         });
     }
 };

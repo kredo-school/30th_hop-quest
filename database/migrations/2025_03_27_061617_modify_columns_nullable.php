@@ -5,23 +5,25 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up()
-    {
+    public function up() {
         Schema::table('quests', function (Blueprint $table) {
-            $table->text('start_date')->nullable()->change();;
-            $table->text('end_date')->nullable()->change();;
-            $table->text('duration')->nullable()->change();;
-
+            $table->date('start_date')->nullable()->change();
+            $table->date('end_date')->nullable()->change();
+            $table->integer('duration')->nullable()->change();
+            $table->tinyInteger('is_public')->default(0)->change();
+            $table->string('title', 255)->change();
+            $table->string('introduction', 255)->change();
         });
     }
 
-    public function down()
-    {
+    public function down() {
         Schema::table('quests', function (Blueprint $table) {
-            $table->text('start_date')->nullable(false)->change();;
-            $table->text('end_date')->nullable(false)->change();;
-            $table->text('duration')->nullable(false)->change();;
+            $table->text('start_date')->nullable()->change();
+            $table->text('end_date')->nullable()->change();
+            $table->text('duration')->nullable()->change();
+            $table->text('is_public')->change();
+            $table->text('title')->change();
+            $table->text('introduction')->change();
         });
     }
 };
-
