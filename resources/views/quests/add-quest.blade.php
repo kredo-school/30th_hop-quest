@@ -55,10 +55,10 @@
                     <div class="row pb-3">
                         <label for="h_photo" class="form-label">Header photo</label>
                         <div class="col-9 ps-0">
-                            <input type="file" name="h_photo" id="h_photo" class="custom-file-input form-control">
+                            <input type="file" name="main_photo" id="main_photo" class="custom-file-input form-control">
                         </div>
                         <div class="col-3 ms-auto pe-0">
-                            <label for="h_photo" class="btn btn-green custom-file-label w-100"><i class="fa-solid fa-plus icon-xs d-inline"></i>Photo</label>
+                            <label for="main_photo" class="btn btn-green custom-file-label w-100"><i class="fa-solid fa-plus icon-xs d-inline"></i>Photo</label>
                         </div>
                             <p class="mt-0 ps-0 pb-0 xsmall">
                                 Acceptable formats: jpeg, jpg, png, gif only.<br>Max size is 1048 KB

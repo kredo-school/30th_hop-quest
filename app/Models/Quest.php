@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Quest extends Model
 {
     protected $table = 'quests'; // テーブル名を指定
-    use SoftDeletes;
+    
 
     protected $fillable = [
         'title', 'user_id', 'start_date', 'end_date', 'duration',

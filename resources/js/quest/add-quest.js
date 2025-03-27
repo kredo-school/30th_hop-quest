@@ -146,7 +146,7 @@ document.getElementById("submit1").addEventListener("click", function(event) {
     const startDate = document.getElementById("start_date").value;
     const endDate = document.getElementById("end_date").value;
     const intro = document.getElementById("introduction").value;
-    const fileInput = document.getElementById("h_photo");
+    const fileInput = document.getElementById("main_photo");
 
     console.log("fileInput:", fileInput);
 
