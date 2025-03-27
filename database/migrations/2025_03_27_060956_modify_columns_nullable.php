@@ -7,17 +7,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::table('quests_bodys', function (Blueprint $table) {
+        Schema::table('quest_bodys', function (Blueprint $table) {
             $table->unsignedBigInteger('spot_id')->nullable()->change();
             $table->unsignedBigInteger('business_id')->nullable()->change();
             $table->string('business_title', 255)->change();
             $table->boolean('is_agenda')->default(true)->change();
+            $table->unsignedBigInteger('day_number')->after('business_id');
         });
     }
 
     public function down()
     {
-        Schema::table('quests_bodys', function (Blueprint $table) {
+        Schema::table('quest_bodys', function (Blueprint $table) {
             $table->unsignedBigInteger('spot_id')->change();
             $table->unsignedBigInteger('business_id')->change();
             $table->text('business_title')->change();
