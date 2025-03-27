@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('business_id');
             $table->string('title');
-            $table->LongText('photo')->nullable();
+            $table->longText('image')->nullable();  
             $table->text('introduction')->nullable();
             $table->date('promotion_start')->nullable();
             $table->date('promotion_end')->nullable(); 

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('introduction');
             $table->text('business_title');
             $table->integer('is_agenda');
-            $table->text('photo');
+            $table->longText('image');
             $table->timestamps();
             $table->softDeletes();
             
