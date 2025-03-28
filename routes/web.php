@@ -1,13 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\Business\PhotoController;
+use App\Http\Controllers\Business\ReviewController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\PromotionController;
-use App\Http\Controllers\Business\ReviewController;
-use App\Http\Controllers\FollowController;
-use App\Http\Controllers\Business\PhotoController;
 use App\Http\Controllers\Business\BusinessLikeController;
 
 Route::get('/', function () {
@@ -16,7 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 //PROFILES
 Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){

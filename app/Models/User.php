@@ -97,4 +97,8 @@ class User extends Authenticatable
         return $this->hasMany(Quest::class)->latest();
     }
 
+    public function spots(){
+        return $this->hasMany(Spot::class)->latest();
+    }
+
 }
