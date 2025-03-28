@@ -42,9 +42,15 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
             <div class="container">
                 <!-- left: LOGO -->
+                @if(Auth::user()->role_id == 1)
                     <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
                         <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
                     </a>
+                @elseif(Auth::user()->role_id == 2)
+                    <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+                        <img src="{{ asset('images/logo/HopQuest_logo_business.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
+                    </a>
+                @endif
                         
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
