@@ -80,7 +80,7 @@
         <div class="row" id="post-list-all">
             @forelse ($all_posts as $post)
                 <div class="col-4 mb-5">
-                    @include('search-result-body')
+                    @include('home.search-result-body')
                 </div>
             @empty
                 <div class="empty d-flex justify-content-center not-found">
@@ -94,7 +94,7 @@
         <div class="row" id="post-list-spot">
             @forelse ($spots as $post)
                 <div class="col-4 mb-5">
-                    @include('search-result-body')
+                    @include('home.search-result-body')
                 </div>
             @empty
                 <div class="empty d-flex justify-content-center not-found">
@@ -108,7 +108,7 @@
         <div class="row" id="post-list-quest">
             @forelse ($quests as $post)
                 <div class="col-4 mb-5">
-                    @include('search-result-body')
+                    @include('home.search-result-body')
                 </div>
             @empty
                 <div class="empty d-flex justify-content-center not-found">
@@ -122,7 +122,7 @@
         <div class="row" id="post-list-location">
             @forelse ($business_locations as $post)
                 <div class="col-4 mb-5">
-                    @include('search-result-body')
+                    @include('home.search-result-body')
                 </div>
             @empty
                 <div class="empty d-flex justify-content-center not-found">
@@ -136,7 +136,7 @@
         <div class="row" id="post-list-event">
             @forelse ($business_events as $post)
                 <div class="col-4 mb-5">
-                    @include('search-result-body')
+                    @include('home.search-result-body')
                 </div>
             @empty
                 <div class="empty d-flex justify-content-center not-found">
