@@ -1,0 +1,77 @@
+main{
+    overflow-y: hidden;
+    background-color: #FFFBF0;
+}
+
+.wrapper-tag{
+    padding-top: 5rem;
+
+}
+
+.search-word{
+    margin-left: 5rem;
+}
+
+.search-word h1{
+    font-weight: 100;
+}
+
+.search-word strong{
+    font-weight: bold;
+}
+
+
+.tag-category{
+    padding-top: 3rem;
+}
+
+.tag-category h1{
+    font-size: 1.5rem;
+}
+
+.tag-category img{
+    width: 2rem;
+    height: 2rem;
+}
+
+.for-line{
+    width: 70%;
+    background-color: gray;
+    height: 2px;
+
+}
+
+
+
+
+/* wrapper-body */
+
+.wrapper-body{
+    margin-top: 5rem;
+}
+
+
+
+/*********** For JS ***********/
+
+.tab-content{
+    display: none;
+}
+
+.tab-content.active{
+    display: block;
+}
+
+.tag-category a{
+    
+}
+
+.tag-category a.active{
+    color: blue !important;
+    
+}
+
+.not-found{
+    min-height: 100vh;
+}
+

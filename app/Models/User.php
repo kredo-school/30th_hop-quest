@@ -23,6 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phonenumber',
+        'role_id',
     ];
 
     /**
@@ -101,6 +103,10 @@ class User extends Authenticatable
 
     public function questLikes(){
         return $this->hasMany(QuestLike::class);
+    }
+
+    public function spots(){
+        return $this->hasMany(Spot::class)->latest();
     }
 
 }

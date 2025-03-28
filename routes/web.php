@@ -1,13 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\Business\PhotoController;
+use App\Http\Controllers\Business\ReviewController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\PromotionController;
-use App\Http\Controllers\Business\ReviewController;
-use App\Http\Controllers\FollowController;
-use App\Http\Controllers\Business\PhotoController;
 use App\Http\Controllers\Business\BusinessLikeController;
 use App\Http\Controllers\Business\QuestController;
 use App\Http\Controllers\Business\QuestLikeController;
@@ -18,7 +19,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 //PROFILES
 Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
@@ -94,7 +96,7 @@ Route::get('/tourist/posts/events', [App\Http\Controllers\HomeController::class,
 Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'show'])->name('password.request');
 
 // register business
-Route::get('/register/business', [App\Http\Controllers\Auth\RegisterController::class, 'show'])->name('register.business');
+Route::get('/register/business', [App\Http\Controllers\Auth\RegisterController::class, 'registerBusiness'])->name('register.business');
+Route::post('/store/business', [App\Http\Controllers\Auth\RegisterController::class, 'storeBusiness'])->name('register.business.submit');
+Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
 
-// login business
-// Route::get('/login/business', [App\Http\Controllers\Auth\LoginController::class, 'show'])->name('login.business');

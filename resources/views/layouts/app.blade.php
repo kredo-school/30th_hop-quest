@@ -25,6 +25,16 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-style.css') }}">
     @yield('css')
+
+    <!-- jQuery -->
+    <script src="js/home/jquery-3.6.0.min.js"></script>
+
+    <!-- CSS of slick -->
+    <link rel="stylesheet" href="{{ asset('css/slick/slick.css')}}" />
+    <link rel="stylesheet" href="{{ asset('css/slick/slick-theme.css')}}" />
+
+    <!-- JS of slick -->
+    <script src="js/home/slick.min.js"></script>
     
 </head>
 <body>
@@ -147,6 +157,7 @@
             @yield('content')
         </main>
     </div>
+    @yield('js')
 </body>
 </html>
 
