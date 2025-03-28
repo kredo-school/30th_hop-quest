@@ -353,12 +353,10 @@
                     <label for="images" class="form-label">Upload Photo</label>
                     <div class="row">
                         <!-- Priority 1 -->
-                       
-
                         <div class="col-md-4">  
                             @if($business->topPhoto)                   
                                 <label for="image" class="form-label d-block"> </label>                                                        
-                                <img src="{{ $business->topPhoto->image }}" alt="Business Photo" class="img-lg">  
+                                <img src="{{ $business->topPhoto->image }}" alt="Business Photo" class="img-lg mb-2">  
                                 <input type="file" name="image" id="image" class="form-control">  
                             @else
                                 <label for="image" class="form-label d-block"> </label>

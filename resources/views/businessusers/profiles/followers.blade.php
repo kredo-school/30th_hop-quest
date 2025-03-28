@@ -16,8 +16,8 @@
             <div class="row mb-3 align-items-center bg-white p-4 rounded-4">
                 <h3 class="text-center">Followers</h3>
                 @foreach($user->followers as $follower)  
-                <div class="row">                 
-                    <div class="col-auto">
+                <div class="row p-1">                 
+                    <div class="col-auto my-auto">
                         {{-- icon/avatar --}}
                         {{-- <a href="{{route('profile.show', $follower->follower->id)}}"> --}}
                         <a href="#">
@@ -28,7 +28,7 @@
                             @endif
                         </a>
                     </div>
-                    <div class="col ps-0 text-truncate">
+                    <div class="col ps-0 text-truncate my-auto">
                         {{-- name --}}
                         {{-- <a href="{{route('profile.show', $follower->follower->id)}}" 
                             class="text-decoration-none text-dark fw-bold"> --}}

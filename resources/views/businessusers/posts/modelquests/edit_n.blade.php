@@ -62,7 +62,7 @@
                 <div class="row">  
                     <div class="col-4">
                         @if($quest->main_photo)
-                        <img src="{{$quest->main_photo}}" class="img-lg"  alt="Model Quest image">
+                        <img src="{{$quest->main_photo}}" class="img-lg mb-2"  alt="Model Quest image">
                         @else
                         <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
                         @endif

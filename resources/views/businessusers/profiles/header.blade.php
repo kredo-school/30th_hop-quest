@@ -87,8 +87,18 @@
                         </div>
                         @if($user->id == Auth::user()->id)
                         <div class="col-auto">
-                            <a href="{{ route('profile.reviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->reviews->count()}}</span> {{$user->reviews->count()==1 ? 'review' : 'reviews'}}</a>
+                            @if($user->id == Auth::user()->id)                             
+                                <a href="{{ route('profile.allreviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$reviews->count()}}</span> {{$reviews->count()==1 ? 'review' : 'reviews'}}</a>
+                            @endif
                         </div>
+                            {{-- @forelse($all_businesses as $business)
+                                @if($business->user->id == Auth::user()->id)
+                                    <a href="{{ route('profile.reviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$business->reviews->count()}}</span> {{$business->reviews->count()==1 ? 'review' : 'reviews'}}</a>
+                                @endif
+                            @empty
+                                <a href="{{ route('profile.reviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">0</span> reviews</a>
+                            @endforelse
+                        </div> --}}
                         @endif
 
                         {{-- SNS icons --}}

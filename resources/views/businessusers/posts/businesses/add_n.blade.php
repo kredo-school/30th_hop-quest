@@ -4,7 +4,7 @@
     
 @section('content')
 <div class="bg-blue">
-    <div class="row justify-content-center pt-5">
+    <div class="row justify-content-center pt-5 pb-5">
         <form action="{{route('business.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
             
@@ -102,6 +102,17 @@
                     <div class="col mb-3">
                         <label for="address_2" class="form-label">Address 2</label>
                         <input type="text" name="address_2" id="address_2" class="form-control">
+                    </div>
+                </div>
+
+                {{-- Introduction --}}
+                <div class="row mb-3">
+                    <div class="mb-3">
+                        <label for="introduction" class="form-label d-inline">
+                            Introduction<span style="color: #D24848;">*</span>
+                        </label>
+                        <textarea 
+                            name="introduction" id="introduction" class="form-control" rows="5"></textarea>
                     </div>
                 </div>
 
@@ -248,14 +259,12 @@
                 
 
                 {{-- images --}}
-                <label for="image" class="form-label">Upload Photos</label>
-                <div class="row">
+                <div class="border p-4 rounded bg-light mb-3">
                     <!-- Priority 1 -->
                     <div class="col-md-4">
-                        <label for="image"></label>
+                        <label for="image" class="form-label">Upload Photo</label>
                         <input type="file" name="image" id="image" class="form-control">
-                    </div>
-                
+                    </div>                
                 </div>
                 
             <!-- Submission Buttons -->
@@ -263,6 +272,9 @@
                     <div class="row mt-3 justify-content-center">
                         <div class="col-4 ">
                             <button type="submit" class="btn btn-green w-100 mb-2">SAVE</button>
+                            <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="1" 
+                {{ old('official_badge', Auth::user()->official_certification) ? 'unchecked' : '' }}
+                > Apply for Official certification badge
                             {{-- <input type="checkbox" class="form-check-input mb-2" name="" id="" value=""> Apply for Official certification badge --}}
                         </div>
                         <div class="col-2"></div>

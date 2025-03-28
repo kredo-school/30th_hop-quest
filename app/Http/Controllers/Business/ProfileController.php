@@ -9,9 +9,11 @@ use App\Models\Business;
 use App\Models\Promotion;
 use App\Models\Quest;
 use App\Models\Photo;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -19,12 +21,14 @@ class ProfileController extends Controller
     private $business;
     private $promotion;
     private $quest;
+    private $review;
 
-    public function __construct(User $user, Business $business, Promotion $promotion, Quest $quest){
+    public function __construct(User $user, Business $business, Promotion $promotion, Quest $quest, Review $review){
         $this->user = $user;
         $this->business = $business;
         $this->promotion = $promotion;
         $this->quest = $quest;
+        $this->review = $review;
     }
 
     public function edit($id){
@@ -80,7 +84,12 @@ class ProfileController extends Controller
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
         $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
-        return view('businessusers.profiles.promotions')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_promotions', $all_promotions);
+        $reviews = DB::table('reviews')
+        ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+        ->where('businesses.user_id', $id)
+        ->select('reviews.*') 
+        ->get();
+        return view('businessusers.profiles.promotions')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_promotions', $all_promotions)->with('reviews', $reviews);
     }
 
     public function showBusinesses($id){
@@ -89,18 +98,36 @@ class ProfileController extends Controller
             $query->orderBy('priority', 'asc')->limit(1);
         }]);
         $all_businesses = $this->business->withTrashed()->with('topPhoto')->where('user_id', $user_a->id)->latest()->paginate(3);
-        return view('businessusers.profiles.businesses')->with('user', $user_a)->with('all_businesses', $all_businesses);
+        $reviews = DB::table('reviews')
+            ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+            ->where('businesses.user_id', $id)
+            ->select('reviews.*') 
+            ->get();
+        return view('businessusers.profiles.businesses')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('reviews', $reviews);
     }
 
     public function showModelQuests($id){
         $user_a = $this->user->findOrFail($id);
         $all_quests = $this->quest->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
-        return view('businessusers.profiles.modelquests')->with('user', $user_a)->with('all_quests', $all_quests);
+        $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
+        $reviews = DB::table('reviews')
+        ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+        ->where('businesses.user_id', $id)
+        ->select('reviews.*') 
+        ->get();
+        return view('businessusers.profiles.modelquests')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_quests', $all_quests)->with('reviews',$reviews);
     }
 
     public function followers($id){
-    $user_a = $this->user->findOrFail($id);
-    return view('businessusers.profiles.followers')->with('user', $user_a);
+        $user_a = $this->user->findOrFail($id);
+        $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
+        return view('businessusers.profiles.followers')->with('user', $user_a)->with('all_businesses', $all_businesses);
+    }
+
+    public function allReviews($id){
+        $all_reviews = $this->review->latest()->paginate(10);
+        $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
+        return view('businessusers.reviews.allreviews')->with('all_reviews', $all_reviews)->with('all_businesses',$all_businesses);
     }
 
 

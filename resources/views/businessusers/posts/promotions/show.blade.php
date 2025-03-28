@@ -35,7 +35,11 @@
                             @elseif($promotion->promotion_start == $promotion->promotion_end)
                                 <h5 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_start))}}</h5>
                             @elseif($promotion->promotion_start && $promotion->promotion_end)
-                                <h5 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_start))}} ~ {{date('M d Y', strtotime($promotion->promotion_end))}}</h5>                               
+                                @if(($promotion->promotion_start < $promotion->promotion_end))
+                                    <h6 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_start))}} ~ {{date('M d Y', strtotime($promotion->promotion_end))}}</h6>     
+                                @else
+                                    <h6 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_end))}} ~ {{date('M d Y', strtotime($promotion->promotion_start))}}</h6> 
+                                @endif                              
                             @endif
                         </div>    
                     </div>     
