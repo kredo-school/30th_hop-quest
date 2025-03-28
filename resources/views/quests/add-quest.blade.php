@@ -12,8 +12,8 @@
     <div class="container py-5 col-9">
         <h3 class="color-navy poppins-semibold text-center">Create Your Quest</h3>
     
-        <section id="form1">
-            <form action="{{ route('quest.store') }}" method="post" enctype="multipart/form-data" id="form1" class="bg-white rounded-4 p-5 my-3">
+        <section>
+            <form action="{{ route('quest.store') }}" method="post" enctype="multipart/form-data" id="form1"class="bg-white rounded-4 p-5 my-3">
                 @csrf
                     <div class="row pb-3">
                         <label for="title" class="form-label">Quest Title</label>
@@ -53,12 +53,12 @@
                         <input type="text" name="introduction" id="introduction" class="input-box" placeholder="3 days trip with my family!">
                     </div>
                     <div class="row pb-3">
-                        <label for="main_photo" class="form-label">Header photo</label>
+                        <label for="main_image" class="form-label">Header photo</label>
                         <div class="col-9 ps-0">
-                            <input type="file" name="main_photo" id="main_photo" class="custom-file-input form-control">
+                            <input type="file" name="main_image" id="main_image" class="custom-file-input form-control">
                         </div>
                         <div class="col-3 ms-auto pe-0">
-                            <label for="main_photo" class="btn btn-green custom-file-label w-100"><i class="fa-solid fa-plus icon-xs d-inline"></i>Photo</label>
+                            <label for="main_image" class="btn btn-green custom-file-label w-100"><i class="fa-solid fa-plus icon-xs d-inline"></i>Photo</label>
                         </div>
                             <p class="mt-0 ps-0 pb-0 xsmall">
                                 Acceptable formats: jpeg, jpg, png, gif only.<br>Max size is 1048 KB
@@ -72,11 +72,11 @@
         </section>   
 
         <section id="form2" class="d-none">
-            <form action="{{ route('quest.storebody')}}" method="post" enctype="multipart/form-data" id="form2" class="bg-white rounded-5 px-5 py-3 my-5">
+            <form action="{{ route('quest.storebody') }}" method="post" enctype="multipart/form-data" id="body_form" class="bg-white rounded-5 px-5 py-3 my-5">
                 @csrf
                 <div class="row p-2">
-                    <label for="day_select" class="form-label">Choose the day</label>
-                    <select id="day_select" name="day_select" class="w-25 p-2 border rounded mb-3">
+                    <label for="day_number" class="form-label">Choose the day</label>
+                    <select id="day_number" name="day_select" class="w-25 p-2 border rounded mb-3">
                         <option value="1">Day1</option>
                         <option value="2">Day2</option>
                         <option value="3">Day3</option>
@@ -99,7 +99,7 @@
                     <div class="col-lg-5">
                         <form action=" " method="get">
                             @csrf
-                            <input type="text" name="search" id="spot-name" value="" placeholder="Tokyo Tower" class="input-box form-control ms-auto w-100">
+                            <input type="text" name="search" id="spot_name" value="" placeholder="Tokyo Tower" class="input-box form-control ms-auto w-100">
                         </form>
                     </div>
                     <div class="col-lg-2">
@@ -116,9 +116,9 @@
                     </div> --}}
                 
                     <div class="row pb-3 pe-0">
-                        <label for="spot-images" class="form-label p-2">Photos</label>
+                        <label for="image" class="form-label p-2">Photos</label>
                         <div class="col-9">
-                            <input type="file" name="spot-images" id="spot-images" class="custom-file-input form-control" multiple>
+                            <input type="file" name="image" id="image" class="custom-file-input form-control" multiple>
                         </div>
                         <div class="col-3 pe-0">
                             <button class="btn btn-green custom-file-label w-100 me-0" id="upload-btn">

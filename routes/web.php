@@ -64,14 +64,14 @@ Route::get('/register/business', [App\Http\Controllers\Auth\RegisterController::
 // login business
 // Route::get('/login/business', [App\Http\Controllers\Auth\LoginController::class, 'show'])->name('login.business');
 
-Route::get('/businesses/{id}', [App\Http\Controllers\HomeController::class, 'viewBusiness'])->name('view.business');
+Route::get('/business', [App\Http\Controllers\HomeController::class, 'viewBusiness'])->name('view.business');
 
 //QUESTS
-Route::get('quest/add-quest', [App\Http\Controllers\QuestController::class, 'showAddQuest'])->name('quest.add');
-Route::post('quest/add-quest/store', [QuestController::class, 'storeQuest'])->name('quest.store');
-Route::post('quest/add-quest/store', [QuestController::class, 'storeQuestBody'])->name('quest.storebody');
+Route::get('/quest/add-quest', [QuestController::class, 'showAddQuest'])->name('quest.add');
+Route::post('/quest/add-quest/store', [QuestController::class, 'storeQuest'])->name('quest.store');
+Route::post('/quest/add-quest/bodystore', [QuestController::class, 'storeQuestBody'])->name('quest.storebody');
 
 //Confirm
-Route::get('quest/confirm-quest/{id}', [App\Http\Controllers\QuestController::class, 'showConfirmQuest'])->name('confirm');
+Route::get('/quest/confirm-quest/{id}', [QuestController::class, 'showConfirmQuest'])->name('confirm');
 //View
-Route::get('quest/{id}', [App\Http\Controllers\QuestController::class, 'showViewQuest'])->name('show');
+Route::get('/quest/', [QuestController::class, 'showViewQuest'])->name('show');

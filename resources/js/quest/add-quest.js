@@ -45,7 +45,7 @@ function updateUploadedFileNames() {
 
     // フォーム2が表示されたときだけリスナーを適用
     function initializeForm2Listeners() {
-        const fileInput = document.getElementById("spot-images");
+        const fileInput = document.getElementById("image");
     const uploadBtn = document.getElementById("upload-btn");
     const uploadedFileNames = document.getElementById("uploaded-file-names");
 
@@ -137,7 +137,7 @@ function updateUploadedFileNames() {
 
 
 // ======================================FORM1=============================================================d
-document.getElementById("submit1").addEventListener("click",async function(event) {
+document.getElementById("submit1").addEventListener("click", async function(event) {
     event.preventDefault(); // フォーム送信を防ぐ
 
     console.log("Createボタンがクリックされました！");
@@ -147,7 +147,7 @@ document.getElementById("submit1").addEventListener("click",async function(event
     const startDate = document.getElementById("start_date").value;
     const endDate = document.getElementById("end_date").value;
     const intro = document.getElementById("introduction").value;
-    const fileInput = document.getElementById("main_photo");
+    const fileInput = document.getElementById("main_image");
 
     console.log("fileInput:", fileInput);
 
@@ -180,7 +180,7 @@ document.getElementById("submit1").addEventListener("click",async function(event
     console.log(`選択された日数: ${days} 日`);
 
     // make options for day_select
-    const daySelect = document.getElementById("day_select");
+    const daySelect = document.getElementById("day_number");
     if(daySelect){
         daySelect.innerHTML = "";
         for (let i = 1; i <= days; i++) {
@@ -192,7 +192,7 @@ document.getElementById("submit1").addEventListener("click",async function(event
         }
         console.log("day_select_option作成完了");
     }else{
-        console.error("day_selectが見つかりません");
+        console.error("day_numberが見つかりません");
     }
 
     // **ヘッダーに反映**
@@ -231,10 +231,12 @@ document.getElementById("submit1").addEventListener("click",async function(event
     document.getElementById("header").classList.remove("d-none");
     console.log("form2 の d-none を削除しました！");
 
+//redirectせずにformを送信
     let form = document.getElementById('form1'); 
     let formData = new FormData(form);
     try {
-        let response = await fetch('/quest/add-quest/store', { // Replace with your Laravel route
+        let response = await fetch('/quest/add-quest/store', {
+             // Replace with your Laravel route
             method: 'POST',
             body: formData,
             headers: {
@@ -257,13 +259,13 @@ document.getElementById("submit1").addEventListener("click",async function(event
 // ======================================FORM2=============================================================d
 let spotList = JSON.parse(localStorage.getItem("spotList")) || []; // 保存済みのデータを取得
 
-document.getElementById("addon").addEventListener("click", function(event) {
+document.getElementById("addon").addEventListener("click", async function(event) {
     event.preventDefault();
     console.log("🛠 ADD SPOT ボタンが押されました");
 
     // 入力値の取得
-    const day = parseInt(document.getElementById("day_select").value, 10) || 1;
-    const spot = document.getElementById("spot-name").value;
+    const day = parseInt(document.getElementById("day_number").value, 10) || 1;
+    const spot = document.getElementById("spot_name").value;
     const description = document.getElementById("spot-description").value;
     const fileInput2 = uploadedImagesList;
     const isAgendaChecked = document.getElementById("agenda").checked;
@@ -291,6 +293,29 @@ document.getElementById("addon").addEventListener("click", function(event) {
     
     document.getElementById("confirmBtn").classList.remove("d-none");
     console.log("Confirm button の d-none を削除しました！");
+
+    //redirectせずにformを送信
+    let form = document.getElementById('body_form'); 
+    let formData = new FormData(form);
+    try {
+        let response = await fetch('/quest/add-quest/bodystore', {
+             // Replace with your Laravel route
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure CSRF token is included
+            }
+        });
+        let result = await response.json();
+        if (response.ok) {
+            document.getElementById('responseMessage').innerHTML = "<p style='color: green;'>Success! Data saved.</p>";
+        } else {
+            let errors = Object.values(result).map(error => `<p style='color: red;'>${error}</p>`).join("");
+            document.getElementById('responseMessage').innerHTML = errors;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
 
     clearForm2(); // 入力をクリア
 });
