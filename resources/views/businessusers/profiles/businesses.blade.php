@@ -13,11 +13,35 @@
 <div class="mb-5 row justify-content-center bg-blue">
 {{-- Management business --}}
     <div class="col-8 mb-3 ">
+    {{-- Tabs for categories --}}
+        <div class="row tag-category">
+            <div class="col-auto">
+                <a href="{{ route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark" data-category="business">
+                    <h3 class="poppins-semibold {{ request()->is('business/profile/businesses*') ? 'active' : '' }}">
+                        Management Business
+                    </h3>
+                </a>
+            </div>
+            <div class="col-auto ms-5">
+                <a href="{{ route('profile.promotions', $user->id) }}" class="text-decoration-none text-dark" data-category="promotions">
+                    <h3 class="poppins-semibold {{ request()->is('business/profile/promotions*') ? 'active' : '' }}">
+                        Promotions
+                    </h3>
+                </a>
+            </div>
+            <div class="col-auto ms-5">
+                <a href="{{ route('profile.modelquests', $user->id) }}" class="text-decoration-none text-dark" data-category="quest">
+                    <h3 class="poppins-semibold {{ request()->is('business/profile/modelquests*') ? 'active' : '' }}">
+                        Model Quests
+                    </h3>
+                </a>
+            </div>
+        </div> 
         <hr>
         <div class="row">
             @if($user->id == Auth::user()->id)
             <div class="col-2 ms-auto mb-2 ">
-                <a href="#" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                <a href="{{ route('business.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
             @endif
         </div>
@@ -29,9 +53,15 @@
                 <div class="card p-3">
                     <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Image --}}   
-                        <a href="#" class="">
-                            <img src="" class="card-img-top post-image" alt="image">
-                        </a>                      
+                        <div class="business">                         
+                            <div class="photos">
+                                @if($business->topPhoto)
+                                    <img src="{{ $business->topPhoto->image }}" alt="" class="post-image">
+                                @else
+                                    No photo
+                                @endif
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body content">  
                         <div class="row mb-3">
@@ -153,7 +183,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <a href="#" class="btn btn-sm btn-green fw-bold mb-2 w-100">EDIT</a>
+                                    <a href="{{ route('business.edit', $business->id) }}" class="btn btn-sm btn-green fw-bold mb-2 w-100">EDIT</a>
                                 </div>
                                 <div class="col-6">
                                     @if($business->trashed())

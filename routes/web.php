@@ -57,6 +57,11 @@ Route::group(['prefix' => '/business/business', 'as' => 'business.'], function()
     Route::get('/{id}/edit', [BusinessController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [BusinessController::class, 'update'])->name('update');
     Route::post('/store', [BusinessController::class, 'store'])->name('store');
+    Route::get('/show/{id}', [BusinessController::class, 'show'])->name('show');
+    Route::resource('businesses', BusinessController::class);
+    Route::post('photos/store/{business_id}', [PhotoController::class, 'store'])->name('photos.store');
+    Route::get('photos/edit/{business_id}', [PhotoController::class, 'edit'])->name('photos.edit');
+    Route::patch('photos/update/{business_id}', [PhotoController::class, 'update'])->name('photos.update');
     Route::delete('/{id}/deactivate', [BusinessController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [BusinessController::class, 'activate'])->name('activate');
     //LIKES
@@ -75,7 +80,7 @@ Route::get('/tourist/posts/events', [App\Http\Controllers\HomeController::class,
 Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'show'])->name('password.request');
 
 // register business
-Route::get('/register/business', [App\Http\Controllers\Auth\RegisterController::class, 'show'])->name('register.business');
+Route::get('/register/business', [App\Http\Controllers\Auth\RegisterController::class, 'registerBusiness'])->name('register.business');
+Route::post('/store/business', [App\Http\Controllers\Auth\RegisterController::class, 'storeBusiness'])->name('register.business.submit');
+Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
 
-// login business
-// Route::get('/login/business', [App\Http\Controllers\Auth\LoginController::class, 'show'])->name('login.business');

@@ -27,7 +27,7 @@
         @if(Auth::user()->header)
             <img src="{{Auth::user()->header}}" class="header-image"  alt="">
         @else
-        <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
+            <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
         @endif
     </div>
 </div>

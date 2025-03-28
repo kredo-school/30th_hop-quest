@@ -8,15 +8,16 @@
 @endsection
 
 @section('content')
-    {{-- @include('businessusers.profiles.header') --}}
+    @include('businessusers.profiles.header')
 
     @if($user->followers->isNotEmpty())
     <div class="row justify-content-center mt-5">
         <div class="col-4">
+            <div class="row mb-3 align-items-center bg-white p-4 rounded-4">
             <h3 class="text-center">Followers</h3>
 
             @foreach($user->followers as $follower)
-                <div class="row mb-3 align-items-center bg-white p-2 rounded-4">
+                
                     <div class="col-auto">
                         {{-- icon/avatar --}}
                         {{-- <a href="{{route('profile.show', $follower->follower->id)}}"> --}}
