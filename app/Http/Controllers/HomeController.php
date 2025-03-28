@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Spot;
+use App\Models\User;
+use App\Models\Quest;
+use App\Models\Business;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -14,10 +17,16 @@ class HomeController extends Controller
      * @return void
      */
     private $user;
+    private $quest;
+    private $spot;
+    private $business;
 
-    public function __construct(User $user)
+    public function __construct(User $user, Quest $quest, Spot $spot, Business $business)
     {
-        $this->user = $user;
+        $this->user     = $user;
+        $this->quest    = $quest;
+        $this->spot     = $spot;
+        $this->business = $business;
         // $this->middleware('auth');
     }
 
@@ -92,7 +101,7 @@ class HomeController extends Controller
 
         $all_posts = $quests->merge($spots)->merge($business_locations)->merge($business_events);
 
-        return view('search')
+        return view('home.search')
                 ->with('quests', $quests)
                 ->with('spots', $spots)
                 ->with('business_events', $business_events)

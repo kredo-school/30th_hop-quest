@@ -52,8 +52,8 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                     {{-- Search bar here --}}
                     <ul class="navbar-nav mx-auto">
-                            <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto">
-                            <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto">
+                            {{-- <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto"> --}}
+                            <form action="{{ route('search') }}" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto">
                                 <input type="search" name="search" placeholder="Search..." class="form-control form-control-sm">
                             </form>
                     </ul>
