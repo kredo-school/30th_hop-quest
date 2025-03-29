@@ -12,7 +12,6 @@ return new class extends Migration {
             $table->integer('duration')->nullable()->change();
             $table->boolean('is_public')->default(false)->change();
             $table->string('title', 255)->change();
-            $table->string('introduction', 255)->change();
             $table->longText('main_image')->change();
         });
     }
@@ -24,7 +23,6 @@ return new class extends Migration {
             $table->text('duration')->nullable()->change();
             $table->text('is_public')->change();
             $table->text('title')->change();
-            $table->text('introduction')->change();
             $table->text('main_image')->change();
         });
     }
