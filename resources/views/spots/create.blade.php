@@ -21,8 +21,13 @@
         <div class="row row-cols-1 row-cols-md-2">
             {{-- left side --}}
             <div class="col-12 col-md-6 add-spot-container">
-                <form action="{{ route('spot.store') }}" method="POST" class="add-spot-form" enctype="multipart/form-data">
+                <form action="{{ route('spot.store') }}" method="POST" class="add-spot-form" id="spot-form" enctype="multipart/form-data">
                     @csrf
+
+                    {{-- 位置情報用のhidden input --}}
+                    <input type="hidden" name="geo_lat" id="geo_lat">
+                    <input type="hidden" name="geo_lng" id="geo_lng">
+                    <input type="hidden" name="geo_location" id="geo_location">
 
                     {{-- title --}}
                     <div class="form-group">
@@ -61,6 +66,7 @@
 
                     {{-- uploaded file views --}}
                     <div id="uploaded-file-names"></div>
+
                 </form>
             </div>
 
@@ -72,7 +78,7 @@
                     <button onclick="geocodeAddress(); return false;" class="search-button">Search</button>
                 </div>
                 <div id="map" class="spot-map-container"></div>
-                <div id="place-photo" class="place-photo"></div>
+                <div id="place-photo" class="place-photo mb-5"></div>
             </div>
         </div>
 
@@ -80,7 +86,7 @@
         <div class="row justify-content-end align-items-center text-center">
             <div class="col-4 align-items-center text-center">
                 <div class="form-group">
-                    <button type="submit" class="submit-button">CHECK</button>
+                    <button type="submit" class="submit-button" form="spot-form">Register Spot</button>
                 </div>
             </div>
         </div>

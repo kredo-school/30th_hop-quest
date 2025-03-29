@@ -15,6 +15,12 @@ function geocodeAddress() {
     geocoder.geocode({ address: address }, (results, status) => {
         if (status === "OK") {
             const location = results[0].geometry.location;
+            
+            // hidden inputに位置情報を設定
+            document.getElementById("geo_lat").value = location.lat();
+            document.getElementById("geo_lng").value = location.lng();
+            document.getElementById("geo_location").value = results[0].formatted_address;
+            
             map.setCenter(location);
             new google.maps.Marker({
                 map: map,

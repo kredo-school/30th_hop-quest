@@ -41,7 +41,12 @@ class IndexController extends Controller
     {
         // バリデーション
         $request->validate([
+            'title' => 'required',
+            'introduction' => 'required',
+            'geo_lat' => 'required|numeric',
+            'geo_lng' => 'required|numeric',
             'spot-images.*' => 'image|mimes:jpeg,jpg,png,gif|max:1048|required',  // 1MB以下
+
             // 他の必要なバリデーションルール
         ]);
 
@@ -59,10 +64,18 @@ class IndexController extends Controller
         }
 
         $spot = new Spot();
-        $spot->user_id = Auth::user()->id;
-        $spot->name = $request->name;
-        $spot->images = $imagePaths;  // 配列として保存（自動的にJSONに変換される）
+        // $spot->user_id = Auth::user()->id;
+        $spot->user_id = 1;
+        $spot->title = $request->title;
+        $spot->main_image = 'images/spot/mtfuji.jpg';
+        $spot->introduction = $request->introduction;
+        $spot->geo_location = $request->geo_location;
+        $spot->geo_lat = $request->geo_lat;
+        $spot->geo_lng = $request->geo_lng;
+        $spot->images = $imagePaths;
         $spot->save();
+
+        return redirect()->route('spot.show', $spot->id)->with('success', 'スポットを作成しました');
     }
 
 }

@@ -1,6 +1,10 @@
 .add-spot-container {
-    background-color: #eef2ee;
+    background-color: #c9c5e3;
+    min-height: 600px;
+    height: auto;
+    overflow: visible;
     padding: 20px;
+    margin-top: 15px;
 }
 
 .add-spot-form {
@@ -10,8 +14,13 @@
 }
 
 .form-group {
+    margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
+}
+
+.form-group:first-child {
+    margin-top: 0;
 }
 
 .form-label {
@@ -20,6 +29,7 @@
     text-align: left;
     font-weight: bold;
     color: #333;
+    margin-top: 10px;
 }
 
 .form-input {
@@ -37,8 +47,11 @@
 
 .map-container {
     background-color: #b92836;
-    height: 600px;
-    overflow: hidden;
+    min-height: 600px;
+    height: auto;
+    overflow: visible;
+    padding: 20px;
+    margin-top: 20px;
 }
 
 .search-container {
@@ -68,8 +81,16 @@
 }
 
 .place-photo {
-    width: 20%;
-    height: 10%;
+    width: 30%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.place-photo img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 .submit-button {
@@ -79,7 +100,6 @@
     color: white;
     border: none;
     cursor: pointer;
-    margin-top: 10px;
 }
 
 /* Photo Container Styles */
