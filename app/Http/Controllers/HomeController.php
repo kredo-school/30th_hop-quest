@@ -99,69 +99,122 @@ class HomeController extends Controller
                 ->with('request', $request);
     }
 
-    //Allshow
+//Allshow
     public function showAll(){
-    // Quests
-    $quests = Quest::select('title', 'introduction', 'main_photo', 'created_at', 'updated_at')
-        ->get()
-        ->map(function ($item) {
-            return [
-                'title' => $item->title,
-                'introduction' => $item->introduction,
-                'main_photo' => $item->main_image,
-                'category_id' => null,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
-            ];
-        });
-
     // Spots
-    $spots = Spot::select('title', 'introduction', 'main_image', 'created_at', 'updated_at')
-        ->get()
-        ->map(function ($item) {
-            return [
-                'title' => $item->title,
-                'introduction' => $item->introduction,
-                'main_image' => $item->main_image,
-                'category_id' => null,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
-            ];
-        });
+    $spots = Spot::with('user')
+    ->withCount(['spotLikes as likes_count'])
+    ->select('id', 'user_id', 'title', 'introduction', 'main_image', 'created_at', 'updated_at')
+    ->get()
+    ->map(function ($item) {
+        return [
+            'id' => $item->id,
+            'user' => $item->user,
+            'user_id' => $item->user_id,
+            'user_name' => optional($item->user)->name,
+            'avatar' => optional($item->user)->avatar,
+            'title' => $item->title,
+            'introduction' => $item->introduction,
+            'main_image' => $item->main_image,
+            'category_id' => null,
+            'tab_id' => 1,
+            'official_certification' => optional($item->user)->official_certification,
+            'created_at' => $item->created_at,
+            'updated_at' => $item->updated_at,
+            'likes_count' => $item->likes_count, // ← 追加
+            'is_liked' => $item->isLiked(),     // ← 追加
+            'type' => 'spot',                  
+        ];
+    });
+
+    // Quests
+    $quests = Quest::with('user')
+    ->withCount(['questLikes as likes_count'])
+    ->select('id', 'user_id', 'title', 'introduction', 'main_image', 'created_at', 'updated_at')
+    ->get()
+    ->map(function ($item) {
+        return [
+            'id' => $item->id,
+            'user' => $item->user,
+            'user_id' => $item->user_id,
+            'user_name' => optional($item->user)->name,
+            'avatar' => optional($item->user)->avatar,
+            'title' => $item->title,
+            'introduction' => $item->introduction,
+            'main_image' => $item->main_image,
+            'category_id' => null,
+            'tab_id' => 2,
+            'official_certification' => optional($item->user)->official_certification,
+            'created_at' => $item->created_at,
+            'updated_at' => $item->updated_at,
+            'likes_count' => $item->likes_count,
+            'is_liked' => $item->isLiked(),
+            'type' => 'quest',  
+        ];
+    });
+
 
     // Businesses -> Location
     $locations = Business::where('category_id', 1)
-        ->with(['photos' => function ($q) {
+    ->withCount(['businessLikes as likes_count'])
+    ->with([
+        'photos' => function ($q) {
             $q->orderBy('priority')->limit(1);
-        }])
-        ->get()
-        ->map(function ($item) {
-            return [
-                'title' => $item->name,
-                'introduction' => $item->introduction,
-                'main_image' => optional($item->photos->first())->image,
-                'category_id' => $item->category_id,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
-            ];
-        });
+        },
+        'user' // ← ユーザー情報も一緒に取得
+    ])
+    ->get()
+    ->map(function ($item) {
+        return [
+            'id' => $item->id,
+            'user' => $item->user,
+            'user_id' => $item->user_id,
+            'user_name' => optional($item->user)->name,
+            'avatar' => optional($item->user)->avatar,
+            'title' => $item->name,
+            'introduction' => $item->introduction,
+            'main_image' => optional($item->photos->first())->image,
+            'category_id' => $item->category_id,
+            'tab_id' => 3,
+            'official_certification' => optional($item->user)->official_certification,
+            'created_at' => $item->created_at,
+            'updated_at' => $item->updated_at,
+            'likes_count' => $item->likes_count, // ← 追加
+            'is_liked' => $item->isLiked(),     // ← 追加
+            'type' => 'location', 
+        ];
+    });
 
     // Businesses -> Event
     $events = Business::where('category_id', 2)
-        ->with(['photos' => function ($q) {
+    ->withCount(['businessLikes as likes_count'])
+    ->with([
+        'photos' => function ($q) {
             $q->orderBy('priority')->limit(1);
-        }])
-        ->get()
-        ->map(function ($item) {
-            return [
-                'title' => $item->name,
-                'introduction' => $item->introduction,
-                'main_image' => optional($item->photos->first())->image,
-                'category_id' => $item->category_id,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
-            ];
-        });
+        },
+        'user' // ← ユーザー情報も一緒に取得
+    ])
+    ->get()
+    ->map(function ($item) {
+        return [
+            'id' => $item->id,
+            'user' => $item->user,
+            'user_id' => $item->user_id,
+            'user_name' => optional($item->user)->name,
+            'avatar' => optional($item->user)->avatar,
+            'title' => $item->name,
+            'introduction' => $item->introduction,
+            'main_image' => optional($item->photos->first())->image,
+            'category_id' => $item->category_id,
+            'tab_id' => 4,
+            'official_certification' => optional($item->user)->official_certification,
+            'created_at' => $item->created_at,
+            'updated_at' => $item->updated_at,
+            'likes_count' => $item->likes_count, // ← 追加
+            'is_liked' => $item->isLiked(),     // ← 追加
+            'type' => 'event', 
+        ];
+    });
 
     // 全部まとめる
     $all = $quests->concat($spots)->concat($locations)->concat($events);
@@ -169,8 +222,145 @@ class HomeController extends Controller
     // created_at順にソートしたい場合
     $all = $all->sortByDesc('created_at')->values();
 
-    return view('home.posts.', compact('all'));
+    return view('home.posts.all', compact('all','quests'));
 }
 
+public function showQuests(){
+    // Quests
+    $quests = Quest::with('user')
+    ->withCount(['questLikes as likes_count'])
+    ->select('id', 'user_id', 'title', 'introduction', 'main_image', 'created_at', 'updated_at')
+    ->get()
+    ->map(function ($item) {
+        return [
+            'id' => $item->id,
+            'user' => $item->user,
+            'user_id' => $item->user_id,
+            'user_name' => optional($item->user)->name,
+            'avatar' => optional($item->user)->avatar,
+            'title' => $item->title,
+            'introduction' => $item->introduction,
+            'main_image' => $item->main_image,
+            'category_id' => null,
+            'tab_id' => 2,
+            'official_certification' => optional($item->user)->official_certification,
+            'created_at' => $item->created_at,
+            'updated_at' => $item->updated_at,
+            'likes_count' => $item->likes_count, // ← 追加
+            'is_liked' => $item->isLiked(),     // ← 追加
+            'type' => 'quest', 
+        ];
+    });
+
+    $quests = $quests->sortByDesc('created_at')->values();
+
+    return view('home.posts.quests', compact('quests'));
+    }
+
+    public function showSpots(){
+        // Spots
+        $spots = Spot::with('user')
+        ->withCount(['spotLikes as likes_count'])
+        ->select('id', 'user_id', 'title', 'introduction', 'main_image', 'created_at', 'updated_at')
+        ->get()
+        ->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'user_name' => optional($item->user)->name,
+                'avatar' => optional($item->user)->avatar,
+                'title' => $item->title,
+                'introduction' => $item->introduction,
+                'main_image' => $item->main_image,
+                'category_id' => null,
+                'tab_id' => 1,
+                'official_certification' => optional($item->user)->official_certification,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'likes_count' => $item->likes_count, // ← 追加
+                'is_liked' => $item->isLiked(),     // ← 追加
+                'type' => 'spot', 
+            ];
+        });
+    
+        $spots = $spots->sortByDesc('created_at')->values();
+    
+        return view('home.posts.spots', compact('spots'));
+    }
+
+    public function showLocations(){
+    // Locations
+    $locations = Business::where('category_id', 1)
+    ->withCount(['businessLikes as likes_count'])
+    ->with([
+        'photos' => function ($q) {
+            $q->orderBy('priority')->limit(1);
+        },
+        'user' // ← ユーザー情報も一緒に取得
+    ])
+    ->get()
+    ->map(function ($item) {
+        return [
+            'id' => $item->id,
+            'user' => $item->user,
+            'user_id' => $item->user_id,
+            'user_name' => optional($item->user)->name,
+            'avatar' => optional($item->user)->avatar,
+            'title' => $item->name,
+            'introduction' => $item->introduction,
+            'main_image' => optional($item->photos->first())->image,
+            'category_id' => $item->category_id,
+            'tab_id' => 3,
+            'official_certification' => optional($item->user)->official_certification,
+            'created_at' => $item->created_at,
+            'updated_at' => $item->updated_at,
+            'likes_count' => $item->likes_count, // ← 追加
+            'is_liked' => $item->isLiked(),     // ← 追加
+            'type' => 'location', 
+        ];
+    });
+    
+        $locations = $locations->sortByDesc('created_at')->values();
+    
+        return view('home.posts.locations', compact('locations'));
+    }
+
+    public function showEvents(){
+    // Locations
+    $events = Business::where('category_id', 1)
+    ->withCount(['businessLikes as likes_count'])
+    ->with([
+        'photos' => function ($q) {
+            $q->orderBy('priority')->limit(1);
+        },
+        'user' // ← ユーザー情報も一緒に取得
+    ])
+    ->get()
+    ->map(function ($item) {
+        return [
+            'id' => $item->id,
+            'user' => $item->user,
+            'user_id' => $item->user_id,
+            'user_name' => optional($item->user)->name,
+            'avatar' => optional($item->user)->avatar,
+            'title' => $item->name,
+            'introduction' => $item->introduction,
+            'main_image' => optional($item->photos->first())->image,
+            'category_id' => $item->category_id,
+            'tab_id' => 4,
+            'official_certification' => optional($item->user)->official_certification,
+            'created_at' => $item->created_at,
+            'updated_at' => $item->updated_at,
+            'likes_count' => $item->likes_count, // ← 追加
+            'is_liked' => $item->isLiked(),     // ← 追加
+            'type' => 'event', 
+        ];
+    });
+    
+        $events = $events->sortByDesc('created_at')->values();
+    
+        return view('home.posts.events', compact('events'));
+    }
 
 }

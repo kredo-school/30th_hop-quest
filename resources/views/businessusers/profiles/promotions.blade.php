@@ -52,8 +52,8 @@
                 <div class="card p-3">
                     <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Image --}}                         
-                        <a href="{{ route('promotion.show', $promotion->id)}}" class="">
-                            <img src="{{ $promotion->photo }}" class="card-img-top post-image" alt="image">
+                        <a href="#" class="">
+                            <img src="{{ $promotion->photo }}" class="post-image" alt="image">
                         </a>                       
                     </div>
                     <div class="card-body pt-0">            

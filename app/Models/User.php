@@ -78,6 +78,14 @@ class User extends Authenticatable
         return $this->hasMany(BusinessLike::class);
     }
 
+    public function questLikes(){
+        return $this->hasMany(QuestLike::class);
+    }
+
+    public function spotLikes(){
+        return $this->hasMany(SpotLike::class);
+    }
+
     //user has manyu follows (user follows many users)
     public function follows(){
         return $this->hasMany(Follow::class, 'follower_id');
@@ -94,6 +102,10 @@ class User extends Authenticatable
     }
 
     public function quests(){
+        return $this->hasMany(Quest::class)->withTrashed()->latest();
+    }
+
+    public function questsVisible(){
         return $this->hasMany(Quest::class)->latest();
     }
 

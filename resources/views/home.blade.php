@@ -99,7 +99,7 @@
                 </div>
 
                 <div class="col-auto all-posts">
-                    <a href="#" class="text-decoration-none text-dark">
+                    <a href="{{ route('posts.all') }}" class="text-decoration-none text-dark">
                         <h1 class="poppins-semibold">
                             All
                         </h1>
