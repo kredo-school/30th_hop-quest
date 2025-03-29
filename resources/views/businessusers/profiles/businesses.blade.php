@@ -10,7 +10,7 @@
 @section('content')
     @include('businessusers.profiles.header')
 
-<div class="mb-5 row justify-content-center bg-blue">
+<div class="row justify-content-center bg-blue">
 {{-- Management business --}}
     <div class="col-8 mb-3 ">
     {{-- Tabs for categories --}}
@@ -46,27 +46,27 @@
             @endif
         </div>
 
-        {{-- forelse --}}
+        {{-- business --}}
         <div class="row mb-1">
             @forelse($all_businesses as $business)
             <div class="col-4"> 
                 <div class="card p-3">
                     <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Image --}}   
-                        <div class="business">                         
-                            <div class="photos">
+                        {{-- <div class="business">                         
+                            <div class="photos"> --}}
                                 @if($business->topPhoto)
                                     <img src="{{ $business->topPhoto->image }}" alt="" class="post-image">
                                 @else
                                     No photo
                                 @endif
-                            </div>
-                        </div>
+                            {{-- </div>
+                        </div> --}}
                     </div>
-                    <div class="card-body content">  
+                    <div class="card-body content pt-0">  
                         <div class="row mb-3">
                             {{-- Category --}}
-                            <div class="col-auto p-0">
+                            <div class="col-auto p-0 mb-2">
                                 @if($business->category_id == 1 )
                                     <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
                                 @elseif($business->category_id ==2 )
@@ -87,6 +87,18 @@
                                 <a href="#" class="text-decoration-none">
                                     <h4 class="card-title text-dark fw-bold">{{ $business->name }}</h4>
                                 </a>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col p-0">                               
+                                {{-- Business period --}}
+                                @if((!$business->term_start || !$business->term_end))
+                                @elseif($business->term_start == $business->term_end)
+                                    <h6 class="fw-bold">{{date('M d Y', strtotime($business->term_start))}}</h6>
+                                @elseif($business->term_start && $business->term_end)
+                                    <h6 class="fw-bold">{{date('M d Y', strtotime($business->term_start))}} ~ {{date('M d Y', strtotime($business->term_end))}}</h6>                               
+                                @endif
                             </div>
                         </div>
 
@@ -206,10 +218,10 @@
                 </div>
             </div>
             @empty
-            <h4 class="h4 text-center text-secondary">No posts yet</h4>
+                <h4 class="h4 text-center text-secondary">No posts yet</h4>
             @endforelse 
         </div>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end mb-5">
             {{ $all_businesses->links() }}
         </div>
     </div>

@@ -13,6 +13,8 @@ use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\PromotionController;
 use App\Http\Controllers\Business\BusinessLikeController;
+use App\Http\Controllers\Business\QuestController;
+use App\Http\Controllers\Business\QuestLikeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,7 +35,7 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
     Route::patch('/{id}/update', [ProfileController::class, 'update'])->name('update');
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
     Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
-    Route::get('/{id}/reviews', [ReviewController::class, 'reviews'])->name('reviews');
+    Route::get('/{id}/allreviews', [ProfileController::class, 'allReviews'])->name('allreviews');
     Route::get('/{id}/review', [ReviewController::class, 'showReview'])->name('review');
 });
 
@@ -64,14 +66,26 @@ Route::group(['prefix' => '/business/business', 'as' => 'business.'], function()
     Route::post('/store', [BusinessController::class, 'store'])->name('store');
     Route::get('/show/{id}', [BusinessController::class, 'show'])->name('show');
     Route::resource('businesses', BusinessController::class);
-    Route::post('photos/store/{business_id}', [PhotoController::class, 'store'])->name('photos.store');
-    Route::get('photos/edit/{business_id}', [PhotoController::class, 'edit'])->name('photos.edit');
-    Route::patch('photos/update/{business_id}', [PhotoController::class, 'update'])->name('photos.update');
+    Route::post('photos/{business}/store', [PhotoController::class, 'store'])->name('photos.store');
+    Route::get('photos/edit/{business}', [PhotoController::class, 'edit'])->name('photos.edit');
+    Route::patch('photos/{business}/update', [PhotoController::class, 'update'])->name('photos.update');
     Route::delete('/{id}/deactivate', [BusinessController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [BusinessController::class, 'activate'])->name('activate');
     //LIKES
     Route::post('/like/{business_id}/store', [BusinessLikeController::class, 'storeLike'])->name('like.store');
     Route::delete('/like/{business_id}/delete', [BusinessLikeController::class, 'deleteLike'])->name('like.delete');
+});
+
+//QUESTS simple
+Route::group(['prefix' => '/business/modelquest', 'as' => 'modelquest.'], function(){
+    Route::get('/create', [QuestController::class, 'create'])->name('create');
+    Route::get('/{id}/edit', [QuestController::class, 'edit'])->name('edit');
+    Route::patch('/{id}/update', [QuestController::class, 'update'])->name('update');
+    Route::post('/store', [QuestController::class, 'store'])->name('store');
+    Route::post('/like/{quest_id}/store', [QuestLikeController::class, 'storeLike'])->name('like.store');
+    Route::delete('/like/{quest_id}/delete', [QuestLikeController::class, 'deleteLike'])->name('like.delete');
+    Route::delete('/{id}/deactivate', [QuestController::class, 'deactivate'])->name('deactivate');
+    Route::patch('/{id}/activate', [QuestController::class, 'activate'])->name('activate');
 });
 
 // Post

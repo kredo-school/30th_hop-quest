@@ -13,4 +13,12 @@ class Quest extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function questLikes(){
+        return $this->hasMany(QuestLike::class);
+    }
+
+    public function isLiked(){
+        return $this->questLikes()->where('user_id', Auth::user()->id)->exists();
+    }
 }

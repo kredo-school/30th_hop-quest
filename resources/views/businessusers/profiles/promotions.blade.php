@@ -10,7 +10,7 @@
 @section('content')
     @include('businessusers.profiles.header')
 
-<div class="mb-5 row justify-content-center bg-blue">
+<div class="row justify-content-center bg-blue">
     {{-- Promotions --}}
     <div class="col-8 mb-5">
             {{-- Tabs for categories --}}
@@ -43,8 +43,8 @@
             <div class="col-2 ms-auto mb-2">
                 <a href="{{ route('promotion.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
-           
         </div>
+        @endif
         {{-- forelse --}}
         <div class="row mb-1">
             @forelse($all_promotions as $promotion)
@@ -53,14 +53,14 @@
                     <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Image --}}                         
                         <a href="{{ route('promotion.show', $promotion->id)}}" class="">
-                            <img src="{{ $promotion->photo }}" class="card-img-top post-image" alt="image">
+                            <img src="{{ $promotion->photo }}" class="post-image" alt="image">
                         </a>                       
                     </div>
-                    <div class="card-body pt-0">            
+                    <div class="card-body content short pt-0">            
                         <div class="row mb-2">
                             {{-- Related Business --}}
                             <div class="col-auto p-0">
-                                <h5 class="card-subtitle">{{ $promotion->business->name }}</h5>
+                                <h5 class="card-subtitle truncate">{{ $promotion->business->name }}</h5>
                             </div>
                             {{-- Postdate --}}
                             <div class="col-auto pe-0 ms-auto">
@@ -78,10 +78,15 @@
                         <div class="row">
                             <div class="col p-0">                               
                                 {{-- promotion period --}}
-                                @if($promotion->promotion_start && $promotion->promotion_end)
-                                <h6 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_start))}} ~ {{date('M d Y', strtotime($promotion->promotion_end))}}</h6>
-                                {{-- @else
-                                <p>Day: -- --</p> --}}
+                                @if((!$promotion->promotion_start || !$promotion->promotion_end))
+                                @elseif($promotion->promotion_start == $promotion->promotion_end)
+                                    <h6 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_start))}}</h6>
+                                @elseif($promotion->promotion_start && $promotion->promotion_end)
+                                    @if(($promotion->promotion_start < $promotion->promotion_end))
+                                        <h6 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_start))}} ~ {{date('M d Y', strtotime($promotion->promotion_end))}}</h6>     
+                                    @else
+                                        <h6 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_end))}} ~ {{date('M d Y', strtotime($promotion->promotion_start))}}</h6> 
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -141,9 +146,9 @@
             @empty
                 <h4 class="h4 text-center text-secondary">No posts yet</h4>
             @endforelse 
-            @endif
+
         </div>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end mb-5">
         {{ $all_promotions->links() }}
         </div>
     </div>

@@ -77,7 +77,7 @@
             <div class="row mb-3">
                 <div class="col">
                     <label for="introduction" class="form-label">Introduction<span class="color-red">*</span></label>
-                    <textarea name="introduction" id="introduction" rows="5" class="form-control">{{old('introduction', $promotion->introduction)}}</textarea>
+                    <textarea name="introduction" id="introduction" rows="5" class="form-control" aria-valuemax="{{old('introduction', $promotion->introduction)}}"></textarea>
                     @error('introduction')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror
@@ -91,16 +91,12 @@
                 <div class="row">  
                     <div class="col-4">
                         @if($promotion->photo)
-                        <img src="{{$promotion->photo}}" class="img-lg"  alt="Promotion image">
+                            <img src="{{$promotion->photo}}" class="img-lg mb-2"  alt="Promotion image">
                         @else
-                        <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
+                            <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
                         @endif
+                        <input type="file" name="photo" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
                     </div>
-                </div>     
-            </div>
-            <div class="row">
-                <div class="col">
-                    <input type="file" name="photo" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
                     @error('photo')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror

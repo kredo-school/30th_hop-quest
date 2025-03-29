@@ -30,7 +30,7 @@
                             <h3 class="mb-1 text-truncate fw-bold">{{ $user->name }}</h3>
                         </div>
                         <div class="col-1 pb-2 p-1">
-                            @if($user->official_certification == 1)
+                            @if($user->official_certification == 2)
                                 <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0 avatar-xs" alt="official-personal"> 
                             @endif
                         </div>
@@ -77,9 +77,9 @@
                     <div class="row mb-3">
                         <div class="col-auto">
                             @if($user->id == Auth::user()->id)
-                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotions->count()+$user->businesses->count()}}</span> {{$user->promotions->count()+$user->businesses->count()==1 ? 'post' : 'posts'}}</a>
+                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotions->count()+$user->businesses->count()+$user->quests->count()}}</span> {{$user->promotions->count()+$user->businesses->count()+$user->quests->count()==1 ? 'post' : 'posts'}}</a>
                             @elseif($user->id != Auth::user()->id)
-                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotionsVisible->count()+$user->businessesVisible->count()}}</span> {{$user->promotionsVisible->count()+$user->businessesVisible->count()==1 ? 'post' : 'posts'}}</a>
+                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()}}</span> {{$user->promotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()==1 ? 'post' : 'posts'}}</a>
                             @endif
                         </div>
                         <div class="col-auto">
@@ -87,8 +87,18 @@
                         </div>
                         @if($user->id == Auth::user()->id)
                         <div class="col-auto">
-                            <a href="{{ route('profile.reviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->reviews->count()}}</span> {{$user->reviews->count()==1 ? 'review' : 'reviews'}}</a>
+                            @if($user->id == Auth::user()->id)                             
+                                <a href="{{ route('profile.allreviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$reviews->count()}}</span> {{$reviews->count()==1 ? 'review' : 'reviews'}}</a>
+                            @endif
                         </div>
+                            {{-- @forelse($all_businesses as $business)
+                                @if($business->user->id == Auth::user()->id)
+                                    <a href="{{ route('profile.reviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$business->reviews->count()}}</span> {{$business->reviews->count()==1 ? 'review' : 'reviews'}}</a>
+                                @endif
+                            @empty
+                                <a href="{{ route('profile.reviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">0</span> reviews</a>
+                            @endforelse
+                        </div> --}}
                         @endif
 
                         {{-- SNS icons --}}
