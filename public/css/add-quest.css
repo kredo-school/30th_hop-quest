@@ -100,3 +100,32 @@ p{
     top: 0;
     right: 0;
 }
+
+/* Top Button */
+.top-button-container {
+    position: fixed;
+    bottom: 1.5rem;  /* 画面下からの距離 */
+    right: 1.5rem;   /* 画面右からの距離 */
+    z-index: 1000; /* 他の要素より上に表示 */
+}
+
+.top-button {
+    background-color: white;
+    border: 1px solid navy;
+    padding: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 50%; /* ✅ 完全な円にする */
+    width: 70px;  /* ✅ 幅と高さを揃える */
+    height: 70px; /* ✅ 幅と高さを揃える */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fs-8{
+    font-size: 0.6rem;
+}
+
+.fa-solid:hover{
+    transform: scale(1.1, 1.1); 
+}

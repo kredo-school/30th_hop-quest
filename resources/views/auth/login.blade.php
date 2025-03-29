@@ -57,21 +57,22 @@
                         </div>
 
                         <!-- Extra Links -->
-                        <div class="m-4 text-end">
+                        <div class="m-4 text-end g-3">
+                            <a href="{{ route('register') }}" class="text-decoration-none text-dark poppins-bold">Create
+                                Account</a>
+                        </div>
+                        <div class="m-4 text-end g-3">
                             <a href="{{ route('register.business') }}"
                                 class="text-decoration-none text-dark poppins-bold">Create Account
                                 for
                                 Business</a>
                         </div>
-                        <div class="m-4 text-end">
+                        <div class="m-4 text-end g-3">
                             <a href="{{ route('password.request') }}"
                                 class="text-decoration-none text-dark text-end poppins-bold">Forgot
                                 Password?</a>
                         </div>
-                        <div class="m-4 text-end">
-                            <a href="{{ route('register') }}" class="text-decoration-none text-dark poppins-bold">Create
-                                Account</a>
-                        </div>
+
                     </form>
                 </div>
             </div>

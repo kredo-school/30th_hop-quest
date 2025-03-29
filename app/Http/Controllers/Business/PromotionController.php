@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -51,7 +51,7 @@ class PromotionController extends Controller
 
         $all_promotions = $this->promotion->where('user_id', Auth::user()->id)->latest()->get();
         $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return redirect()->route('profile.posts', $this->promotion->business->user->id)->with('all_promotions', $all_promotions)->with('all_businesses', $all_businesses);
+        return redirect()->route('profile.promotions', $this->promotion->business->user->id)->with('all_promotions', $all_promotions)->with('all_businesses', $all_businesses);
     }
 
     public function edit($id){
@@ -87,10 +87,10 @@ class PromotionController extends Controller
         $promotion_a->save();
 
         //redirect to Show Post
-        return redirect()->route('profile.posts', Auth::user()->id)->with('all_promotions', $all_promotions)->with('all_businesses', $all_businesses);
+        return redirect()->route('profile.promotions', Auth::user()->id)->with('all_promotions', $all_promotions)->with('all_businesses', $all_businesses);
     }
 
-    public function showPromotions($id){
+    public function show($id){
         //get the data of 1 post where ID = $id
         $promotion_a = $this->promotion->findOrFail($id);
         

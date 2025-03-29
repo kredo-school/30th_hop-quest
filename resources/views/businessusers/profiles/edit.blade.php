@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<form action="{{ route('profile.update') }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('profile.update', Auth::user()->id) }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('PATCH')
 
@@ -27,7 +27,7 @@
         @if(Auth::user()->header)
             <img src="{{Auth::user()->header}}" class="header-image"  alt="">
         @else
-        <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
+            <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
         @endif
     </div>
 </div>
@@ -213,7 +213,7 @@
             </div>
             <div class="col-2"></div>
             <div class="col-4 ">
-                <a href="{{route('profile.posts', Auth::user()->id)}}">
+                <a href="{{route('profile.businesses', Auth::user()->id)}}">
                     <button class="btn btn-red w-100 ">CANCEL</button>
                 </a>
             </div>

@@ -23,4 +23,21 @@ class Business extends Model
     public function reviews(){
         return $this->hasMany(Review::class);
     }
+
+    public function photos(){
+        return $this->hasMany(Photo::class);
+    }
+
+    public function topPhoto(){
+        return $this->hasOne(Photo::class)->orderBy('priority', 'asc');
+    }
+
+    public function businessLikes(){
+        return $this->hasMany(BusinessLike::class);
+    }
+
+    public function isLiked(){
+        return $this->businessLikes()->where('user_id', Auth::user()->id)->exists();
+    }
+
 }

@@ -28,45 +28,49 @@
      </section>
 
         <div class="container mt-5">
-            <div class="row justify-content-between mt-4">
+            <div class="row align-items-stretch p-0">
                 <!-- 左側: Quest - Agenda -->
-                <div class="col-md-5 col-lg-5 bg-white rounded-3 mb-4" id="agenda-list">
-                    <h4>Quest - Agenda</h4>
-                    <ul>
-                        <li class="day-tag">Day - 1
-                            <ul>
-                                <li>- Kinkakuji-Temple</li>
-                            </ul>
-                        </li>
-                        <li class="day-tag">Day - 2
-                            <ul>
-                                <li>- Kinkakuji-Temple</li>
-                            </ul>
-                        </li>
-                        <li class="day-tag">Day - 3
-                            <ul>
-                                <li>- Kinkakuji-Temple</li>
-                            </ul>
-                        </li>
-                        <li class="day-tag">Day - 4
-                            <ul>
-                                <li>- Kinkakuji-Temple</li>
-                            </ul>
-                        </li>
-                    </ul>
+                <div class="col-md-6 d-flex px-0" id="agenda-list">
+                    <div class="bg-white rounded-3 w-100 p-2 me-2">
+                        <h4>Quest - Agenda</h4>
+                        <ul>
+                            <li class="day-tag">Day - 1
+                                <ul>
+                                    <li>- Kinkakuji-Temple</li>
+                                </ul>
+                            </li>
+                            <li class="day-tag">Day - 2
+                                <ul>
+                                    <li>- Kinkakuji-Temple</li>
+                                </ul>
+                            </li>
+                            <li class="day-tag">Day - 3
+                                <ul>
+                                    <li>- Kinkakuji-Temple</li>
+                                </ul>
+                            </li>
+                            <li class="day-tag">Day - 4
+                                <ul>
+                                    <li>- Kinkakuji-Temple</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             
                 <!-- 右側: Googleマップ -->
-                <div class="col-md-6 col-lg-6 px-0">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.146784010381!2d123.903637375094!3d10.33013598979281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a9992189a343c3%3A0xa7758b38dbbe1750!2sQQEnglish%20IT%20Park%20Campus!5e0!3m2!1sja!2sph!4v1742469854398!5m2!1sja!2sph" 
-                        width="100%" 
-                        height="300" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+                <div class="col-md-6 px-0">
+                    <div class="bg-white rounded-3 container-fluid p-2 ms-2">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.146784010381!2d123.903637375094!3d10.33013598979281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a9992189a343c3%3A0xa7758b38dbbe1750!2sQQEnglish%20IT%20Park%20Campus!5e0!3m2!1sja!2sph!4v1742469854398!5m2!1sja!2sph" 
+                            width="100%" 
+                            height="300" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
                 </div>{{-- </div> --}}
             </div>
         </div>
@@ -106,23 +110,24 @@
             </div>
         </section>
 
-        <section>
-            <div class="bg-white rounded-3 mb-4">
-                <div class="row px-2 py-3 m-0">
-                    <div class="col">
-                        <img src="{{ asset('images/quest/pexels-pixabay-459203_optimized_.jpg') }}" alt="" class="rounded-circle avatar-sm">
-                    </div>
-                </div>
-            </div>
+        <section class="text-center">
+            @include('components.comment')
          </section>
 
         </div>
     </div>
     
+<!-- Go to Top Button -->
+<div class="top-button-container">
+    <button class="top-button">
+        <a href="#" class="text-decoration-none color-navy">
+            <i class="fa-solid fa-plane-up fs-3"></i>
+            <p class="color-navy m-0 p-0 text-center fs-8 poppins-semibold">Go TOP</p>
+        </a>
+    </button>
 </div>
 
-</body>
-</html>
+</div>
 
 @vite(['resources/js/quest/scroll-adjustment.js'])
 @endsection
