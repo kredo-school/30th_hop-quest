@@ -2,9 +2,27 @@
     position: relative;
     padding-left: 5%; 
     padding-top: 5%;
-    width: 80%;
-    max-height: 95%;
+    width: 18rem;
+    height: 28rem;
+
 }
+
+.slick-slide {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+    
+.slick-track {
+    display: flex !important;
+}
+
+.slick-slide > div {
+    height: 15.5rem;
+}
+
+
 
 .body-image{
     widows: 100%;
@@ -76,4 +94,9 @@
     border: solid 2px #4496E3 !important;
     border-radius: 20px !important;
     text-decoration: none !important;
+}
+
+
+button.btn.btn-sm.shadow-none{
+    margin-top: 0.5rem;
 }
