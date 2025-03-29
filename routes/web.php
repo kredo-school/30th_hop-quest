@@ -82,11 +82,12 @@ Route::group(['prefix' => '/business/business', 'as' => 'business.'], function()
 });
 
 // Post
-Route::get('/tourist/posts/followings', [App\Http\Controllers\HomeController::class, 'posts_followings'])->name('posts.followings');
-Route::get('/tourist/posts/quests', [App\Http\Controllers\HomeController::class, 'posts_quests'])->name('posts.quests');
-Route::get('/tourist/posts/spots', [App\Http\Controllers\HomeController::class, 'posts_spots'])->name('posts.spots');
-Route::get('/tourist/posts/locations', [App\Http\Controllers\HomeController::class, 'posts_locations'])->name('posts.locations');
-Route::get('/tourist/posts/events', [App\Http\Controllers\HomeController::class, 'posts_events'])->name('posts.events');
+Route::get('/tourist/posts/all', [HomeController::class, 'showAll'])->name('posts.all');
+Route::get('/tourist/posts/followings', [HomeController::class, 'posts_followings'])->name('posts.followings');
+Route::get('/tourist/posts/quests', [HomeController::class, 'posts_quests'])->name('posts.quests');
+Route::get('/tourist/posts/spots', [HomeController::class, 'posts_spots'])->name('posts.spots');
+Route::get('/tourist/posts/locations', [HomeController::class, 'posts_locations'])->name('posts.locations');
+Route::get('/tourist/posts/events', [HomeController::class, 'posts_events'])->name('posts.events');
 
 // Spot 
 Route::group(['prefix' => '/spot', 'as' => 'spot.'], function(){
