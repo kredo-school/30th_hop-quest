@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\Promotion;
+use App\Models\Quest;
+use App\Models\Photo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -16,14 +18,16 @@ class ProfileController extends Controller
     private $user;
     private $business;
     private $promotion;
+    private $quest;
 
-    public function __construct(User $user, Business $business, Promotion $promotion){
+    public function __construct(User $user, Business $business, Promotion $promotion, Quest $quest){
         $this->user = $user;
         $this->business = $business;
         $this->promotion = $promotion;
+        $this->quest = $quest;
     }
 
-    public function edit(){
+    public function edit($id){
         return view('businessusers.profiles.edit');
     }
 
@@ -57,7 +61,6 @@ class ProfileController extends Controller
     $user_a->facebook = $request->facebook;
     $user_a->x = $request->x;
     $user_a->tiktok = $request->tiktok;
-    ;
 
     if($request->header){
         $user_a->header = "data:image/".$request->header->extension().";base64,".base64_encode(file_get_contents($request->header));
@@ -68,29 +71,36 @@ class ProfileController extends Controller
 
     $user_a->save();
 
-    return redirect()->route('profile.posts',Auth::user()->id);
+    return redirect()->route('profile.businesses',Auth::user()->id);
 
     }
 
-public function showPromotions($id){
-    //get data of 1 user
-    $user_a = $this->user->findOrFail($id);
-    $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-    $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
-    return view('businessusers.profiles.posts')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_promotions', $all_promotions);
+    public function showPromotions($id){
+        //get data of 1 user
+        $user_a = $this->user->findOrFail($id);
+        $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
+        $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
+        return view('businessusers.profiles.promotions')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_promotions', $all_promotions);
+    }
+
+    public function showBusinesses($id){
+        $user_a = $this->user->findOrFail($id);
+        // $user_a->load(['businesses.photos' => function ($query) {
+        //     $query->orderBy('priority', 'asc')->limit(1);
+        // }]);
+        $all_businesses = $this->business->withTrashed()->with('topPhoto')->where('user_id', $user_a->id)->latest()->paginate(3);
+        return view('businessusers.profiles.businesses')->with('user', $user_a)->with('all_businesses', $all_businesses);
+    }
+
+    public function showModelQuests($id){
+        $user_a = $this->user->findOrFail($id);
+        $all_quests = $this->quest->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
+        return view('businessusers.profiles.modelquests')->with('user', $user_a)->with('all_quests', $all_quests);
     }
 
     public function followers($id){
-        $user_a = $this->user->findOrFail($id);
-        return view('businessusers.profiles.followers')->with('user', $user_a);
-    }
-
-    public function reviews(){
-        return view('businessusers.reviews.allreviews');
-    }
-
-    public function showReview(){
-        return view('businessusers.reviews.showreview');
+    $user_a = $this->user->findOrFail($id);
+    return view('businessusers.profiles.followers')->with('user', $user_a);
     }
 
 

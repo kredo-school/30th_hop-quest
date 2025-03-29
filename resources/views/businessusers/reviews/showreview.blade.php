@@ -21,7 +21,7 @@
                     </thead>
                     <tbody class="">
                         <tr>
-                            <td class="ps-2"><a href="{{ route('profile.review', $review->id) }}" class="text-decoration-none text-secondary">{{ $review->name }}</a></td>
+                            <td class="ps-2"><a href="{{ route('profile.review', $review->id) }}" class="text-decoration-none text-secondary">{{ $review->user->name }}</a></td>
                             <td class="text-center">
                                 @for($i=1; $i <= $review->rating; $i++)
                                 <i class="fa-solid fa-star color-yellow"></i>
