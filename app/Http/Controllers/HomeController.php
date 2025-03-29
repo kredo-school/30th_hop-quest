@@ -8,8 +8,13 @@ use App\Models\Quest;
 use App\Models\Business;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Business;
+use App\Models\Quest;
+use App\Models\Spot;
 
 class HomeController extends Controller
+
 {
     /**
      * Create a new controller instance.
@@ -17,16 +22,16 @@ class HomeController extends Controller
      * @return void
      */
     private $user;
+    private $business;
     private $quest;
     private $spot;
-    private $business;
 
-    public function __construct(User $user, Quest $quest, Spot $spot, Business $business)
+    public function __construct(User $user, Business $business, Quest $quest, Spot $spot)
     {
-        $this->user     = $user;
-        $this->quest    = $quest;
-        $this->spot     = $spot;
+        $this->user = $user;
         $this->business = $business;
+        $this->quest = $quest;
+        $this->spot = $spot;
         // $this->middleware('auth');
     }
 
@@ -40,38 +45,22 @@ class HomeController extends Controller
         return view('home.home');
     }
 
-    
-    public function promotion_create(){
-        return view('businessusers.posts.promotions.create');
-    }
-
-    public function promotion_edit(){
-        return view('businessusers.posts.promotions.edit');
-    }
-
-    public function promotion_check(){
-        return view('businessusers.posts.promotions.check');
-    }
-
-    public function promotion_show(){
-        return view('businessusers.posts.promotions.show');
-    }
 
 // Posts
     public function posts_followings(){
-        return view('tourists.posts.followings');
+        return view('home.posts.followings');
     }
     public function posts_quests(){
-        return view('tourists.posts.quests');
+        return view('home.posts.quests');
     }
     public function posts_spots(){
-        return view('tourists.posts.spots');
+        return view('home.posts.spots');
     }
     public function posts_locations(){
-        return view('tourists.posts.locations');
+        return view('home.posts.locations');
     }
     public function posts_events(){
-        return view('tourists.posts.events');
+        return view('home.posts.events');
     }
 
     // Search Result
@@ -109,5 +98,79 @@ class HomeController extends Controller
                 ->with('all_posts', $all_posts)
                 ->with('request', $request);
     }
+
+    //Allshow
+    public function allShow(){
+    // Quests
+    $quests = Quest::select('title', 'introduction', 'main_image', 'created_at', 'updated_at')
+        ->get()
+        ->map(function ($item) {
+            return [
+                'title' => $item->title,
+                'introduction' => $item->introduction,
+                'main_image' => $item->main_image,
+                'category_id' => null,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+            ];
+        });
+
+    // Spots
+    $spots = Spot::select('title', 'introduction', 'main_image', 'created_at', 'updated_at')
+        ->get()
+        ->map(function ($item) {
+            return [
+                'title' => $item->title,
+                'introduction' => $item->introduction,
+                'main_image' => $item->main_image,
+                'category_id' => null,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+            ];
+        });
+
+    // Businesses -> Location
+    $locations = Business::where('category_id', 1)
+        ->with(['photos' => function ($q) {
+            $q->orderBy('priority')->limit(1);
+        }])
+        ->get()
+        ->map(function ($item) {
+            return [
+                'title' => $item->name,
+                'introduction' => $item->introduction,
+                'main_image' => optional($item->photos->first())->image,
+                'category_id' => $item->category_id,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+            ];
+        });
+
+    // Businesses -> Event
+    $events = Business::where('category_id', 2)
+        ->with(['photos' => function ($q) {
+            $q->orderBy('priority')->limit(1);
+        }])
+        ->get()
+        ->map(function ($item) {
+            return [
+                'title' => $item->name,
+                'introduction' => $item->introduction,
+                'main_image' => optional($item->photos->first())->image,
+                'category_id' => $item->category_id,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+            ];
+        });
+
+    // 全部まとめる
+    $all = $quests->concat($spots)->concat($locations)->concat($events);
+
+    // created_at順にソートしたい場合
+    $all = $all->sortByDesc('created_at')->values();
+
+    return view('posts.all_show', compact('all'));
+}
+
 
 }
