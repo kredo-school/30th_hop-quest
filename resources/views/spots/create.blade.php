@@ -4,7 +4,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/map.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/spot/addspot.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/addspot.css')}}">
 @endsection
 
 @section('content')
