@@ -11,7 +11,8 @@
 <div class="bg-green">
     <div class="container py-5 col-9">
         <h3 class="color-navy poppins-semibold text-center">Create Your Quest</h3>
-    
+        <div id="responseMessage"></div>
+            <div id="responseMessage2"></div>
         <section>
             <form action="{{ route('quest.store') }}" method="post" enctype="multipart/form-data" id="form1"class="bg-white rounded-4 p-5 my-3">
                 @csrf
@@ -50,7 +51,7 @@
                     </div> --}}
                     <div class="row pb-3">
                         <label for="introduction" class="form-label">Introduction</label>
-                        <input type="text" name="introduction" id="introduction" class="input-box" placeholder="3 days trip with my family!">
+                        <textarea name="introduction" id="introduction" class="text-area mx-0" rows="5"" cols="30" rows="10" placeholder="My trip to Kyoto was an unforgettable experience filled with history, culture, and breathtaking scenery. From exploring the serene temples of Kinkaku-ji and Fushimi Inari Taisha to strolling through the charming streets of Gion, every moment was magical. The delicious Kyoto cuisine, such as matcha sweets and yudofu, added to the experience. The city's blend of tradition and modernity left a lasting impression, making me want to visit again. Kyoto truly captures the essence of Japan."></textarea>
                     </div>
                     <div class="row pb-3">
                         <label for="main_image" class="form-label">Header photo</label>
@@ -85,7 +86,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-5">
-                        <label for="spot-name" class="form-label">Search Spot on HopQuest</label>
+                        <label for="spot_name" class="form-label">Search Spot on HopQuest</label>
                     </div>
                     <div class="col-md-2">
                         
@@ -100,6 +101,7 @@
                         <form action=" " method="get">
                             @csrf
                             <input type="text" name="search" id="spot_name" value="" placeholder="Tokyo Tower" class="input-box form-control ms-auto w-100">
+                            <div id="searchResults" class="search-results"></div>
                         </form>
                     </div>
                     <div class="col-lg-2">
@@ -156,22 +158,26 @@
                 </div>
         </section>
 
-        <section class="position-relative my-4 d-none" id="header">
-            <img src="" alt="header-img" id="header-img" class="img-fluid w-100">
-        
-            <!-- 右上のオーバーレイ部分 -->
-            <div class="overlay position-absolute top-0 end-0 p-3 text-white">
-                <!-- 編集・削除ボタン -->
-                <div>
-                    <button class="btn btn-sm btn-green"><a href="#form1" class="text-decoration-none text-white"><i class="fa-solid fa-pen-to-square"></i></a></button>
-                    <button class="btn btn-sm btn-red" data-bs-toggle="modal" data-bs-target="#delete-post"><i class="fa-solid fa-trash"></i></button>
+        <section class="d-none" id="header">
+            <div class="position-relative my-4">
+                <img src="" alt="header-img" id="header-img" class="img-fluid w-100">
+            
+                <!-- 右上のオーバーレイ部分 -->
+                <div class="overlay position-absolute top-0 end-0 p-3 text-white">
+                    <!-- 編集・削除ボタン -->
+                    <div>
+                        <button class="btn btn-sm btn-green"><a href="#form1" class="text-decoration-none text-white"><i class="fa-solid fa-pen-to-square"></i></a></button>
+                        <button class="btn btn-sm btn-red" data-bs-toggle="modal" data-bs-target="#delete-post"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+                <div class="overlay position-absolute bottom-0 start-0 p-3 text-white">
+                    <!-- タイトル -->
+                    <h3 class="my-0" id="header-title"></h3>
+                    <!-- 日付 -->
+                    <h4 class="my-0" id="header-dates"></h4>
                 </div>
             </div>
-            <div class="overlay position-absolute bottom-0 start-0 p-3 text-white">
-                <!-- タイトル -->
-                <h3 class="my-0" id="header-title"></h3>
-                <!-- 日付 -->
-                <h4 class="my-0" id="header-dates"></h4>
+            <div class="bg-white rouded-4 my-4">
                 <!-- 紹介文 -->
                 <p class="my-0" id="header-intro"></p>
             </div>
@@ -180,10 +186,12 @@
         @include('quests.modals.delete-modal')
 
         <!-- dayセクションを追加する場所 -->
-        <div id="day-container"></div>
+        <div id="day-container">
+            
+        </div>
 
             <button class="btn btn-navy w-100 mb-5 d-none" id="confirmBtn"><a href="" class="text-decoration-none text-white">Check</a></button>
     </div>
 </div>
-@vite(['resources/js/quest/add-quest.js'])
+@vite(['resources/js/quest/add-quest.js','resources/js/search.js'])
 @endsection

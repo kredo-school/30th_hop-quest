@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\QuestBody;
 use App\Models\Quest;
+use App\Models\Spots;
+use App\Models\Businseess;
 use App\Models\User;
 
 class QuestController extends Controller
@@ -27,7 +29,7 @@ class QuestController extends Controller
                 'start_date' => 'nullable|date',
                 'end_date' => 'nullable|date',
                 'duration' => 'nullable|integer',
-                'introduction' => 'nullable|string|max:40',
+                'introduction' => 'nullable|string|max:500',
                 'main_image' => 'required|file|max:1048|mimes:jpg,jpeg,png,gif',
                 'is_public' => 'nullable|in:0,1',
             ]);
@@ -81,20 +83,38 @@ class QuestController extends Controller
         }
     
         // QuestBody の保存
-        $questBody = new QuestBody();
-        $questBody->quest_id = $quest_id; // `quest_id` を設定
-        $questBody->spot_id = $request->spot_name->id ?? null; 
-        $questBody->business_id = $request->spot_name->id ?? null;
-        $questBody->day_number = $request->day_number;
-        $questBody->introduction = $request->introduction;
-        $questBody->business_title = $request->business_title;
-        $questBody->is_agenda = $request->is_agenda ?? "1";
-        $questBody->image = "data:image/".$request->image->extension().";base64,".base64_encode(file_get_contents($request->image));
+        $questbody = new QuestBody();
+        $questbody->quest_id = $quest_id; // `quest_id` を設定
+        $questbody->spot_id = $request->spot_name->id ?? null; 
+        $questbody->business_id = $request->spot_name->id ?? null;
+        $questbody->day_number = $request->day_number;
+        $questbody->introduction = $request->introduction;
+        $questbody->business_title = $request->business_title;
+        $questbody->is_agenda = $request->is_agenda ?? "1";
+        $questbody->image = "data:image/".$request->image->extension().";base64,".base64_encode(file_get_contents($request->image));
     
-        $questBody->save();
+        $questbody->save();
     
         return redirect()->route('quest.add', ['user_id' => Auth::id()]);
     }
+
+    public function searchAjax(Request $request){
+        $query = $request->query('query');
+
+        if ($query) {
+            // Spots & Businesses の検索
+            $spots = Spot::where('title', 'LIKE', "%{$query}%")->get();
+            $businesses = Business::where('title', 'LIKE', "%{$query}%")->get();
+
+            // 結果を統合
+            $results = $spots->merge($businesses);
+
+            return response()->json($results);
+        }
+
+        return response()->json([]);
+    }
+    
     
     public function showAddQuest(){
         return view('quests.add-quest');

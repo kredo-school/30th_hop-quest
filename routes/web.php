@@ -70,6 +70,7 @@ Route::get('/business', [App\Http\Controllers\HomeController::class, 'viewBusine
 Route::get('/quest/add-quest', [QuestController::class, 'showAddQuest'])->name('quest.add');
 Route::post('/quest/add-quest/store', [QuestController::class, 'storeQuest'])->name('quest.store');
 Route::post('/quest/add-quest/bodystore', [QuestController::class, 'storeQuestBody'])->name('quest.storebody');
+Route::get('/quest/add-quest/search', [QuestController::class, 'searchAjax'])->name('quest.search');
 
 //Confirm
 Route::get('/quest/confirm-quest/{id}', [QuestController::class, 'showConfirmQuest'])->name('confirm');

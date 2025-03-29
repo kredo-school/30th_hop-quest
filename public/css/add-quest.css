@@ -129,3 +129,21 @@ p{
 .fa-solid:hover{
     transform: scale(1.1, 1.1); 
 }
+/* =======================search result */
+.search-results {
+    position: absolute;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.search-result-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-result-item:hover {
+    background-color: #f0f0f0;
+}

@@ -3,6 +3,40 @@ window.addEventListener("beforeunload", function() {
     localStorage.clear();
 });
 // load==========================================================
+document.addEventListener("DOMContentLoaded", function () {
+    let searchInput = document.getElementById("searchBox"); // 検索ボックス
+    let searchResults = document.getElementById("searchResults"); // 結果を表示するエリア
+
+    searchInput.addEventListener("keyup", function () {
+        let query = searchInput.value.trim();
+
+        if (query.length > 0) {
+            fetch(`/search?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    searchResults.innerHTML = ""; // 結果をクリア
+                    if (data.length > 0) {
+                        data.forEach(item => {
+                            let resultItem = document.createElement("div");
+                            resultItem.classList.add("search-result-item");
+                            resultItem.innerHTML = `<p>${item.title}</p>`;
+                            resultItem.addEventListener("click", function () {
+                                searchInput.value = item.title; // 選択したらボックスにセット
+                                searchResults.innerHTML = ""; // リストをクリア
+                            });
+                            searchResults.appendChild(resultItem);
+                        });
+                    } else {
+                        searchResults.innerHTML = "<p>No results found</p>";
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+        } else {
+            searchResults.innerHTML = "";
+        }
+    });
+});
+
 // **アップロードした画像を保存するリスト**
 let uploadedImagesList = []; 
 
@@ -243,7 +277,7 @@ document.getElementById("submit1").addEventListener("click", async function(even
                 'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure CSRF token is included
             }
         });
-        let result = await response.json();
+        let result = await response.text();
         if (response.ok) {
             document.getElementById('responseMessage').innerHTML = "<p style='color: green;'>Success! Data saved.</p>";
         } else {
@@ -306,12 +340,12 @@ document.getElementById("addon").addEventListener("click", async function(event)
                 'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure CSRF token is included
             }
         });
-        let result = await response.json();
+        let result = await response.text();
         if (response.ok) {
-            document.getElementById('responseMessage').innerHTML = "<p style='color: green;'>Success! Data saved.</p>";
+            document.getElementById('responseMessage2').innerHTML = "<p style='color: green;'>Success! Data saved.</p>";
         } else {
             let errors = Object.values(result).map(error => `<p style='color: red;'>${error}</p>`).join("");
-            document.getElementById('responseMessage').innerHTML = errors;
+            document.getElementById('responseMessage2').innerHTML = errors;
         }
     } catch (error) {
         console.error('Error:', error);
@@ -409,6 +443,7 @@ function displayAllSpots() {
         const spotTitle = document.createElement("h4");
 
         spotTitle.classList.add("spot-name", "poppins-bold", "col-md-10", "text-start");
+        spotTitle.id = "spot-name"; // IDを設定
         spotTitle.textContent = spotData.spot;
     
         const buttonContainer = document.createElement("div");
@@ -423,6 +458,7 @@ function displayAllSpots() {
         const agendaCheckbox = document.createElement("input");
         agendaCheckbox.type = "checkbox";
         agendaCheckbox.classList.add("form-check-input");
+        agendaCheckbox.id = "agenda"; // IDを設定
         agendaCheckbox.checked = spotData.agenda; // ✅ ここでチェック状態をセット
         agendaCheckbox.addEventListener("change", function () {
             spotData.agenda = agendaCheckbox.checked;
@@ -444,7 +480,7 @@ function displayAllSpots() {
     
         // **画像表示エリア**
         const imgContainer = document.createElement("div");
-        imgContainer.classList.add("col-lg-6", "spot-image-container","d-block","flex-column");
+        imgContainer.classList.add("col-lg-6", "image-container","d-block","flex-column");
       
         if (spotData.images.length > 0) {
             spotData.images.forEach(src => {
@@ -498,7 +534,7 @@ function displayAllSpots() {
         console.log("🧹 フォーム2をクリアします！");
         document.getElementById("spot-name").value = "";
         document.getElementById("spot-description").value = "";
-        document.getElementById("spot-images").value = "";
+        document.getElementById("image").value = "";
 
         // **アップロード画像リストをクリア**
         uploadedImagesList = [];
@@ -515,7 +551,7 @@ document.getElementById("confirmBtn").addEventListener("click", function () {
 
 
 function adjustDescriptionHeight() {
-    let spotImageContainers = document.querySelectorAll(".spot-image-container");
+    let spotImageContainers = document.querySelectorAll(".image-container");
     let descriptions = document.querySelectorAll(".spot-description");
 
     if (spotImageContainers.length === 0 || descriptions.length === 0) {
