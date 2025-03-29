@@ -86,11 +86,12 @@ Route::group(['prefix' => '/business/modelquest', 'as' => 'modelquest.'], functi
 });
 
 // Post
-Route::get('/tourist/posts/followings', [App\Http\Controllers\HomeController::class, 'posts_followings'])->name('posts.followings');
-Route::get('/tourist/posts/quests', [App\Http\Controllers\HomeController::class, 'posts_quests'])->name('posts.quests');
-Route::get('/tourist/posts/spots', [App\Http\Controllers\HomeController::class, 'posts_spots'])->name('posts.spots');
-Route::get('/tourist/posts/locations', [App\Http\Controllers\HomeController::class, 'posts_locations'])->name('posts.locations');
-Route::get('/tourist/posts/events', [App\Http\Controllers\HomeController::class, 'posts_events'])->name('posts.events');
+Route::get('/tourist/posts/all', [HomeController::class, 'showAll'])->name('posts.all');
+Route::get('/tourist/posts/followings', [HomeController::class, 'posts_followings'])->name('posts.followings');
+Route::get('/tourist/posts/quests', [HomeController::class, 'posts_quests'])->name('posts.quests');
+Route::get('/tourist/posts/spots', [HomeController::class, 'posts_spots'])->name('posts.spots');
+Route::get('/tourist/posts/locations', [HomeController::class, 'posts_locations'])->name('posts.locations');
+Route::get('/tourist/posts/events', [HomeController::class, 'posts_events'])->name('posts.events');
 
 // password reset
 Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'show'])->name('password.request');

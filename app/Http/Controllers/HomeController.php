@@ -96,15 +96,15 @@ class HomeController extends Controller
     }
 
     //Allshow
-    public function allShow(){
+    public function showAll(){
     // Quests
-    $quests = Quest::select('title', 'introduction', 'main_image', 'created_at', 'updated_at')
+    $quests = Quest::select('title', 'introduction', 'main_photo', 'created_at', 'updated_at')
         ->get()
         ->map(function ($item) {
             return [
                 'title' => $item->title,
                 'introduction' => $item->introduction,
-                'main_image' => $item->main_image,
+                'main_photo' => $item->main_image,
                 'category_id' => null,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
@@ -165,7 +165,7 @@ class HomeController extends Controller
     // created_at順にソートしたい場合
     $all = $all->sortByDesc('created_at')->values();
 
-    return view('posts.all_show', compact('all'));
+    return view('home.posts.', compact('all'));
 }
 
 
