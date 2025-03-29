@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Business extends Model
 {
@@ -38,6 +39,10 @@ class Business extends Model
 
     public function isLiked(){
         return $this->businessLikes()->where('user_id', Auth::user()->id)->exists();
+    }
+
+    public function view(): MorphOne{
+        return $this->morphOne(PageView::class, 'page');
     }
 
 }

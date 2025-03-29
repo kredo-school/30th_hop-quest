@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Spot extends Model
 {
@@ -41,5 +42,9 @@ class Spot extends Model
     public function views()
     {
         return $this->hasMany(View::class);
+    }
+
+    public function view(): MorphOne{
+        return $this->morphOne(PageView::class, 'page');
     }
 }
