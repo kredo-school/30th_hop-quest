@@ -12,6 +12,8 @@ use App\Http\Controllers\Business\PromotionController;
 use App\Http\Controllers\Business\BusinessLikeController;
 use App\Http\Controllers\Business\QuestController;
 use App\Http\Controllers\Business\QuestLikeController;
+use App\Http\Controllers\Business\SpotController;
+use App\Http\Controllers\Business\SpotLikeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -68,13 +70,16 @@ Route::group(['prefix' => '/business/business', 'as' => 'business.'], function()
     Route::patch('photos/{business}/update', [PhotoController::class, 'update'])->name('photos.update');
     Route::delete('/{id}/deactivate', [BusinessController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [BusinessController::class, 'activate'])->name('activate');
-    //LIKES
-    Route::post('/like/{business_id}/store', [BusinessLikeController::class, 'storeLike'])->name('like.store');
-    Route::delete('/like/{business_id}/delete', [BusinessLikeController::class, 'deleteLike'])->name('like.delete');
-});
+    });
+
+//LIKES BUSINESS
+Route::post('/home/like/location/{business_id}/store', [BusinessLikeController::class, 'storeLocationLike'])->name('location.like.store');
+Route::delete('/home/like/location/{business_id}/delete', [BusinessLikeController::class, 'deleteLocationLike'])->name('location.like.delete');
+Route::post('/home/like/event/{business_id}/store', [BusinessLikeController::class, 'storeEventLike'])->name('event.like.store');
+Route::delete('/home/like/event/{business_id}/delete', [BusinessLikeController::class, 'deleteEventLike'])->name('event.like.delete');
 
 //QUESTS simple
-Route::group(['prefix' => '/business/modelquest', 'as' => 'modelquest.'], function(){
+Route::group(['prefix' => '/home/modelquest', 'as' => 'quest.'], function(){
     Route::get('/create', [QuestController::class, 'create'])->name('create');
     Route::get('/{id}/edit', [QuestController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [QuestController::class, 'update'])->name('update');
@@ -83,15 +88,23 @@ Route::group(['prefix' => '/business/modelquest', 'as' => 'modelquest.'], functi
     Route::delete('/like/{quest_id}/delete', [QuestLikeController::class, 'deleteLike'])->name('like.delete');
     Route::delete('/{id}/deactivate', [QuestController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [QuestController::class, 'activate'])->name('activate');
+    Route::post('/like/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('like.store');
+    Route::delete('/like/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('like.delete');
+});
+
+//SPOT
+Route::group(['prefix' => '/home/spot', 'as' => 'spot.'], function(){
+    Route::post('/like/{spot_id}/store', [SpotLikeController::class, 'storeLike'])->name('like.store');
+    Route::delete('/like/{spot_id}/delete', [SpotLikeController::class, 'deleteLike'])->name('like.delete');
 });
 
 // Post
 Route::get('/tourist/posts/all', [HomeController::class, 'showAll'])->name('posts.all');
-Route::get('/tourist/posts/followings', [HomeController::class, 'posts_followings'])->name('posts.followings');
-Route::get('/tourist/posts/quests', [HomeController::class, 'posts_quests'])->name('posts.quests');
-Route::get('/tourist/posts/spots', [HomeController::class, 'posts_spots'])->name('posts.spots');
-Route::get('/tourist/posts/locations', [HomeController::class, 'posts_locations'])->name('posts.locations');
-Route::get('/tourist/posts/events', [HomeController::class, 'posts_events'])->name('posts.events');
+Route::get('/tourist/posts/followings', [HomeController::class, 'showFollowings'])->name('posts.followings');
+Route::get('/tourist/posts/quests', [HomeController::class, 'showQuests'])->name('posts.quests');
+Route::get('/tourist/posts/spots', [HomeController::class, 'showSpots'])->name('posts.spots');
+Route::get('/tourist/posts/locations', [HomeController::class, 'showLocations'])->name('posts.locations');
+Route::get('/tourist/posts/events', [HomeController::class, 'showEvents'])->name('posts.events');
 
 // password reset
 Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'show'])->name('password.request');

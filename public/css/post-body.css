@@ -52,6 +52,11 @@
     height:260px;
 }
 
+.card-body.post{
+    display: flow-root;
+    height:300px;
+}
+
 .card-body.content.short{
     display: flow-root;
     height:200px;
@@ -115,4 +120,16 @@
     font-size: 1.5rem;
     color: #D24848 !important; 
     font-weight: bold; 
+}
+
+.avatar-sm{
+    height: 2.8125rem;
+    width: 2.8125rem;
+    object-fit: cover;
+}
+
+.profile-icon-sm{
+    height: 2.8125rem;
+    width: 2.8125rem;
+    object-fit: cover;
 }
