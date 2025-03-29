@@ -37,7 +37,7 @@ class HomeController extends Controller
      */
 
     public function index(){
-        return view('home');
+        return view('home.home');
     }
 
     
@@ -99,7 +99,7 @@ class HomeController extends Controller
 
 
 
-        $all_posts = $quests->merge($spots)->merge($business_locations)->merge($business_events);
+        $all_posts = $quests->concat($spots)->concat($business_locations)->concat($business_events);
 
         return view('home.search')
                 ->with('quests', $quests)

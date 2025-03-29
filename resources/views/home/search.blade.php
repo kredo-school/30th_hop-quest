@@ -9,7 +9,7 @@
 
     <div class="wrapper-tag">
         <div class="search-word">
-            <h1 class="h1">Search word :  <strong>{{$request->search }}</strong></h1>
+            <h1 class="h1">Search word :  <strong>{{ $request->search }}</strong></h1>
         </div>
 
         {{-- All Tab --}}
@@ -148,6 +148,6 @@
     
 
 @section('js')
-    <script src="js/home/search.js"></script>
+    <script src="{{ asset('js/home/search.js')}}"></script>
 
 @endsection

@@ -27,14 +27,14 @@
     @yield('css')
 
     <!-- jQuery -->
-    <script src="js/home/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/home/jquery-3.6.0.min.js') }}"></script>
 
     <!-- CSS of slick -->
     <link rel="stylesheet" href="{{ asset('css/slick/slick.css')}}" />
     <link rel="stylesheet" href="{{ asset('css/slick/slick-theme.css')}}" />
 
     <!-- JS of slick -->
-    <script src="js/home/slick.min.js"></script>
+    <script src="{{ asset('js/home/slick.min.js') }}"></script>
     
 </head>
 <body>
@@ -76,7 +76,7 @@
                         <li class="nav-item my-auto">
                             <a href="{{ route('home') }}" class="nav-link" href="">HOME</a>
                         </li>
-                        <li class="nav-item dropdown my-auto">
+                        {{-- <li class="nav-item dropdown my-auto"> --}}
                         <li class="nav-item dropdown my-auto">
                             <a id="navbarDropdown" class="nav-link btn " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>+Add</a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
