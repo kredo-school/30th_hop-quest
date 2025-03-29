@@ -82,5 +82,6 @@ Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordControlle
 // register business
 Route::get('/register/business', [App\Http\Controllers\Auth\RegisterController::class, 'registerBusiness'])->name('register.business');
 Route::post('/store/business', [App\Http\Controllers\Auth\RegisterController::class, 'storeBusiness'])->name('register.business.submit');
-Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
+Route::get('/register/tourist', [App\Http\Controllers\Auth\RegisterController::class, 'registerTourist'])->name('register.tourist');
+Route::post('/store/tourist', [App\Http\Controllers\Auth\RegisterController::class, 'storeTourist'])->name('register.submit');
 
