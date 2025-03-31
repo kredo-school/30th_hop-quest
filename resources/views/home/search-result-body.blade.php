@@ -8,7 +8,7 @@
         {{-- Card Image with official mark --}}
         <img src="{{ asset('images/home/Official Badge.png') }}" class="official" alt="official">
 
-        <a href="#" class="">
+        <a href="{{ route('spot.show', $post->id )}}" class="">
             @php
                 if ($post->photos) {
                     $priority_one = $post->photos->where('priority', '1')->first();
@@ -130,18 +130,18 @@
                     </div>
 
                     <button class="btn btn-sm p-0 text-center">
-                        <span>&nbsp;&nbsp;52</span>
+                        <span>&nbsp;&nbsp; ?</span>
                     </button>
                 </div>
 
-                {{--  --}}
+                {{-- Number of views --}}
                 <div class="col-auto d-flex ms-3">
                     <div>
                         <i class="fa-solid fa-chart-simple"></i>
                     </div>
 
                     <button class="btn btn-sm p-0 text-center">
-                        <span>&nbsp;&nbsp;201</span>
+                        <span>&nbsp;&nbsp;{{ $post->view->views ?? 0 }}</span>
                     </button>
                 </div>
             </div>
