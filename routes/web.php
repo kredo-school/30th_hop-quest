@@ -81,10 +81,6 @@ Route::group(['prefix' => '/business/business', 'as' => 'business.'], function()
 //LIKES BUSINESS
 Route::post('/home/like/business/{business_id}/store', [BusinessLikeController::class, 'storeBusinessLike'])->name('business.like.store');
 Route::delete('/home/like/business/{business_id}/delete', [BusinessLikeController::class, 'deleteBusinessLike'])->name('business.like.delete');
-// Route::post('/home/like/location/{business_id}/store', [BusinessLikeController::class, 'storeLocationLike'])->name('location.like.store');
-// Route::delete('/home/like/location/{business_id}/delete', [BusinessLikeController::class, 'deleteLocationLike'])->name('location.like.delete');
-// Route::post('/home/like/event/{business_id}/store', [BusinessLikeController::class, 'storeEventLike'])->name('event.like.store');
-// Route::delete('/home/like/event/{business_id}/delete', [BusinessLikeController::class, 'deleteEventLike'])->name('event.like.delete');
 
 //QUESTS simple
 Route::group(['prefix' => '/home/modelquest', 'as' => 'quest.'], function(){
@@ -109,12 +105,13 @@ Route::group(['prefix' => '/home/spot', 'as' => 'spot.'], function(){
 });
 
 // Post
-Route::get('/tourist/posts/all', [HomeController::class, 'showAll'])->name('posts.all');
-Route::get('/tourist/posts/followings', [HomeController::class, 'showFollowings'])->name('posts.followings');
-Route::get('/tourist/posts/quests', [HomeController::class, 'showQuests'])->name('posts.quests');
-Route::get('/tourist/posts/spots', [HomeController::class, 'showSpots'])->name('posts.spots');
-Route::get('/tourist/posts/locations', [HomeController::class, 'showLocations'])->name('posts.locations');
-Route::get('/tourist/posts/events', [HomeController::class, 'showEvents'])->name('posts.events');
+Route::get('/home/posts/all', [HomeController::class, 'showAll'])->name('posts.all');
+Route::get('/home/posts/followings', [HomeController::class, 'showFollowings'])->name('posts.followings');
+Route::get('/home/posts/quests', [HomeController::class, 'showQuests'])->name('posts.quests');
+Route::get('/home/posts/spots', [HomeController::class, 'showSpots'])->name('posts.spots');
+Route::get('/home/posts/locations', [HomeController::class, 'showLocations'])->name('posts.locations');
+Route::get('/home/posts/events', [HomeController::class, 'showEvents'])->name('posts.events');
+Route::get('/home/posts/followings', [HomeController::class, 'showFollowings'])->name('posts.followings');
 
 // Spot 
 Route::group(['prefix' => '/spot', 'as' => 'spot.'], function(){

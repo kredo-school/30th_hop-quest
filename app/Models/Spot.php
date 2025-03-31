@@ -19,6 +19,10 @@ class Spot extends Model
         return $this->hasMany(SpotLike::class);
     }
 
+    public function spotComments(){
+        return $this->hasMany(SpotComment::class);
+    }
+
     public function isLiked(){
         return $this->spotLikes()->where('user_id', Auth::user()->id)->exists();
     }

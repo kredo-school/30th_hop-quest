@@ -53,10 +53,10 @@
                 <div class="card p-3">
                     <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Image --}}   
-                        <div class="business">                         
-                            <div class="photos">
-                                @if($business->topPhoto)
-                                    <img src="{{ $business->topPhoto->image }}" alt="" class="post-image">
+                        {{-- <div class="business">                         
+                            <div class="photos"> --}}
+                                @if($business->main_image)
+                                    <img src="{{ $business->main_image }}" alt="" class="post-image">
                                 @else
                                     No photo
                                 @endif
