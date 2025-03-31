@@ -21,6 +21,25 @@ class BusinessLikeController extends Controller
         $this->user = $user;
     }
 
+    
+    public function storeBusinessLike($business_id){
+        $this->business_like->user_id = Auth::user()->id;
+        $this->business_like->business_id = $business_id; //post we are liking
+        $this->business_like->save();
+
+        //go to previous page
+        return redirect()->back();
+    }
+    
+    public function deleteBusinessLike($business_id){
+        //delete()
+        $this->business_like->where('user_id', Auth::user()->id)
+                    ->where('business_id', $business_id)
+                    ->delete();
+
+        return redirect()->back();
+    }
+
     public function storeLocationLike($business_id){
         $this->business_like->user_id = Auth::user()->id;
         $this->business_like->business_id = $business_id; //post we are liking
@@ -29,7 +48,7 @@ class BusinessLikeController extends Controller
         //go to previous page
         return redirect()->back();
     }
-
+    
     public function deleteLocationLike($business_id){
         //delete()
         $this->business_like->where('user_id', Auth::user()->id)

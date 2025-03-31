@@ -45,16 +45,20 @@
 .card-body{
     display: flow-root;
     height:180px;
+    margin-bottom: 20px;
 }
 
 .card-body.content{
     display: flow-root;
     height:260px;
+    margin-bottom: 20px;
 }
 
 .card-body.post{
     display: flow-root;
     height:300px;
+    margin-bottom: 20px;
+    overflow: hidden;
 }
 
 .card-body.content.short{
@@ -122,14 +126,5 @@
     font-weight: bold; 
 }
 
-.avatar-sm{
-    height: 2.8125rem;
-    width: 2.8125rem;
-    object-fit: cover;
-}
 
-.profile-icon-sm{
-    height: 2.8125rem;
-    width: 2.8125rem;
-    object-fit: cover;
-}
+

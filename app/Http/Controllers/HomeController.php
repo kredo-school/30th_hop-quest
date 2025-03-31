@@ -100,7 +100,6 @@ class HomeController extends Controller
     // Spots
     $spots = Spot::with('user')
     ->withCount(['spotLikes as likes_count'])
-    ->select('id', 'user_id', 'title', 'introduction', 'main_image', 'created_at', 'updated_at')
     ->get()
     ->map(function ($item) {
         return [
@@ -126,7 +125,6 @@ class HomeController extends Controller
     // Quests
     $quests = Quest::with('user')
     ->withCount(['questLikes as likes_count'])
-    ->select('id', 'user_id', 'title', 'introduction', 'main_image', 'created_at', 'updated_at')
     ->get()
     ->map(function ($item) {
         return [
@@ -177,7 +175,7 @@ class HomeController extends Controller
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count, // ← 追加
             'is_liked' => $item->isLiked(),     // ← 追加
-            'type' => 'location', 
+            'type' => 'business', 
         ];
     });
 
@@ -208,7 +206,7 @@ class HomeController extends Controller
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count, // ← 追加
             'is_liked' => $item->isLiked(),     // ← 追加
-            'type' => 'event', 
+            'type' => 'business', 
         ];
     });
 
@@ -225,7 +223,6 @@ public function showQuests(){
     // Quests
     $quests = Quest::with('user')
     ->withCount(['questLikes as likes_count'])
-    ->select('id', 'user_id', 'title', 'introduction', 'main_image', 'created_at', 'updated_at')
     ->get()
     ->map(function ($item) {
         return [
@@ -324,7 +321,7 @@ public function showQuests(){
 
     public function showEvents(){
     // Locations
-    $events = Business::where('category_id', 1)
+    $events = Business::where('category_id', 2)
     ->withCount(['businessLikes as likes_count'])
     ->with([
         'photos' => function ($q) {
