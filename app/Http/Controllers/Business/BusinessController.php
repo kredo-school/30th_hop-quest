@@ -30,12 +30,14 @@ class BusinessController extends Controller
 
     public function store(Request $request){
         $request->validate([
+            'main_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
         $this->business->category_id = $request->category_id;
         $this->business->user_id = Auth::user()->id;
         $this->business->name = $request->name;
+        $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode (file_get_contents($request->main_image));
         $this->business->email = $request->email;
         $this->business->term_start = $request->term_start;
         $this->business->term_end = $request->term_end;
@@ -65,6 +67,7 @@ class BusinessController extends Controller
 
     public function update(Request $request, $id){
         $request->validate([
+            'main_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
@@ -73,6 +76,7 @@ class BusinessController extends Controller
         $business_a->category_id = $request->category_id;
         $business_a->user_id = Auth::user()->id;
         $business_a->name = $request->name;
+        $business_a->main_image = $request->main_image;
         $business_a->email = $request->email;
         $business_a->term_start = $request->term_start;
         $business_a->term_end = $request->term_end;
@@ -80,17 +84,18 @@ class BusinessController extends Controller
         $business_a->official_certification = 1;
         $business_a->save();
 
+        if($request->main_image){
+            $business_a->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
+        }
+        $business_a->save();
+        
         if ($request->hasFile('image')) {
             // PhotoController をインスタンス化
             $photoController = app(\App\Http\Controllers\Business\PhotoController::class);
 
             // 呼び出して結果を受け取る
-            $response = $photoController->update($request, $business_a);
-
-           
+            $response = $photoController->update($request, $business_a);          
             }
-        
-
         return redirect()->route('profile.businesses',Auth::user()->id);
     }
 

@@ -101,6 +101,10 @@ class User extends Authenticatable
         return $this->followers()->where('follower_id', Auth::user()->id)->exists();
     }
 
+    public function following(){
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id');
+    }
+
     public function quests(){
         return $this->hasMany(Quest::class)->withTrashed()->latest();
     }

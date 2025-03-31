@@ -55,8 +55,8 @@
                         {{-- Image --}}   
                         {{-- <div class="business">                         
                             <div class="photos"> --}}
-                                @if($business->topPhoto)
-                                    <img src="{{ $business->topPhoto->image }}" alt="" class="post-image">
+                                @if($business->main_image)
+                                    <img src="{{ $business->main_image }}" alt="" class="post-image">
                                 @else
                                     No photo
                                 @endif
