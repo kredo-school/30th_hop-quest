@@ -235,36 +235,30 @@ h6{
 
 /* for body*/
 .profile-xs{
-    height: 1.875rem;
-    width: 1.875rem;
+    font-size: 1.875rem;
 }
 
 /* for Username xsmall  */
 .profile-sm{
-    height: 2.8125rem;
-    width: 2.8125rem;
+    font-size: 2.8125rem;
 }
 
 /* for Username  */
 .profile-md{
-    height: 3.75rem;
-    width: 3.75rem;
+    font-size: 3.75rem;
 }
 
 /* for Tourist Profile  */
 .profile-lg{
-    height: 8.25rem;
-    width: 8.25rem;
+    font-size: 8.25rem;
 }
 
 /* for Business Profile */
 .profile-xl{
-    height: 6rem;
-    width: 6rem;
+    font-size: 6rem;
 }
 .profile-xxl{
-    height: 10rem;
-    width: 10rem;
+    font-size: 10rem;
 }
 
 

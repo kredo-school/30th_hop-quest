@@ -79,10 +79,12 @@ Route::group(['prefix' => '/business/business', 'as' => 'business.'], function()
     });
 
 //LIKES BUSINESS
-Route::post('/home/like/location/{business_id}/store', [BusinessLikeController::class, 'storeLocationLike'])->name('location.like.store');
-Route::delete('/home/like/location/{business_id}/delete', [BusinessLikeController::class, 'deleteLocationLike'])->name('location.like.delete');
-Route::post('/home/like/event/{business_id}/store', [BusinessLikeController::class, 'storeEventLike'])->name('event.like.store');
-Route::delete('/home/like/event/{business_id}/delete', [BusinessLikeController::class, 'deleteEventLike'])->name('event.like.delete');
+Route::post('/home/like/business/{business_id}/store', [BusinessLikeController::class, 'storeBusinessLike'])->name('business.like.store');
+Route::delete('/home/like/business/{business_id}/delete', [BusinessLikeController::class, 'deleteBusinessLike'])->name('business.like.delete');
+// Route::post('/home/like/location/{business_id}/store', [BusinessLikeController::class, 'storeLocationLike'])->name('location.like.store');
+// Route::delete('/home/like/location/{business_id}/delete', [BusinessLikeController::class, 'deleteLocationLike'])->name('location.like.delete');
+// Route::post('/home/like/event/{business_id}/store', [BusinessLikeController::class, 'storeEventLike'])->name('event.like.store');
+// Route::delete('/home/like/event/{business_id}/delete', [BusinessLikeController::class, 'deleteEventLike'])->name('event.like.delete');
 
 //QUESTS simple
 Route::group(['prefix' => '/home/modelquest', 'as' => 'quest.'], function(){
@@ -90,13 +92,15 @@ Route::group(['prefix' => '/home/modelquest', 'as' => 'quest.'], function(){
     Route::get('/{id}/edit', [QuestController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [QuestController::class, 'update'])->name('update');
     Route::post('/store', [QuestController::class, 'store'])->name('store');
-    Route::post('/like/{quest_id}/store', [QuestLikeController::class, 'storeLike'])->name('like.store');
-    Route::delete('/like/{quest_id}/delete', [QuestLikeController::class, 'deleteLike'])->name('like.delete');
     Route::delete('/{id}/deactivate', [QuestController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [QuestController::class, 'activate'])->name('activate');
     Route::post('/like/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('like.store');
     Route::delete('/like/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('like.delete');
 });
+
+//LIKE QUEST
+Route::post('/home/like/quest/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('quest.like.store');
+Route::delete('/home/like/quest/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('quest.like.delete');
 
 //SPOT
 Route::group(['prefix' => '/home/spot', 'as' => 'spot.'], function(){
