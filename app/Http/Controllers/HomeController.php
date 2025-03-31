@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\Quest;
@@ -39,24 +41,6 @@ class HomeController extends Controller
 
     public function index(){
         return view('home');
-    }
-
-
-// Posts
-    public function posts_followings(){
-        return view('home.posts.followings');
-    }
-    public function posts_quests(){
-        return view('home.posts.quests');
-    }
-    public function posts_spots(){
-        return view('home.posts.spots');
-    }
-    public function posts_locations(){
-        return view('home.posts.locations');
-    }
-    public function posts_events(){
-        return view('home.posts.events');
     }
 
     // Search Result
@@ -97,7 +81,9 @@ class HomeController extends Controller
 
 //Allshow
     public function showAll(Request $request){
-    $sort = $request->get('sort', 'newest');
+    $sort = $request->get('sort', 'latest');
+    $perPage = 6;
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
     // Spots
     $spots = Spot::with('user')
     ->withCount(['spotLikes as likes_count'])
@@ -180,6 +166,7 @@ class HomeController extends Controller
             'created_at' => $item->created_at,
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count, // ← 追加
+            'comments_count' => $item->comments_count,
             'is_liked' => $item->isLiked(),     // ← 追加
             'type' => 'business', 
         ];
@@ -212,6 +199,7 @@ class HomeController extends Controller
             'created_at' => $item->created_at,
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count, // ← 追加
+            'comments_count' => $item->comments_count,
             'is_liked' => $item->isLiked(),     // ← 追加
             'type' => 'business', 
         ];
@@ -220,27 +208,61 @@ class HomeController extends Controller
     // 全部まとめる
     $all = $quests->concat($spots)->concat($locations)->concat($events);
 
-    switch ($sort) {
-        case 'oldest':
-            $all = $all->sortBy('created_at')->values();
-            break;
-        case 'likes':
-            $all = $all->sortByDesc('likes_count')->values();
-            break;
-        case 'newest':
-        default:
-            $all = $all->sortByDesc('created_at')->values();
-            break;
+        // 並び替え
+        $all = match($sort) {
+            'oldest' => $all->sortBy('created_at'),
+            'likes'  => $all->sortByDesc('likes_count'),
+            'comments'  => $all->sortByDesc('comments_count'),
+            default  => $all->sortByDesc('created_at'), 
+        };
+    
+        $all = $all->values(); // キーをリセット（重要）
+    
+        // ページネーション
+        $paginated = new LengthAwarePaginator(
+            $all->forPage($currentPage, $perPage),
+            $all->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => $request->url(),
+                'query' => $request->query(), // ← クエリを保持！（sort=likes など）
+            ]
+        );
+    
+        return view('home.posts.all', [
+            'all' => $paginated,
+            'sort' => $sort, // Blade側で現在の並び順を表示するため
+        ]);
+
+        switch ($sort) {
+            case 'oldest':
+                $all = $all->sortBy('created_at')->values();
+                break;
+            case 'likes':
+                $all = $all->sortByDesc('likes_count')->values();
+                break;
+            case 'comments':
+                $all = $all->sortByDesc('comments_count')->values();
+                break;
+            case 'latest':
+            default:
+                $all = $all->sortByDesc('created_at')->values();
+                break;
+        }
+
+        return view('home.posts.all', [
+            'all' => $paginated,
+        ]);
+
     }
 
-    return view('home.posts.all', compact('all','quests'));
-}
-
-public function showQuests(){
+public function showQuests(Request $request){
+    $sort = $request->get('sort', 'latest');
     // Quests
     $quests = Quest::with('user')
     ->withCount(['questLikes as likes_count'])
-    ->withCount(['spotComments as comments_count'])
+    ->withCount(['questComments as comments_count'])
     ->get()
     ->map(function ($item) {
         return [
@@ -258,17 +280,33 @@ public function showQuests(){
             'created_at' => $item->created_at,
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count, // ← 追加
+            'comments_count' => $item->comments_count,
             'is_liked' => $item->isLiked(),     // ← 追加
             'type' => 'quest', 
         ];
     });
 
-    $quests = $quests->sortByDesc('created_at')->values();
+    switch ($quests) {
+        case 'oldest':
+            $quests = $quests->sortBy('created_at')->values();
+            break;
+        case 'likes':
+            $quests = $quests->sortByDesc('likes_count')->values();
+            break;
+        case 'comments':
+            $quests = $quests->sortByDesc('comments_count')->values();
+            break;
+        case 'latest':
+        default:
+            $quests = $quests->sortByDesc('created_at')->values();
+            break;
+    }
 
     return view('home.posts.quests', compact('quests'));
     }
 
-    public function showSpots(){
+    public function showSpots(Request $request){
+        $sort = $request->get('sort', 'latest');
         // Spots
         $spots = Spot::with('user')
         ->withCount(['spotLikes as likes_count'])
@@ -291,94 +329,142 @@ public function showQuests(){
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, 
-                'comment_count' => $item->comment_count,
+                'comments_count' => $item->comments_count,
                 'is_liked' => $item->isLiked(), 
                 'type' => 'spot', 
             ];
         });
     
-        $spots = $spots->sortByDesc('created_at')->values();
+        switch ($spots) {
+            case 'oldest':
+                $spots = $spots->sortBy('created_at')->values();
+                break;
+            case 'likes':
+                $spots = $spots->sortByDesc('likes_count')->values();
+                break;
+            case 'comments':
+                $spots = $spots->sortByDesc('comments_count')->values();
+                break;
+            case 'latest':
+            default:
+                $spots = $spots->sortByDesc('created_at')->values();
+                break;
+        }
     
         return view('home.posts.spots', compact('spots'));
     }
 
-    public function showLocations(){
-    // Locations
-    $locations = Business::where('category_id', 1)
-    ->withCount(['businessLikes as likes_count'])
-    ->withCount(['businessComments as comments_count'])
-    ->with([
-        'photos' => function ($q) {
-            $q->orderBy('priority')->limit(1);
-        },
-        'user' // ← ユーザー情報も一緒に取得
-    ])
-    ->get()
-    ->map(function ($item) {
-        return [
-            'id' => $item->id,
-            'user' => $item->user,
-            'user_id' => $item->user_id,
-            'user_name' => optional($item->user)->name,
-            'avatar' => optional($item->user)->avatar,
-            'title' => $item->name,
-            'introduction' => $item->introduction,
-            'main_image' => optional($item->photos->first())->image,
-            'category_id' => $item->category_id,
-            'tab_id' => 3,
-            'official_certification' => optional($item->user)->official_certification,
-            'created_at' => $item->created_at,
-            'updated_at' => $item->updated_at,
-            'likes_count' => $item->likes_count, // ← 追加
-            'is_liked' => $item->isLiked(),     // ← 追加
-            'type' => 'business', 
-        ];
-    });
-    
-        $locations = $locations->sortByDesc('created_at')->values();
+    public function showLocations(Request $request){
+        $sort = $request->get('sort', 'latest');
+        // Locations
+        $locations = Business::where('category_id', 1)
+        ->withCount(['businessLikes as likes_count'])
+        ->withCount(['businessComments as comments_count'])
+        ->with([
+            'photos' => function ($q) {
+                $q->orderBy('priority')->limit(1);
+            },
+            'user' // ← ユーザー情報も一緒に取得
+        ])
+        ->get()
+        ->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'user_name' => optional($item->user)->name,
+                'avatar' => optional($item->user)->avatar,
+                'title' => $item->name,
+                'introduction' => $item->introduction,
+                'main_image' => optional($item->photos->first())->image,
+                'category_id' => $item->category_id,
+                'tab_id' => 3,
+                'official_certification' => optional($item->user)->official_certification,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'likes_count' => $item->likes_count, // ← 追加
+                'comments_count' => $item->comments_count,
+                'is_liked' => $item->isLiked(),     // ← 追加
+                'type' => 'business', 
+            ];
+        });
+        
+        switch ($locations) {
+            case 'oldest':
+                $locations = $locations->sortBy('created_at')->values();
+                break;
+            case 'likes':
+                $locations = $locations->sortByDesc('likes_count')->values();
+                break;
+            case 'comments':
+                $locations = $locations->sortByDesc('comments_count')->values();
+                break;
+            case 'latest':
+            default:
+                $locations = $locations->sortByDesc('created_at')->values();
+                break;
+        }
     
         return view('home.posts.locations', compact('locations'));
     }
 
-    public function showEvents(){
-    // Locations
-    $events = Business::where('category_id', 2)
-    ->withCount(['businessLikes as likes_count'])
-    ->withCount(['businessComments as comments_count'])
-    ->with([
-        'photos' => function ($q) {
-            $q->orderBy('priority')->limit(1);
-        },
-        'user' // ← ユーザー情報も一緒に取得
-    ])
-    ->get()
-    ->map(function ($item) {
-        return [
-            'id' => $item->id,
-            'user' => $item->user,
-            'user_id' => $item->user_id,
-            'user_name' => optional($item->user)->name,
-            'avatar' => optional($item->user)->avatar,
-            'title' => $item->name,
-            'introduction' => $item->introduction,
-            'main_image' => optional($item->photos->first())->image,
-            'category_id' => $item->category_id,
-            'tab_id' => 4,
-            'official_certification' => optional($item->user)->official_certification,
-            'created_at' => $item->created_at,
-            'updated_at' => $item->updated_at,
-            'likes_count' => $item->likes_count, // ← 追加
-            'is_liked' => $item->isLiked(),     // ← 追加
-            'type' => 'business', 
-        ];
-    });
+    public function showEvents(Request $request){
+        $sort = $request->get('sort', 'latest');
+        // Locations
+        $events = Business::where('category_id', 2)
+        ->withCount(['businessLikes as likes_count'])
+        ->withCount(['businessComments as comments_count'])
+        ->with([
+            'photos' => function ($q) {
+                $q->orderBy('priority')->limit(1);
+            },
+            'user' // ← ユーザー情報も一緒に取得
+        ])
+        ->get()
+        ->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'user_name' => optional($item->user)->name,
+                'avatar' => optional($item->user)->avatar,
+                'title' => $item->name,
+                'introduction' => $item->introduction,
+                'main_image' => optional($item->photos->first())->image,
+                'category_id' => $item->category_id,
+                'tab_id' => 4,
+                'official_certification' => optional($item->user)->official_certification,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'likes_count' => $item->likes_count, // ← 追加
+                'comments_count' => $item->comments_count,
+                'is_liked' => $item->isLiked(),     // ← 追加
+                'type' => 'business', 
+            ];
+        });
     
-        $events = $events->sortByDesc('created_at')->values();
+        switch ($events) {
+            case 'oldest':
+                $events = $events->sortBy('created_at')->values();
+                break;
+            case 'likes':
+                $events = $events->sortByDesc('likes_count')->values();
+                break;
+            case 'comments':
+                $events = $events->sortByDesc('comments_count')->values();
+                break;
+            case 'latest':
+            default:
+                $events = $events->sortByDesc('created_at')->values();
+                break;
+        }
     
         return view('home.posts.events', compact('events'));
     }
 
-    public function showFollowings(){
+    public function showFollowings(Request $request){
+        $sort = $request->get('sort', 'latest');
+
         $followedUserIds = Auth::user()->following->pluck('id')->toArray();
         // Spots
         $spots = Spot::with('user')
@@ -508,10 +594,23 @@ public function showQuests(){
         // 全部まとめる
         $all_followings = $quests->concat($spots)->concat($locations)->concat($events);
     
-        // created_at順にソートしたい場合
-        $all_followings = $all_followings->sortByDesc('created_at')->values();
+        switch ($all_followings) {
+            case 'oldest':
+                $all_followings = $all_followings->sortBy('created_at')->values();
+                break;
+            case 'likes':
+                $all_followings = $all_followings->sortByDesc('likes_count')->values();
+                break;
+            case 'comments':
+                $all_followings = $all_followings->sortByDesc('comments_count')->values();
+                break;
+            case 'latest':
+            default:
+                $all_followings = $all_followings->sortByDesc('created_at')->values();
+                break;
+        }
     
-        return view('home.posts.followings', compact('all_followings','quests'));
+        return view('home.posts.followings', compact('all_followings'));
     }
 
 }
