@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\PageView;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,15 +27,17 @@ class PageViewMiddleware
         $id     = $request->route('id');
         $type   = $request->route('type');
 
+        $type = explode('/', trim($request->path(), '/'))[0] ?? null;
+
         $modelClass = 'App\\Models\\' . ucfirst($type);
         
         if(class_exists($modelClass) && $id){
-            $page_view->firstOrCreate([
+            $pageViews = $this->page_view->firstOrCreate([
                 'page_id' => $id,
                 'page_type' => $modelClass
             ]);
 
-            $page_view->increment('views');
+            $pageViews->increment('views');
         }
 
         return $next($request);
