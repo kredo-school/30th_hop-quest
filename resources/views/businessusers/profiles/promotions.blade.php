@@ -56,7 +56,7 @@
                             <img src="{{ $promotion->photo }}" class="post-image" alt="image">
                         </a>                       
                     </div>
-                    <div class="card-body content short pt-0">            
+                    <div class="card-body content short mt-1">            
                         <div class="row mb-2">
                             {{-- Related Business --}}
                             <div class="col-auto p-0">
@@ -64,7 +64,7 @@
                             </div>
                             {{-- Postdate --}}
                             <div class="col-auto pe-0 ms-auto">
-                                <h5 class="card-subtitle"><span>{{date('M d Y', strtotime($promotion->created_at))}}</span></h5>
+                                <h5 class="card-subtitle"><span>{{date('H:i, M d Y', strtotime($promotion->created_at))}}</span></h5>
                             </div>
                         </div>
                         {{-- Title --}}

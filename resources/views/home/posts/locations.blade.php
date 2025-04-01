@@ -10,7 +10,7 @@
 <div class="mt-4 mb-5 row justify-content-center">
     <div class="col-8 mb-5 ">
         <div class="col-2 ms-auto dropdown">
-            <form method="GET" action="{{ route('posts.all') }}">
+            <form method="GET" action="{{ route('posts.locations') }}">
                 <select name="sort" onchange="this.form.submit()" class="form-control">
                     <option value="" disabled selected>Sort</option>
                     <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Latest </option>
@@ -22,12 +22,15 @@
         </div> 
         <div class="row mb-3">
         @forelse($locations as $post)
-            <div class="col-4">
+            <div class="col-lg-4 col-md-6 col-sm">
                 @include('home.posts.post-body')
             </div>
         @empty
             <h4 class="h4 text-center text-secondary">No posts yet</h4>
         @endforelse
+        </div>
+        <div class="d-flex justify-content-end mb-5">
+            {{ $locations->links() }}
         </div>
     </div>   
 </div>

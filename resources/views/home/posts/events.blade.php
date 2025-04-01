@@ -22,7 +22,7 @@
         </div>  
         <div class="row mb-3">
         @forelse($events as $post)
-            <div class="col-4">
+            <div class="col-lg-4 col-md-6 col-sm">
                 @include('home.posts.post-body')
             </div>
         @empty

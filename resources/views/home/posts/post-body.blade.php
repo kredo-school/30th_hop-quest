@@ -7,7 +7,10 @@
     <div class="card p-3">
         <div class="card-header border-0 bg-light p-0 overflow-hidden">
             {{-- Card Image with official mark --}}
-            {{-- <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official"> --}}
+            @if($post['official_certification']==2)
+                <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official" alt="official">              
+            @elseif($post['official_certification'] == 1)
+            @endif
             <a href="#" >
                 <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
             </a>
@@ -15,24 +18,26 @@
 
         <div class="card-body post">  
             <div class="row mb-3">
+                @if (Request::is('home/posts/all*') || Request::is('home/posts/followings*'))
                 {{-- Category --}}
-                <div class="col-md-auto col-sm-12 p-0">
-                    <h5 class="card-subtitle">Category: 
-                        @if($post['tab_id']==1)
-                            <strong>Spot</strong>
-                        @elseif($post['tab_id']==2)
-                            <strong>Quest</strong>
-                        @elseif($post['tab_id']==3)
-                            <strong>Location</strong>
-                        @elseif($post['tab_id']==4)
-                            <strong>Event</strong>
-                        @endif
-                    </h5>
-                </div>
+                    <div class="col-md-auto col-sm-12 p-0">
+                        <h5 class="card-subtitle">Category: 
+                            @if($post['tab_id']==1)
+                                <strong>Spot</strong>
+                            @elseif($post['tab_id']==2)
+                                <strong>Quest</strong>
+                            @elseif($post['tab_id']==3)
+                                <strong>Location</strong>
+                            @elseif($post['tab_id']==4)
+                                <strong>Event</strong>
+                            @endif
+                        </h5>
+                    </div>
+                @endif
                 
                 {{-- Postdate --}}
                 <div class="col-md-auto col-sm-12 pe-0 ms-auto">
-                    <h5 class="card-subtitle">Posted: {{ $post['created_at']->format('H:i, M d Y')}}</h5>
+                    <h5 class="card-subtitle">{{ $post['created_at']->format('H:i, M d Y')}}</h5>
                 </div>
             </div>                
 
@@ -48,7 +53,7 @@
             {{-- Icon & Name & Official mark --}}
             <div class="row align-items-center personal_space">
                 {{-- User Icon --}}
-                <div class="col-md-auto col-sm my-auto p-0">                   
+                <div class="col-md-auto col-sm-2 my-auto p-0">                   
                     <button class="btn">
                         @if($post['avatar'])
                             <img src="{{ $post['avatar'] }}" alt="" class="rounded-circle avatar-sm">
@@ -59,7 +64,7 @@
                 </div>
             
                 {{-- User Name --}}
-                <div class="col-auto ms-2 p-0">
+                <div class="col-md-auto col-sm-6 ms-2 p-0">
                     <a href="#" class="text-decoration-none h5 d-inline align-items-center">
                         <p class="username h4 my-auto" id="username">{{ $post['user_name'] }}</p></a>                 
                 </div>
@@ -68,22 +73,23 @@
                 <script>
                     document.querySelectorAll('.username').forEach(elem => {     //変更①　idではなくclassから引っ張ってくる。
                         const text = elem.textContent;   //変更②　前まではusernameElemという変数を使っていましたが、上記の理由からただのelemに変更。
-                        if (text.length > 20){
-                        elem.textContent = text.substring(0, 20) + "...";　//変更③　変更②と同じ修正です。
+                        if (text.length > 15){
+                        elem.textContent = text.substring(0, 15) + "...";　//変更③　変更②と同じ修正です。
                         }
                     });
                 </script>
 
                 {{-- User official mark --}}
-                <div class="col-auto pb-2 p-1">
-                    @if($post['official_certification'] == 2)
-                        <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0" alt="official-personal"> 
+                <div class="col-md-auto col-sm-1 pb-2 p-1">
+                    @if($post['user_official_certification'] == 2)
+                        <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0" alt="official-personal">
+                    @elseif($post['user_official_certification'] == 1)
                     @endif
                 </div>
 
                 {{-- Follow Button --}}
                 @if($post['user_id'] != Auth::user()->id)
-                    <div class="col-auto ms-auto p-0 mt-3">
+                    <div class="col-md-auto col-sm ms-auto p-0 mt-3">
                         @if ($post['user']->isFollowed())
                             <form method="POST" action="{{ route('follow.delete', $post['user']->id) }}">
                                 @csrf
@@ -154,7 +160,7 @@
                 </div>
                 <div class="col-2 ms-1 px-0">
                     <button class="dropdown-item text-dark">
-                        201
+                        {{-- <span>{{ $post['views_count'] }}</span> --}}
                     </button>
                 </div>
             </div>
