@@ -109,6 +109,7 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="main_image" class="form-label">Upload Main Photo</label>
+                        <img src="{{$business->main_image}}" alt="" class="d-block w-50 mb-2">
                         <input type="file" name="main_image" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
                     </div>                
                 </div>

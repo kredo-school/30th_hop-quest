@@ -49,7 +49,7 @@
         {{-- forelse --}}
         <div class="row mb-1">
             @forelse($all_businesses as $business)
-            <div class="col-4"> 
+            <div class="col-lg-4 col-md-6 col-sm">
                 <div class="card p-3">
                     <div class="card-header border-0 bg-light p-0 overflow-hidden">
                         {{-- Image --}}   
@@ -77,7 +77,7 @@
                             {{-- Postdate --}}
                             <div class="col-auto pe-0 ms-auto">
                                 @if($business->created_at)
-                                    <h5 class="card-subtitle"><span>{{date('M d Y', strtotime($business->created_at))}}</span></h5>
+                                    <h5 class="card-subtitle"><span>{{date('H:i, M d Y', strtotime($business->created_at))}}</span></h5>
                                 @endif
                             </div>
                         </div> 
@@ -134,14 +134,14 @@
                             </div>
                             <div class="col-2 ms-1 px-0">
                                 <button class="dropdown-item text-dark">
-                                    52
+                                    {{$business->businessComments->count()}}
                                 </button>
                             </div>
     
                             {{-- Number of viewers --}}
                             <div class="col-1 ms-3 p-0">
                                 <div>
-                                    <i class="fa-solid fa-chart-simple"></i>
+                                    <img src="{{ asset('images/chart.png') }}" alt="">
                                 </div>
                             </div>
                             <div class="col-2 ms-1 px-0">

@@ -67,7 +67,6 @@ class BusinessController extends Controller
         $business_a->category_id = $request->category_id;
         $business_a->user_id = Auth::user()->id;
         $business_a->name = $request->name;
-        $business_a->main_image = $request->main_image;
         $business_a->email = $request->email;
         $business_a->official_certification = 1;
         $business_a->save();
@@ -75,7 +74,6 @@ class BusinessController extends Controller
         if($request->main_image){
             $business_a->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
         }
-        $business_a->save();
         
         if ($request->hasFile('image')) {
             // PhotoController をインスタンス化

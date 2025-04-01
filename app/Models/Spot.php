@@ -23,6 +23,10 @@ class Spot extends Model
         return $this->hasMany(SpotComment::class);
     }
 
+    public function pageViews(){
+        return $this->hasMany(PageView::class);
+    }
+
     public function isLiked(){
         return $this->spotLikes()->where('user_id', Auth::user()->id)->exists();
     }
