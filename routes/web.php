@@ -4,14 +4,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FollowController;
+
+use App\Http\Middleware\PageViewMiddleware;
+use App\Http\Controllers\Spot\LikeController;
+use App\Http\Controllers\Spot\IndexController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
+use App\Http\Controllers\Business\QuestController;
 use App\Http\Controllers\Business\ReviewController;
 use App\Http\Controllers\Business\ProfileController;
+use App\Http\Controllers\Spot\LikeCommentController;
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\PromotionController;
-use App\Http\Controllers\Business\BusinessLikeController;
-use App\Http\Controllers\Business\QuestController;
 use App\Http\Controllers\Business\QuestLikeController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Business\BusinessLikeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,6 +28,7 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
+
 
 //PROFILES
 Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
@@ -92,11 +100,31 @@ Route::get('/tourist/posts/spots', [App\Http\Controllers\HomeController::class, 
 Route::get('/tourist/posts/locations', [App\Http\Controllers\HomeController::class, 'posts_locations'])->name('posts.locations');
 Route::get('/tourist/posts/events', [App\Http\Controllers\HomeController::class, 'posts_events'])->name('posts.events');
 
+// Spot 
+Route::group(['prefix' => '/spot', 'as' => 'spot.'], function(){
+    Route::get('/create', [App\Http\Controllers\Spot\IndexController::class, 'create'])->name('create');
+    Route::post('/store', [App\Http\Controllers\Spot\IndexController::class, 'store'])->name('store');
+    Route::get('/{id}', [App\Http\Controllers\Spot\IndexController::class, 'show'])->middleware(PageViewMiddleware::class)->name('show');
+    // Spot Likes
+    Route::post('/{spot_id}/like', [App\Http\Controllers\Spot\LikeController::class, 'store'])->name('like');
+    Route::delete('/{spot_id}/unlike', [App\Http\Controllers\Spot\LikeController::class, 'destroy'])->name('unlike');
+    // Spot Comments
+    Route::post('/{spot_id}/comment/store', [App\Http\Controllers\Spot\CommentController::class, 'store'])->name('comment.store');
+    Route::delete('/{spot_id}/comment/{comment_id}/destroy', [App\Http\Controllers\Spot\CommentController::class, 'destroy'])->name('comment.destroy');
+    // Spot Comment Likes
+    Route::post('/{spot_id}/comment/{comment_id}/like', [LikeCommentController::class, 'like'])->name('comment.like');
+    Route::delete('/{spot_id}/comment/{comment_id}/unlike', [App\Http\Controllers\Spot\LikeCommentController::class, 'unlike'])->name('comment.unlike');
+});
+
+
+
+
+
 // password reset
-Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'show'])->name('password.request');
+Route::get('/password/reset', [ForgotPasswordController::class, 'show'])->name('password.request');
 
 // register business
-Route::get('/register/business', [App\Http\Controllers\Auth\RegisterController::class, 'registerBusiness'])->name('register.business');
+Route::get('/register/business', [RegisterController::class, 'registerBusiness'])->name('register.business');
 Route::post('/store/business', [App\Http\Controllers\Auth\RegisterController::class, 'storeBusiness'])->name('register.business.submit');
 Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
 

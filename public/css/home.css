@@ -378,7 +378,7 @@
 
     .slick-dots li button:before{
         margin-top: 1rem;
-        font-size: 0.8rem !important;
+        font-size: 2rem !important;
     }
 
 
@@ -661,12 +661,14 @@
         animation: pop 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
     }
     
+    
     .first-question {
         opacity: 0;
         transform: translateY(1rem) scale(0.95);
         animation: bounce-in 0.6s ease-out forwards;
     }
-
+    
+    
     .first-question:nth-child(1) {
         animation-delay: 0.8s;
     }
