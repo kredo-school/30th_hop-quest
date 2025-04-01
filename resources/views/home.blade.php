@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/home.css')}}">
 
 @section('content')
-
+    @guest
     {{-- Header video --}}
     <div class="wrapper-header position-relative overflow-hidden d-flex align-items-center justify-content-center">
         <video autoplay muted loop playsinline class="header_video">
@@ -34,7 +34,7 @@
         </div>
     </div>
   
-    
+    @else
     {{-- Body for Popular Contents --}}
     <div class="wrapper-body-second" id="wrapper-body-second">
         <div class="container-fluid second-body"></div> {{-- For Background --}}
@@ -349,6 +349,7 @@
                 </div>
             </div>            
         </div>
+    @endguest
 
         <div class="container">
             <div class="row justify-content-center">

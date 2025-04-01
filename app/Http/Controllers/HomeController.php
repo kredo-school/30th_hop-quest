@@ -65,4 +65,40 @@ class HomeController extends Controller
         return view('tourists.posts.events');
     }
 
+    // Search Result
+    public function search(Request $request){
+
+        $quests = $this->quest->where('title', 'like', '%' . $request->search . '%')
+                            ->orWhere('introduction', 'like', '%' . $request->search . '%')->latest()->get();
+
+        $spots  = $this->spot->where('title', 'like', '%' . $request->search . '%')
+                            ->orWhere('introduction', 'like', '%' . $request->search . '%')->latest()->get();
+
+        $business_locations = $this->business
+            ->where('category_id', '1')
+            ->where(function ($query) use ($request){
+            $query->where('name', 'like', '%' . $request->search . '%')
+            ->orWhere('introduction', 'like', '%' . $request->search . '%');
+            })->latest()->get();
+
+        $business_events = $this->business
+            ->where('category_id', '2')
+            ->where(function ($query) use ($request){
+                $query->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('introduction', 'like', '%' . $request->search . '%');
+            })->latest()->get();
+
+
+
+        $all_posts = $quests->merge($spots)->merge($business_locations)->merge($business_events);
+
+        return view('search')
+                ->with('quests', $quests)
+                ->with('spots', $spots)
+                ->with('business_events', $business_events)
+                ->with('business_locations', $business_locations)
+                ->with('all_posts', $all_posts)
+                ->with('request', $request);
+    }
+
 }
