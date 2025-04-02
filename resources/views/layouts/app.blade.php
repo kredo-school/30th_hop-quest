@@ -43,7 +43,7 @@
             <div class="container">
                 <!-- left: LOGO -->
                     <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-                        <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
+                        <img src="{{ asset('images/logo/HopQuest_logo_business_38.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
                     </a>
                         
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
