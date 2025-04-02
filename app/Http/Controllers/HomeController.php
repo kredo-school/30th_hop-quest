@@ -226,6 +226,7 @@ class HomeController extends Controller
 
         // 並び替え
         $all = match($sort) {
+            'latest' => $all->sortByDesc('created_at'),
             'oldest' => $all->sortBy('created_at'),
             'likes'  => $all->sortByDesc('likes_count'),
             'comments'  => $all->sortByDesc('comments_count'),
@@ -271,9 +272,9 @@ class HomeController extends Controller
                 break;
         }
 
-        return view('home.posts.all', [
-            'all' => $paginated,
-        ]);
+        // return view('home.posts.all', [
+        //     'all' => $paginated,
+        // ]);
 
     }
 
@@ -491,9 +492,9 @@ public function showQuests(Request $request){
                 break;
         }
 
-        return view('home.posts.locations', [
-            'locations' => $paginated,
-        ]);
+        // return view('home.posts.locations', [
+        //     'locations' => $paginated,
+        // ]);
     }
 
     public function showEvents(Request $request){
