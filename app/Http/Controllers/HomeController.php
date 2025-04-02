@@ -85,7 +85,7 @@ class HomeController extends Controller
 
 //Allshow
     public function showAll(Request $request){
-    $sort = $request->get('sort', 'latest');
+    $sort = $request->get('sort', 'likes_count');
     $perPage = 6;
     $currentPage = LengthAwarePaginator::resolveCurrentPage();
     // Spots
@@ -228,10 +228,9 @@ class HomeController extends Controller
         $all = match($sort) {
             'latest' => $all->sortByDesc('created_at'),
             'oldest' => $all->sortBy('created_at'),
-            'likes'  => $all->sortByDesc('likes_count'),
             'comments'  => $all->sortByDesc('comments_count'),
             // 'views'  => $all->sortByDesc('views_count'),
-            default  => $all->sortByDesc('created_at'), 
+            default  => $all->sortByDesc('likes_count'), 
         };
     
         $all = $all->values(); // キーをリセット（重要）
@@ -247,39 +246,37 @@ class HomeController extends Controller
                 'query' => $request->query(), // ← クエリを保持！（sort=likes など）
             ]
         );
-    
-        return view('home.posts.all', [
-            'all' => $paginated,
-            'sort' => $sort, // Blade側で現在の並び順を表示するため
-        ]);
 
         switch ($sort) {
             case 'oldest':
                 $all = $all->sortBy('created_at')->values();
                 break;
-            case 'likes':
-                $all = $all->sortByDesc('likes_count')->values();
-                break;
+            case 'latest':
+                $all = $all->sortByDesc('created_at')->values();
+                break;                           
             case 'comments':
                 $all = $all->sortByDesc('comments_count')->values();
                 break;
             // case 'views':
             //     $all = $all->sortByDesc('views_count')->values();
             //     break;
-            case 'latest':
-            default:
-                $all = $all->sortByDesc('created_at')->values();
-                break;
+            case 'likes':
+            default:                
+                $all = $all->sortByDesc('likes_count')->values();
+                break;    
         }
 
-        // return view('home.posts.all', [
-        //     'all' => $paginated,
-        // ]);
+        return view('home.posts.all', [
+            'all' => $paginated,
+            'sort' => $sort, // Blade側で現在の並び順を表示するため
+        ]);
 
     }
 
 public function showQuests(Request $request){
-    $sort = $request->get('sort', 'latest');
+    $sort = $request->get('sort', 'likes_count');
+    $perPage = 6;
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
     // Quests
     $quests = Quest::with('user')
     ->withCount(['questLikes as likes_count'])
@@ -311,39 +308,56 @@ public function showQuests(Request $request){
     });
 
     $quests = match($sort) {
+        'latest' => $quests->sortByDesc('created_at'),
         'oldest' => $quests->sortBy('created_at'),
-        'likes'  => $quests->sortByDesc('likes_count'),
         'comments'  => $quests->sortByDesc('comments_count'),
-        // 'views'  => $quests->sortByDesc('views_count'),
-        default  => $quests->sortByDesc('created_at'), 
+        // 'views'  => $all->sortByDesc('views_count'),
+        default  => $quests->sortByDesc('likes_count'), 
     };
 
     $quests = $quests->values(); // キーをリセット（重要）
+
+    // ページネーション
+    $paginated = new LengthAwarePaginator(
+        $quests->forPage($currentPage, $perPage),
+        $quests->count(),
+        $perPage,
+        $currentPage,
+        [
+            'path' => $request->url(),
+            'query' => $request->query(), // ← クエリを保持！（sort=likes など）
+        ]
+    );
 
     switch ($quests) {
         case 'oldest':
             $quests = $quests->sortBy('created_at')->values();
             break;
-        case 'likes':
-            $quests = $quests->sortByDesc('likes_count')->values();
-            break;
+        case 'latest':
+            $quests = $quests->sortByDesc('created_at')->values();
+            break;                           
         case 'comments':
             $quests = $quests->sortByDesc('comments_count')->values();
             break;
         // case 'views':
         //     $quests = $quests->sortByDesc('views_count')->values();
         //     break;
-        case 'latest':
-        default:
-            $quests = $quests->sortByDesc('created_at')->values();
-            break;
+        case 'likes':
+        default:                
+            $quests = $quests->sortByDesc('likes_count')->values();
+            break;  
     }
 
-    return view('home.posts.quests', compact('quests'));
-    }
+    return view('home.posts.quests', [
+        'quests' => $paginated,
+        'sort' => $sort, // Blade側で現在の並び順を表示するため
+    ]);
+}
 
     public function showSpots(Request $request){
-        $sort = $request->get('sort', 'latest');
+        $sort = $request->get('sort', 'likes_count');
+        $perPage = 6;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
         // Spots
         $spots = Spot::with('user')
         ->withCount(['spotLikes as likes_count'])
@@ -375,39 +389,54 @@ public function showQuests(Request $request){
         });
 
         $spots = match($sort) {
+            'latest' => $spots->sortByDesc('created_at'),
             'oldest' => $spots->sortBy('created_at'),
-            'likes'  => $spots->sortByDesc('likes_count'),
             'comments'  => $spots->sortByDesc('comments_count'),
             // 'views'  => $spots->sortByDesc('views_count'),
-            default  => $spots->sortByDesc('created_at'), 
+            default  => $spots->sortByDesc('likes_count'), 
         };
     
         $spots = $spots->values(); // キーをリセット（重要）
+
+            // ページネーション
+        $paginated = new LengthAwarePaginator(
+            $spots->forPage($currentPage, $perPage),
+            $spots->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => $request->url(),
+                'query' => $request->query(), // ← クエリを保持！（sort=likes など）
+            ]
+        );
     
-        switch ($spots) {
+        switch ($sort) {
             case 'oldest':
                 $spots = $spots->sortBy('created_at')->values();
                 break;
-            case 'likes':
-                $spots = $spots->sortByDesc('likes_count')->values();
-                break;
+            case 'latest':
+                $spots = $spots->sortByDesc('created_at')->values();
+                break;                           
             case 'comments':
                 $spots = $spots->sortByDesc('comments_count')->values();
                 break;
             // case 'views':
             //     $spots = $spots->sortByDesc('views_count')->values();
             //     break;
-            case 'latest':
-            default:
-                $spots = $spots->sortByDesc('created_at')->values();
-                break;
+            case 'likes':
+            default:                
+                $spots = $spots->sortByDesc('likes_count')->values();
+                break;  
         }
     
-        return view('home.posts.spots', compact('spots'));
+        return view('home.posts.spots', [
+            'spots' => $paginated,
+            'sort' => $sort, // Blade側で現在の並び順を表示するため
+        ]);
     }
 
     public function showLocations(Request $request){
-        $sort = $request->get('sort', 'latest');
+        $sort = $request->get('sort', 'likes_count');
         $perPage = 6;
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         // Locations
@@ -447,11 +476,11 @@ public function showQuests(Request $request){
         });
         
         $locations = match($sort) {
+            'latest' => $locations->sortByDesc('created_at'),
             'oldest' => $locations->sortBy('created_at'),
-            'likes'  => $locations->sortByDesc('likes_count'),
             'comments'  => $locations->sortByDesc('comments_count'),
             // 'views'  => $locations->sortByDesc('views_count'),
-            default  => $locations->sortByDesc('created_at'), 
+            default  => $locations->sortByDesc('likes_count'), 
         };
     
         $locations = $locations->values(); // キーをリセット（重要）
@@ -467,38 +496,36 @@ public function showQuests(Request $request){
                 'query' => $request->query(), // ← クエリを保持！（sort=likes など）
             ]
         );
-    
-        return view('home.posts.locations', [
-            'locations' => $paginated,
-            'sort' => $sort, // Blade側で現在の並び順を表示するため
-        ]);
 
         switch ($sort) {
             case 'oldest':
                 $locations = $locations->sortBy('created_at')->values();
                 break;
-            case 'likes':
-                $locations = $locations->sortByDesc('likes_count')->values();
-                break;
+            case 'latest':
+                $locations = $locations->sortByDesc('created_at')->values();
+                break;                           
             case 'comments':
                 $locations = $locations->sortByDesc('comments_count')->values();
                 break;
             // case 'views':
             //     $locations = $locations->sortByDesc('views_count')->values();
             //     break;
-            case 'latest':
-            default:
-                $locations = $locations->sortByDesc('created_at')->values();
-                break;
+            case 'likes':
+            default:                
+                $locations = $locations->sortByDesc('likes_count')->values();
+                break;  
         }
 
-        // return view('home.posts.locations', [
-        //     'locations' => $paginated,
-        // ]);
+        return view('home.posts.locations', [
+            'locations' => $paginated,
+            'sort' => $sort, // Blade側で現在の並び順を表示するため
+        ]);
     }
 
     public function showEvents(Request $request){
-        $sort = $request->get('sort', 'latest');
+        $sort = $request->get('sort', 'likes_count');
+        $perPage = 6;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
         // Locations
         $events = Business::where('category_id', 2)
         ->withCount(['businessLikes as likes_count'])
@@ -536,39 +563,51 @@ public function showQuests(Request $request){
         });
 
         $events = match($sort) {
+            'latest' => $events->sortByDesc('created_at'),
             'oldest' => $events->sortBy('created_at'),
-            'likes'  => $events->sortByDesc('likes_count'),
             'comments'  => $events->sortByDesc('comments_count'),
             // 'views'  => $events->sortByDesc('views_count'),
-            default  => $events->sortByDesc('created_at'), 
+            default  => $events->sortByDesc('likes_count'), 
         };
     
         $events = $events->values(); // キーをリセット（重要）
+
+        // ページネーション
+        $paginated = new LengthAwarePaginator(
+            $events->forPage($currentPage, $perPage),
+            $events->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => $request->url(),
+                'query' => $request->query(), // ← クエリを保持！（sort=likes など）
+            ]
+        );
     
-        switch ($events) {
+        switch ($sort) {
             case 'oldest':
                 $events = $events->sortBy('created_at')->values();
                 break;
-            case 'likes':
-                $events = $events->sortByDesc('likes_count')->values();
-                break;
+            case 'latest':
+                $events = $events->sortByDesc('created_at')->values();
+                break;                           
             case 'comments':
                 $events = $events->sortByDesc('comments_count')->values();
                 break;
             // case 'views':
             //     $events = $events->sortByDesc('views_count')->values();
             //     break;
-            case 'latest':
-            default:
-                $events = $events->sortByDesc('created_at')->values();
-                break;
+            case 'likes':
+            default:                
+                $events = $events->sortByDesc('likes_count')->values();
+                break;  
         }
     
         return view('home.posts.events', compact('events'));
     }
 
     public function showFollowings(Request $request){
-        $sort = $request->get('sort', 'latest');
+        $sort = $request->get('sort', 'likes_count');
         $perPage = 6;
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
@@ -712,58 +751,53 @@ public function showQuests(Request $request){
 
         $all_followings = $quests->concat($spots)->concat($locations)->concat($events);
     
-            // 並び替え
-            $all_followings = match($sort) {
-                'oldest' => $all_followings->sortBy('created_at'),
-                'likes'  => $all_followings->sortByDesc('likes_count'),
-                'comments'  => $all_followings->sortByDesc('comments_count'),
-                // 'views' => $all_followings->sortByDesc('views_count'),
-                default  => $all_followings->sortByDesc('created_at'), 
-            };
-        
-            $all_followings = $all_followings->values(); // キーをリセット（重要）
-        
-            // ページネーション
-            $paginated = new LengthAwarePaginator(
-                $all_followings->forPage($currentPage, $perPage),
-                $all_followings->count(),
-                $perPage,
-                $currentPage,
-                [
-                    'path' => $request->url(),
-                    'query' => $request->query(), // ← クエリを保持！（sort=likes など）
-                ]
-            );
-        
-            return view('home.posts.followings', [
-                'all_followings' => $paginated,
-                'sort' => $sort, // Blade側で現在の並び順を表示するため
-            ]);
+        // 並び替え
+        $all_followings = match($sort) {
+            'latest' => $all_followings->sortByDesc('created_at'),
+            'oldest' => $all_followings->sortBy('created_at'),
+            'comments'  => $all_followings->sortByDesc('comments_count'),
+            // 'views'  => $all_followings->sortByDesc('views_count'),
+            default  => $all_followings->sortByDesc('likes_count'), 
+        };
     
-            switch ($sort) {
-                case 'oldest':
-                    $all_followings = $all_followings->sortBy('created_at')->values();
-                    break;
-                case 'likes':
-                    $all_followings = $all_followings->sortByDesc('likes_count')->values();
-                    break;
-                case 'comments':
-                    $all_followings = $all_followings->sortByDesc('comments_count')->values();
-                    break;
-                case 'latest':
-                // case 'views':
-                //     $all_followings = $all_followings->sortByDesc('views_count')->values();
-                //     break;
-                case 'latest':
-                default:
-                    $all_followings = $all_followings->sortByDesc('created_at')->values();
-                    break;
-            }
+        $all_followings = $all_followings->values(); // キーをリセット（重要）
     
-            return view('home.posts.followings', [
-                'followings' => $paginated,
-            ]);
+        // ページネーション
+        $paginated = new LengthAwarePaginator(
+            $all_followings->forPage($currentPage, $perPage),
+            $all_followings->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => $request->url(),
+                'query' => $request->query(), // ← クエリを保持！（sort=likes など）
+            ]
+        );
     
+        switch ($sort) {
+            case 'oldest':
+                $all_followings = $all_followings->sortBy('created_at')->values();
+                break;
+            case 'latest':
+                $all_followings = $all_followings->sortByDesc('created_at')->values();
+                break;                           
+            case 'comments':
+                $all_followings = $all_followings->sortByDesc('comments_count')->values();
+                break;
+            // case 'views':
+            //     $all_followings = $all_followings->sortByDesc('views_count')->values();
+            //     break;
+            case 'likes':
+            default:                
+                $all_followings = $all_followings->sortByDesc('likes_count')->values();
+                break; 
+        }
+
+        return view('home.posts.followings', [
+            'all_followings' => $paginated,
+            'sort' => $sort, // Blade側で現在の並び順を表示するため
+        ]);
+
     }
 
 }
