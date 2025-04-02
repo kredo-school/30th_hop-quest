@@ -11,20 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('spots', function (Blueprint $table) {
+        Schema::create('business_comments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->text('title');
-            $table->longText('main_image');
-            $table->text('introduction');
-            $table->text('geo_location')->nullable();
-            $table->text('geo_lat')->nullable();
-            $table->text('geo_lng')->nullable();
-            $table->longText('images')->nullable();
+            $table->unsignedBigInteger('business_id');
+            $table->text('content');
             $table->timestamps();
             $table->softDeletes();
-        
+
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('business_id')->references('id')->on('businesses');
         });
     }
 
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('spots');
+        Schema::dropIfExists('business_comments');
     }
 };
