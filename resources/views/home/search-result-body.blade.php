@@ -6,9 +6,9 @@
     <div class="card p-3">
 
         {{-- Card Image with official mark --}}
-        <img src="{{ asset('images/Official Badge.png') }}" class="official" alt="official">
+        <img src="{{ asset('images/home/Official Badge.png') }}" class="official" alt="official">
 
-        <a href="#" class="">
+        <a href="{{ route('spot.show', $post->id )}}" class="">
             @php
                 if ($post->photos) {
                     $priority_one = $post->photos->where('priority', '1')->first();
@@ -22,7 +22,7 @@
             @if ($image_path)
                 <img src="{{ asset('storage/' . $image_path) }}" class="card-img-top body-image" alt="image">
             @else
-                <img src="{{ asset('images/noImage.jpg') }}" class="card-img-top body-image" alt="image">
+                <img src="{{ asset('images/home/noImage.jpg') }}" class="card-img-top body-image" alt="image">
             @endif
         </a>
         
@@ -69,7 +69,7 @@
                 {{-- User Icon --}}
                 <div class="col-auto ms-1">
                     <a href="#" class="text-decoration-none h5 d-flex align-items-center">
-                        <img src="{{ $post->user->avatar ?? asset('images/free-user.png') }}" class="card-icon" alt="card-icon">
+                        <img src="{{ $post->user->avatar ?? asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
                     </a>
                 </div>
 
@@ -93,7 +93,7 @@
 
                 {{-- User official mark --}}
                 <div class="col-auto pb-2">
-                    <img src="{{ asset('images/名称未設定のデザイン (8) 1.png')}}" class="official-personal ms-2" alt="official-personal">
+                    <img src="{{ asset('images/home/名称未設定のデザイン (8) 1.png')}}" class="official-personal ms-2" alt="official-personal">
                 </div>
 
                 {{-- Follow Button --}}
@@ -130,18 +130,18 @@
                     </div>
 
                     <button class="btn btn-sm p-0 text-center">
-                        <span>&nbsp;&nbsp;52</span>
+                        <span>&nbsp;&nbsp; ?</span>
                     </button>
                 </div>
 
-                {{--  --}}
+                {{-- Number of views --}}
                 <div class="col-auto d-flex ms-3">
                     <div>
                         <i class="fa-solid fa-chart-simple"></i>
                     </div>
 
                     <button class="btn btn-sm p-0 text-center">
-                        <span>&nbsp;&nbsp;201</span>
+                        <span>&nbsp;&nbsp;{{ $post->view->views ?? 0 }}</span>
                     </button>
                 </div>
             </div>
