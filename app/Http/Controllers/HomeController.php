@@ -10,9 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use App\Models\Business;
-use App\Models\Quest;
-use App\Models\Spot;
 
 class HomeController extends Controller
 
