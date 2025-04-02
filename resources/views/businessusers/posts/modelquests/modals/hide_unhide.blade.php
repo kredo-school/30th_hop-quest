@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="modal-footer border-0">
-                <form action="{{ route('modelquest.deactivate', $quest->id)}}" method="post">
+                <form action="{{ route('quest.deactivate', $quest->id)}}" method="post">
                     @csrf
                     @method('DELETE')
                     <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-outline-red">Cancel</button>
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="modal-footer border-0">
-                <form action="{{route('modelquest.activate', $quest->id)}}" method="post">
+                <form action="{{route('quest.activate', $quest->id)}}" method="post">
                     @csrf
                     @method('PATCH')
                     <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-outline-green">Cancel</button>

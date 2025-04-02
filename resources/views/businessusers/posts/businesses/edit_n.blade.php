@@ -114,6 +114,15 @@
                     <label for="address2" class="form-label d-inline">Address 2</label>
                     <input type="text" name="address2" id="address2" class="form-control">
                 </div>
+
+                {{-- main_image --}}
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="main_image" class="form-label">Upload Main Photo</label>
+                        <img src="{{$business->main_image}}" alt="" class="d-block w-50 mb-2">
+                        <input type="file" name="main_image" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
+                    </div>                
+                </div>
                 
                 <!-- Social Media -->
                 <div class="mb-3">
