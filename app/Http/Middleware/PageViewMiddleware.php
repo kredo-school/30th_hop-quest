@@ -4,7 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Models\PageView;
+use App\Models\PageViewLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 
 class PageViewMiddleware
@@ -16,28 +18,45 @@ class PageViewMiddleware
      */
 
     private $page_view;
+    private $page_view_log;
 
-    public function __construct(PageView $page_view){
+    public function __construct(PageView $page_view, PageViewLog $page_view_log){
 
         $this->page_view = $page_view;
+        $this->page_view_log = $page_view_log;
     }
     
     public function handle(Request $request, Closure $next): Response
     {
         $id     = $request->route('id');
-        $type   = $request->route('type');
+        $type   = explode('/', trim($request->path(), '/'))[0] ?? null;
+        $ip     = $request->ip();
 
-        $type = explode('/', trim($request->path(), '/'))[0] ?? null;
 
         $modelClass = 'App\\Models\\' . ucfirst($type);
         
-        if(class_exists($modelClass) && $id){
-            $pageViews = $this->page_view->firstOrCreate([
-                'page_id' => $id,
-                'page_type' => $modelClass
-            ]);
+        if(class_exists($modelClass) && $id && $ip){
+            $alreadyCount = $this->page_view_log->newQuery()
+            ->where('page_id', $id)
+            ->where('page_type', $modelClass)
+            ->where('ip_address', $ip)
+            ->where('created_at', '>=', Carbon::now()->subDay())
+            ->exists();
 
-            $pageViews->increment('views');
+            if(!$alreadyCount){
+                $pageViews = $this->page_view->updateOrCreate([
+                    'page_id'       => $id,
+                    'page_type'     => $modelClass
+                ]);
+                
+                $pageViews->increment('views');
+
+                $this->page_view_log->newQuery()->firstOrCreate([
+                    'page_id'       => $id,
+                    'page_type'     => $modelClass,
+                    'ip_address'    => $ip
+                ]);
+            }
         }
 
         return $next($request);
