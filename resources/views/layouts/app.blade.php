@@ -101,7 +101,7 @@
                                 <a href="#" class="dropdown-item text-dark">
                                     <i class="fa-solid fa-circle-plus icon-sm"></i> Add Business
                                 </a>
-                                <a href="{{ route('promotion.create') }}" class="dropdown-item text-dark ">
+                                <a href="{{ route('promotions.create') }}" class="dropdown-item text-dark ">
                                     <i class="fa-solid fa-circle-plus icon-sm"></i> Add Promotion
                                 </a>
                                 <a href="#" class="dropdown-item text-dark">

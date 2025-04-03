@@ -30,7 +30,7 @@
                 </a>
             </div>
             <div class="col-auto ms-5">
-                <a href="{{ route('profile.modelquests', $user->id) }}" class="text-decoration-none text-dark" data-category="quest">
+                <a href="{{ route('profile.quests', $user->id) }}" class="text-decoration-none text-dark" data-category="quest">
                     <h3 class="poppins-semibold {{ request()->is('business/profile/modelquests*') ? 'active' : '' }}">
                         Model Quests
                     </h3>
@@ -41,13 +41,14 @@
         <div class="row">
             @if($user->id == Auth::user()->id)
             <div class="col-2 ms-auto mb-2 ">
-                <a href="{{ route('business.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                <a href="{{ route('businesses.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
             @endif
         </div>
 
         {{-- forelse --}}
         <div class="row mb-1">
+<<<<<<< HEAD
             @forelse($all_businesses as $business)
             <div class="col-lg-4 col-md-6 col-sm">
                 <div class="card p-3">
@@ -211,6 +212,19 @@
         </div>
         <div class="d-flex justify-content-end">
             {{ $all_businesses->links() }}
+=======
+            @forelse($businesses as $post)
+                <div class="col-lg-4 col-md-6 col-sm">
+                    @include('businessusers.profiles.post-body-profile')
+                </div>         
+            @empty
+                <h4 class="h4 text-center text-secondary">No posts yet</h4>
+            @endforelse
+
+        </div>
+        <div class="d-flex justify-content-end mb-5">
+            {{ $businesses->links() }}
+>>>>>>> bb12871 (Modified codes to consolidate the article body for all categories in common.)
         </div>
     </div>
 </div>

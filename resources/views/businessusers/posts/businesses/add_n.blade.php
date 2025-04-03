@@ -5,7 +5,7 @@
 @section('content')
 <div class="bg-blue">
     <div class="row justify-content-center pt-5 pb-5">
-        <form action="{{route('business.store')}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('businesses.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
             
             <div class="col-md-10 col-lg-8 box-border mx-auto" >

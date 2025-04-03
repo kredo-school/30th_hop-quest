@@ -20,7 +20,7 @@
                 </div>
                 @include('businessusers.posts.businesses.modals.delete')
 
-        <form action="{{ route('business.update', Auth::user()->id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('businesses.update', $business, Auth::user()->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
                 
@@ -110,7 +110,7 @@
                     <div class="col-md-4">
                         <label for="main_image" class="form-label">Upload Main Photo</label>
                         <img src="{{$business->main_image}}" alt="" class="d-block w-50 mb-2">
-                        <input type="file" name="main_image" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
+                        <input type="file" name="main_image" id="main_image" class="form-control form-control-sm w-100 mb-auto p-2" >
                     </div>                
                 </div>
                 
@@ -356,19 +356,35 @@
                         @endfor
                     </div>
                 </div> --}}
+
                 <div class="mb-4 p-4 border rounded bg-light">
                     <label for="images" class="form-label">Upload Photos (max 3):</label>
                     <div class="row">
                         <!-- Priority 1 -->
-                        @forelse ($business->photos as $photo) 
-                        <div class="col-md-4">                       
-                            <label for="images" class="form-label d-block">Priority 1:</label>                                                        
-                                @if($photo->image)
-                                    <img src="{{ $photo->image}}" alt="Business Photo" class="img-lg">
-                                @else
-                                    <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
-                                @endif                                     
-                            <input type="file" name="images[]" accept="image/*" class="form-control">                                              
+                        <div class="col-md-4">  
+                            @if($business->photo)                   
+                                <label for="photo" class="form-label d-block"> </label>                                                        
+                                <img src="{{ $business->photo }}" alt="Business Photo" class="img-lg mb-2">  
+                                <input type="file" name="photo" id="photo" class="form-control">  
+                            @else
+                                <label for="photo" class="form-label d-block"> </label>
+                                <input type="file" name="photo" id="photo" class="form-control"> 
+                            @endif    
+                        </div>
+
+                {{-- <div class="mb-4 p-4 border rounded bg-light">
+                    <label for="images" class="form-label">Upload Photo</label>
+                    <div class="row">
+                        <!-- Priority 1 -->
+                        <div class="col-md-4">  
+                            @if($business->topPhoto)                   
+                                <label for="image" class="form-label d-block"> </label>                                                        
+                                <img src="{{ $business->topPhoto->image }}" alt="Business Photo" class="img-lg mb-2">  
+                                <input type="file" name="image" id="image" class="form-control">  
+                            @else
+                                <label for="image" class="form-label d-block"> </label>
+                                <input type="file" name="image" id="image" class="form-control"> 
+                            @endif    
                         </div>
                         @empty 
                         @endforelse  
@@ -377,7 +393,7 @@
                         
                         <!-- Priority 3 -->
 
-                    </div>
+                    </div> --}}
                     {{-- @for ($i = 1; $i <= 3; $i++)
                         @php
                             $targetPhoto = $business->photos->firstWhere('priority', $i);
@@ -429,12 +445,6 @@
                         <input type="checkbox" class="form-check-input mb-2" id="official-check">
                         Apply for Official certification badge
                     </div>
-
-                    <!-- checkboxにチェックをつけた場合 -->
-                    @include('businessusers.posts.businesses.modals.save_official')
-
-                    <!-- checkboxにチェックをつけない場合 -->
-                    @include('businessusers.posts.businesses.modals.save')
 
                     <div class="col-2"></div>
                     <div class="col-4 ">
