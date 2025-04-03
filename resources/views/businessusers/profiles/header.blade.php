@@ -35,14 +35,15 @@
                             @endif
                         </div>
                         @if($user->id == Auth::user()->id)
-                        {{-- edit profile --}}
-                        <div class="col-md-2 col-sm-3 ms-auto">
-                            <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
-                        </div>
-                        <div class="col-md-2 col-sm-3">
-                            <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile">DELETE</button>
-                        </div>
-                        @else
+                            {{-- edit profile --}}
+                            <div class="col-md-2 col-sm-3 ms-auto">
+                                <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
+                            </div>
+                            <div class="col-md-2 col-sm-3">
+                                <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile">DELETE</button>
+                            </div>
+                        @endif
+                        @if($user->role_id == 1)
                             <div class="col-md-2 col-sm-2 ms-auto">
                                 @if($user->isFollowed())
                                 {{-- unfollow --}}

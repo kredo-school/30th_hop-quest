@@ -40,10 +40,9 @@
         <hr>
         <div class="row">
             @if($user->id == Auth::user()->id)
-
-            <div class="col-2 ms-auto mb-2">
-                <a href="{{ route('quests.create', $user->id) }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
-            </div>
+                <div class="col-2 ms-auto mb-2">
+                    <a href="{{ route('quests.create', $user->id) }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                </div>
             @endif
         </div>
 
