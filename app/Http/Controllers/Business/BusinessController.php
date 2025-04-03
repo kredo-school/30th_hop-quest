@@ -81,11 +81,13 @@ class BusinessController extends Controller
         $business_a->term_end = $request->term_end;
         $business_a->introduction = $request->introduction;
         $business_a->official_certification = 1;
-        $business_a->save();
+
 
         if($request->main_image){
             $business_a->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
         }
+
+        $business_a->save();        
         
         if ($request->hasFile('image')) {
             // PhotoController をインスタンス化
@@ -94,6 +96,8 @@ class BusinessController extends Controller
             // 呼び出して結果を受け取る
             $response = $photoController->update($request, $business_a);          
             }
+
+        
         return redirect()->route('profile.businesses',Auth::user()->id);
     }
 

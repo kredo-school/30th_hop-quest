@@ -11,8 +11,8 @@
     @include('businessusers.profiles.header')
 
 <div class="row justify-content-center bg-blue">
-    {{-- Promotions --}}
-    <div class="col-8 mb-5">
+    {{-- Model Quests --}}
+    <div class="col-8 mb-3">
             {{-- Tabs for categories --}}
         <div class="row tag-category">
             <div class="col-auto">
@@ -36,33 +36,27 @@
                     </h3>
                 </a>
             </div>
-        </div>  
+        </div> 
         <hr>
-        @if($user->id == Auth::user()->id)
-        <div class="row">            
-            <div class="col-2 ms-auto mb-2">
-                <a href="{{ route('promotions.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
-            </div>
+        <div class="row">
+            @if($user->id == Auth::user()->id)
+                <div class="col-2 ms-auto mb-2">
+                    <a href="{{ route('quests.create', $user->id) }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                </div>
+            @endif
         </div>
-        @endif
-        {{-- forelse --}}
+
         <div class="row mb-1">
-            <div class="row mb-1">
-                @forelse($promotions as $post)
-                    <div class="col-lg-4 col-md-6 col-sm">
-                        @include('businessusers.profiles.post-body-profile')
-                    </div>         
-                @empty
-                    <h4 class="h4 text-center text-secondary">No posts yet</h4>
-                @endforelse
-            </div>
-
-
-
-
+            @forelse($quests as $post)
+                <div class="col-lg-4 col-md-6 col-sm">
+                    @include('businessusers.profiles.post-body-profile')
+                </div>         
+            @empty
+                <h4 class="h4 text-center text-secondary">No posts yet</h4>
+            @endforelse
         </div>
         <div class="d-flex justify-content-end mb-5">
-        {{ $promotions->links() }}
+            {{ $quests->links() }}
         </div>
     </div>
 </div>

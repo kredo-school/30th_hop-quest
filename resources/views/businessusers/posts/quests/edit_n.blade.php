@@ -17,9 +17,9 @@
                 <div class="col-2">
                     <button class="btn btn-sm btn-red mb-2 w-100" data-bs-toggle="modal" data-bs-target="#delete-quest">DELETE</button>
                 </div>
-                @include('businessusers.posts.modelquests.modals.delete')
+                @include('businessusers.posts.quests.modals.delete')
             </div>
-            <form action="{{ route('modelquest.update', $quest->id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('quests.update', $quest->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
             {{-- Promotion title --}}
@@ -62,7 +62,7 @@
                 <div class="row">  
                     <div class="col-4">
                         @if($quest->main_photo)
-                        <img src="{{$quest->main_photo}}" class="img-lg mb-2"  alt="Model Quest image">
+                        <img src="{{$quest->main_image}}" class="img-lg mb-2"  alt="Model Quest image">
                         @else
                         <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
                         @endif
@@ -71,7 +71,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <input type="file" name="main_photo" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
+                    <input type="file" name="main_image" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
                     @error('main_photo')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror
@@ -91,7 +91,7 @@
                 </div>
                 <div class="col-2"></div>
                 <div class="col-4">
-                    <a href="{{route('profile.modelquests', Auth::user()->id)}}">
+                    <a href="{{route('profile.quests', Auth::user()->id)}}">
                         <div class="btn btn-red w-100 ">CANCEL</div>
                     </a>
                 </div>
