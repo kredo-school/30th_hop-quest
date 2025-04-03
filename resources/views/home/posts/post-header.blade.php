@@ -40,7 +40,7 @@
         </a>
     </div>
     <div class="col-auto ms-5">
-        <a href="{{ route('posts.all') }}" class="text-decoration-none text-dark" data-category="followings">
+        <a href="{{ route('posts.all') }}" class="text-decoration-none text-dark" data-category="all">
             <h1 class="poppins-semibold {{ request()->is('home/posts/all*') ? 'active' : '' }}">
                 <i class="fa-solid fa-globe"></i> All
             </h1>
