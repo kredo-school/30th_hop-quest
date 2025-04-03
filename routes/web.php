@@ -101,7 +101,7 @@ Route::post('/home/like/quest/{quest_id}/store', [QuestLikeController::class, 's
 Route::delete('/home/like/quest/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('quests.like.delete');
 
 //SPOT
-Route::group(['prefix' => '/home/spot', 'as' => 'spot.'], function(){
+Route::group(['prefix' => '/home/spot', 'as' => 'spots.'], function(){
     Route::post('/like/{spot_id}/store', [SpotLikeController::class, 'storeLike'])->name('like.store');
     Route::delete('/like/{spot_id}/delete', [SpotLikeController::class, 'deleteLike'])->name('like.delete');
 });
