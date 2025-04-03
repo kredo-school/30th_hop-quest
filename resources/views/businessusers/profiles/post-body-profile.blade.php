@@ -75,7 +75,7 @@
                 <div class="row">
                     <div class="col p-0">
                         @if($post['duration'])
-                            <h5 class="fw-bold"><span>{{$post['duration']}}</span> {{$post['duration']==1 ? 'day' : 'days'}}</h5>
+                            <h5 class="fw-bold"><span>Duration: {{$post['duration']}}</span> {{$post['duration']==1 ? 'day' : 'days'}}</h5>
                         @else
                             <p>Quest duration: Not defined</p>
                         @endif
