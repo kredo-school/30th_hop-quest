@@ -61,9 +61,9 @@
 
 
         </div>
-        {{-- <div class="d-flex justify-content-end mb-5">
+        <div class="d-flex justify-content-end mb-5">
         {{ $promotions->links() }}
-        </div> --}}
+        </div>
     </div>
 </div>
 </div>

@@ -313,8 +313,20 @@ class ProfileController extends Controller
     }
 
     public function followers($id){
-    $user_a = $this->user->findOrFail($id);
-    return view('businessusers.profiles.followers')->with('user', $user_a);
+        $user_a = $this->user->findOrFail($id);
+        $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
+        $reviews = DB::table('reviews')
+        ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+        ->where('businesses.user_id', $id)
+        ->select('reviews.*') 
+        ->get();
+        return view('businessusers.profiles.followers',compact('all_businesses', 'reviews'))->with('user', $user_a);
+    }
+
+    public function allReviews($id){
+        $all_reviews = $this->review->latest()->paginate(10);
+        $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
+        return view('businessusers.reviews.allreviews')->with('all_reviews', $all_reviews)->with('all_businesses',$all_businesses);
     }
 
 
