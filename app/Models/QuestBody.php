@@ -8,7 +8,7 @@ use App\Models\Quest;
 
 class QuestBody extends Model
 {
-    protected $table = 'quests_bodys';
+    protected $table = 'quest_bodys';
     public $timestamps = false;
     protected $fillable = ['spot_id', 'business_id', 'quest_id'];
 

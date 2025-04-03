@@ -2,60 +2,49 @@
 window.addEventListener("beforeunload", function() {
     localStorage.clear();
 });
-// load==========================================================
-document.addEventListener("DOMContentLoaded", function () {
-    let searchInput = document.getElementById("searchBox"); // 検索ボックス
-    let searchResults = document.getElementById("searchResults"); // 結果を表示するエリア
+window.addEventListener("load", function () {
+    let url = new URL(window.location);
 
-    searchInput.addEventListener("keyup", function () {
-        let query = searchInput.value.trim();
-
-        if (query.length > 0) {
-            fetch(`/search?query=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    searchResults.innerHTML = ""; // 結果をクリア
-                    if (data.length > 0) {
-                        data.forEach(item => {
-                            let resultItem = document.createElement("div");
-                            resultItem.classList.add("search-result-item");
-                            resultItem.innerHTML = `<p>${item.title}</p>`;
-                            resultItem.addEventListener("click", function () {
-                                searchInput.value = item.title; // 選択したらボックスにセット
-                                searchResults.innerHTML = ""; // リストをクリア
-                            });
-                            searchResults.appendChild(resultItem);
-                        });
-                    } else {
-                        searchResults.innerHTML = "<p>No results found</p>";
-                    }
-                })
-                .catch(error => console.error("Error:", error));
-        } else {
-            searchResults.innerHTML = "";
+    // 🔥 `saved` フラグがない場合のみ `quest_id` を削除
+    if (!window.history.state || !window.history.state.saved) {
+        if (url.searchParams.has("quest_id")) {
+            url.searchParams.delete("quest_id"); // `quest_id` を削除
+            window.history.replaceState({}, "", url); // URL を更新（リロードなし）
+            console.log("🔥 quest_id をクリアしました！");
         }
-    });
+    }
 });
+
+// load==========================================================
 
 // **アップロードした画像を保存するリスト**
 let uploadedImagesList = []; 
 
 // 📌 アップロードしたファイル名と削除ボタンを `uploaded-file-names` に表示
+// **画像リストを更新してサムネイルを表示**
 function updateUploadedFileNames() {
     const uploadedFileNames = document.getElementById("uploaded-file-names");
     uploadedFileNames.innerHTML = ""; // 一旦クリアして再表示
 
-    uploadedImagesList.forEach((imageSrc, index) => {
+    console.log("🖼 画像リスト:", uploadedImagesList); // 🔥 デバッグ用
+
+    uploadedImagesList.forEach((file, index) => {
         const fileItem = document.createElement("div");
         fileItem.classList.add("uploaded-file-item", "d-flex", "align-items-center", "justify-content-between");
 
         // **🖼 サムネイル画像を追加**
-        const thumbnail = document.createElement("img");
-        thumbnail.classList.add("photo-thumbnail", "me-2"); // スタイル用のクラスを追加
-        thumbnail.src = imageSrc; // Base64データを設定
-        thumbnail.alt = `Uploaded Image ${index + 1}`;
-        thumbnail.style.width = "6.25rem"; // サムネイルのサイズ指定
-        thumbnail.style.objectFit = "cover"; // 画像を枠内に収める
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const thumbnail = document.createElement("img");
+            thumbnail.classList.add("photo-thumbnail", "me-2"); // スタイル用のクラスを追加
+            thumbnail.src = e.target.result; // ✅ FileReader の結果を使う
+            thumbnail.alt = `Uploaded Image ${index + 1}`;
+            thumbnail.style.width = "6.25rem"; // サムネイルのサイズ指定
+            thumbnail.style.objectFit = "cover"; // 画像を枠内に収める
+
+            fileItem.insertBefore(thumbnail, fileItem.firstChild); // 🔥 ここで追加する
+        };
+        reader.readAsDataURL(file); // ✅ ファイルを読み込む（Base64にはしない）
 
         // **❌ 削除ボタン**
         const deleteButton = document.createElement("button");
@@ -65,11 +54,11 @@ function updateUploadedFileNames() {
             removeImage(index);
         });
 
-        fileItem.appendChild(thumbnail);
         fileItem.appendChild(deleteButton);
         uploadedFileNames.appendChild(fileItem);
     });
-    }
+}
+
 
     // **画像を削除する関数**
     function removeImage(index) {
@@ -105,14 +94,10 @@ function updateUploadedFileNames() {
         return;
     }
 
-    // **選択されたファイルを `uploadedImagesList` に追加**
+    // **選択されたファイルを `uploadedImagesList` に追加（Base64 変換しない）**
     Array.from(fileInput.files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            uploadedImagesList.push(e.target.result); // Base64データを保存
-            updateUploadedFileNames(); // **ファイルリストを更新**
-        };
-        reader.readAsDataURL(file);
+        uploadedImagesList.push(file); // 🔥 そのまま `File` オブジェクトを保存
+        updateUploadedFileNames(); // **ファイルリストを更新**
     });
 
     // **ファイルインプットをクリア**
@@ -265,33 +250,322 @@ document.getElementById("submit1").addEventListener("click", async function(even
     document.getElementById("header").classList.remove("d-none");
     console.log("form2 の d-none を削除しました！");
 
-//redirectせずにformを送信
+// フォーム送信処理
+let form = document.getElementById('form1'); 
+let formData = new FormData(form);
+console.log(formData);
+
+try {
+    let response = await fetch('/quest/add-quest/store', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        }
+    });
+
+    let result = await response.json(); // 🔥 JSONレスポンスを取得
+    if (response.ok) {
+        document.getElementById('responseMessage').innerHTML = "<p style='color: green;'>Success! Data saved.</p>";
+
+        if (result.quest_id) {
+            let newUrl = new URL(window.location);
+            newUrl.searchParams.set('quest_id', result.quest_id);
+            window.history.pushState({ saved: true }, '', newUrl); // 🔥 `saved: true` を状態として保存
+            console.log("✅ URL 更新:", newUrl.toString());
+
+            // 🔥 クエストデータを取得してフォームにセット
+            fetchQuestData(result.quest_id);
+        }
+    } else {
+        let errors = Object.values(result).map(error => `<p style='color: red;'>${error}</p>`).join("");
+        document.getElementById('responseMessage').innerHTML = errors;
+    }
+} catch (error) {
+    console.error('Error:', error);
+}
+
+
+// 🔥 quest_id を使ってデータを取得する関数
+async function fetchQuestData(questId) {
+    console.log("🔥 questId を取得:", questId); // 🔥 デバッグ用
+    try {
+        let response = await fetch(`/quest/get/${questId}`); // Laravel のエンドポイント
+        let data = await response.json();
+
+        console.log(data);
+        // フォームにセット
+        document.getElementById("title").value = data.title;
+        document.getElementById("start_date").value = data.start_date;
+        document.getElementById("end_date").value = data.end_date;
+        document.getElementById("introduction").value = data.introduction;
+        document.getElementById("quest_id_input").value = questId;
+        document.getElementById("quest_id_hidden").value = questId;
+
+        // 🔥 `base64` 画像データを `hidden` input に格納
+        if (data.image_url) {
+            document.getElementById("hidden_image_data").value = data.image_url;
+            // 同時に data オブジェクトにもセット
+            data.image_url = data.image_url;
+        }
+        // console.log("✅ URL 更新:", newUrl.toString());
+        document.getElementById("submit1").classList.add("d-none");
+        document.getElementById("update").classList.remove("d-none");
+    
+        console.log("データ取得完了！", data);
+    } catch (error) {
+        console.error("データ取得エラー:", error);
+    }
+}
+
+});
+document.getElementById("update").addEventListener("click", async function(event) {
+    event.preventDefault(); // フォーム送信を防ぐ
+
+    console.log("Updateボタンがクリックされました！");
+
+    // 入力値を取得
+    const title = document.getElementById("title").value;
+    const startDate = document.getElementById("start_date").value;
+    const endDate = document.getElementById("end_date").value;
+    const intro = document.getElementById("introduction").value;
+    const fileInput = document.getElementById("main_image");
+
+    console.log("fileInput:", fileInput);
+
+    // 必須チェック
+    if (!title || !startDate || !endDate || !intro || !fileInput.files.length) {
+        alert("すべての項目を入力してください");
+        return;
+    }
+
+    //countthe duration
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // エラーチェック：開始日が終了日より未来だったらエラーを出す
+    if (start > end) {
+        alert("終了日は開始日より後の日付を選んでください");
+        return;
+    }
+
+    // `localStorage` にデータを保存
+    const questData = {
+        title: title,
+        startDate: startDate,
+        endDate: endDate,
+        intro: intro
+    };
+    localStorage.setItem("questData", JSON.stringify(questData));
+
+    const days = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
+    console.log(`選択された日数: ${days} 日`);
+
+    // make options for day_select
+    const daySelect = document.getElementById("day_number");
+    if(daySelect){
+        daySelect.innerHTML = "";
+        for (let i = 1; i <= days; i++) {
+        let option = document.createElement("option");
+        option.value = i;
+        option.textContent = `DAY${i}`;
+        daySelect.appendChild(option);
+        console.log("day_selectはOK");
+        }
+        console.log("day_select_option作成完了");
+    }else{
+        console.error("day_numberが見つかりません");
+    }
+
+    // **ヘッダーに反映**
+    document.getElementById("header-title").textContent = title;
+    document.getElementById("header-dates").textContent = startDate + "〜" + endDate;
+    document.getElementById("header-intro").textContent = intro;
+
+    console.log("ヘッダーにデータを反映しました！");
+
+    // **画像の処理**
+    if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const headerImg =document.getElementById("header-img");
+
+            if(headerImg){
+                headerImg.src = e.target.result;
+                // **画像も `localStorage` に保存**
+                try{
+                    sessionStorage.setItem("headerImage", e.target.result);
+                }catch(error){
+                    console.error("画像データの保存に失敗しました！", error);
+                }
+            }else{
+                console.error("エラー：header-imgが見つかりません！");
+            }
+        };
+
+        reader.readAsDataURL(file);
+    }
+        
+// `form2` も表示
+    document.getElementById("form2").classList.remove("d-none");
+    document.getElementById("header").classList.remove("d-none");
+    console.log("form2 の d-none を削除しました！");
+
+// フォーム送信処理
+    // CSRFトークンをリフレッシュ
+    async function refreshCsrfToken() {
+        let response = await fetch('/refresh-csrf-token'); // 新しいトークンを取得するエンドポイント
+        let data = await response.json();
+
+        // 取得したトークンをmetaタグにセット
+        let csrfMetaTag = document.querySelector('meta[name="csrf-token"]');
+        csrfMetaTag.setAttribute('content', data.csrf_token);
+
+        // 以降のAJAXリクエストに新しいトークンを自動で付与できるように設定
+        document.querySelector('meta[name="csrf-token"]').content = data.csrf_token;
+        
+        console.log('CSRFトークンがリフレッシュされました');
+    }
+
+    // ページがロードされたときにCSRFトークンをリフレッシュ
+    refreshCsrfToken();
     let form = document.getElementById('form1'); 
     let formData = new FormData(form);
-    try {
-        let response = await fetch('/quest/add-quest/store', {
-             // Replace with your Laravel route
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure CSRF token is included
-            }
-        });
-        let result = await response.text();
-        if (response.ok) {
-            document.getElementById('responseMessage').innerHTML = "<p style='color: green;'>Success! Data saved.</p>";
-        } else {
-            let errors = Object.values(result).map(error => `<p style='color: red;'>${error}</p>`).join("");
-            document.getElementById('responseMessage').innerHTML = errors;
+    
+        console.log(formData);
+        let hiddenImageData = document.getElementById("hidden_image_data").value;
+    
+        if (fileInput.files.length === 0 && hiddenImageData) {
+            // ユーザーが新しい画像を選択していない場合は、hiddenのbase64を送信
+            formData.append("main_image", hiddenImageData);
         }
-    } catch (error) {
-        console.error('Error:', error);
+
+try {
+    let response = await fetch('/quest/update/{quest_id}' ,{
+        method: 'PUT',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        }
+    });
+
+    let result = await response.json(); // 🔥 JSONレスポンスを取得
+    if (response.ok) {
+        document.getElementById('responseMessage').innerHTML = "<p style='color: green;'>Success! Data saved.</p>";
+
+        if (result.quest_id) {
+            let newUrl = new URL(window.location);
+            newUrl.searchParams.set('quest_id', result.quest_id);
+            window.history.pushState({ saved: true }, '', newUrl); // 🔥 `saved: true` を状態として保存
+            console.log("✅ URL 更新:", newUrl.toString());
+
+            // 🔥 クエストデータを取得してフォームにセット
+            fetchQuestData(result.quest_id);
+        }
+    } else {
+        let errors = Object.values(result).map(error => `<p style='color: red;'>${error}</p>`).join("");
+        document.getElementById('responseMessage').innerHTML = errors;
     }
+} catch (error) {
+    console.error('Error:', error);
+}
+
+
+// 🔥 quest_id を使ってデータを取得する関数
+async function fetchQuestData(questId) {
+    console.log("🔥 questId を取得:", questId); // 🔥 デバッグ用
+    try {
+        let response = await fetch(`/quest/get/${questId}`); // Laravel のエンドポイント
+        let data = await response.json();
+
+        // フォームにセット
+        document.getElementById("title").value = data.title;
+        document.getElementById("start_date").value = data.start_date;
+        document.getElementById("end_date").value = data.end_date;
+        document.getElementById("introduction").value = data.introduction;
+        document.getElementById("quest_id_input").value = questId;
+        // console.log("✅ URL 更新:", newUrl.toString());
+        // **🔥 ボタンのテキストを変更**
+        let submitButton = document.getElementById("submit1");
+        if (submitButton) {
+            submitButton.textContent = "Update"; // ✅ 更新ボタンに変更
+        }
+        console.log("データ取得完了！", data);
+    } catch (error) {
+        console.error("データ取得エラー:", error);
+    }
+}
+
 });
 
 
 // ======================================FORM2=============================================================d
 let spotList = JSON.parse(localStorage.getItem("spotList")) || []; // 保存済みのデータを取得
+// ====================search=================
+document.addEventListener("DOMContentLoaded", function () {
+    let searchInput = document.getElementById("spot_name"); // 入力ボックス
+    let searchResults = document.getElementById("searchResults"); // 結果を表示する div
+
+    searchInput.addEventListener("input", function () {
+        let query = this.value.trim(); // 入力された値（空白削除）
+    
+        if (query.length < 2) { // 2文字未満なら結果をクリア
+            searchResults.innerHTML = "";
+            return;
+        }
+        warning.classList.remove("d-none"); // 🔥 選択肢が表示されている間は警告を表示
+
+    
+        fetch(`/quest/search/Ajax?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                searchResults.innerHTML = ""; // 検索結果をクリア
+    
+                if (data.length > 0) {
+                    let resultList = document.createElement("ul");
+                    resultList.classList.add("list-group");
+    
+                    data.forEach(item => {
+                        let listItem = document.createElement("li");
+                        listItem.classList.add("list-group-item");
+                        console.log("📌 検索結果のデータ構造:", item);
+
+                        // Spot の場合は title、Business の場合は name を表示
+                        let displayText = item.title ? item.title : item.name;
+                        listItem.textContent = displayText;
+    
+                        // 🔥 選択肢ごとに type をデータ属性にセット
+                        listItem.dataset.type = item.type; // "spot" または "business"
+                        listItem.dataset.id = item.id;
+               
+                        listItem.addEventListener("click", function () {
+                            searchInput.value = displayText; // クリックで入力欄にセット
+                            warning.classList.add("d-none"); // 選択肢がない場合は警告を非表示
+                            searchResults.innerHTML = ""; // 検索結果をクリア
+                            console.log("🔥 選択されたタイプ:", this.dataset.type);
+                            console.log("🔥 選択されたID:", this.dataset.id);
+
+                            // 🔥 hidden input に type と id をセット
+                            document.getElementById("spot_business_type").value = this.dataset.type;
+                            document.getElementById("spot_business_id").value = this.dataset.id;
+                        });
+    
+                        resultList.appendChild(listItem);
+                    });
+                    searchResults.appendChild(resultList);
+                    warning.classList.remove("d-none"); // 🔥 選択肢が表示されている間は警告を表示
+                } else {
+                    searchResults.innerHTML = "<p class='text-muted'>No results found. Please Add Spot from the button on the right.</p>";
+                     // 🔥 フォーム送信前にチェック（自由入力がある場合は無効にする）
+
+                }
+            })
+            .catch(error => console.error("Error fetching search results:", error));
+    });
+    
+});
 
 document.getElementById("addon").addEventListener("click", async function(event) {
     event.preventDefault();
@@ -300,7 +574,7 @@ document.getElementById("addon").addEventListener("click", async function(event)
     // 入力値の取得
     const day = parseInt(document.getElementById("day_number").value, 10) || 1;
     const spot = document.getElementById("spot_name").value;
-    const description = document.getElementById("spot-description").value;
+    const description = document.getElementById("spot_description").value;
     const fileInput2 = uploadedImagesList;
     const isAgendaChecked = document.getElementById("agenda").checked;
 
@@ -318,41 +592,52 @@ document.getElementById("addon").addEventListener("click", async function(event)
 
     //save spot
     saveSpotData(day, spot, description, imageSrcList, isAgendaChecked);
-
-    // **🔥 `localStorage` を削除（少し遅らせる）**
-    setTimeout(() => {
-        localStorage.removeItem("spotList"); // `spotList` だけ削除
-        console.log("🗑️ `spotList` を削除しました");
-    }, 500); // 0.5秒後に削除
     
     document.getElementById("confirmBtn").classList.remove("d-none");
     console.log("Confirm button の d-none を削除しました！");
 
-    //redirectせずにformを送信
-    let form = document.getElementById('body_form'); 
-    let formData = new FormData(form);
-    try {
-        let response = await fetch('/quest/add-quest/bodystore', {
-             // Replace with your Laravel route
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure CSRF token is included
-            }
-        });
-        let result = await response.text();
-        if (response.ok) {
-            document.getElementById('responseMessage2').innerHTML = "<p style='color: green;'>Success! Data saved.</p>";
+//redirectせずにformを送信
+// `fetch` で送信する処理
+    let form2 = document.getElementById("body_form");
+    let formData2 = new FormData(form2);
+
+    console.log("🔥 form2:", form2);
+    if (!form2) {
+        console.error("❌ エラー: form2 が見つかりません！");
+        return;
+    }
+    // ✅ `uploadedImagesList` を `FormData2` に追加する処理
+    uploadedImagesList.forEach((file, index) => {
+        if (file instanceof File) {  // 🔥 `File` オブジェクトか確認
+            formData2.append("images[]", file); // `images[]` 配列として追加
+            console.log(`✅ 画像 ${index + 1} を FormData2 に追加:`, file.name);
         } else {
-            let errors = Object.values(result).map(error => `<p style='color: red;'>${error}</p>`).join("");
-            document.getElementById('responseMessage2').innerHTML = errors;
+            console.error(`🛑 画像 ${index + 1} は File オブジェクトではありません！`, file);
         }
-    } catch (error) {
-        console.error('Error:', error);
+    });
+
+    // ✅ `FormData2` の中身を確認
+    for (let pair of formData2.entries()) {
+        console.log(`🔥 ${pair[0]}:`, pair[1]);
     }
 
-    clearForm2(); // 入力をクリア
-});
+        console.log("🔥 formData2 を取得:", formData2); 
+        // 🚀 fetch で送信
+        let response = await fetch("/quest/add-quest/bodystore", {
+            method: "POST",
+            body: formData2,
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            }
+        });
+
+            // **🔥 `localStorage` を削除（少し遅らせる）**
+            setTimeout(() => {
+                localStorage.removeItem("spotList"); // `spotList` だけ削除
+                console.log("🗑️ `spotList` を削除しました");
+            }, 500); // 0.5秒後に削除
+            clearForm2(); // 入力をクリア
+        });
 
 function saveSpotData(day, spot, description, imageSrcList, isAgendaChecked) {
     const newSpot = {
@@ -428,8 +713,8 @@ function displayAllSpots() {
         console.log("✅ スポットを追加:", spotData);
 
         // **🔥 高さ調整を少し遅らせて実行**
-        console.log("高さ調整：addSpotContainer");
-        setTimeout(adjustDescriptionHeight, 500);
+        // console.log("高さ調整：addSpotContainer");
+        // setTimeout(adjustDescriptionHeight, 500);
     }
 
     function createSpotElement(spotData) {
@@ -441,17 +726,16 @@ function displayAllSpots() {
         spotHeader.classList.add("row", "pb-3", "justify-content-between", "align-items-center");
     
         const spotTitle = document.createElement("h4");
-
         spotTitle.classList.add("spot-name", "poppins-bold", "col-md-10", "text-start");
         spotTitle.id = "spot-name"; // IDを設定
         spotTitle.textContent = spotData.spot;
     
         const buttonContainer = document.createElement("div");
-        buttonContainer.classList.add("col","ms-0","text-end", "pe-0");
+        buttonContainer.classList.add("col", "ms-0", "text-end", "pe-0");
     
         buttonContainer.innerHTML = `
             <button class="btn btn-sm btn-green"><a href="#form1" class="text-decoration-none text-white"><i class="fa-solid fa-pen-to-square"></i></a></button>
-                            <button class="btn btn-sm btn-red" data-bs-toggle="modal" data-bs-target="#delete-post"><i class="fa-solid fa-trash"></i></button>
+            <button class="btn btn-sm btn-red" data-bs-toggle="modal" data-bs-target="#delete-post"><i class="fa-solid fa-trash"></i></button>
         `;
     
         // **Agenda チェックボックス**
@@ -480,25 +764,38 @@ function displayAllSpots() {
     
         // **画像表示エリア**
         const imgContainer = document.createElement("div");
-        imgContainer.classList.add("col-lg-6", "image-container","d-block","flex-column");
-      
-        if (spotData.images.length > 0) {
-            spotData.images.forEach(src => {
+        imgContainer.classList.add("col-lg-6", "image-container", "d-block", "flex-column");
+    
+        console.log("🖼 画像リスト:", spotData.images); // 🔥 デバッグ用
+    
+        if (spotData.images && spotData.images.length > 0) {
+            spotData.images.forEach((img) => {
                 const spotImg = document.createElement("img");
-                spotImg.classList.add("spot-image", "img-fluid", "mb-2");
-                spotImg.src = src;
+                spotImg.classList.add("image", "img-fluid", "mb-2");
+    
+                // 🔥 画像データが Base64 か File かチェック
+                if (typeof img === "string") {
+                    spotImg.src = img; // Base64 画像ならそのままセット
+                } else if (img instanceof File) {
+                    spotImg.src = URL.createObjectURL(img); // File オブジェクトならURLを生成
+                } else {
+                    console.error("❌ 不明な画像データ:", img);
+                }
+    
+                console.log("✅ 画像の `src`:", spotImg.src); // 🔥 デバッグ用
                 imgContainer.appendChild(spotImg);
             });
+        } else {
+            console.warn("⚠️ 画像がありません！");
         }
     
-    // **🔥 高さ調整を少し遅らせて実行**
-    console.log("高さ調整：createSpotElement");
-    setTimeout(adjustDescriptionHeight, 500);
-
+        // **🔥 高さ調整を少し遅らせて実行**
+        console.log("高さ調整：createSpotElement");
+        setTimeout(adjustDescriptionHeight, 500);
+    
         // **説明文**
         const descContainer = document.createElement("div");
         descContainer.classList.add("col-lg-6", "mt-4", "mt-lg-0", "spot-description-container");
-
     
         const spotDesc = document.createElement("p");
         spotDesc.classList.add("spot-description", "w-100");
@@ -518,6 +815,7 @@ function displayAllSpots() {
         return newSpot;
     }
     
+    
 
     function getBorderColorClass(day) {
         const borderColors = ["border-quest-red", "border-quest-navy", "border-quest-green", "border-quest-blue"];
@@ -532,8 +830,8 @@ function displayAllSpots() {
 
     function clearForm2() {
         console.log("🧹 フォーム2をクリアします！");
-        document.getElementById("spot-name").value = "";
-        document.getElementById("spot-description").value = "";
+        document.getElementById("spot_name").value = "";
+        document.getElementById("spot_description").value = "";
         document.getElementById("image").value = "";
 
         // **アップロード画像リストをクリア**
@@ -551,44 +849,71 @@ document.getElementById("confirmBtn").addEventListener("click", function () {
 
 
 function adjustDescriptionHeight() {
-    let spotImageContainers = document.querySelectorAll(".image-container");
-    let descriptions = document.querySelectorAll(".spot-description");
+    console.log("🎯 adjustDescriptionHeight: 実行開始！");
 
-    if (spotImageContainers.length === 0 || descriptions.length === 0) {
-        console.warn("⚠️ adjustDescriptionHeight: 必要な要素が見つかりません");
+    let spotEntries = document.querySelectorAll(".spot-entry"); // 各スポットを取得
+
+    if (spotEntries.length === 0) {
+        console.warn("⚠️ adjustDescriptionHeight: スポットが見つかりません");
         return;
     }
 
-    console.log("🎯 adjustDescriptionHeight: 実行開始！");
+    spotEntries.forEach((spot, index) => {
+        let imageContainer = spot.querySelector(".image-container");
+        let description = spot.querySelector(".spot-description");
 
-    spotImageContainers.forEach((container, index) => {
-        let images = container.querySelectorAll(".spot-image");
-        let description = descriptions[index];
+        if (!imageContainer || !description) {
+            console.warn(`⚠️ Spot ${index + 1}: 画像コンテナまたは説明が見つかりません`);
+            return;
+        }
 
-        if (!description) return;
+        let images = imageContainer.querySelectorAll("img");
 
-        // 画像の合計高さを計算
+        if (images.length === 0) {
+            console.warn(`⚠️ Spot ${index + 1}: 画像がありません`);
+            return;
+        }
+
+        // 画像の高さが確定するまで待つ（非同期に調整）
         let totalImageHeight = 0;
+
         images.forEach(image => {
-            totalImageHeight += image.clientHeight;
+            image.onload = () => {
+                totalImageHeight += image.clientHeight;
+                console.log(`📷 画像の高さ: ${image.clientHeight}px, 合計: ${totalImageHeight}px`);
+                applyHeightAdjustment(description, totalImageHeight);
+            };
         });
 
-        let descriptionHeight = description.scrollHeight;
-
-        console.log(`📏 [Spot ${index + 1}] 画像の合計高さ:`, totalImageHeight, " 説明文の高さ:", descriptionHeight);
-
-        if (descriptionHeight > totalImageHeight) {
-            console.log("🟢 説明文が長いので高さ制限");
-            description.style.maxHeight = totalImageHeight + "px";
-            description.style.overflowY = "auto";
-        } else {
-            console.log("🔵 説明文が短いので制限なし");
-            description.style.maxHeight = "none";
-            description.style.overflowY = "hidden";
-        }
+        // すでに読み込まれている画像の高さも考慮
+        setTimeout(() => {
+            images.forEach(image => {
+                totalImageHeight += image.clientHeight;
+            });
+            console.log(`📏 [Spot ${index + 1}] 画像の合計高さ: ${totalImageHeight}px, 説明の高さ: ${description.scrollHeight}px`);
+            applyHeightAdjustment(description, totalImageHeight);
+        }, 500);
     });
 }
 
-// ウィンドウのリサイズ時にも適用
+// 🔥 高さ調整の適用ロジックを関数化
+function applyHeightAdjustment(description, totalImageHeight) {
+    if (!description) return;
+
+    let descriptionHeight = description.scrollHeight;
+
+    if (descriptionHeight > totalImageHeight) {
+        console.log("🟢 説明文が長いので高さ制限を適用");
+        description.style.maxHeight = totalImageHeight + "px";
+        description.style.overflowY = "auto";
+    } else {
+        console.log("🔵 説明文が短いので制限なし");
+        description.style.maxHeight = "none";
+        description.style.overflowY = "hidden";
+    }
+}
+
+// 🔥 ページの読み込み時とリサイズ時に実行
 window.addEventListener("load", adjustDescriptionHeight);
 window.addEventListener("resize", adjustDescriptionHeight);
+

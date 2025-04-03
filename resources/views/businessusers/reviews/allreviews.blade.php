@@ -30,7 +30,7 @@
                     <tbody class="">
                         @forelse($all_reviews as $review)
                         <tr>
-                            <td class="ps-2"><a href="{{ route('profile.review', $review->id) }}" class="text-decoration-none text-secondary">{{ $review->name }}</a></td>
+                            <td class="ps-2"><a href="{{ route('profile.review', $review->id) }}" class="text-decoration-none text-secondary">{{ $review->user->name }}</a></td>
                             <td><a href="{{ route('profile.review', $review->id) }}" class="text-decoration-none text-secondary">{{ $review->business->name }}</a></td>
                             <td class="table-comment"><a href="{{ route('profile.review', $review->id) }}" class="text-decoration-none text-secondary">{{ $review->body }}</a></td> 
                             <td class="text-center">

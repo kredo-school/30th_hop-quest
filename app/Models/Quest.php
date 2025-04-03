@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Quest extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'quests'; // テーブル名を指定
     
 
@@ -22,9 +24,11 @@ class Quest extends Model
     }
 
     //Quest has meny Quest_Body
-    public function Questbodies(){
-        return $this->hasMany(QuestBody::class);
-    }
+    public function questBodys()
+{
+    return $this->hasMany(QuestBody::class, 'quest_id', 'quest_id')->orderBy('day_number')->orderBy('id');
+}
+
 
     //Quest has many quest_comments
     public function Questcomments(){

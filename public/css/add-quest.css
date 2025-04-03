@@ -132,18 +132,17 @@ p{
 /* =======================search result */
 .search-results {
     position: absolute;
-    width: 100%;
+    width: calc(95% ); /* inputと同じ幅にする */
     background: white;
-    border: 1px solid #ccc;
-    max-height: 200px;
+    /* border: 1px solid #ddd; */
+    max-height: 500px;
     overflow-y: auto;
+    z-index: 1000; /* 他の要素より上に表示 */
 }
 
-.search-result-item {
-    padding: 10px;
+.list-group-item {
     cursor: pointer;
 }
-
-.search-result-item:hover {
-    background-color: #f0f0f0;
+.list-group-item:hover {
+    background-color: #f8f9fa;
 }
