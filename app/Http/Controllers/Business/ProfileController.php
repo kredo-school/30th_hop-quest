@@ -124,11 +124,47 @@ class ProfileController extends Controller
         return view('businessusers.profiles.followers')->with('user', $user_a)->with('all_businesses', $all_businesses);
     }
 
-    public function allReviews($id){
-        $all_reviews = $this->review->latest()->paginate(10);
-        $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return view('businessusers.reviews.allreviews')->with('all_reviews', $all_reviews)->with('all_businesses',$all_businesses);
+    // public function allReviews($id){
+    //     $all_reviews = $this->review->latest()->paginate(10);
+    //     $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
+    //     return view('businessusers.reviews.allreviews')->with('all_reviews', $all_reviews)->with('all_businesses',$all_businesses);
+    // }
+
+    public function allReviews(Request $request){
+    $user = Auth::user();
+
+    // ログインユーザーが登録しているBusiness一覧
+    // $all_businesses = Business::where('user_id', Auth::user()->id)->get();
+
+    // 絞り込み（GETパラメータにbusiness_idがある場合）
+    $query = Review::with('userRelation', 'businessRelation');
+
+    if ($request->filled('business_id')) {
+        $query->where('business_id', $request->business_id);
+    }  
+    
+    if ($request->filled('user_id')) {
+        $query->where('user_id', $request->user_id);
     }
 
+    if ($request->filled('min_rating')) {
+        $query->where('rating', '>=', $request->min_rating);
+    }
+
+    $reviews = $query->latest()->paginate(11);
+    // 表示されているレビューに登場するユーザー一覧（重複なし）
+    $from_users = Review::whereIn('id', $reviews->pluck('id'))
+        ->with('userRelation')
+        ->get()
+        ->pluck('userRelation')
+        ->unique('id');
+    $from_businesses = Review::whereIn('id', $reviews->pluck('id'))
+        ->with('businessRelation')
+        ->get()
+        ->pluck('businessRelation')
+        ->unique('id');
+
+    return view('businessusers.reviews.allreviews', compact('reviews', 'from_businesses', 'from_users'));
+}
 
 }

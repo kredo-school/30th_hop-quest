@@ -44,6 +44,7 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
     Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
     Route::get('/{id}/allreviews', [ProfileController::class, 'allReviews'])->name('allreviews');
     Route::get('/{id}/review', [ReviewController::class, 'showReview'])->name('review');
+    Route::get('/{id}/review/index', [ReviewController::class, 'showIndex'])->name('indexreview');
 });
 
 //FOLLOWS
