@@ -231,6 +231,37 @@ h6{
     object-fit: cover;
 }
 
+/* ---------------PROFILE ICON--------------- */
+
+/* for body*/
+.profile-xs{
+    font-size: 1.875rem;
+}
+
+/* for Username xsmall  */
+.profile-sm{
+    font-size: 2.8125rem;
+}
+
+/* for Username  */
+.profile-md{
+    font-size: 3.75rem;
+}
+
+/* for Tourist Profile  */
+.profile-lg{
+    font-size: 8.25rem;
+}
+
+/* for Business Profile */
+.profile-xl{
+    font-size: 6rem;
+}
+.profile-xxl{
+    font-size: 10rem;
+}
+
+
 /* ---------------ICON--------------- */
 
 /* FOR COMMENT, VIEW etc  */
@@ -441,16 +472,23 @@ h6{
 
 /* ---------------PROFILE--------------- */
 .header-image{
-    position: relative;
+    /* position: relative; */
     height:250px;
     width: 100%;
     object-fit:cover;
 }
 
-.profile-image{
+/* .profile-image{
     position: absolute;
     left: 0%;
     top: -25%;
     width: 20%;
     height: auto;
+} */
+
+.tag-category .col-auto h3.active{
+    color: #D24848 !important; 
+    font-weight: bold; 
 }
+
+ 

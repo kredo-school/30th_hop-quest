@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
     ];
 
     /**
@@ -52,12 +53,67 @@ class User extends Authenticatable
         return $this->hasMany(Business::class)->withTrashed()->latest();
     }
 
+    public function businessesVisible(){
+        return $this->hasMany(Business::class)->latest();
+    }
+
+    public function promotions(){
+        return $this->hasMany(Promotion::class)->withTrashed()->latest();
+    }
+
+    public function promotionsVisible(){
+        return $this->hasMany(Promotion::class)->latest();
+    }
+
     public function reviews(){
         return $this->hasMany(Review::class)->withTrashed()->latest();
     }
 
-    public function BusinessReviewLikes(){
+    public function businessReviewLikes(){
         return $this->hasMany(BusinessReviewLike::class);
+    }
+
+    public function businessLikes(){
+        return $this->hasMany(BusinessLike::class);
+    }
+
+    public function questLikes(){
+        return $this->hasMany(QuestLike::class);
+    }
+
+    public function spotLikes(){
+        return $this->hasMany(SpotLike::class);
+    }
+
+    //user has manyu follows (user follows many users)
+    public function follows(){
+        return $this->hasMany(Follow::class, 'follower_id');
+    }
+
+    //user has many followers
+    public function followers(){
+        return $this->hasMany(Follow::class, 'followed_id');
+    }
+
+    //return true if $this user is followed by Auth user
+    public function isFollowed(){
+        return $this->followers()->where('follower_id', Auth::user()->id)->exists();
+    }
+
+    public function following(){
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id');
+    }
+
+    public function quests(){
+        return $this->hasMany(Quest::class)->withTrashed()->latest();
+    }
+
+    public function questsVisible(){
+        return $this->hasMany(Quest::class)->latest();
+    }
+
+    public function spots(){
+        return $this->hasMany(Spot::class)->latest();
     }
 
 }

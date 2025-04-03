@@ -25,6 +25,16 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-style.css') }}">
     @yield('css')
+
+    <!-- jQuery -->
+    <script src="{{ asset('js/home/jquery-3.6.0.min.js') }}"></script>
+
+    <!-- CSS of slick -->
+    <link rel="stylesheet" href="{{ asset('css/slick/slick.css')}}" />
+    <link rel="stylesheet" href="{{ asset('css/slick/slick-theme.css')}}" />
+
+    <!-- JS of slick -->
+    <script src="{{ asset('js/home/slick.min.js') }}"></script>
     
 </head>
 <body>
@@ -33,7 +43,7 @@
             <div class="container">
                 <!-- left: LOGO -->
                     <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-                        <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
+                        <img src="{{ asset('images/logo/HopQuest_logo_business_38.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
                     </a>
                         
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -42,8 +52,8 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                     {{-- Search bar here --}}
                     <ul class="navbar-nav mx-auto">
-                            <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto">
-                            <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto">
+                            {{-- <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto"> --}}
+                            <form action="{{ route('search') }}" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto">
                                 <input type="search" name="search" placeholder="Search..." class="form-control form-control-sm">
                             </form>
                     </ul>
@@ -66,7 +76,7 @@
                         <li class="nav-item my-auto">
                             <a href="{{ route('home') }}" class="nav-link" href="">HOME</a>
                         </li>
-                        <li class="nav-item dropdown my-auto">
+                        {{-- <li class="nav-item dropdown my-auto"> --}}
                         <li class="nav-item dropdown my-auto">
                             <a id="navbarDropdown" class="nav-link btn " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>+Add</a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -92,14 +102,16 @@
                             </div>
                         </li>
                         <li class="nav-item my-auto">
+                            <li class="nav-item my-auto">
+                                <a href="#" class="nav-link" href="">FAQ</a>
+                            </li>
                         <li class="nav-item my-auto">
-                            <a href="#" class="nav-link" href="">FAQ</a>
-                        </li>
-                        <li class="nav-item my-auto">
-                        <li class="nav-item my-auto">
-                            <a href="" class="nav-link d-xl-block d-none" href="">For Business</a>
-                            <a class="nav-link d-block d-xl-none text-center business"><img src="{{asset('images/navbar/icomoon-free--office.svg')}}" alt="For business"><br>business</a>
-                        </li>
+                        @if(Auth::user()->role_id == 1)
+                            <li class="nav-item my-auto">
+                                <a href="" class="nav-link d-xl-block d-none" href="">For Business</a>
+                                <a class="nav-link d-block d-xl-none text-center business"><img src="{{asset('images/navbar/icomoon-free--office.svg')}}" alt="For business"><br>business</a>
+                            </li>
+                        @endif
                         <li class="nav-item dropdown my-auto">
                             <!-- ICON -->
                             <a id="navbarDropdown" class="nav-link btn " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -115,12 +127,12 @@
                             <!-- Dropdown menu -->
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 {{-- PROFILE --}}
-                                @if(Auth::user()->role_id == 2)
-                                    <a href="{{route('profile.posts', Auth::user()->id)}}" class="dropdown-item">
+                                @if(Auth::user()->role_id == 1)
+                                    <a href="#" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
-                                @elseif(Auth::user()->role_id == 1)
-                                    <a href="#" class="dropdown-item">
+                                @elseif(Auth::user()->role_id == 2)
+                                    <a href="{{route('profile.businesses', Auth::user()->id)}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
                                 @endif
@@ -145,6 +157,7 @@
             @yield('content')
         </main>
     </div>
+    @yield('js')
 </body>
 </html>
 

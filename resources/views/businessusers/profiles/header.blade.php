@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="{{asset('css/style.css')}}"> 
 <!-- Header image -->
     <div class="row">
-        <div class="mb-3 px-0 pt-3">
+        <div class="mb-3 pt-3">
             @if($user->header)
                 <img src="{{$user->header}}" alt="" class="header-image">
             @else
@@ -10,40 +10,59 @@
         </div>
     </div> 
 {{-- User information --}}
-<div class="row justify-content-center mt-0 mb-4">        
+<div class="row justify-content-center mt-2 mb-0">        
     <div class="col-8">
         <div class="profile-header position-relative"> 
             <div class="row">
                 <!-- Avatar image -->
-                <div class="profile-image mb-3">
+                <div class="col-md-auto col-sm profile-image mb-3">
                     @if($user->avatar)
                         <img src="{{$user->avatar}}" alt="" class="rounded-circle avatar-xxl">
                     @else
                         <i class="fa-solid fa-circle-user text-secondary icon-xl d-block text-center"></i>
                     @endif
                 </div>
-                <div class="col-2"></div>
+                {{-- <div class="col-2"></div> --}}
                 <!-- Username -->
-                <div class="col">
-                    <div class="row">
-                        
-                        <div class="col-auto">
-                            <h3 class="mb-1 text-truncate">{{ $user->name }}</h3>
+                <div class="col-md col-sm">
+                    <div class="row">   
+                                                <div class="col-md-auto col-sm-8">
+                            <h3 class="mb-1 text-truncate fw-bold">{{ $user->name }}</h3>
                         </div>
-                        <div class="col-1 pb-2 p-1">
-                            @if($user->official_certification == 1)
-                            <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0 h2" alt="official-personal"> 
+                        <div class="col-md-1 col-sm-1 pb-2 p-1">
+                            @if($user->official_certification == 2)
+                                <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0 avatar-xs" alt="official-personal"> 
                             @endif
                         </div>
                         @if($user->id == Auth::user()->id)
                         {{-- edit profile --}}
-                        <div class="col-2 ms-auto">
-                            <a href="{{route('profile.edit')}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
+                        <div class="col-md-2 col-sm-3 ms-auto">
+                            <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                         </div>
-                        <div class="col-2">
+                        <div class="col-md-2 col-sm-3">
                             <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile">DELETE</button>
                         </div>
-                        @endif
+                        @else
+                            <div class="col-md-2 col-sm-2 ms-auto">
+                                @if($user->isFollowed())
+                                {{-- unfollow --}}
+                                    <form action="{{route('follow.delete', $user->id)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-following fw-bold mb-2 w-100">Following</button>
+                                    </form>
+            
+                                @else
+                                {{-- follow --}}
+                                <form action="{{route('follow.store', $user->id )}}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-follow fw-bold mb-2 w-100">Follow</button>
+                                </form>
+                                @endif 
+                            </div> 
+                        @endif                   
+
+                        
                     </div>  
                     @include('businessusers.profiles.modals.delete')  
                 
@@ -59,15 +78,29 @@
                     {{-- items --}}
                     <div class="row mb-3">
                         <div class="col-auto">
-                            <a href="{{ route('profile.posts', $user->id) }}" class="text-decoration-none text-dark fw-bold">3 posts</a>
+                            @if($user->id == Auth::user()->id)
+                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotions->count()+$user->businesses->count()+$user->quests->count()}}</span> {{$user->promotions->count()+$user->businesses->count()+$user->quests->count()==1 ? 'post' : 'posts'}}</a>
+                            @elseif($user->id != Auth::user()->id)
+                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()}}</span> {{$user->promotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()==1 ? 'post' : 'posts'}}</a>
+                            @endif
                         </div>
                         <div class="col-auto">
-                            <a href="{{ route('profile.followers') }}" class="text-decoration-none text-dark fw-bold">5 followers</a>
+                            <a href="{{ route('profile.followers', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->followers->count()}}</span> {{$user->followers->count()==1 ? 'follower' : 'followers'}}</a>
                         </div>
                         @if($user->id == Auth::user()->id)
                         <div class="col-auto">
-                            <a href="{{ route('profile.reviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->reviews->count()}}</span> {{$user->reviews->count()==1 ? 'review' : 'reviews'}}</a>
+                            @if($user->id == Auth::user()->id)                             
+                                <a href="{{ route('profile.allreviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$reviews->count()}}</span> {{$reviews->count()==1 ? 'review' : 'reviews'}}</a>
+                            @endif
                         </div>
+                            {{-- @forelse($all_businesses as $business)
+                                @if($business->user->id == Auth::user()->id)
+                                    <a href="{{ route('profile.reviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$business->reviews->count()}}</span> {{$business->reviews->count()==1 ? 'review' : 'reviews'}}</a>
+                                @endif
+                            @empty
+                                <a href="{{ route('profile.reviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">0</span> reviews</a>
+                            @endforelse
+                        </div> --}}
                         @endif
 
                         {{-- SNS icons --}}
@@ -101,11 +134,9 @@
                 @if($user->introduction)
                     <p>{{ $user->introduction}}</p>
                 @endif               
-            </div>
-            
+            </div>           
         </div>
     </div>
-    
 </div>
 
 
