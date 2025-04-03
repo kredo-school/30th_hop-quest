@@ -48,12 +48,13 @@
                     </div>
                 @endif
                 
-                <!-- Postdate -->
+                <!-- Related business of promotion -->
                 @if($post['tab_id']==3)
                 <div class="col-md-auto col-sm-12 p-0">
-                    <h5 class="card-subtitle">{{ $post['business_name']}}</h5>
+                    <h5 class="card-subtitle fw-bold">{{ $post['business_name']}}</h5>
                 </div>
                 @endif
+                <!-- Postdate -->
                 <div class="col-md-auto col-sm-12 pe-0 ms-auto">
                     <h5 class="card-subtitle">{{ $post['created_at']->format('H:i, M d Y')}}</h5>
                 </div>

@@ -362,13 +362,13 @@
                     <div class="row">
                         <!-- Priority 1 -->
                         <div class="col-md-4">  
-                            @if($business->photo)                   
-                                <label for="photo" class="form-label d-block"> </label>                                                        
-                                <img src="{{ $business->photo }}" alt="Business Photo" class="img-lg mb-2">  
-                                <input type="file" name="photo" id="photo" class="form-control">  
+                            @if($business->topPhoto)                   
+                                <label for="image" class="form-label d-block"> </label>                                                        
+                                <img src="{{ $business->topPhoto->image }}" alt="Business Photo" class="img-lg mb-2">  
+                                <input type="file" name="image" id="image" class="form-control">  
                             @else
-                                <label for="photo" class="form-label d-block"> </label>
-                                <input type="file" name="photo" id="photo" class="form-control"> 
+                                <label for="image" class="form-label d-block"> </label>
+                                <input type="file" name="image" id="image" class="form-control"> 
                             @endif    
                         </div>
 
