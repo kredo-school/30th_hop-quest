@@ -36,7 +36,7 @@ Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
     Route::get('/promotions/{id}', [ProfileController::class, 'showPromotions'])->name('promotions');
     Route::get('/businesses/{id}', [ProfileController::class, 'showBusinesses'])->name('businesses');
-    Route::get('/modelquests/{id}', [ProfileController::class, 'showModelQuests'])->name('modelquests');
+    Route::get('/modelquests/{id}', [ProfileController::class, 'showModelQuests'])->name('quests');
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
     Route::patch('/{id}/update', [ProfileController::class, 'update'])->name('update');
@@ -54,7 +54,7 @@ Route::delete('/follow/{user_id}/delete', [FollowController::class, 'delete'])->
 Route::get('/business/business', [BusinessController::class, 'index'])->name('business.index');
 
 //PROMOTION
-Route::group(['prefix' => '/business/promotion', 'as' => 'promotion.'], function(){
+Route::group(['prefix' => '/business/promotion', 'as' => 'promotions.'], function(){
     Route::get('/create', [PromotionController::class, 'create'])->name('create');
     Route::get('/{id}/edit', [PromotionController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [PromotionController::class, 'update'])->name('update');
@@ -66,7 +66,7 @@ Route::group(['prefix' => '/business/promotion', 'as' => 'promotion.'], function
 });
 
 //MANAGEMENT BUSINESS
-Route::group(['prefix' => '/business/business', 'as' => 'business.'], function(){
+Route::group(['prefix' => '/business/business', 'as' => 'businesses.'], function(){
     Route::get('/create', [BusinessController::class, 'create'])->name('create');
     Route::get('/{id}/edit', [BusinessController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [BusinessController::class, 'update'])->name('update');
@@ -81,11 +81,11 @@ Route::group(['prefix' => '/business/business', 'as' => 'business.'], function()
     });
 
 //LIKES BUSINESS
-Route::post('/home/like/business/{business_id}/store', [BusinessLikeController::class, 'storeBusinessLike'])->name('business.like.store');
-Route::delete('/home/like/business/{business_id}/delete', [BusinessLikeController::class, 'deleteBusinessLike'])->name('business.like.delete');
+Route::post('/home/like/business/{business_id}/store', [BusinessLikeController::class, 'storeBusinessLike'])->name('businesses.like.store');
+Route::delete('/home/like/business/{business_id}/delete', [BusinessLikeController::class, 'deleteBusinessLike'])->name('businesses.like.delete');
 
 //QUESTS simple
-Route::group(['prefix' => '/home/modelquest', 'as' => 'quest.'], function(){
+Route::group(['prefix' => '/home/modelquest', 'as' => 'quests.'], function(){
     Route::get('/create', [QuestController::class, 'create'])->name('create');
     Route::get('/{id}/edit', [QuestController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [QuestController::class, 'update'])->name('update');
@@ -97,8 +97,8 @@ Route::group(['prefix' => '/home/modelquest', 'as' => 'quest.'], function(){
 });
 
 //LIKE QUEST
-Route::post('/home/like/quest/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('quest.like.store');
-Route::delete('/home/like/quest/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('quest.like.delete');
+Route::post('/home/like/quest/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('quests.like.store');
+Route::delete('/home/like/quest/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('quests.like.delete');
 
 //SPOT
 Route::group(['prefix' => '/home/spot', 'as' => 'spot.'], function(){
