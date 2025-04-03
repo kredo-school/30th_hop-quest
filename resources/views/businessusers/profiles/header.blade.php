@@ -15,7 +15,7 @@
         <div class="profile-header position-relative"> 
             <div class="row">
                 <!-- Avatar image -->
-                <div class="col-auto profile-image mb-3">
+                <div class="col-md-auto col-sm profile-image mb-3">
                     @if($user->avatar)
                         <img src="{{$user->avatar}}" alt="" class="rounded-circle avatar-xxl">
                     @else
@@ -24,26 +24,26 @@
                 </div>
                 {{-- <div class="col-2"></div> --}}
                 <!-- Username -->
-                <div class="col">
-                    <div class="row">                      
-                        <div class="col-auto">
+                <div class="col-md col-sm">
+                    <div class="row">   
+                                                <div class="col-md-auto col-sm-8">
                             <h3 class="mb-1 text-truncate fw-bold">{{ $user->name }}</h3>
                         </div>
-                        <div class="col-1 pb-2 p-1">
+                        <div class="col-md-1 col-sm-1 pb-2 p-1">
                             @if($user->official_certification == 2)
                                 <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0 avatar-xs" alt="official-personal"> 
                             @endif
                         </div>
                         @if($user->id == Auth::user()->id)
                         {{-- edit profile --}}
-                        <div class="col-2 ms-auto">
+                        <div class="col-md-2 col-sm-3 ms-auto">
                             <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                         </div>
-                        <div class="col-2">
+                        <div class="col-md-2 col-sm-3">
                             <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile">DELETE</button>
                         </div>
                         @else
-                            <div class="col-2 ms-auto">
+                            <div class="col-md-2 col-sm-2 ms-auto">
                                 @if($user->isFollowed())
                                 {{-- unfollow --}}
                                     <form action="{{route('follow.delete', $user->id)}}" method="post">
@@ -60,7 +60,9 @@
                                 </form>
                                 @endif 
                             </div> 
-                        @endif
+                        @endif                   
+
+                        
                     </div>  
                     @include('businessusers.profiles.modals.delete')  
                 

@@ -116,6 +116,14 @@
                     </div>
                 </div>
 
+                {{-- main_image --}}
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="main_image" class="form-label">Upload Main Photo</label>
+                        <input type="file" name="main_image" id="main_image" class="form-control form-control-sm w-100 mb-auto p-2" >
+                    </div>                
+                </div>
+
                 <!-- Business Hours & Event Time Periods -->
                 <div class="mb-2">
                     <h3 class="text-xl font-bold mb-3">Business Hours & Event Time Periods</h3>
