@@ -318,7 +318,12 @@ class ProfileController extends Controller
     public function followers($id){
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        return view('businessusers.profiles.followers')->with('user', $user_a)->with('all_businesses', $all_businesses);
+        $reviews = DB::table('reviews')
+        ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+        ->where('businesses.user_id', $id)
+        ->select('reviews.*') 
+        ->get();
+        return view('businessusers.profiles.followers',compact('all_businesses', 'reviews'))->with('user', $user_a);
     }
 
     public function allReviews($id){
