@@ -151,6 +151,17 @@ class ProfileController extends Controller
         $query->where('rating', '>=', $request->min_rating);
     }
 
+    if ($request->filled('sort_date')) {
+        if ($request->sort_date === 'latest') {
+            $query->orderBy('created_at', 'desc');
+        } elseif ($request->sort_date === 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        }
+    } else {
+        // デフォルトは新しい順
+        $query->orderBy('created_at', 'desc');
+    }
+
     $reviews = $query->latest()->paginate(11);
     // 表示されているレビューに登場するユーザー一覧（重複なし）
     $from_users = Review::whereIn('id', $reviews->pluck('id'))

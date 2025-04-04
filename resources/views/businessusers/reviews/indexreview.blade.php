@@ -40,6 +40,17 @@
                                             @endif
                                         @endforeach
                                     </select>
+
+                                    {{-- 他のフィルター条件も維持したい場合 --}}
+                                    @if (request('min_rating'))
+                                        <input type="hidden" name="min_rating" value="{{ request('min_rating') }}">
+                                    @endif
+                                    @if (request('business_id'))
+                                        <input type="hidden" name="business_id" value="{{ request('business_id') }}">
+                                    @endif
+                                    @if (request('created_at'))
+                                    <input type="hidden" name="sort_date" value="{{ request('created_at') }}">
+                                    @endif
                                 </form>
                             </th>
                             <th class="table-spot">
@@ -55,6 +66,17 @@
                                             @endif
                                         @endforeach
                                     </select>
+
+                                    {{-- 他のフィルター条件も維持したい場合 --}}
+                                    @if (request('user_id'))
+                                        <input type="hidden" name="user_id" value="{{ request('user_id') }}">
+                                    @endif
+                                    @if (request('min_rating'))
+                                        <input type="hidden" name="min_rating" value="{{ request('min_rating') }}">
+                                    @endif
+                                    @if (request('created_at'))
+                                    <input type="hidden" name="sort_date" value="{{ request('created_at') }}">
+                                    @endif
                                 </form>
                             </th>
                             <th class="table-body ps-3">COMMENTS</th>
@@ -64,13 +86,44 @@
                                     <select name="min_rating" onchange="this.form.submit()" class="bg-navy-thead mt-3 text-sm">
                                         <option value="">RATING</option>
                                         @for ($i = 5; $i >= 1; $i--)
-                                            <option value="{{ $i }}">{{ $i }}🔼</option>
+                                            <option value="{{ $i }}">{{ $i }}⬆️</option>
                                         @endfor
                                     </select>
+
+                                        {{-- 他のフィルター条件も維持したい場合 --}}
+                                        @if (request('user_id'))
+                                            <input type="hidden" name="user_id" value="{{ request('user_id') }}">
+                                        @endif
+                                        @if (request('business_id'))
+                                            <input type="hidden" name="business_id" value="{{ request('business_id') }}">
+                                        @endif
+                                        @if (request('created_at'))
+                                        <input type="hidden" name="sort_date" value="{{ request('created_at') }}">
+                                        @endif
                                 </form>
                             </th>
                             <th class="table-likes text-center">LIKES</th>
-                            <th class="table-time text-center">POSTED AT</th>
+                            <th class="table-time text-center">
+                                <form method="GET" action="{{ route('profile.indexreview', Auth::id()) }}" >
+                                    <label for="sort_date" class=""></label>
+                                    <select name="sort_date" id="sort_date" onchange="this.form.submit()" class="bg-navy-thead mt-3 text-sm">
+                                        <option value="" disabled selected>POSTED AT</option>
+                                        <option value="latest" {{ request('sort_date') == 'latest' ? 'selected' : '' }}>FROM LATEST</option>
+                                        <option value="oldest" {{ request('sort_date') == 'oldest' ? 'selected' : '' }}>FROM OLDEST</option>
+                                    </select>
+                                
+                                    {{-- 他のフィルター条件も維持したい場合 --}}
+                                    @if (request('min_rating'))
+                                        <input type="hidden" name="min_rating" value="{{ request('min_rating') }}">
+                                    @endif
+                                    @if (request('user_id'))
+                                        <input type="hidden" name="user_id" value="{{ request('user_id') }}">
+                                    @endif
+                                    @if (request('business_id'))
+                                        <input type="hidden" name="business_id" value="{{ request('business_id') }}">
+                                    @endif
+                                </form>
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
