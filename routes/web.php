@@ -93,8 +93,8 @@ Route::group(['prefix' => '/spot', 'as' => 'spot.'], function(){
     Route::post('/{spot_id}/comment/store', [App\Http\Controllers\Spot\CommentController::class, 'store'])->name('comment.store');
     Route::delete('/{spot_id}/comment/{comment_id}/destroy', [App\Http\Controllers\Spot\CommentController::class, 'destroy'])->name('comment.destroy');
     // Spot Comment Likes
-    Route::post('/{spot_id}/comment/{comment_id}/like', [App\Http\Controllers\Spot\LikeCommentController::class, 'like'])->name('comment.like');
-    Route::delete('/{spot_id}/comment/{comment_id}/unlike', [App\Http\Controllers\Spot\LikeCommentController::class, 'unlike'])->name('comment.unlike');
+    Route::post('/comment/{comment_id}/like', [App\Http\Controllers\Spot\LikeCommentController::class, 'like'])->name('comment.like');
+    Route::delete('/comment/{comment_id}/unlike', [App\Http\Controllers\Spot\LikeCommentController::class, 'unlike'])->name('comment.unlike');
 });
 
 
@@ -107,5 +107,5 @@ Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordControlle
 // register business
 Route::get('/register/business', [App\Http\Controllers\Auth\RegisterController::class, 'registerBusiness'])->name('register.business');
 Route::post('/store/business', [App\Http\Controllers\Auth\RegisterController::class, 'storeBusiness'])->name('register.business.submit');
-Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
+Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'regiserTourist'])->name('register');
 

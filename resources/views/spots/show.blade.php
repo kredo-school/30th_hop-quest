@@ -100,16 +100,17 @@
     
     <hr>
     <h5>Photos</h5>
-    <div class="row row-cols-1 row-cols-md-4">
-        @if($spot->images)
-            @foreach(json_decode($spot->images) as $image)
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="spot-photo-grid">
-                        <img src="{{ asset($image) }}" alt="{{ $spot->title }}">
-                    </div>
+    <div class="row spot-photos-grid">
+        @php
+            $images = json_decode($spot->images) ?? [];
+        @endphp
+        @foreach($images as $image)
+            <div class="col-6 col-sm-4 col-md-3 mb-4">
+                <div class="spot-photo-item">
+                    <img src="{{ $image }}" alt="{{ $spot->title }}">
                 </div>
-            @endforeach
-        @endif
+            </div>
+        @endforeach
     </div>
 
     <hr>
@@ -119,12 +120,14 @@
         </div>
     </div>
 
-    {{-- public/map.js --}}
-    <script src="{{ asset('map.js') }}"></script>
 
-    {{-- Google Maps API (callback=initMap) --}}
+    {{-- view Google Maps --}}
+    <script src="{{ asset('js/show-map.js') }}"></script>
     <script async
-        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&libraries=places&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&callback=initMap">
     </script>
+
+    {{-- view images --}}
+    <script src="{{ asset('js/show-images.js') }}"></script>
 
 @endsection
