@@ -12,16 +12,13 @@ use App\Models\Spot;
 
 class ReviewController extends Controller
 {
-    private $user;
     private $business;
     private $review;
-    private $spot;
 
-    public function __construct(Review $review, Business $business, User $user, Spot $spot){
+
+    public function __construct(Review $review, Business $business){
         $this->review = $review;
         $this->business = $business;
-        $this->user = $user;
-        $this->spot = $spot;
     }
 
     public function reviews($id){
