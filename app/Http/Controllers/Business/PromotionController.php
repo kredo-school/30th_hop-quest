@@ -34,7 +34,7 @@ class PromotionController extends Controller
             'title' => 'required',
             'business_id' => 'required',
             'introduction' => 'required|max:2000',
-            'photo' => 'required|max:1048|mimes:jpeg,jpg,png,gif'
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $this->promotion->title = $request->title;
@@ -66,7 +66,7 @@ class PromotionController extends Controller
             'title' => 'required',
             'business_id' => 'required',
             'introduction' => 'required|max:2000',
-            'photo' => 'max:1048|mimes:jpeg,jpg,png,gif'
+            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $all_promotions = $this->promotion->where('user_id', Auth::user()->id)->latest()->get();
