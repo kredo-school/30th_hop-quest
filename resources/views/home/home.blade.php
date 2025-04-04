@@ -4,9 +4,11 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/home.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/homebody.css')}}">
+@endsection
 
 @section('content')
-@guest
+    @guest
     {{-- Header video --}}
     <div class="wrapper-header position-relative overflow-hidden d-flex align-items-center justify-content-center">
         <video autoplay muted loop playsinline class="header_video">
@@ -34,7 +36,7 @@
         </div>
     </div>
   
-@else
+    @else
     {{-- Body for Popular Contents --}}
     <div class="wrapper-body-second" id="wrapper-body-second">
         <div class="container-fluid second-body"></div> {{-- For Background --}}
@@ -48,7 +50,7 @@
         <div class="row justify-content-center tag-category">
 
             <div class="col-auto">
-                <a href="#" class="text-decoration-none text-dark" data-category="followings">
+                <a href="#tab-fol" class="tab-button text-decoration-none text-dark" data-category="#tab-fol">
                     <h1 class="poppins-semibold">
                         <i class="fa-solid fa-bookmark"></i> Followings'
                     </h1>
@@ -56,7 +58,7 @@
             </div>
 
             <div class="col-auto ms-5">
-                <a href="#" class="text-decoration-none text-dark" data-category="spot">
+                <a href="#tab-spot" class="tab-button text-decoration-none text-dark" data-category="#tab-spot">
                     <h1 class="poppins-semibold">
                         <i class="fa-solid fa-location-dot"></i> Spot
                     </h1>
@@ -64,7 +66,7 @@
             </div>
 
             <div class="col-auto ms-5">
-                <a href="#" class="text-decoration-none text-dark" data-category="quest">
+                <a href="#tab-quest" class="tab-button text-decoration-none text-dark" data-category="#tab-quest">
                     <h1 class="poppins-semibold">
                         <i class="fa-solid fa-plane fa-rotate-by" style="--fa-rotate-angle: -30deg;"></i> Quest
                     </h1>
@@ -72,7 +74,7 @@
             </div>
 
             <div class="col-auto ms-5">
-                <a href="#" class="text-decoration-none text-dark" data-category="location">
+                <a href="#tab-location" class="tab-button text-decoration-none text-dark" data-category="#tab-location">
                     <h1 class="poppins-semibold">
                         <i class="fa-solid fa-map"></i> Location
                     </h1>
@@ -80,7 +82,7 @@
             </div>
 
             <div class="col-auto ms-5">
-                <a href="#" class="text-decoration-none text-dark" data-category="event">
+                <a href="#tab-event" class="tab-button text-decoration-none text-dark" data-category="#tab-event">
                     <h1 class="poppins-semibold">
                         <i class="fa-solid fa-calendar"></i> Event
                     </h1>
@@ -107,7 +109,7 @@
                 </div>
             </div>
             
-            <div class="line-2"></div>
+            {{-- <div class="line-2"></div> --}}
         </div>
 
         
@@ -120,31 +122,93 @@
 
         {{-- Slider Carousel --}}
         <div class="sliderdiv">
-            <div class="slider mt-5">
-                @include('home-body')
-                @include('home-body')
-                @include('home-body')
-                @include('home-body')
-                @include('home-body')
-                @include('home-body')
-                @include('home-body')
-                @include('home-body')
-                @include('home-body')
-                @include('home-body')
+                {{-- @include('home-body') --}}
+                
+                {{-- Tab content --}}
+                <div class="container-fluid wrapper-body tab-content" id="tab-fol">
+                    <div class="row" id="post-list-follow">
+                        <div class="slider mt-5">
+                            @forelse ($popular_follwings->take(9) as $post)
+                                @if ($post->user->isFollowed())
+                                    <div class="slide">
+                                        @include('home.home-body', ['post' => $post])
+                                    </div>
+                                @endif
+                            @empty
+                                <div class="empty d-flex justify-content-center not-found">
+                                    Your following users have no posts.
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid wrapper-body tab-content" id="tab-spot">
+                    <div class="row" id="post-list-spot">
+                        <div class="slider mt-5">
+                            @forelse ($popular_spots->take(9) as $post)
+                                <div class="slide">
+                                    @include('home.home-body', ['post' => $post])
+                                </div>
+                            @empty
+                                <div class="empty d-flex justify-content-center not-found">
+                                    is not found...
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid wrapper-body tab-content" id="tab-quest">
+                    <div class="row" id="post-list-quest">
+                        <div class="slider mt-5">
+                            @forelse ($popular_quests->take(9) as $post)
+                                <div class="slide">
+                                    @include('home.home-body', ['post' => $post])
+                                </div>
+                            @empty
+                                <div class="empty d-flex justify-content-center not-found">
+                                    is not found...
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid wrapper-body tab-content" id="tab-location">
+                    <div class="row" id="post-list-location">
+                        <div class="slider mt-5">
+                            @forelse ($popular_locations->take(9) as $post)
+                                <div class="slide">
+                                    @include('home.home-body', ['post' => $post])
+                                </div>
+                            @empty
+                                <div class="empty d-flex justify-content-center not-found">
+                                    is not found...
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid wrapper-body tab-content" id="tab-event">
+                    <div class="row" id="post-list-event">
+                        <div class="slider mt-5">
+                            @forelse ($popular_events->take(9) as $post)
+                                <div class="slide">
+                                    @include('home.home-body', ['post' => $post])
+                                </div>
+                            @empty
+                                <div class="empty d-flex justify-content-center not-found">
+                                    is not found...
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-
-        <script>
-            $(document).ready(function(){
-                $('.slider').slick({
-                    autoplay: true,
-                    dots: true,
-                    slidesToShow: 5,
-                    slidesToScroll: 1
-                })
-            })
-        </script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function(){
@@ -349,7 +413,8 @@
                 </div>
             </div>            
         </div>
-@endguest
+    @endguest
+
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-2 faq-jump col-6 text-center justify-content-center align-items-center mt-5">
@@ -363,3 +428,5 @@
         </div>
     </div>
 @endsection
+
+@vite('resources/js/home/home.js')

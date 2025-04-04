@@ -37,7 +37,28 @@ class HomeController extends Controller
      */
 
     public function index(){
-        return view('home.home');
+
+        $popular_quests     = Quest::with('view')->whereHas('view')->get()
+                        ->sortByDesc(fn($quest) => $quest->view->views ?? 0)->take(9)->values();
+
+        $popular_spots      = Spot::with('view')->whereHas('view')->get()
+                        ->sortByDesc(fn($spot) => $spot->view->views ?? 0)->take(9)->values();
+
+        $popular_locations  = Business::with('view')->whereHas('view')->where('category_id' ,'1')->get()
+                        ->sortByDesc(fn($location) => $location->view->views ?? 0)->take(9)->values();
+        
+        $popular_events     = Business::with('view')->whereHas('view')->where('category_id' ,'2')->get()
+                        ->sortByDesc(fn($event) => $event->view->views ?? 0)->take(9)->values();
+        
+        $popular_follwings  = $popular_quests->concat($popular_spots)->concat($popular_locations)->concat($popular_events)
+                        ->sortByDesc(fn($post) => $post->view->views ?? 0)->take(9)->values();
+
+        return view('home.home')
+                ->with('popular_quests', $popular_quests)
+                ->with('popular_spots', $popular_spots)
+                ->with('popular_locations', $popular_locations)
+                ->with('popular_events', $popular_events)
+                ->with('popular_follwings', $popular_follwings);
     }
 
     

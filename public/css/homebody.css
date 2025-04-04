@@ -2,8 +2,8 @@
     position: relative;
     padding-left: 5%; 
     padding-top: 5%;
-    width: 18rem;
-    height: 28rem;
+    width: 22.1rem;
+    height: 220rem;
 
 }
 
@@ -19,16 +19,16 @@
 }
 
 .slick-slide > div {
-    height: 15.5rem;
+    height: auto !important;
 }
 
 
 
 .body-image{
-    widows: 100%;
+    width: 100%;
     height: auto;
-    /* height: 12rem;
-    width: 18rem; */
+    height: 12rem;
+    width: 20rem;
     border-radius: 5px;
 }
 
