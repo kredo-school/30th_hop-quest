@@ -7,6 +7,8 @@ use App\Http\Controllers\FollowController;
 
 use App\Http\Middleware\PageViewMiddleware;
 use App\Http\Controllers\Spot\LikeController;
+
+
 use App\Http\Controllers\Spot\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
@@ -16,11 +18,7 @@ use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\PromotionController;
-use App\Http\Controllers\Business\QuestLikeController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Business\BusinessLikeController;
-use App\Http\Controllers\Business\SpotController;
-use App\Http\Controllers\Business\SpotLikeController;
 
 Route::get('/', function () {
     return view('welcome');
