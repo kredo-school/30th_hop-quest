@@ -80,17 +80,81 @@ class ProfileController extends Controller
 
     }
 
-    public function showPromotions($id){
+    // public function showPromotions($id){
+    //     //get data of 1 user
+    //     $user_a = $this->user->findOrFail($id);
+    //     $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
+    //     $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
+    //     $business_comments = DB::table('business_comments')
+    //     ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
+    //     ->where('businesses.user_id', $id)
+    //     ->select('business_comments.*') 
+    //     ->get();
+    //     return view('businessusers.profiles.promotions')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_promotions', $all_promotions)->with('business_comments', $business_comments);
+    // }
+
+    public function showBusinesses(Request $request, $id){
         //get data of 1 user
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
-        $business_comments = DB::table('business_comments')
+        $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->get();
+        $reviews = DB::table('business_comments')
         ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
         ->where('businesses.user_id', $id)
         ->select('business_comments.*') 
         ->get();
-        return view('businessusers.profiles.promotions')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_promotions', $all_promotions)->with('business_comments', $business_comments);
+        $sort = $request->get('sort', 'latest');
+        $perPage = 3;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        // Locations  
+        $locations = Business::where('category_id', 1)      
+        $businesses = Promotion::with('user', 'business')
+        ->where('user_id', $user_a->id)
+        ->withTrashed()
+        ->get()
+        ->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'business_name' => optional($item->business)->name,
+                'title' => $item->title,
+                'introduction' => $item->introduction,
+                'main_image' => $item->photo,
+                'category_id' => null,
+                'tab_id' => 3,
+                'duration' => null,
+                'official_certification' => null,
+                'promotion_start' => $item->promotion_start,
+                'promotion_end' => $item->promotion_end,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'likes_count' => null,
+                'comments_count' => null,
+                // 'views_count' => $item->views_count,
+                'is_liked' => null,
+                'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
+                'type' => 'promotions', 
+            ];
+        });
+
+        $promotions = match($sort) {
+            default  => $promotions->sortByDesc('created_at'), 
+        };
+
+        // ページネーション
+        $paginated = new LengthAwarePaginator(
+            $promotions->forPage($currentPage, $perPage),
+            $promotions->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => $request->url(),
+                'query' => $request->query(), // ← クエリを保持！（sort=likes など）
+            ]
+        );
+
+        return view('businessusers.profiles.promotions', compact('all_promotions','all_businesses', 'reviews'),['promotions' => $paginated])->with('user', $user_a);
     }
 
     public function showBusinesses($id){
@@ -108,15 +172,15 @@ class ProfileController extends Controller
     }
 
     
-    public function showPromotions(Request $request,$id){
+    public function showPromotions(Request $request, $id){
         //get data of 1 user
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
         $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $reviews = DB::table('reviews')
-        ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+        $reviews = DB::table('business_comments')
+        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
         ->where('businesses.user_id', $id)
-        ->select('reviews.*') 
+        ->select('business_comments.*') 
         ->get();
         $sort = $request->get('sort', 'latest');
         $perPage = 3;
@@ -241,25 +305,9 @@ class ProfileController extends Controller
         ->where('businesses.user_id', $id)
         ->select('business_comments.*') 
         ->get();
-        return view('businessusers.profiles.modelquests')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_quests', $all_quests)->with('business_comments',$business_comments);
-    }
-
-    public function followers($id){
-        $user_a = $this->user->findOrFail($id);
-        $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $business_comments = DB::table('business_comments')
-        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
-        ->where('businesses.user_id', $id)
-        ->select('business_comments.*') 
-        ->get();
         return view('businessusers.profiles.followers')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('business_comments',$business_comments);
     }
 
-    // public function allReviews($id){
-    //     $all_reviews = $this->review->latest()->paginate(10);
-    //     $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-    //     return view('businessusers.reviews.allreviews')->with('all_reviews', $all_reviews)->with('all_businesses',$all_businesses);
-    // }
 
     public function allReviews(Request $request){
     $user = Auth::user();
@@ -268,7 +316,7 @@ class ProfileController extends Controller
     // $all_businesses = Business::where('user_id', Auth::user()->id)->get();
 
     // 絞り込み（GETパラメータにbusiness_idがある場合）
-    $query = Review::with('userRelation', 'businessRelation');
+    $query = BusinessComment::with('userRelation', 'businessRelation');
 
     if ($request->filled('business_id')) {
         $query->where('business_id', $request->business_id);
@@ -295,12 +343,12 @@ class ProfileController extends Controller
 
     $reviews = $query->latest()->paginate(11);
     // 表示されているレビューに登場するユーザー一覧（重複なし）
-    $from_users = Review::whereIn('id', $reviews->pluck('id'))
+    $from_users = BusinessComment::whereIn('id', $reviews->pluck('id'))
         ->with('userRelation')
         ->get()
         ->pluck('userRelation')
         ->unique('id');
-    $from_businesses = Review::whereIn('id', $reviews->pluck('id'))
+    $from_businesses = BusinessComment::whereIn('id', $reviews->pluck('id'))
         ->with('businessRelation')
         ->get()
         ->pluck('businessRelation')
