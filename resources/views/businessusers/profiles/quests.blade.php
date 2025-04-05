@@ -11,9 +11,9 @@
     @include('businessusers.profiles.header')
 
 <div class="row justify-content-center bg-blue">
-{{-- Management business --}}
-    <div class="col-8 mb-3 ">
-    {{-- Tabs for categories --}}
+    {{-- Model Quests --}}
+    <div class="col-8 mb-3">
+            {{-- Tabs for categories --}}
         <div class="row tag-category">
             <div class="col-auto">
                 <a href="{{ route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark" data-category="business">
@@ -40,25 +40,24 @@
         <hr>
         <div class="row">
             @if($user->id == Auth::user()->id)
-            <div class="col-2 ms-auto mb-2 ">
-                <a href="{{ route('businesses.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
-                <a href="{{ route('businesses.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
-            </div>
+                <div class="col-2 ms-auto mb-2">
+                    <a href="{{ route('quests.create', $user->id) }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                </div>
             @endif
         </div>
 
-        {{-- business --}}
         <div class="row mb-1">
-            @forelse($businesses as $post)
+            @forelse($quests as $post)
                 <div class="col-lg-4 col-md-6 col-sm">
                     @include('businessusers.profiles.post-body-profile')
                 </div>         
             @empty
                 <h4 class="h4 text-center text-secondary">No posts yet</h4>
             @endforelse
-
         </div>
-
+        <div class="d-flex justify-content-end mb-5">
+            {{ $quests->links() }}
+        </div>
     </div>
 </div>
 </div>

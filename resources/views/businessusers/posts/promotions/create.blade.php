@@ -16,7 +16,7 @@
                     <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items)<p>
                 </div>
             </div>
-            <form action="{{ route('promotion.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('promotions.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 {{-- @method('PATCH') --}}
             {{-- Promotion title --}}

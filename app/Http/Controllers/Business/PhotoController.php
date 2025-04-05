@@ -24,9 +24,9 @@ class PhotoController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $photo = $request->file('image');
+        $image = $request->file('image');
 
-        $encoded = "data:photo/" . $photo->extension() . ";base64," . base64_encode(file_get_contents($photo));
+        $encoded = "data:photo/" . $image->extension() . ";base64," . base64_encode(file_get_contents($image));
 
         $business->photos()->create([
             'image' => $encoded,
@@ -43,10 +43,10 @@ class PhotoController extends Controller
         $uploaded = $request->file('image');
         $encoded = "data:image/" . $uploaded->extension() . ";base64," . base64_encode(file_get_contents($uploaded));
 
-        $photo = $business->photos()->where('priority', 1)->first();
+        $image = $business->photos()->where('priority', 1)->first();
 
-        if ($photo) {
-            $photo->update([
+        if ($image) {
+            $image->update([
                 'image' => $encoded,
             ]);
         } else {

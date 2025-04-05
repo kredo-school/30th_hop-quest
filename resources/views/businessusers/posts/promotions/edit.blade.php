@@ -19,7 +19,7 @@
                 </div>
                 @include('businessusers.posts.promotions.modals.delete')
             </div>
-            <form action="{{ route('promotion.update', $promotion->id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('promotions.update', $promotion->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
             {{-- Promotion title --}}
@@ -77,7 +77,7 @@
             <div class="row mb-3">
                 <div class="col">
                     <label for="introduction" class="form-label">Introduction<span class="color-red">*</span></label>
-                    <textarea name="introduction" id="introduction" rows="5" class="form-control" aria-valuemax="{{old('introduction', $promotion->introduction)}}"></textarea>
+                    <textarea name="introduction" id="introduction" rows="5" class="form-control" value="">{{old('introduction', $promotion->introduction)}}</textarea>
                     @error('introduction')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror
@@ -95,7 +95,7 @@
                         @else
                             <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
                         @endif
-                        <input type="file" name="photo" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
+                        <input type="file" name="photo" id="photo" class="form-control form-control-sm w-100 mb-auto p-2" >
                     </div>
                     @error('photo')
                     <p class="mb-0 text-danger small">{{ $message }}</p>

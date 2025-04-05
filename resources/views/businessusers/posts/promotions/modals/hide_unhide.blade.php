@@ -1,6 +1,6 @@
-@if(!$promotion->trashed())
+@if(!$post['is_trashed'])
 {{-- DEACTIVATE --}}
-<div class="modal fade" id="deactivate-promotion{{ $promotion->id }}">
+<div class="modal fade" id="{{ $modalId }}">
     <div class="modal-dialog">
         <div class="modal-content border-red">
             <div class="modal-header border-red">
@@ -11,17 +11,17 @@
                     Are you sure you want to hide this Promotion?
                 </div>
                 <div>
-                    <p class="text-dark">{{$promotion->title}}</p>
+                    <p class="text-dark">{{$post['title']}}</p>
                 </div>
                 <div class="mb-2">
-                    <img src="{{$promotion->photo}}" alt="image" class=" img-lg">
+                    <img src="{{$post['main_image']}}" alt="image" class=" img-lg">
                 </div>
                 <div>
-                    <p class="text-dark card_description">{{$promotion->introduction}}</p>
+                    <p class="text-dark card_description">{{$post['introduction']}}</p>
                 </div>
             </div>
             <div class="modal-footer border-0">
-                <form action="{{ route('promotion.deactivate', $promotion->id)}}" method="post">
+                <form action="{{ route('promotions.deactivate', $post['id'])}}" method="post">
                     @csrf
                     @method('DELETE')
                     <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-outline-red">Cancel</button>
@@ -34,7 +34,7 @@
 
 @else
 {{-- ACTIVATE --}}
-<div class="modal fade" id="activate-promotion{{$promotion->id}}">
+<div class="modal fade" id="{{ $modalId }}">
     <div class="modal-dialog">
         <div class="modal-content border-green">
             <div class="modal-header border-green">
@@ -45,17 +45,17 @@
                     Are you sure you want to unhide this Promotion?
                 </div>
                 <div>
-                    <p class="text-dark">{{$promotion->title}}</p>
+                    <p class="text-dark">{{$post['title']}}</p>
                 </div>
                 <div class="mb-2">
-                    <img src="{{$promotion->photo}}" alt="image" class="img-lg">
+                    <img src="{{$post['main_image']}}" alt="image" class="img-lg">
                 </div>
                 <div>
-                    <p class="text-dark card_description">{{$promotion->introduction}}</p>
+                    <p class="text-dark card_description">{{$post['introduction']}}</p>
                 </div>
             </div>
             <div class="modal-footer border-0">
-                <form action="{{route('promotion.activate', $promotion->id)}}" method="post">
+                <form action="{{route('promotions.activate', $post['id'])}}" method="post">
                     @csrf
                     @method('PATCH')
                     <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-outline-green">Cancel</button>

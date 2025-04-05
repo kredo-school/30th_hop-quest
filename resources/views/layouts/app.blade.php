@@ -42,8 +42,18 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
             <div class="container">
                 <!-- left: LOGO -->
-                    <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-                        <img src="{{ asset('images/logo/38px.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
+                    @guest
+                        <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+                        <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
+                    @else
+                        @if(Auth::user()->role_id == 1)
+                            <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+                            <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
+                        @elseif(Auth::user()->role_id == 2)
+                            <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+                            <img src="{{ asset('images/logo/HopQuest_Business_38px.png') }}" alt="HopQuest LOGO for Business" class="nav-img me-lg-5">
+                        @endif
+                    @endguest
                     </a>
                         
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -91,7 +101,7 @@
                                 <a href="#" class="dropdown-item text-dark">
                                     <i class="fa-solid fa-circle-plus icon-sm"></i> Add Business
                                 </a>
-                                <a href="{{ route('promotion.create') }}" class="dropdown-item text-dark ">
+                                <a href="{{ route('promotions.create') }}" class="dropdown-item text-dark ">
                                     <i class="fa-solid fa-circle-plus icon-sm"></i> Add Promotion
                                 </a>
                                 <a href="#" class="dropdown-item text-dark">
@@ -106,12 +116,12 @@
                                 <a href="#" class="nav-link" href="">FAQ</a>
                             </li>
                         <li class="nav-item my-auto">
-                        @if(Auth::user()->role_id == 1)
+                        {{-- @if(Auth::user()->role_id == 1)
                             <li class="nav-item my-auto">
                                 <a href="" class="nav-link d-xl-block d-none" href="">For Business</a>
                                 <a class="nav-link d-block d-xl-none text-center business"><img src="{{asset('images/navbar/icomoon-free--office.svg')}}" alt="For business"><br>business</a>
                             </li>
-                        @endif
+                        @endif --}}
                         <li class="nav-item dropdown my-auto">
                             <!-- ICON -->
                             <a id="navbarDropdown" class="nav-link btn " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

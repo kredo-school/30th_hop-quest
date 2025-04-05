@@ -5,7 +5,7 @@
 @section('content')
 <div class="bg-blue">
     <div class="row justify-content-center pt-5">
-        <form action="{{route('modelquest.store')}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('quests.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
             
             <div class="col-md-10 col-lg-8 box-border mx-auto" >
@@ -48,12 +48,13 @@
             </div>
 
                 {{-- images --}}
-                <label for="main_photo" class="form-label">Upload Main Photo</label>
                 <div class="row">
+                    <label for="main_photo" class="form-label">Upload Main Photo</label>
+                
                     <!-- Priority 1 -->
                     <div class="col-md-4">
-                        <label for="main_photo"></label>
-                        <input type="file" name="main_photo" id="main_photo" class="form-control">
+                        <label for="main_image"></label>
+                        <input type="file" name="main_image" id="main_image" class="form-control">
                     </div>
                 
                 </div>
@@ -67,7 +68,7 @@
                         </div>
                         <div class="col-2"></div>
                         <div class="col-4 ">
-                            <a href="{{route('profile.modelquests', Auth::user()->id)}}">
+                            <a href="{{route('profile.quests', Auth::user()->id)}}">
                                 <div class="btn btn-red w-100 ">CANCEL</div>
                             </a>
                         </div>
