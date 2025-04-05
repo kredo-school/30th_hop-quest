@@ -66,12 +66,12 @@ class User extends Authenticatable
         return $this->hasMany(Promotion::class)->latest();
     }
 
-    public function reviews(){
-        return $this->hasMany(Review::class)->withTrashed()->latest();
+    public function businessComments(){
+        return $this->hasMany(BusinessComment::class)->withTrashed()->latest();
     }
 
-    public function businessReviewLikes(){
-        return $this->hasMany(BusinessReviewLike::class);
+    public function businessCommentLikes(){
+        return $this->hasMany(BusinessCommentLike::class);
     }
 
     public function businessLikes(){

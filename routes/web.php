@@ -15,6 +15,7 @@ use App\Http\Controllers\Business\ReviewController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
 use App\Http\Controllers\Business\BusinessController;
+use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\PromotionController;
 use App\Http\Controllers\Business\QuestLikeController;
 use App\Http\Controllers\Auth\ForgotPasswordController;

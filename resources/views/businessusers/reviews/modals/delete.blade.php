@@ -1,4 +1,4 @@
-<div class="modal fade" id="delete-review{{$review->id}}">
+<div class="modal fade" id="delete-review{{$business_comment->id}}">
     <div class="modal-dialog">
         <div class="modal-content border-danger">
             <div class="modal-header border-danger">
@@ -7,9 +7,9 @@
             <div class="modal-body">
                 <p class="color-red">Are you sure you want to delete this Review?</p>
 
-                <p class="text-dark">FROM: {{$review->name}}</p>
+                <p class="text-dark">FROM: {{$business_comment->name}}</p>
 
-                <p class="text-dark">SPOT: {{$review->business->name}}</p>
+                <p class="text-dark">SPOT: {{$business_comment->business->name}}</p>
             </div>
             <div class="modal-footer border-0">
                 <form action="#" method="post">
