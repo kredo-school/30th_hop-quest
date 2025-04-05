@@ -81,9 +81,9 @@
             {{-- File --}}
             <div class="row mb-3">
                 <div class="col">
-                    <label for="photo" class="form-label">Photo upload<span class="color-red">*</span></label>
-                    <input type="file" name="photo" id="photo" class="form-control form-control-sm w-100 mb-auto p-2" >
-                    @error('photo')
+                    <label for="image" class="form-label">Photo upload<span class="color-red">*</span></label>
+                    <input type="file" name="image" id="image" class="form-control form-control-sm w-100 mb-auto p-2" >
+                    @error('image')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror
                     <p class="form-text text-danger">

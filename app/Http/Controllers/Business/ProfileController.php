@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Business;
-use App\Models\Promotion;
+use App\Models\BusinessPromotion;
 use App\Models\Quest;
 use App\Models\Photo;
 use App\Models\BusinessComment;
@@ -20,14 +20,14 @@ class ProfileController extends Controller
 {
     private $user;
     private $business;
-    private $promotion;
+    private $business_promotion;
     private $quest;
     private $business_comment;
 
-    public function __construct(User $user, Business $business, Promotion $promotion, Quest $quest, BusinessComment $business_comment){
+    public function __construct(User $user, Business $business, BusinessPromotion $business_promotion, Quest $quest, BusinessComment $business_comment){
         $this->user = $user;
         $this->business = $business;
-        $this->promotion = $promotion;
+        $this->business_promotion = $business_promotion;
         $this->quest = $quest;
         $this->business_comment = $business_comment;
     }
@@ -194,7 +194,7 @@ class ProfileController extends Controller
         //get data of 1 user
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->get();
+        $all_business_promotions = $this->business_promotion->withTrashed()->where('user_id', $user_a->id)->latest()->get();
         $business_comments = DB::table('business_comments')
         ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
         ->where('businesses.user_id', $id)
@@ -204,7 +204,7 @@ class ProfileController extends Controller
         $perPage = 3;
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         // Promotions        
-        $promotions = Promotion::with('user', 'business')
+        $business_promotions = BusinessPromotion::with('user', 'business')
         ->where('user_id', $user_a->id)
         ->withTrashed()
         ->get()
@@ -216,7 +216,7 @@ class ProfileController extends Controller
                 'business_name' => optional($item->business)->name,
                 'title' => $item->title,
                 'introduction' => $item->introduction,
-                'main_image' => $item->photo,
+                'main_image' => $item->image,
                 'category_id' => null,
                 'tab_id' => 3,
                 'duration' => null,
@@ -234,14 +234,14 @@ class ProfileController extends Controller
             ];
         });
 
-        $promotions = match($sort) {
-            default  => $promotions->sortByDesc('created_at'), 
+        $business_promotions = match($sort) {
+            default  => $business_promotions->sortByDesc('created_at'), 
         };
 
         // ページネーション
         $paginated = new LengthAwarePaginator(
-            $promotions->forPage($currentPage, $perPage),
-            $promotions->count(),
+            $business_promotions->forPage($currentPage, $perPage),
+            $business_promotions->count(),
             $perPage,
             $currentPage,
             [
@@ -250,7 +250,7 @@ class ProfileController extends Controller
             ]
         );
 
-        return view('businessusers.profiles.promotions', compact('all_promotions','all_businesses', 'business_comments'),['promotions' => $paginated])->with('user', $user_a);
+        return view('businessusers.profiles.promotions', compact('all_business_promotions','all_businesses', 'business_comments'),['business_promotions' => $paginated])->with('user', $user_a);
     }
 
 

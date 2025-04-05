@@ -16,7 +16,7 @@ use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\BusinessCommentController;
-use App\Http\Controllers\Business\PromotionController;
+use App\Http\Controllers\Business\BusinessPromotionController;
 use App\Http\Controllers\Business\QuestLikeController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Business\BusinessLikeController;
@@ -57,14 +57,14 @@ Route::get('/business/business', [BusinessController::class, 'index'])->name('bu
 
 //PROMOTION
 Route::group(['prefix' => '/business/promotion', 'as' => 'promotions.'], function(){
-    Route::get('/create', [PromotionController::class, 'create'])->name('create');
-    Route::get('/{id}/edit', [PromotionController::class, 'edit'])->name('edit');
-    Route::patch('/{id}/update', [PromotionController::class, 'update'])->name('update');
-    Route::post('/store', [PromotionController::class, 'store'])->name('store');
-    Route::get('/show/{id}', [PromotionController::class, 'show'])->name('show');
-    Route::get('/confirm', [PromotionController::class, 'confirm'])->name('confirm');
-    Route::delete('/{id}/deactivate', [PromotionController::class, 'deactivate'])->name('deactivate');
-    Route::patch('/{id}/activate', [PromotionController::class, 'activate'])->name('activate');
+    Route::get('/create', [BusinessPromotionController::class, 'create'])->name('create');
+    Route::get('/{id}/edit', [BusinessPromotionController::class, 'edit'])->name('edit');
+    Route::patch('/{id}/update', [BusinessPromotionController::class, 'update'])->name('update');
+    Route::post('/store', [BusinessPromotionController::class, 'store'])->name('store');
+    Route::get('/show/{id}', [BusinessPromotionController::class, 'show'])->name('show');
+    Route::get('/confirm', [BusinessPromotionController::class, 'confirm'])->name('confirm');
+    Route::delete('/{id}/deactivate', [BusinessPromotionController::class, 'deactivate'])->name('deactivate');
+    Route::patch('/{id}/activate', [BusinessPromotionController::class, 'activate'])->name('activate');
 });
 
 //MANAGEMENT BUSINESS
