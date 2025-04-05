@@ -15,7 +15,7 @@
                 </div>
                 <div class="row">
                     <div class="table-container">
-                        <table class="custom-table text-secondary mb-3">
+                        <table class="custom-table rounded-2 text-secondary mb-3">
                             <thead>
                                 <tr class="text-uppercase">
                                     <th class="table-from ps-2">
