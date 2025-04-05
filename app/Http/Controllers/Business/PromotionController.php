@@ -47,6 +47,7 @@ class PromotionController extends Controller
         $this->promotion->user_id = Auth::user()->id;
         $this->promotion->photo = "data:photo/".$request->photo->extension().";base64,".base64_encode (file_get_contents($request->photo)); 
 
+
         $this->promotion->save();
 
         $all_promotions = $this->promotion->where('user_id', Auth::user()->id)->latest()->get();
