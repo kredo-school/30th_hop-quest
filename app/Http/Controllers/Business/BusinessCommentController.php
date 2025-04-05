@@ -10,7 +10,7 @@ use App\Models\Business;
 use App\Models\BusinessComment;
 use App\Models\Spot;
 
-class ReviewController extends Controller
+class BusinessCommentController extends Controller
 {
     private $business;
     private $business_comment;
@@ -74,7 +74,7 @@ class ReviewController extends Controller
             $query->orderBy('created_at', 'desc');
         }
     
-        $business_comments = $query->latest()->paginate(10);
+        $business_comments = $query->latest()->paginate(11);
         // 表示されているレビューに登場するユーザー一覧（重複なし）
         $from_users = BusinessComment::whereIn('id', $business_comments->pluck('id'))
             ->with('userRelation')

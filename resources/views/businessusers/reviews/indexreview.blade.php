@@ -128,7 +128,7 @@
                             </tr>
                         </thead>
                         <tbody class="">
-                            @forelse($all_business_comments as $business_comment)
+                            @forelse($business_comments as $business_comment)
                                 @if($business_comment->business->user->id == Auth::user()->id)
                                     <tr>
                                         <td class="ps-2"><a href="{{ route('profile.review', $business_comment->id) }}" class="text-decoration-none text-secondary">{{ $business_comment->user->name }}</a></td>
@@ -145,7 +145,7 @@
                                         </td>
                                         <td class="text-center">
                                             @if($business_comment->BusinessCommentLikes->count() == 0)
-                                            <p class="my-auto"><i class="fa-regular fa-heart me-2 align-middle"></i>{{$review->BusinessCommentLikes->count()}}</p>
+                                            <p class="my-auto"><i class="fa-regular fa-heart me-2 align-middle"></i>{{$business_comment->BusinessCommentLikes->count()}}</p>
                                             @else
                                             <p class="my-auto"><i class="fa-solid fa-heart color-red me-2 align-middle"></i>{{$business_comment->BusinessCommentLikes->count()}}</p>
                                             @endif
