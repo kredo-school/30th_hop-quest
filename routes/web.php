@@ -13,7 +13,7 @@ use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\PromotionController;
 use App\Http\Controllers\Business\BusinessLikeController;
-
+use App\Http\Controllers\ViewBusiness;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -43,6 +43,9 @@ Route::delete('/follow/{user_id}/delete', [FollowController::class, 'delete'])->
 
 //BUSINESS
 Route::get('/business/business', [BusinessController::class, 'index'])->name('business.index');
+
+Route::get('/business/{id}', [ViewBusiness::class, 'show'])->name('business.show');
+
 
 //PROMOTION
 Route::group(['prefix' => '/business/promotion', 'as' => 'promotion.'], function(){

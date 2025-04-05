@@ -40,4 +40,7 @@ class Business extends Model
         return $this->businessLikes()->where('user_id', Auth::user()->id)->exists();
     }
 
+    public function businessHours(){
+        return $this->hasMany(BusinessHours::class);
+    }
 }
