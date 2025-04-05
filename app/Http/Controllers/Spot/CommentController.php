@@ -48,24 +48,5 @@ class CommentController extends Controller
         return redirect()->back();
     }
 
-    public function like($spot_id, $comment_id)
-    {
-        $comment = $this->comment->findOrFail($comment_id);
-        
-        $comment->likes()->create([
-            'user_id' => Auth::user()->id,
-        ]);
-
-        return redirect()->back();
-    }
-
-    public function unlike($spot_id, $comment_id)
-    {
-        $comment = $this->comment->findOrFail($comment_id);
-
-        $comment->likes()->where('user_id', Auth::user()->id)->delete();
-
-        return redirect()->back();
-    }
 }
 

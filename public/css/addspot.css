@@ -1,6 +1,10 @@
 .add-spot-container {
-    background-color: #eef2ee;
+    background-color: #BFE8E8;
+    min-height: 600px;
+    height: auto;
+    overflow: visible;
     padding: 20px;
+    margin-top: 15px;
 }
 
 .add-spot-form {
@@ -10,8 +14,13 @@
 }
 
 .form-group {
+    margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
+}
+
+.form-group:first-child {
+    margin-top: 0;
 }
 
 .form-label {
@@ -20,6 +29,7 @@
     text-align: left;
     font-weight: bold;
     color: #333;
+    margin-top: 10px;
 }
 
 .form-input {
@@ -36,14 +46,17 @@
 }
 
 .map-container {
-    background-color: #b92836;
-    height: 600px;
-    overflow: hidden;
+    background-color: #BFE8E8;
+    min-height: 600px;
+    height: auto;
+    overflow: visible;
+    padding: 20px;
+    margin-top: 20px;
 }
 
 .search-container {
     display: flex;
-    margin-bottom: 15px;
+    margin-bottom: 40px;
 }
 
 .search-input {
@@ -54,10 +67,11 @@
 
 .search-button {
     padding: 10px;
-    background-color: #4CAF50;
+    background-color: #66BFBF;
     color: white;
     border: none;
     cursor: pointer;
+    font-weight: bold;
     margin-left: 10px;
 }
 
@@ -68,18 +82,29 @@
 }
 
 .place-photo {
-    width: 20%;
-    height: 10%;
+    width: 30%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.place-photo img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 .submit-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #3b28b9;
+    width: auto;
+    min-width: 200px;
+    padding: 10px 20px;
+    background-color: #66BFBF;
     color: white;
+    font-weight: bold;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
-    margin-top: 10px;
+    margin: 0 auto;
 }
 
 /* Photo Container Styles */
@@ -140,6 +165,31 @@
     width: 100%;
     word-break: break-all;
     margin-top: 10px;
+}
+
+/* ファイル名表示のスタイル */
+.selected-files {
+    text-align: left;
+    padding: 5px 0;
+}
+
+.file-name {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin: 2px 0;
+    font-size: 0.9rem;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file-name i {
+    margin-right: 5px;
+    color: #66BFBF;
 }
 
 /* Responsive adjustments */
