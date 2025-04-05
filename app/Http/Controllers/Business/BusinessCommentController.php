@@ -90,6 +90,13 @@ class BusinessCommentController extends Controller
         return view('businessusers.reviews.indexreview', compact('business_comments', 'from_users', 'from_businesses'));
     }
 
+    public function deleteReview($id){
+        $this->business_comment->destroy($id);
+        return redirect()->back();
+    }
+
+    }
 
 
-}
+
+

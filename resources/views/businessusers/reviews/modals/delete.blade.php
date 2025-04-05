@@ -12,7 +12,7 @@
                 <p class="text-dark">SPOT: {{$business_comment->business->name}}</p>
             </div>
             <div class="modal-footer border-0">
-                <form action="#" method="post">
+                <form action="{{route('profile.delete.review', $business_comment->id)}}" method="post">
                     @csrf
                     @method('DELETE')
                     <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-outline-red">CANCEL</button>

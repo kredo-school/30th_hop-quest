@@ -46,6 +46,7 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
     Route::get('/{id}/allreviews', [ProfileController::class, 'allReviews'])->name('allreviews');
     Route::get('/{id}/review', [BusinessCommentController::class, 'showReview'])->name('review');
     Route::get('/{id}/review/index', [BusinessCommentController::class, 'showIndex'])->name('indexreview');
+    Route::delete('/{id}/review/delete', [BusinessCommentController::class, 'deleteReview'])->name('delete.review');
 });
 
 //FOLLOWS
