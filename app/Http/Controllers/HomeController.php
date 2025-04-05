@@ -110,4 +110,37 @@ class HomeController extends Controller
                 ->with('request', $request);
     }
 
+    public function sort (Request $request){
+
+        $category = $request->input('data-category');
+        $sort = $sort->input('sort');
+
+        switch($category){
+            case 'spot':
+                $query = Spot::query();
+                break;
+            case 'quest':
+                $query = Quest::query();
+                break;
+            case 'location':
+                $query = Business::where('category_id', '1');
+                break;
+            case 'event':
+                $query = Business::where('category_id', '2');
+                break;
+            default:
+                $query = Spot::query()->concat(Quest::query())->concat(Business::where('category_id', '1'))->concat(Business::where('category_id', '2'));
+                break;
+        }
+
+        if($sort === 'likes'){
+            $query = $query->withCount('likes')->sortByDesc('likes_count')->get();
+        }elseif($sort === 'comments'){
+            $query = $query->withCount('comments')->sortByDesc('comments_count')->get();
+        }elseif($sort === 'views'){
+            $query = $query->withCount('views')->sortByDesc('views_count')->get();
+        }else{
+            $query = $query->latest()->get();
+        }
+    }
 }
