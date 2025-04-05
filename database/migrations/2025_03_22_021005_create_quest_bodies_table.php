@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('quest_bodies', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('day_number');
             $table->unsignedBigInteger('quest_id');
             $table->unsignedBigInteger('spot_id')->nullable();
             $table->unsignedBigInteger('business_id')->nullable();
             $table->string('business_title', 255)->nullable();
+            $table->longText('introduction');
             $table->boolean('is_agenda')->default(true);
-            $table->unsignedBigInteger('day_number');
-            $table->text('introduction');
             $table->longText('image');
             $table->timestamps();
             $table->softDeletes();
