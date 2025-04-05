@@ -27,16 +27,36 @@ class PhotoController extends Controller
         ]);
     $photos = $request->file('images');
 
-    if (!$photos) return; // 写真がない場合は何もしない
+        $image = $request->file('image');
 
-    foreach ($photos as $index => $photo) {
-        if ($photo){ // 最大3枚まで
+        $encoded = "data:photo/" . $image->extension() . ";base64," . base64_encode(file_get_contents($image));
 
-            $newPhoto = new Photo();
-            $newPhoto->image = "data:photo/" . $photo->extension() . ";base64," . base64_encode(file_get_contents($photo));
-            $newPhoto->business_id = $business->id;
-            $newPhoto->priority = $index + 1;
-            $newPhoto->save();
+        $business->photos()->create([
+            'image' => $encoded,
+            'priority' => 1,
+        ]);
+        return redirect()->back();
+    }
+    
+    public function update(Request $request, Business $business){
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $uploaded = $request->file('image');
+        $encoded = "data:image/" . $uploaded->extension() . ";base64," . base64_encode(file_get_contents($uploaded));
+
+        $image = $business->photos()->where('priority', 1)->first();
+
+        if ($image) {
+            $image->update([
+                'image' => $encoded,
+            ]);
+        } else {
+            $business->photos()->create([
+                'image' => $encoded,
+                'priority' => 1,
+            ]);
         }
     }
     }

@@ -38,18 +38,32 @@
 
 .card-header{
     display: flow-root;
-    height:300px;
+    height:280px;
     overflow: hidden;
 }
 
 .card-body{
     display: flow-root;
     height:180px;
+    margin-bottom: 20px;
 }
 
 .card-body.content{
     display: flow-root;
-    height:300px;
+    height:220px;
+    /* margin-bottom: 20px; */
+}
+
+.card-body.post{
+    display: flow-root;
+    height:260px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.card-body.content.short{
+    display: flow-root;
+    height:200px;
 }
 
 .card-subtitle{
@@ -111,3 +125,6 @@
     color: #D24848 !important; 
     font-weight: bold; 
 }
+
+
+

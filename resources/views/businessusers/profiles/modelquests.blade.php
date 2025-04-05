@@ -41,21 +41,26 @@
         <div class="row">
             @if($user->id == Auth::user()->id)
             <div class="col-2 ms-auto mb-2">
-                <a href="#" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                <a href="{{ route('quest.create', $user->id) }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
             @endif
         </div>
 
-        <div class="row mb-5">
-            {{-- Festival --}}
-            <div class="col-4">
+        <div class="row mb-1">
+            @forelse($all_quests as $quest)
+            <div class="col-lg-4 col-md-6 col-sm"> 
                 <div class="card p-3">
                     <div class="card-header border-0 bg-light p-0 overflow-hidden">
-                        {{-- Card Image with official mark --}}
-                        {{-- <img src="{{ asset('images/logo/OfficialBadge.png') }}" class="official" alt="official"> --}}
-                        <a href="#" class="">
-                            <img src="{{ asset('images/businessprofile/excursion.jpg') }}" class="card-img-top post-image" alt="image">
-                        </a>
+                        {{-- Image --}}   
+                        {{-- <div class="business">                         
+                            <div class="photos"> --}}
+                                @if($quest->main_image)
+                                    <img src="{{ $quest->main_image }}" alt="" class="post-image">
+                                @else
+                                    No photo
+                                @endif
+                            {{-- </div>
+                        </div> --}}
                     </div>
                     <div class="card-body ">             
                         <div class="row mb-3">
@@ -66,7 +71,9 @@
                             
                             {{-- Postdate --}}
                             <div class="col-auto pe-0 ms-auto">
-                                <h5 class="card-subtitle">2025/2/25</h5>
+                                @if($quest->created_at)
+                                    <h5 class="card-subtitle"><span>{{date('H:i, M d Y', strtotime($quest->created_at))}}</span></h5>
+                                @endif
                             </div>
                         </div>                
             
@@ -81,14 +88,26 @@
                         </div>
                         
                         {{-- Heart icon & Like function --}}
-                        <div class="row align-items-center ">
-                            <div class="col-1 ms-2 p-0">
-                                <form action="#" method="post">
-                                    @csrf      
-                                    <button type="submit" class="btn btn-sm shadow-none">
-                                        <i class="fa-regular fa-heart pt-3"></i>
-                                    </button>
-                                </form>
+                        <div class="row align-items-center">
+                            <div class="col-1 ms-2 p-0 mt-3">
+                                {{-- like/heart button --}}
+                                @if($quest->isLiked())
+                                    {{-- red heart/unlike --}}
+                                    <form action="{{route('quest.like.delete', $quest->id)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn p-0">
+                                            <i class="fa-solid fa-heart text-danger"></i>
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action="{{route('quest.like.store', $quest->id)}}" method="post">
+                                        @csrf
+                                        <button type="sumbit" class="btn p-0">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
                             <div class="col-2 ms-1 px-2">
                                 <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#">
@@ -105,14 +124,14 @@
                             </div>
                             <div class="col-2 ms-1 px-0">
                                 <button class="dropdown-item text-dark">
-                                    52
+                                    {{$quest->questComments->count()}}
                                 </button>
                             </div>
             
                             {{-- Number of viewers --}}
                             <div class="col-1 ms-3 p-0">
                                 <div>
-                                    <i class="fa-solid fa-chart-simple"></i>
+                                    <img src="{{ asset('images/chart.png') }}" alt="">
                                 </div>
                             </div>
                             <div class="col-2 ms-1 px-0">
@@ -144,8 +163,24 @@
                             <div class="col-6">
                                 <a href="#" class="btn btn-sm btn-green fw-bold mb-2 w-100">EDIT</a>
                             </div>
-                            <div class="col-6">
-                                <a href="#" class="btn btn-sm btn-outline-green fw-bold mb-2 w-100">HIDE</a>
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="{{ route('quest.edit', $quest->id) }}" class="btn btn-sm btn-green fw-bold mb-2 w-100">EDIT</a>
+                                </div>
+                                <div class="col-6">
+                                    @if($quest->trashed())
+                                    {{-- activate --}}
+                                        <button class="btn btn-outline-green w-100" data-bs-toggle="modal" data-bs-target="#activate-quest{{$quest->id}}">
+                                            UNHIDE
+                                        </button>
+                                    @else
+                                        <button class="btn btn-red w-100" data-bs-toggle="modal" data-bs-target="#deactivate-quest{{ $quest->id }}">
+                                            HIDE
+                                        </button>
+                                    @endif
+                                    @include('businessusers.posts.modelquests.modals.hide_unhide')
+                                </div>
+
                             </div>
                         </div>
                     </div>   

@@ -16,7 +16,7 @@
                     <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items)<p>
                 </div>
             </div>
-            <form action="{{ route('promotion.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('promotions.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 {{-- @method('PATCH') --}}
             {{-- Promotion title --}}
@@ -82,7 +82,7 @@
             <div class="row mb-3">
                 <div class="col">
                     <label for="photo" class="form-label">Photo upload<span class="color-red">*</span></label>
-                    <input type="file" name="photo" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
+                    <input type="file" name="photo" id="photo" class="form-control form-control-sm w-100 mb-auto p-2" >
                     @error('photo')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror

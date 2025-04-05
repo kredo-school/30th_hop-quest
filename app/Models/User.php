@@ -23,7 +23,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'phonenumber',
         'role_id',
     ];
 
@@ -78,6 +77,14 @@ class User extends Authenticatable
         return $this->hasMany(BusinessLike::class);
     }
 
+    public function questLikes(){
+        return $this->hasMany(QuestLike::class);
+    }
+
+    public function spotLikes(){
+        return $this->hasMany(SpotLike::class);
+    }
+
     //user has manyu follows (user follows many users)
     public function follows(){
         return $this->hasMany(Follow::class, 'follower_id');
@@ -93,7 +100,15 @@ class User extends Authenticatable
         return $this->followers()->where('follower_id', Auth::user()->id)->exists();
     }
 
+    public function following(){
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id');
+    }
+
     public function quests(){
+        return $this->hasMany(Quest::class)->withTrashed()->latest();
+    }
+
+    public function questsVisible(){
         return $this->hasMany(Quest::class)->latest();
     }
 
