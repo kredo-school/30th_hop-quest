@@ -9,7 +9,7 @@ use App\Models\Business;
 use App\Models\Promotion;
 use App\Models\Quest;
 use App\Models\Photo;
-use App\Models\Review;
+use App\Models\BusinessComment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -21,14 +21,14 @@ class ProfileController extends Controller
     private $business;
     private $promotion;
     private $quest;
-    private $review;
+    private $business_comment;
 
-    public function __construct(User $user, Business $business, Promotion $promotion, Quest $quest, Review $review){
+    public function __construct(User $user, Business $business, Promotion $promotion, Quest $quest, BusinessComment $business_comment){
         $this->user = $user;
         $this->business = $business;
         $this->promotion = $promotion;
         $this->quest = $quest;
-        $this->review = $review;
+        $this->business_comment = $business_comment;
     }
 
     public function edit($id){
@@ -84,12 +84,12 @@ class ProfileController extends Controller
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
         $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
-        $reviews = DB::table('reviews')
-        ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+        $business_comments = DB::table('business_comments')
+        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
         ->where('businesses.user_id', $id)
-        ->select('reviews.*') 
+        ->select('business_comments.*') 
         ->get();
-        return view('businessusers.profiles.promotions')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_promotions', $all_promotions)->with('reviews', $reviews);
+        return view('businessusers.profiles.promotions')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_promotions', $all_promotions)->with('business_comments', $business_comments);
     }
 
     public function showBusinesses($id){
@@ -98,30 +98,35 @@ class ProfileController extends Controller
             $query->orderBy('priority', 'asc')->limit(1);
         }]);
         $all_businesses = $this->business->withTrashed()->with('topPhoto')->where('user_id', $user_a->id)->latest()->paginate(3);
-        $reviews = DB::table('reviews')
-            ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+        $business_comments = DB::table('business_comments')
+            ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
             ->where('businesses.user_id', $id)
-            ->select('reviews.*') 
+            ->select('business_comments.*') 
             ->get();
-        return view('businessusers.profiles.businesses')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('reviews', $reviews);
+        return view('businessusers.profiles.businesses')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('business_comments', $business_comments);
     }
 
     public function showModelQuests($id){
         $user_a = $this->user->findOrFail($id);
         $all_quests = $this->quest->withTrashed()->where('user_id', $user_a->id)->latest()->paginate(3);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $reviews = DB::table('reviews')
-        ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+        $business_comments = DB::table('business_comments')
+        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
         ->where('businesses.user_id', $id)
-        ->select('reviews.*') 
+        ->select('business_comments.*') 
         ->get();
-        return view('businessusers.profiles.modelquests')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_quests', $all_quests)->with('reviews',$reviews);
+        return view('businessusers.profiles.modelquests')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('all_quests', $all_quests)->with('business_comments',$business_comments);
     }
 
     public function followers($id){
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        return view('businessusers.profiles.followers')->with('user', $user_a)->with('all_businesses', $all_businesses);
+        $business_comments = DB::table('business_comments')
+        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
+        ->where('businesses.user_id', $id)
+        ->select('business_comments.*') 
+        ->get();
+        return view('businessusers.profiles.followers')->with('user', $user_a)->with('all_businesses', $all_businesses)->with('business_comments',$business_comments);
     }
 
     // public function allReviews($id){

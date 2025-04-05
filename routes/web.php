@@ -11,7 +11,8 @@ use App\Http\Controllers\Spot\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
 use App\Http\Controllers\Business\QuestController;
-use App\Http\Controllers\Business\ReviewController;
+use App\Http\Controllers\Business\BusinessCommentController;
+use App\Http\Controllers\Business\BusinessCommentLikeController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
 use App\Http\Controllers\Business\BusinessController;
@@ -43,8 +44,8 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
     Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
     Route::get('/{id}/allreviews', [ProfileController::class, 'allReviews'])->name('allreviews');
-    Route::get('/{id}/review', [ReviewController::class, 'showReview'])->name('review');
-    Route::get('/{id}/review/index', [ReviewController::class, 'showIndex'])->name('indexreview');
+    Route::get('/{id}/review', [BusinessCommentController::class, 'showReview'])->name('review');
+    Route::get('/{id}/review/index', [BusinessCommentController::class, 'showIndex'])->name('indexreview');
 });
 
 //FOLLOWS
