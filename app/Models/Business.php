@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 class Business extends Model
 {
     use SoftDeletes;
+    protected $fillable = ['name'];
    
     //business belongs to one user
     public function user(){
@@ -57,4 +58,11 @@ class Business extends Model
         return $this->hasMany(BusinessComment::class);
     }
 
+    public function businessDetails(){
+        return $this->hasMany(BusinessDetail::class);
+    }
+
+    public function businessHours(){
+        return $this->hasMany(BusinessHour::class);
+    }
 }

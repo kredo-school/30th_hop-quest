@@ -119,7 +119,7 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="main_image" class="form-label">Upload Main Photo</label>
-                        <img src="{{$business->main_image}}" alt="" class="d-block w-50 mb-2">
+                        <img src="{{$business->main_image}}" alt="" class="d-block img-lg mb-2">
                         <input type="file" name="main_image" id="main_image" class="form-control form-control-sm w-100 mb-auto p-2" >
                     </div>                
                 </div>
@@ -218,47 +218,80 @@
                 <!-- Detailed Weekly Schedule (based on ERD) -->
                 <div class="accordion mb-3" id="weekdayAccordion">
                     @foreach(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $index => $day)
+                        @php
+                            $hour = old('business_hours.' . $day) ?? ($businessHours[$day] ?? null);
+                        @endphp
+                
                         <div class="accordion-item">
                             <div class="accordion-header" id="heading{{ $index }}">
                                 <div class="row">
-                                <div class="col-2">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}" aria-expanded="false" aria-controls="collapse{{ $index }}">
-                                        {{ $day }} 
-                                    </button>
-                                </div>
-                                <div class="col-auto ms-auto me-5 my-auto">
-                                    <input type="checkbox" id="{{ strtolower($day) }}_is_closed" name="business_hours[{{ $day }}][is_closed]" class="form-check-input ms-auto">
-                                    <label class="form-check-label ms-2 align-self-end" for="{{ strtolower($day) }}_is_closed">Closed</label></div>
+                                    <div class="col-2">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapse{{ $index }}" aria-expanded="false"
+                                                aria-controls="collapse{{ $index }}">
+                                            {{ $day }}
+                                        </button>
+                                    </div>
+                                    <div class="col-auto ms-auto me-5 my-auto">
+                                        <input type="checkbox"
+                                               id="{{ strtolower($day) }}_is_closed"
+                                               name="business_hours[{{ $day }}][is_closed]"
+                                               class="form-check-input ms-auto"
+                                               {{ old("business_hours.$day.is_closed", $hour?->is_closed) ? 'checked' : '' }}>
+                                        <label class="form-check-label ms-2 align-self-end"
+                                               for="{{ strtolower($day) }}_is_closed">Closed</label>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div id="collapse{{ $index }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $index }}" data-bs-parent="#weekdayAccordion">
+                
+                            <div id="collapse{{ $index }}" class="accordion-collapse collapse"
+                                 aria-labelledby="heading{{ $index }}" data-bs-parent="#weekdayAccordion">
                                 <div class="accordion-body">
-                                    <!-- 各曜日の入力フォーム -->
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="{{ strtolower($day) }}_opening_time" class="d-inline me-3">Opening time</label>
-                                            <input type="time" id="{{ strtolower($day) }}_opening_time" name="business_hours[{{ $day }}][opening_time]" class="form-control">
+                                            <input type="time"
+                                                   id="{{ strtolower($day) }}_opening_time"
+                                                   name="business_hours[{{ $day }}][opening_time]"
+                                                   class="form-control"
+                                                   value="{{ old("business_hours.$day.opening_time", $hour?->opening_time) }}">
                                         </div>
                                         <div class="col">
                                             <label for="{{ strtolower($day) }}_closing_time" class="d-inline me-3">Closing time</label>
-                                            <input type="time" id="{{ strtolower($day) }}_closing_time" name="business_hours[{{ $day }}][closing_time]" class="form-control">
+                                            <input type="time"
+                                                   id="{{ strtolower($day) }}_closing_time"
+                                                   name="business_hours[{{ $day }}][closing_time]"
+                                                   class="form-control"
+                                                   value="{{ old("business_hours.$day.closing_time", $hour?->closing_time) }}">
                                         </div>
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="{{ strtolower($day) }}_break_start" class="d-inline me-3">Break start</label>
-                                            <input type="time" id="{{ strtolower($day) }}_break_start" name="business_hours[{{ $day }}][break_start]" class="form-control">
+                                            <input type="time"
+                                                   id="{{ strtolower($day) }}_break_start"
+                                                   name="business_hours[{{ $day }}][break_start]"
+                                                   class="form-control"
+                                                   value="{{ old("business_hours.$day.break_start", $hour?->break_start) }}">
                                         </div>
                                         <div class="col">
                                             <label for="{{ strtolower($day) }}_break_end" class="d-inline me-3">Break end</label>
-                                            <input type="time" id="{{ strtolower($day) }}_break_end" name="business_hours[{{ $day }}][break_end]" class="form-control">
+                                            <input type="time"
+                                                   id="{{ strtolower($day) }}_break_end"
+                                                   name="business_hours[{{ $day }}][break_end]"
+                                                   class="form-control"
+                                                   value="{{ old("business_hours.$day.break_end", $hour?->break_end) }}">
                                         </div>
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="{{ strtolower($day) }}_notice" class="d-inline me-3">Notes</label>
-                                            <input type="text" id="{{ strtolower($day) }}_notice" name="business_hours[{{ $day }}][notice]" class="form-control" placeholder="Example Last order 40 minutes before closing">
+                                            <input type="text"
+                                                   id="{{ strtolower($day) }}_notice"
+                                                   name="business_hours[{{ $day }}][notice]"
+                                                   class="form-control"
+                                                   value="{{ old("business_hours.$day.notice", $hour?->notice) }}"
+                                                   placeholder="Example Last order 40 minutes before closing">
                                         </div>
                                     </div>
                                 </div>
@@ -267,11 +300,10 @@
                     @endforeach
                 </div>
                 
-                
 
                 <!-- Business Facility Detail Form -->
                 <div class="mb-4 p-4 border rounded bg-light">
-                    <h4 class="form-label d-inline">Detailes</h4>
+                    <h4 class="form-label d-inline">Details</h4>
                     @php
                         $details = [
                             'Accessibility' => [
@@ -292,27 +324,27 @@
                                 'Smoking permitted throughout'
                             ],
                         ];
+                
+                        $selectedDetails = old('details', $business->details ?? []);
                     @endphp
-
-                    @foreach ($details as $category => $items)
-                        <div class="mb-3">
-                            <hr>
-                            <h5 class="font-bold">{{ $category }}</h5>
-                            <div class="row px-4">
-                                @foreach ($items as $item)
-                                    <div class="col-md-6 form-check">
-                                        <input type="checkbox"
-                                            class="form-check-input"
-                                            id="{{ Str::slug($item) }}"
-                                            name="details[]"
-                                            value="{{ $item }}">
-                                        <label class="form-check-label" for="{{ Str::slug($item) }}">{{ $item }}</label>
-                                    </div>
-                                    
-                                @endforeach
-                            </div>
+                
+                @foreach ($details as $category => $items)
+                    <div class="mb-3">
+                        <hr>
+                        <h5 class="font-bold">{{ $category }}</h5>
+                        <div class="row px-4">
+                            @foreach ($items as $item)
+                                <div class="col-md-6 form-check">
+                                    <input type="checkbox"
+                                    name="details[{{ $category }}][]"
+                                    value="{{ $item }}"
+                                    {{ in_array($item, old('details_flat', $checkedDetailItems ?? [])) ? 'checked' : '' }}>
+                                    <label for="{{ Str::slug($item) }}">{{ $item }}</label>
+                                </div>
+                            @endforeach
                         </div>
-                    @endforeach
+                    </div>
+                @endforeach
                 </div>
 
                 <!-- Identification Information-->
@@ -334,84 +366,28 @@
 
 
                 <!-- Business/Event photos -->
-                {{-- <div class="mb-4 p-4 border rounded bg-light">
+                <div class="mb-4 p-4 border rounded bg-light">
                     <h4 class="form-label d-inline">Business/Event photos</h4>
                     <div class="row">
-                        @for ($i = 1; $i <= 3; $i++)
-                        <div class="col-md-4 mb-3 text-center">
-                            <div class="position-relative">
-                                <div class="photo-preview" id="preview_{{ $i }}">
-                                    <label for="photo_{{ $i }}" class="d-inline me-3 d-block font-bold">
-                                        @if($i === 1) 1st Photo @elseif($i === 2) 2nd Photo @else 3rd Photo @endif
-                                    </label>
-                                    <input type="file"
-                                        id="photo_{{ $i }}"
-                                        name="photos[{{ $i }}]"
-                                        class="form-control photo-input"
-                                        accept="image/*">
-                                    @if($i === 1)
-                                        <small class="text-muted">(Main Photo)</small>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        @endfor
-                    </div>
-                </div> --}}
-
-                <div class="mb-4 p-4 border rounded bg-light">
-                    <label for="images" class="form-label">Upload Photo</label>
-                    <div class="row">
-                        <!-- Priority 1 -->
-                        <div class="col-md-4">  
-                            @if($business->topPhoto)                   
-                                <label for="image" class="form-label d-block"> </label>                                                        
-                                <img src="{{ $business->topPhoto->image }}" alt="Business Photo" class="img-lg mb-2">  
-                                <input type="file" name="image" id="image" class="form-control">  
-                            @else
-                                <label for="image" class="form-label d-block"> </label>
-                                <input type="file" name="image" id="image" class="form-control"> 
-                            @endif    
-                        </div>
-
-                {{-- <div class="mb-4 p-4 border rounded bg-light">
-                    <label for="images" class="form-label">Upload Photo</label>
-                    <div class="row">
-                        <!-- Priority 1 -->
-                        <div class="col-md-4">  
-                            @if($business->topPhoto)                   
-                                <label for="image" class="form-label d-block"> </label>                                                        
-                                <img src="{{ $business->topPhoto->image }}" alt="Business Photo" class="img-lg mb-2">  
-                                <input type="file" name="image" id="image" class="form-control">  
-                            @else
-                                <label for="image" class="form-label d-block"> </label>
-                                <input type="file" name="image" id="image" class="form-control"> 
-                            @endif    
-                        </div>
-
-                        <!-- Priority 2 -->
-
-                        
-                        <!-- Priority 3 -->
-
-                    </div> --}}
-                    {{-- @for ($i = 1; $i <= 3; $i++)
+                         @for ($i = 1; $i <= 3; $i++)
                         @php
                             $targetPhoto = $business->photos->firstWhere('priority', $i);
                         @endphp
 
                         <div class="col-md-4">
-                            <label class="form-label d-block">Priority {{ $i }}:</label>
+                            <label class="form-label d-block text-center">Photo {{ $i }}</label>
 
                             @if($targetPhoto && $targetPhoto->image)
-                                <img src="{{ $targetPhoto->image }}" alt="Photo {{ $i }}" class="img-lg">
+                                <img src="{{ $targetPhoto->image }}" alt="Photo {{ $i }}" class="img-lg d-block mx-auto">
                             @else
-                                <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
+                                <i class="fa-solid fa-image text-secondary icon-xxl d-block text-center"></i>
                             @endif
 
-                            <input type="file" name="images[]" accept="image/*" class="form-control">
+                            <input type="file" name="photos[]" accept="image/*" class="form-control mt-2">
                         </div>
-                    @endfor --}}
+                    @endfor
+                         
+                    </div>
                 </div>
 
                 <!-- Term for display to public this location/event -->
