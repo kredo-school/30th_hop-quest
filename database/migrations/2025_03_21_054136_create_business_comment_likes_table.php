@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('business_review_likes', function (Blueprint $table) {
+        Schema::create('business_comment_likes', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('review_id');
+            $table->unsignedBigInteger('business_comment_id');
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('review_id')->references('id')->on('reviews')->onDelete('cascade');
+            $table->foreign('business_comment_id')->references('id')->on('business_comments')->onDelete('cascade');
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down():void
     {
-        Schema::dropIfExists('business_review_likes');
+        Schema::dropIfExists('business_comment_likes');
     }
 };

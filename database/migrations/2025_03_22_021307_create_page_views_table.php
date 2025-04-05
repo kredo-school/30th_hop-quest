@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('page_views', function (Blueprint $table) {
             $table->id();
-            $table->integer('page_id');
-            $table->integer('page_type');
-            $table->integer('views');
+            $table->morphs('page'); // page_id, page_type
+            $table->integer('views')->default(0)->change();
             $table->timestamps();
         });
     }

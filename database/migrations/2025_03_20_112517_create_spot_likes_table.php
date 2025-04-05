@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('spot_id');
             $table->unsignedBigInteger('user_id');
 
-            $table->foreign('spot_id')->references('id')->on('spots');
+            $table->foreign('spot_id')->references('id')->on('spots')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

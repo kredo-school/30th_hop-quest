@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('quests', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->text('title');
-            $table->text('introduction');
-            $table->text('start_date');
-            $table->text('end_date');
-            $table->text('duration');
-            $table->text('main_image');
-            $table->text('is_public');
+            $table->string('title', 255);
+            $table->longText('main_image');
+            $table->longText('introduction');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->integer('duration')->nullable();
+            $table->boolean('is_public')->default(false);
             $table->timestamps();
             $table->softDeletes();
             

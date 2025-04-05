@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('quest_bodies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('quest_id');
-            $table->unsignedBigInteger('spot_id');      
-            $table->unsignedBigInteger('business_id');
+            $table->unsignedBigInteger('spot_id')->nullable();
+            $table->unsignedBigInteger('business_id')->nullable();
+            $table->string('business_title', 255)->nullable();
+            $table->boolean('is_agenda')->default(true);
+            $table->unsignedBigInteger('day_number');
             $table->text('introduction');
             $table->text('business_title');
             $table->integer('is_agenda');

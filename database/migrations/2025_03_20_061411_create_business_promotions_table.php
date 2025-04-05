@@ -11,12 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('business_promotions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('business_id');
-            $table->smallInteger('rating');
-            $table->text('body');
+            $table->string('title');
+            $table->longText('image')->nullable();
+            $table->text('introduction')->nullable();
+            $table->date('promotion_start')->nullable();
+            $table->date('promotion_end')->nullable(); 
+            $table->date('display_start')->nullable();
+            $table->date('display_end')->nullable();  
             $table->timestamps();
             $table->softDeletes();
 
@@ -30,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('business_promotions');
     }
 };

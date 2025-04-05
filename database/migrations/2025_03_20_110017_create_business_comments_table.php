@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('business_id');
+            $table->smallInteger('rating');
             $table->text('content');
             $table->timestamps();
             $table->softDeletes();
