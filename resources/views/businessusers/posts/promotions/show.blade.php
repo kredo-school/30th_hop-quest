@@ -12,18 +12,34 @@
     <div class="mt-2 row justify-content-center">
         <div class="col-6">
             <div class="card p-3 mb-5 border-3 border-navy rounded-4">
-                <div class="card-header border-0 bg-light p-0 ">
-                    <div class="row mt-3 justify-content-center">
+                <div class="card-header border-0 bg-light ">
+                    <div class="row mt-3 ">
+                        <!--Related Business-->
+                        <div class="col">
+                            <h5 class="card-subtitle">{{ $promotion->business->name }}</h5>
+                        </div>
+                        <!--Posted date-->
+                        <div class="col-auto ms-auto">
+                            <h5>Posted: {{date('M d Y', strtotime($promotion->created_at))}}</h5>
+                        </div>    
+                    </div>
+
+                    <div class="row mt-3 ">
                         <div class="col-auto">
-                            <h3>{{$promotion->title}}</h3>
+                            <h3 class="fw-bold">{{$promotion->title}}</h3>
                         </div>    
                     </div> 
-                    <div class="row justify-content-center">
+                    <div class="row ">
                         <div class="col-auto">
-                            @if($promotion->promotion_start && $promotion->promotion_end)
-                            <h4 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_start))}} ~ {{date('M d Y', strtotime($promotion->promotion_end))}}</h4>
-                            {{-- @else
-                            <p>Day: -- --</p> --}}
+                            @if((!$promotion->promotion_start || !$promotion->promotion_end))
+                            @elseif($promotion->promotion_start == $promotion->promotion_end)
+                                <h5 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_start))}}</h5>
+                            @elseif($promotion->promotion_start && $promotion->promotion_end)
+                                @if(($promotion->promotion_start < $promotion->promotion_end))
+                                    <h6 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_start))}} ~ {{date('M d Y', strtotime($promotion->promotion_end))}}</h6>     
+                                @else
+                                    <h6 class="fw-bold">{{date('M d Y', strtotime($promotion->promotion_end))}} ~ {{date('M d Y', strtotime($promotion->promotion_start))}}</h6> 
+                                @endif                              
                             @endif
                         </div>    
                     </div>     

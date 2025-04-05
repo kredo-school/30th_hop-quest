@@ -71,7 +71,7 @@
         </div>
         <div class="row mt-5">       
             <div class="col align-center mb-0">
-                <a href="{{ route('profile.reviews', Auth::user()->id)}}">
+                <a href="{{ route('profile.allreviews', Auth::user()->id)}}">
                     <button class="btn btn-green text-uppercase w-25 position-absolute start-50 translate-middle mt-1">Back to all Reviews</button>
                 </a>
             </div>

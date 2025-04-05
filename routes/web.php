@@ -7,18 +7,19 @@ use App\Http\Controllers\FollowController;
 
 use App\Http\Middleware\PageViewMiddleware;
 use App\Http\Controllers\Spot\LikeController;
+
+
 use App\Http\Controllers\Spot\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
 use App\Http\Controllers\Business\QuestController;
-use App\Http\Controllers\Business\ReviewController;
+use App\Http\Controllers\Business\BusinessCommentController;
+use App\Http\Controllers\Business\BusinessCommentLikeController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\PromotionController;
-use App\Http\Controllers\Business\QuestLikeController;
-use App\Http\Controllers\Business\SpotController;
-use App\Http\Controllers\Business\SpotLikeController;
+use App\Http\Controllers\Business\BusinessLikeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,8 +41,9 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
     Route::patch('/{id}/update', [ProfileController::class, 'update'])->name('update');
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
     Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
-    Route::get('/{id}/reviews', [ReviewController::class, 'reviews'])->name('reviews');
-    Route::get('/{id}/review', [ReviewController::class, 'showReview'])->name('review');
+    Route::get('/{id}/allreviews', [ProfileController::class, 'allReviews'])->name('allreviews');
+    Route::get('/{id}/review', [BusinessCommentController::class, 'showReview'])->name('review');
+    Route::get('/{id}/review/index', [BusinessCommentController::class, 'showIndex'])->name('indexreview');
 });
 
 //FOLLOWS
@@ -71,9 +73,9 @@ Route::group(['prefix' => '/business/business', 'as' => 'businesses.'], function
     Route::post('/store', [BusinessController::class, 'store'])->name('store');
     Route::get('/show/{id}', [BusinessController::class, 'show'])->name('show');
     Route::resource('businesses', BusinessController::class);
-    Route::post('photos/store/{business_id}', [PhotoController::class, 'store'])->name('photos.store');
-    Route::get('photos/edit/{business_id}', [PhotoController::class, 'edit'])->name('photos.edit');
-    Route::patch('photos/update/{business_id}', [PhotoController::class, 'update'])->name('photos.update');
+    Route::post('photos/{business}/store', [PhotoController::class, 'store'])->name('photos.store');
+    Route::get('photos/edit/{business}', [PhotoController::class, 'edit'])->name('photos.edit');
+    Route::patch('photos/{business}/update', [PhotoController::class, 'update'])->name('photos.update');
     Route::delete('/{id}/deactivate', [BusinessController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [BusinessController::class, 'activate'])->name('activate');
     });

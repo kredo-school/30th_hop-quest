@@ -76,7 +76,9 @@
 
 }
 
-
+thead{
+    height:50px;
+}
 
 .cell-short{
     width:300px;
@@ -91,4 +93,13 @@
     width:1300px;
 }
 
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 100;
+}
 

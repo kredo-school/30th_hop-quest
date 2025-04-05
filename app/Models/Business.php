@@ -29,6 +29,10 @@ class Business extends Model
         return $this->hasMany(Photo::class);
     }
 
+    public function photoPriorityOne(){
+        return $this->hasOne(Photo::class)->where('priority', 1);
+    }
+
     public function topPhoto(){
         return $this->hasOne(Photo::class)->orderBy('priority', 'asc');
     }
@@ -41,8 +45,13 @@ class Business extends Model
         return $this->hasMany(PageView::class);
     }
 
+
     public function isLiked(){
         return $this->businessLikes()->where('user_id', Auth::user()->id)->exists();
+    }
+
+    public function view(): MorphOne{
+        return $this->morphOne(PageView::class, 'page');
     }
 
     public function businessComments(){

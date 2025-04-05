@@ -7,15 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Quest;
+use App\Models\Business;
 
 class QuestController extends Controller
 {
     private $user;
     private $quest;
+    private $business;
 
-    public function __construct(Quest $quest, User $user){
+    public function __construct(Quest $quest, User $user, Business $business){
         $this->quest = $quest;
         $this->user = $user;
+        $this->business = $business;
     }
 
     public function create(){
