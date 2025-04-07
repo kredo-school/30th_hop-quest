@@ -21,20 +21,20 @@
                     </thead>
                     <tbody class="">
                         <tr>
-                            <td class="ps-2"><a href="{{ route('profile.review', $review->id) }}" class="text-decoration-none text-secondary">{{ $review->user->name }}</a></td>
+                            <td class="ps-2"><a href="{{ route('profile.review', $business_comment->id) }}" class="text-decoration-none text-secondary">{{ $business_comment->user->name }}</a></td>
                             <td class="text-center">
-                                @for($i=1; $i <= $review->rating; $i++)
+                                @for($i=1; $i <= $business_comment->rating; $i++)
                                 <i class="fa-solid fa-star color-yellow"></i>
                                 @endfor
-                                @for($i=1; $i <= 5 - $review->rating; $i++)
+                                @for($i=1; $i <= 5 - $business_comment->rating; $i++)
                                 <i class="fa-regular fa-star color-navy"></i>
                                 @endfor
                             </td>
                             <td class="text-center">
-                                @if($review->BusinessReviewLikes->count() == 0)
-                                <p class="my-auto"><i class="fa-regular fa-heart me-2 align-middle"></i>{{$review->BusinessReviewLikes->count()}}</p>
+                                @if($business_comment->BusinessCommentLikes->count() == 0)
+                                <p class="my-auto"><i class="fa-regular fa-heart me-2 align-middle"></i>{{$business_comment->BusinessCommentLikes->count()}}</p>
                                 @else
-                                <p class="my-auto"><i class="fa-solid fa-heart color-red me-2 align-middle"></i>{{$review->BusinessReviewLikes->count()}}</p>
+                                <p class="my-auto"><i class="fa-solid fa-heart color-red me-2 align-middle"></i>{{$business_comment->BusinessCommentLikes->count()}}</p>
                                 @endif
                             </td>
                         </tr>
@@ -49,8 +49,8 @@
                     </thead>
                     <tbody class="">
                         <tr>
-                            <td class="ps-2"><a href="{{ route('profile.review', $review->id) }}" class="text-decoration-none text-secondary">{{ $review->business->name }}</a></td>
-                            <td class="text-center">{{ $review->created_at }}</td>
+                            <td class="ps-2"><a href="{{ route('profile.review', $business_comment->id) }}" class="text-decoration-none text-secondary">{{ $business_comment->business->name }}</a></td>
+                            <td class="text-center">{{ $business_comment->created_at }}</td>
                         </tr>
 
                     </tbody>
@@ -63,7 +63,7 @@
                     </thead>
                     <tbody class="">
                         <tr>
-                            <td class=" ps-2"><a href="{{ route('profile.review', $review->id) }}" class="text-decoration-none text-secondary">{{ $review->body }}</a></td> 
+                            <td class=" ps-2"><a href="{{ route('profile.review', $business_comment->id) }}" class="text-decoration-none text-secondary">{{ $business_comment->content }}</a></td> 
                         </tr>
                     </tbody>
                 </table> 

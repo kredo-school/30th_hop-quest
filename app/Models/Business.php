@@ -18,8 +18,8 @@ class Business extends Model
     }
 
     //business has many promotions
-    public function promotions(){
-        return $this->hasMany(Promotion::class);
+    public function businessPromotions(){
+        return $this->hasMany(BusinessPromotion::class);
     }
 
     public function reviews(){
