@@ -42,6 +42,7 @@
             @if($user->id == Auth::user()->id)
             <div class="col-2 ms-auto mb-2 ">
                 <a href="{{ route('businesses.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                <a href="{{ route('businesses.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
             @endif
         </div>
@@ -57,9 +58,7 @@
             @endforelse
 
         </div>
-        <div class="d-flex justify-content-end mb-5">
-            {{ $businesses->links() }}
-        </div>
+
     </div>
 </div>
 </div>

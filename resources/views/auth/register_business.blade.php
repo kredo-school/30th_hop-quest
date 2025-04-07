@@ -103,7 +103,7 @@
                     </div>
                         <!-- Extra Links -->
                         <div class="text-end mt-5">
-                            <a href="{{ route('register') }}" class="text-decoration-none text-dark text-end poppins-bold">Stop to create account for Business</a>
+                            <a href="{{ route('register.tourist') }}" class="text-decoration-none text-dark text-end poppins-bold">Stop to create account for Business</a>
                         </div>
                         <div class="text-end mt-4">
                             <a href="{{ route('login') }}" class="text-decoration-none text-dark text-end poppins-bold">Already have an account?

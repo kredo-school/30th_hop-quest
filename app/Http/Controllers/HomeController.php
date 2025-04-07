@@ -20,10 +20,16 @@ class HomeController extends Controller
      * @return void
      */
     private $user;
+    private $business;
+    private $quest;
+    private $spot;
 
-    public function __construct(User $user)
+    public function __construct(User $user, Business $business, Quest $quest, Spot $spot)
     {
         $this->user = $user;
+        $this->business = $business;
+        $this->quest = $quest;
+        $this->spot = $spot;
         // $this->middleware('auth');
     }
 
