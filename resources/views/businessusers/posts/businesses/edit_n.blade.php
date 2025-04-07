@@ -363,13 +363,11 @@
                         class="form-control">
                 </div>
 
-
-
-                <!-- Business/Event photos -->
                 <div class="mb-4 p-4 border rounded bg-light">
-                    <h4 class="form-label d-inline">Business/Event photos</h4>
+                    <label for="images" class="form-label">Upload Photo</label>
                     <div class="row">
-                         @for ($i = 1; $i <= 3; $i++)
+
+                    @for ($i = 1; $i <= 3; $i++)
                         @php
                             $targetPhoto = $business->photos->firstWhere('priority', $i);
                         @endphp

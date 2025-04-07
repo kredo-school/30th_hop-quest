@@ -7,6 +7,8 @@ use App\Http\Controllers\FollowController;
 
 use App\Http\Middleware\PageViewMiddleware;
 use App\Http\Controllers\Spot\LikeController;
+
+
 use App\Http\Controllers\Spot\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
@@ -19,8 +21,6 @@ use App\Http\Controllers\Business\BusinessPromotionController;
 use App\Http\Controllers\Business\QuestLikeController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Business\BusinessLikeController;
-use App\Http\Controllers\Business\SpotController;
-use App\Http\Controllers\Business\SpotLikeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -141,5 +141,6 @@ Route::get('/password/reset', [ForgotPasswordController::class, 'show'])->name('
 // register business
 Route::get('/register/business', [RegisterController::class, 'registerBusiness'])->name('register.business');
 Route::post('/store/business', [App\Http\Controllers\Auth\RegisterController::class, 'storeBusiness'])->name('register.business.submit');
-Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
+Route::get('/register/tourist', [App\Http\Controllers\Auth\RegisterController::class, 'registerTourist'])->name('register.tourist');
+Route::post('/store/tourist', [App\Http\Controllers\Auth\RegisterController::class, 'storeTourist'])->name('register.submit');
 
