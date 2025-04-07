@@ -216,7 +216,7 @@ class ProfileController extends Controller
                 'business_name' => optional($item->business)->name,
                 'title' => $item->title,
                 'introduction' => $item->introduction,
-                'main_image' => $item->photo,
+                'main_image' => $item->image,
                 'category_id' => null,
                 'tab_id' => 3,
                 'duration' => null,
@@ -250,7 +250,7 @@ class ProfileController extends Controller
             ]
         );
 
-        return view('businessusers.profiles.promotions', compact('all_business_promotions','all_businesses', 'business_comments'),['promotions' => $paginated])->with('user', $user_a);
+        return view('businessusers.profiles.promotions', compact('all_business_promotions','all_businesses', 'business_comments'),['business_promotions' => $paginated])->with('user', $user_a);
     }
 
 
@@ -326,11 +326,52 @@ class ProfileController extends Controller
         return view('businessusers.profiles.followers',compact('all_businesses', 'business_comments'))->with('user', $user_a);
     }
 
-    public function allReviews($id){
-        $all_business_comments = $this->business_comment->latest()->paginate(10);
-        $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return view('businessusers.reviews.allreviews')->with('all_business_comments', $all_business_comments)->with('all_businesses',$all_businesses);
+    public function allReviews(Request $request){
+        $user = Auth::user();
+    
+        // ログインユーザーが登録しているBusiness一覧
+        // $all_businesses = Business::where('user_id', Auth::user()->id)->get();
+    
+        // 絞り込み（GETパラメータにbusiness_idがある場合）
+        $query = BusinessComment::with('userRelation', 'businessRelation');
+    
+        if ($request->filled('business_id')) {
+            $query->where('business_id', $request->business_id);
+        }  
+        
+        if ($request->filled('user_id')) {
+            $query->where('user_id', $request->user_id);
+        }
+    
+        if ($request->filled('min_rating')) {
+            $query->where('rating', '>=', $request->min_rating);
+        }
+    
+        if ($request->filled('sort_date')) {
+            if ($request->sort_date === 'latest') {
+                $query->orderBy('created_at', 'desc');
+            } elseif ($request->sort_date === 'oldest') {
+                $query->orderBy('created_at', 'asc');
+            }
+        } else {
+            // デフォルトは新しい順
+            $query->orderBy('created_at', 'desc');
+        }
+    
+        $business_comments = $query->latest()->paginate(11);
+        // 表示されているレビューに登場するユーザー一覧（重複なし）
+        $from_users = BusinessComment::whereIn('id', $business_comments->pluck('id'))
+            ->with('userRelation')
+            ->get()
+            ->pluck('userRelation')
+            ->unique('id');
+        $from_businesses = BusinessComment::whereIn('id', $business_comments->pluck('id'))
+            ->with('businessRelation')
+            ->get()
+            ->pluck('businessRelation')
+            ->unique('id');
+    
+        return view('businessusers.reviews.allreviews', compact('business_comments', 'from_businesses', 'from_users'));
     }
-
-
+    
 }

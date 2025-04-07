@@ -11,7 +11,7 @@ use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessPromotion;
 
-class PromotionController extends Controller
+class BusinessPromotionController extends Controller
 {
     private $business_promotion;
     private $business;
@@ -52,7 +52,7 @@ class PromotionController extends Controller
 
         $all_business_promotions = $this->business_promotion->where('user_id', Auth::user()->id)->latest()->get();
         $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return redirect()->route('profile.promotions', $this->business_promotion->business->user->id)->with('all_promotions', $all_promotions)->with('all_businesses', $all_businesses);
+        return redirect()->route('profile.promotions', $this->business_promotion->business->user->id)->with('all_business_promotions', $all_business_promotions)->with('all_businesses', $all_businesses);
     }
 
     public function edit($id){
@@ -95,7 +95,7 @@ class PromotionController extends Controller
         //get the data of 1 post where ID = $id
         $business_promotion_a = $this->business_promotion->findOrFail($id);
         
-        return view('businessusers.posts.promotions.show')->with('promotion', $business_promotion_a);
+        return view('businessusers.posts.promotions.show')->with('business_promotion', $business_promotion_a);
     }
 
     public function deactivate($id){

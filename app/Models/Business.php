@@ -22,10 +22,6 @@ class Business extends Model
         return $this->hasMany(BusinessPromotion::class);
     }
 
-    public function reviews(){
-        return $this->hasMany(Review::class);
-    }
-
     public function photos(){
         return $this->hasMany(Photo::class);
     }

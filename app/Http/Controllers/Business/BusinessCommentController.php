@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessComment;
 
-class ReviewController extends Controller
+class BusinessCommentController extends Controller
 {
     private $user;
     private $business;

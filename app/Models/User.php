@@ -58,7 +58,7 @@ class User extends Authenticatable
         return $this->hasMany(Business::class)->latest();
     }
 
-    public function businessPomotions(){
+    public function businessPromotions(){
         return $this->hasMany(BusinessPromotion::class)->withTrashed()->latest();
     }
 

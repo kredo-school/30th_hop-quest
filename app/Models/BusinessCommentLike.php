@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BusinessReviewLike extends Model
+class BusinessCommentLike extends Model
 {
     protected $table = 'business_comment_likes'; //table name is not in plural form, so note the different table name
 
