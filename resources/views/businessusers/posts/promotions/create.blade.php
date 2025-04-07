@@ -23,18 +23,18 @@
             <div class="row mb-3">
                 <div class="col">
                     <label for="title" class="form-label fw-bold">Title<span class="color-red">*</span></label>
-                    <input type="text" name="title" id="title" value="" class="form-control">
+                    <input type="text" name="title" id="title" value="{{old('title')}}" class="form-control">
                     @error('title')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
             {{-- Retalted business --}}
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col">
                     <label for="business_id" class="form-label fw-bold">Related Business<span class="color-red">*</span></label>
                         <select name="business_id" id="business_id" class="form-control">
-                            <option  value="" disabled selected>Select one</option>
+                            <option  value="{{old('business_id')}}" disabled selected>Select one</option>
                             @forelse($all_businesses as $business)
                                 <option value="{{$business->id}}">{{$business->name}}</option>
                             @empty
@@ -72,7 +72,7 @@
             <div class="row mb-3">
                 <div class="col">
                     <label for="introduction" class="form-label">Introduction<span class="color-red">*</span></label>
-                    <textarea name="introduction" id="introduction" rows="3" class="form-control"></textarea>
+                    <textarea name="introduction" id="introduction" rows="3" class="form-control">{{old('introduction')}}</textarea>
                     @error('introduction')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror
@@ -81,9 +81,9 @@
             {{-- File --}}
             <div class="row mb-3">
                 <div class="col">
-                    <label for="photo" class="form-label">Photo upload<span class="color-red">*</span></label>
-                    <input type="file" name="photo" id="photo" class="form-control form-control-sm w-100 mb-auto p-2" >
-                    @error('photo')
+                    <label for="image" class="form-label">Photo upload<span class="color-red">*</span></label>
+                    <input type="file" name="image" id="image" class="form-control form-control-sm w-100 mb-auto p-2" >
+                    @error('image')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror
                     <p class="form-text text-danger">

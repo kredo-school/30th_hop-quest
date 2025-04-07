@@ -10,7 +10,7 @@
 @section('content')
     @include('businessusers.profiles.header')
 
-<div class="mb-5 row justify-content-center bg-blue">
+<div class="row justify-content-center bg-blue">
     {{-- Promotions --}}
     <div class="col-8 mb-5">
             {{-- Tabs for categories --}}
@@ -43,12 +43,12 @@
             <div class="col-2 ms-auto mb-2">
                 <a href="{{ route('promotions.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
-           
         </div>
+        @endif
         {{-- forelse --}}
         <div class="row mb-1">
             <div class="row mb-1">
-                @forelse($promotions as $post)
+                @forelse($business_promotions as $post)
                     <div class="col-lg-4 col-md-6 col-sm">
                         @include('businessusers.profiles.post-body-profile')
                     </div>         
@@ -62,7 +62,7 @@
 
         </div>
         <div class="d-flex justify-content-end mb-5">
-        {{ $promotions->links() }}
+        {{ $business_promotions->links() }}
         </div>
     </div>
 </div>

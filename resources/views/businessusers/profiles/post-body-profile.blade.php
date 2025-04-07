@@ -30,7 +30,7 @@
         @if($post['type'] == 'businesses')
             <div class="card-body content"> 
         @elseif($post['type'] == 'quests')
-            <div class="card-body post"> 
+            <div class="card-body content-long"> 
         @elseif($post['type'] == 'promotions')
             <div class="card-body">  
         @endif

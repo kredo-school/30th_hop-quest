@@ -25,7 +25,7 @@ class BusinessController extends Controller
 
     public function create(){
         $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return view('businessusers.posts.businesses.add')->with('all_businesses',$all_businesses);
+        return view('businessusers.posts.businesses.add_n')->with('all_businesses',$all_businesses);
     }
 
     public function store(Request $request){
@@ -39,21 +39,31 @@ class BusinessController extends Controller
         $this->business->name = $request->name;
         $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode (file_get_contents($request->main_image));
         $this->business->email = $request->email;
+        $this->business->zip = $request->zip;
+        $this->business->term_start = $request->term_start;
+        $this->business->term_end = $request->term_end;
+        $this->business->introduction = $request->introduction;
         $this->business->official_certification = 1;
         $this->business->save();
 
         // PhotoController の store を呼び出して写真を保存
-        if ($request->hasFile('images')) {
-            app(PhotoController::class)->store($request, $this->business);
-            }
-        
-
-        return redirect()->route('profile.businesses',Auth::user()->id)->with('success', 'Business created successfully!');
+        if ($request->hasFile('image')) {
+            $uploaded = $request->file('image');
+            $encoded = "data:photo/" . $uploaded->extension() . ";base64," . base64_encode(file_get_contents($uploaded));
+    
+            Photo::create([
+                'business_id' => $this->business->id,
+                'image' => $encoded,
+                'priority' => 1,
+            ]);
+        }
+    
+        return redirect()->route('profile.businesses', Auth::id());
     }
 
     public function edit($id){
         $business_a = $this->business->findOrFail($id);
-        return view('businessusers.posts.businesses.edit')->with('business', $business_a);
+        return view('businessusers.posts.businesses.edit_n')->with('business', $business_a);
     }
 
     public function update(Request $request, $id){
@@ -68,6 +78,9 @@ class BusinessController extends Controller
         $business_a->user_id = Auth::user()->id;
         $business_a->name = $request->name;
         $business_a->email = $request->email;
+        $business_a->term_start = $request->term_start;
+        $business_a->term_end = $request->term_end;
+        $business_a->introduction = $request->introduction;
         $business_a->official_certification = 1;
 
 

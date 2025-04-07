@@ -110,7 +110,7 @@ class HomeController extends Controller
             'comments_count' => $item->comments_count,
             // 'views_count' => $item->views_count,
             'is_liked' => $item->isLiked(),  
-            'type' => 'spot',                  
+            'type' => 'spots',                  
         ];
     });
 
@@ -140,7 +140,7 @@ class HomeController extends Controller
             'comments_count' => $item->comments_count,
             // 'views_count' => $item->views_count,
             'is_liked' => $item->isLiked(),
-            'type' => 'quest',  
+            'type' => 'quests',  
         ];
     });
 
@@ -177,7 +177,7 @@ class HomeController extends Controller
             'comments_count' => $item->comments_count,
             // 'views_count' => $item->views_count,
             'is_liked' => $item->isLiked(),     // ← 追加
-            'type' => 'business', 
+            'type' => 'businesses', 
         ];
     });
 
@@ -213,7 +213,7 @@ class HomeController extends Controller
             'comments_count' => $item->comments_count,
             // 'views_count' => $item->views_count,
             'is_liked' => $item->isLiked(),     // ← 追加
-            'type' => 'business', 
+            'type' => 'businesses', 
         ];
     });
 
@@ -299,7 +299,7 @@ public function showQuests(Request $request){
             'comments_count' => $item->comments_count,
             // 'views_count' => $item->views_count,
             'is_liked' => $item->isLiked(),     // ← 追加
-            'type' => 'quest', 
+            'type' => 'quests', 
         ];
     });
 
@@ -380,7 +380,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(), 
-                'type' => 'spot', 
+                'type' => 'spots', 
             ];
         });
 
@@ -467,7 +467,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'business', 
+                'type' => 'businesses', 
             ];
         });
         
@@ -554,7 +554,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'business', 
+                'type' => 'businesses', 
             ];
         });
 
@@ -635,7 +635,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'spot',                  
+                'type' => 'spots',                  
             ];
         });
     
@@ -666,7 +666,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(),
-                'type' => 'quest',  
+                'type' => 'quests',  
             ];
         });
     
@@ -704,7 +704,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'business', 
+                'type' => 'businesses', 
             ];
         });
     
@@ -741,7 +741,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'business', 
+                'type' => 'businesses', 
             ];
         });
 

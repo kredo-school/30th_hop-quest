@@ -31,9 +31,11 @@
                     <select class="form-control w-25" id="business-type" name="category_id">
                         <option value="{{ old('category_id', $business->category_id) }}" selected>
                             @if($business->category_id == 1)
-                                Location
+                                Location</option>
+                                <option value="2">Event
                             @elseif($business->category_id == 2)
-                                Event
+                                Event</option>
+                                <option value="1">Location
                             @endif
                         </option>
                         {{-- <option value="2">Event</option> --}}
@@ -72,17 +74,28 @@
                
  
                 <!-- Contact Information Form -->
-                <div class="mb-4">
+                <div class="row">
                     <!-- Business Email -->
-                    <div class="mb-3">
+                    <div class="col-6 mb-3">
                         <label for="email" class="d-inline me-3 form-label">
                             Business email (No-display to publicity)<span style="color:#D24848;">*</span>
                         </label>
                         <input type="email" id="email" name="email" value="{{ old('email', $business->email) }}" class="form-control">
                     </div>
+                    <!-- Official Website -->
+                    <div class="col-6 mb-3">
+                        <label for="website_url" class="form-label d-inline">Official website URL</label>
+                        <input type="text" name="website_url" id="website_url" class="form-control">
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label for="zip" class="form-label d-inline">Zip Code<span style="color: #D24848;">*</span></label>
+                        <input type="text" name="zip" id="zip" class="form-control" value="{{old('zip', $business->zip)}}">
+                    </div>
                     <!-- Phone Number -->
-                    <div class="mb-3">
+                    <div class="col-6 mb-3">
                         <label for="phonenumber" class="d-inline me-3 form-label">
                             Phone number<span style="color:#D24848;">*</span>
                         </label>
@@ -90,10 +103,7 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="zip" class="form-label d-inline">Zip Code<span style="color: #D24848;">*</span></label>
-                    <input type="text" name="zip" id="zip" class="form-control" >
-                </div>
+
 
                 <div class="mb-3">
                     <label for="address1" class="form-label d-inline">Address 1<span style="color: #D24848;">*</span></label>
@@ -167,11 +177,7 @@
                     </div>
                 </div>
 
-                <!-- Official Website -->
-                <div class="mb-3">
-                    <label for="website_url" class="form-label d-inline">Official website URL</label>
-                    <input type="text" name="website_url" id="website_url" class="form-control">
-                </div>
+
 
                 <!-- Welcome message -->
                 <div class="mb-3">
@@ -179,11 +185,7 @@
                         Welcome message<span style="color: #D24848;">*</span>
                     </label>
                     <textarea 
-                        name="introduction" 
-                        id="introduction" 
-                        class="form-control" 
-                        rows="5"
-                    ></textarea>
+                        name="introduction" id="introduction" class="form-control" rows="5">{{ old('introduction', $business->introduction) }}</textarea>
                 </div>
 
                 <!-- Business Hours & Event Time Periods -->
@@ -358,7 +360,7 @@
                 </div> --}}
 
                 <div class="mb-4 p-4 border rounded bg-light">
-                    <label for="images" class="form-label">Upload Photos (max 3):</label>
+                    <label for="images" class="form-label">Upload Photo</label>
                     <div class="row">
                         <!-- Priority 1 -->
                         <div class="col-md-4">  
@@ -386,8 +388,22 @@
                                 <input type="file" name="image" id="image" class="form-control"> 
                             @endif    
                         </div>
-                        @empty 
-                        @endforelse  
+
+                {{-- <div class="mb-4 p-4 border rounded bg-light">
+                    <label for="images" class="form-label">Upload Photo</label>
+                    <div class="row">
+                        <!-- Priority 1 -->
+                        <div class="col-md-4">  
+                            @if($business->topPhoto)                   
+                                <label for="image" class="form-label d-block"> </label>                                                        
+                                <img src="{{ $business->topPhoto->image }}" alt="Business Photo" class="img-lg mb-2">  
+                                <input type="file" name="image" id="image" class="form-control">  
+                            @else
+                                <label for="image" class="form-label d-block"> </label>
+                                <input type="file" name="image" id="image" class="form-control"> 
+                            @endif    
+                        </div>
+
                         <!-- Priority 2 -->
 
                         
