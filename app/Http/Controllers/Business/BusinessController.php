@@ -34,20 +34,34 @@ class BusinessController extends Controller
 
     public function store(Request $request){
         $request->validate([
-            'main_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'main_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
             'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         $this->business->category_id = $request->category_id;
-        $this->business->user_id = Auth::user()->id;
-        $this->business->name = $request->name;
-        $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode (file_get_contents($request->main_image));
-        $this->business->email = $request->email;
-        $this->business->term_start = $request->term_start;
-        $this->business->term_end = $request->term_end;
-        $this->business->introduction = $request->introduction;
-        $this->business->official_certification = 1;
-        $this->business->save();
+            $this->business->user_id = Auth::user()->id;
+            $this->business->name = $request->name;
+            $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
+            $this->business->email = $request->email;
+            $this->business->term_start = $request->term_start;
+            $this->business->term_end = $request->term_end;
+            $this->business->introduction = $request->introduction;
+            $this->business->status = $request->status;
+            $this->business->sp_notes = $request->sp_notes;
+            $this->business->address_1 = $request->address_1;
+            $this->business->address_2 = $request->address_2;
+            $this->business->zip = $request->zip;
+            $this->business->phonenumber = $request->phonenumber;
+            $this->business->website_url = $request->website_url;
+            $this->business->instagram = $request->instagram;
+            $this->business->facebook = $request->facebook;
+            $this->business->x = $request->x;
+            $this->business->tiktok = $request->tiktok;
+            $this->business->identification_number = $request->identification_number;
+            $this->business->official_certification = 1;
+            $this->business->display_start = $request->display_start;
+            $this->business->display_end = $request->display_end;
+            $this->business->save();
 
         // PhotoController の store を呼び出して写真を保存
         if ($request->hasFile('photos')) {
@@ -112,14 +126,29 @@ class BusinessController extends Controller
         ]);
 
         $business_a = $this->business->findOrFail($id);
-
         $business_a->category_id = $request->category_id;
         $business_a->user_id = Auth::user()->id;
         $business_a->name = $request->name;
         $business_a->email = $request->email;
+        $business_a->zip = $request->zip;
         $business_a->term_start = $request->term_start;
         $business_a->term_end = $request->term_end;
         $business_a->introduction = $request->introduction;
+        $business_a->status = $request->status;
+        $business_a->business_hours = $request->business_hours;
+        $business_a->sp_notes = $request->sp_notes;
+        $business_a->address_1 = $request->address_1;
+        $business_a->address_2 = $request->address_2;
+        $business_a->google_api_code = $request->google_api_code;
+        $business_a->phonenumber = $request->phonenumber;
+        $business_a->website_url = $request->website_url;
+        $business_a->instagram = $request->instagram;
+        $business_a->facebook = $request->facebook;
+        $business_a->x = $request->x;
+        $business_a->tiktok = $request->tiktok;
+        $business_a->identification_number = $request->identification_number;
+        $business_a->display_start = $request->display_start;
+        $business_a->display_end = $request->display_end;
         $business_a->official_certification = 1;
 
 

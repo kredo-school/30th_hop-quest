@@ -5,7 +5,7 @@
 @section('content')
 <div class="bg-blue">
     <div class="row justify-content-center pt-5 pb-5">
-        <form action="{{route('businesses.store')}}" method="post" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('businesses.store') }}" enctype="multipart/form-data">
                 @csrf
             
             <div class="col-md-10 col-lg-8 box-border mx-auto" >
@@ -34,8 +34,10 @@
                 <!-- Location or Event Details -->
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="name" class="form-label" id="name-label">Event Name<span style="color: #D24848;">*</span></label>
-                        <input type="text" name="name" id="name" class="form-control">
+                        <label for="name" class="form-label" id="name-label">
+                            <span id="detail-type">{{ old('category_id') == 2 ? 'Event' : 'Location' }}</span> Name<span style="color: #D24848;">*</span>
+                        </label>
+                        <input type="text" name="name" id="name" value="{{ old('name') }}" class="form-control">
                     </div>
                 </div>
                 {{-- @push('scripts') --}}
@@ -106,13 +108,10 @@
                 </div>
 
                 {{-- Introduction --}}
-                <div class="row mb-3">
-                    <div class="mb-3">
-                        <label for="introduction" class="form-label d-inline">
-                            Introduction<span style="color: #D24848;">*</span>
-                        </label>
-                        <textarea 
-                            name="introduction" id="introduction" class="form-control" rows="5"></textarea>
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="introduction" class="form-label">Introduction</label>
+                        <textarea name="introduction" id="introduction" class="form-control" rows="4">{{ old('introduction') }}</textarea>
                     </div>
                 </div>
 
@@ -134,12 +133,12 @@
                             <div class="row mt-0">
                                 <div class="col">
                                     <label for="term_start" class="form-label d-inline">Start date</label>
-                                <input type="date" name="term_start" id="term_start" class="form-control">
+                                <input type="date" name="term_start" id="term_start" class="form-control" value="{{ old('term_start') }}">
                             </div>
 
                             <div class="col">
                                 <label for="term_end" class="form-label d-inline">End date</label>
-                                <input type="date" name="term_end" id="term_end" class="form-control">
+                                <input type="date" name="term_end" id="term_end" class="form-control"  value="{{ old('term_end') }}">
                             </div>
                         </div>
                     </div>
@@ -147,7 +146,7 @@
                     <!-- Special notes -->
                     <div class="mb-3">
                         <label for="sp_notes" class="form-label d-inline">Special notes</label>
-                        <textarea name="sp_notes" id="sp_notes" class="form-control" rows="3"></textarea>
+                        <textarea name="sp_notes" id="sp_notes" class="form-control" rows="3">{{ old('sp_notes') }}</textarea>
                     </div>
                 </div>
                     
@@ -163,38 +162,44 @@
                                     </button>
                                 </div>
                                 <div class="col-auto ms-auto me-5 my-auto">
-                                    <input type="checkbox" id="{{ strtolower($day) }}_is_closed" name="business_hours[{{ $day }}][is_closed]" class="form-check-input ms-auto">
+                                    <input type="checkbox" name="business_hours[{{ $day }}][is_closed]" {{ old('business_hours.'.$day.'.is_closed',isset($businessHours[$day]) && $businessHours[$day]['is_closed'] == 1) ? 'checked' : '' }}>
                                     <label class="form-check-label ms-2 align-self-end" for="{{ strtolower($day) }}_is_closed">Closed</label></div>
                                 </div>
                             </div>
-
+                
                             <div id="collapse{{ $index }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $index }}" data-bs-parent="#weekdayAccordion">
                                 <div class="accordion-body">
                                     <!-- 各曜日の入力フォーム -->
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="{{ strtolower($day) }}_opening_time" class="d-inline me-3">Opening time</label>
-                                            <input type="time" id="{{ strtolower($day) }}_opening_time" name="business_hours[{{ $day }}][opening_time]" class="form-control">
+                                            <input type="time" id="{{ strtolower($day) }}_opening_time" name="business_hours[{{ $day }}][opening_time]" class="form-control" 
+                                                   value="{{ old('business_hours.'.$day.'.opening_time') }}">
                                         </div>
                                         <div class="col">
                                             <label for="{{ strtolower($day) }}_closing_time" class="d-inline me-3">Closing time</label>
-                                            <input type="time" id="{{ strtolower($day) }}_closing_time" name="business_hours[{{ $day }}][closing_time]" class="form-control">
+                                            <input type="time" id="{{ strtolower($day) }}_closing_time" name="business_hours[{{ $day }}][closing_time]" class="form-control"
+                                                   value="{{ old('business_hours.'.$day.'.closing_time') }}">
                                         </div>
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="{{ strtolower($day) }}_break_start" class="d-inline me-3">Break start</label>
-                                            <input type="time" id="{{ strtolower($day) }}_break_start" name="business_hours[{{ $day }}][break_start]" class="form-control">
+                                            <input type="time" id="{{ strtolower($day) }}_break_start" name="business_hours[{{ $day }}][break_start]" class="form-control"
+                                                   value="{{ old('business_hours.'.$day.'.break_start') }}">
                                         </div>
                                         <div class="col">
                                             <label for="{{ strtolower($day) }}_break_end" class="d-inline me-3">Break end</label>
-                                            <input type="time" id="{{ strtolower($day) }}_break_end" name="business_hours[{{ $day }}][break_end]" class="form-control">
+                                            <input type="time" id="{{ strtolower($day) }}_break_end" name="business_hours[{{ $day }}][break_end]" class="form-control"
+                                                   value="{{ old('business_hours.'.$day.'.break_end') }}">
                                         </div>
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="{{ strtolower($day) }}_notice" class="d-inline me-3">Notes</label>
-                                            <input type="text" id="{{ strtolower($day) }}_notice" name="business_hours[{{ $day }}][notice]" class="form-control" placeholder="Example Last order 40 minutes before closing">
+                                            <input type="text" id="{{ strtolower($day) }}_notice" name="business_hours[{{ $day }}][notice]" class="form-control" 
+                                                   placeholder="Example Last order 40 minutes before closing"
+                                                   value="{{ old('business_hours.'.$day.'.notice') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -217,7 +222,7 @@
                                 'Bicycle parking', 'Changing room', 'Shower facilities'
                             ],
                             'Payment Options' => [
-                                'Credit cards accepted', 'Google Pay and Apple Pay', 'Cash only',
+                                'Credit cards accepted', 'Google Pay and Apple Pay', 'Cash only', 'Cash accepted',
                                 'Visa and Mastercard contactless payment', 'bitcoin payment'
                             ],
                             'Smoking Policy' => [
@@ -239,7 +244,7 @@
                                         class="form-check-input"
                                         id="{{ Str::slug($category . '-' . $item) }}"
                                         name="details[{{ $category }}][]"
-                                        value="{{ $item }}">
+                                        value="{{ $item }}" {{ is_array(old('details.'.$category)) && in_array($item, old('details.'.$category)) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="{{ Str::slug($category . '-' . $item) }}">{{ $item }}</label>
                                 </div>
                             @endforeach
@@ -261,7 +266,7 @@
                     <input type="text"
                         id="identification_number"
                         name="identification_number"
-                        class="form-control">
+                        class="form-control" value="{{ old('identification_number') }}">
                 </div>
                 
 
@@ -275,11 +280,17 @@
                                 <div class="photo-preview" id="preview_{{ $i }}">
                                     <label class="form-label d-block text-center">Photo {{ $i }}</label>
                                     <input type="file"
-                                           id="photo_{{ $i }}"
-                                           name="photos[{{ $i }}]"
-                                           class="form-control photo-input"
-                                           accept="image/*">
+                                        id="photo_{{ $i }}"
+                                        name="photos[{{ $i }}]"
+                                        class="form-control photo-input"
+                                        accept="image/*">
                                     <input type="hidden" name="priorities[{{ $i }}]" value="{{ $i }}">
+                                    @if(old('photos.'.$i))
+                                        <small class="text-muted">Previously selected: {{ old('photos.'.$i) }}</small>
+                                    @endif
+                                    @error('photos.'.$i)
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -287,15 +298,12 @@
                     </div>
                 </div>
 
-               
             <!-- Submission Buttons -->
                 <div class="row">
                     <div class="row mt-3 justify-content-center">
                         <div class="col-4 ">
                             <button type="submit" class="btn btn-green w-100 mb-2">SAVE</button>
-                            <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="1" 
-                {{ old('official_badge', Auth::user()->official_certification) ? 'unchecked' : '' }}
-                > Apply for Official certification badge
+                            <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="1" {{ old('official_certification') ? 'checked' : '' }}> Apply for Official certification badge
                             {{-- <input type="checkbox" class="form-check-input mb-2" name="" id="" value=""> Apply for Official certification badge --}}
                         </div>
                         <div class="col-2"></div>

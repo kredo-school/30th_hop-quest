@@ -46,7 +46,7 @@
                 <div class="mb-3">
                     <!-- ここにid="name-label" を付けることが重要 -->
                     <label for="name" class="form-label d-inline" id="name-label">Event Name<span style="color: #D24848;">*</span></label>
-                    <input type="text" name="name" id="name" value="{{ old('name', $business->name) }}" class="form-control">
+                    <input type="text" name="name" id="name" value="{{ old('name', $business->name ?? '') }}" class="form-control">
                 </div>
 
                 @push('scripts')
@@ -92,7 +92,7 @@
                 <div class="row">
                     <div class="col-6 mb-3">
                         <label for="zip" class="form-label d-inline">Zip Code<span style="color: #D24848;">*</span></label>
-                        <input type="text" name="zip" id="zip" class="form-control" >
+                        <input type="text" name="zip" id="zip" class="form-control" value="{{old('zip', $business->zip)}}">
                     </div>
                     <!-- Phone Number -->
                     <div class="col-6 mb-3">
@@ -184,8 +184,7 @@
                     <label for="introduction" class="form-label d-inline">
                         Welcome message<span style="color: #D24848;">*</span>
                     </label>
-                    <textarea 
-                        name="introduction" id="introduction" class="form-control" rows="5">{{ old('introduction', $business->introduction) }}</textarea>
+                    <textarea name="introduction" class="form-control">{{ old('introduction', $business->introduction ?? '') }}</textarea>
                 </div>
 
                 <!-- Business Hours & Event Time Periods -->
@@ -315,7 +314,7 @@
                                 'Bicycle parking', 'Changing room', 'Shower facilities'
                             ],
                             'Payment Options' => [
-                                'Credit cards accepted', 'Google Pay and Apple Pay', 'Cash only',
+                                'Credit cards accepted', 'Google Pay and Apple Pay', 'Cash only', 'Cash accepted',
                                 'Visa and Mastercard contactless payment', 'bitcoin payment'
                             ],
                             'Smoking Policy' => [
@@ -419,8 +418,8 @@
                         <button type="submit" class="btn btn-green w-100 mb-2" id="save-button">
                             SAVE
                         </button>
-                        <input type="checkbox" class="form-check-input mb-2" id="official-check">
-                        Apply for Official certification badge
+                        <input type="checkbox" name="official_certification" value="1" 
+                        {{ old('official_certification', $business->official_certification == 1) ? 'checked' : '' }}>Apply for Official certification badge
                     </div>
 
                     <div class="col-2"></div>
