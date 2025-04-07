@@ -27,6 +27,9 @@ class IndexController extends Controller
         $spot = $this->spot->findOrFail($id);
         $user = $this->user->findOrFail($spot->user_id);
 
+        // Convert storage path to URL
+        $spot->main_image = Storage::url($spot->main_image);
+
         return view('spots.show')
             ->with('spot', $spot)
             ->with('user', $user);
@@ -34,35 +37,49 @@ class IndexController extends Controller
 
     public function create()
     {
-        return view('spots.create');    
+        return view('spots.create');
     }
 
     public function store(Request $request)
     {
-        // バリデーション
+        // validation
         $request->validate([
-            'spot-images.*' => 'image|mimes:jpeg,jpg,png,gif|max:1048|required',  // 1MB以下
-            // 他の必要なバリデーションルール
+            'title' => 'required',
+            'introduction' => 'required',
+            'main_image' => 'required|image|mimes:jpeg,jpg,png,gif|max:1048',
+            'images.*' => 'image|mimes:jpeg,jpg,png,gif|max:1048',
+            'images' => 'array|max:6'
         ]);
 
-        $imagePaths = [];
+        // Save image to storage/app/public
+        $dir = 'images/spots';
         
-        // 最大6枚まで処理
-        if ($request->hasFile('spot-images')) {
-            foreach($request->file('spot-images') as $index => $image) {
-                if ($index >= 6) break;  // 6枚を超えた場合は処理を終了
-                
-                // 画像を保存してパスを取得
-                $path = $image->store('public/spots/images');
-                $imagePaths[] = Storage::url($path);  // 保存したパスを配列に追加
+        // save main image
+        $main_image_name = time() . '_main_' . $request->file('main_image')->getClientOriginalName();
+        $main_image_path = $request->file('main_image')->storeAs($dir, $main_image_name, 'public');
+        
+        // save additional images
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $file_name = time() . '_' . $image->getClientOriginalName();
+                $path = $image->storeAs($dir, $file_name, 'public');
+                $imagePaths[] = Storage::url($path);
             }
         }
 
-        $spot = new Spot();
-        $spot->user_id = Auth::user()->id;
-        $spot->name = $request->name;
-        $spot->images = $imagePaths;  // 配列として保存（自動的にJSONに変換される）
-        $spot->save();
-    }
+        $this->spot->user_id      = Auth::user()->id;
+        $this->spot->title        = $request->title;
+        $this->spot->introduction = $request->introduction;
+        $this->spot->main_image   = $main_image_path;
+        $this->spot->geo_location = $request->geo_location;
+        $this->spot->geo_lat      = $request->geo_lat;
+        $this->spot->geo_lng      = $request->geo_lng;
+        $this->spot->images       = json_encode($imagePaths);
+        $this->spot->save();
 
+        $spot = $this->spot->findOrFail($this->spot->id);
+
+        return redirect()->route('spot.show', $spot->id);
+    }
 }
