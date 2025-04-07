@@ -318,7 +318,7 @@ class ProfileController extends Controller
     public function followers($id){
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $reviews = DB::table('business_comments')
+        $business_comments = DB::table('business_comments')
         ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
         ->where('businesses.user_id', $id)
         ->select('business_comments.*') 
