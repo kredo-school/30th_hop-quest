@@ -19,14 +19,14 @@
                 </div>
                 @include('businessusers.posts.promotions.modals.delete')
             </div>
-            <form action="{{ route('promotions.update', $promotion->id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('promotions.update', $business_promotion->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
             {{-- Promotion title --}}
             <div class="row mb-3">
                 <div class="col">
                     <label for="title" class="form-label fw-bold">Title<span class="color-red">*</span></label>
-                    <input type="text" name="title" id="title" value="{{old('title', $promotion->title)}}" class="form-control">
+                    <input type="text" name="title" id="title" value="{{old('title', $business_promotion->title)}}" class="form-control">
                     @error('title')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror
@@ -38,7 +38,7 @@
                     <label for="business_id" class="form-label fw-bold">Related Business<span class="color-red">*</span></label>
                     <select name="business_id" id="business_id" class="form-control">
                         @forelse ($all_businesses as $business)
-                            @if ($promotion->business_id === $business->id)
+                            @if ($business_promotion->business_id === $business->id)
                                 <option value="{{ $business->id }}" selected>{{ $business->name }}</option>
                             @else
                                 <option value="{{ $business->id }}">{{ $business->name }}</option>
@@ -55,29 +55,29 @@
             <div class="row mb-3">
                 <div class="col-6">
                     <label for="promotion_start" class="form-label">Promotion start date<span class="color-red">*</span></label>
-                    <input type="date" name="promotion_start" id="promotion_start" value="{{old('promotion_start', $promotion->promotion_start)}}" class="form-control">
+                    <input type="date" name="promotion_start" id="promotion_start" value="{{old('promotion_start', $business_promotion->promotion_start)}}" class="form-control">
                 </div>
                 <div class="col-6">
                     <label for="promotion_end" class="form-label">Promotion end date<span class="color-red">*</span></label>
-                    <input type="date" name="promotion_end" id="promotion_end" value="{{old('promotion_end', $promotion->promotion_end)}}" class="form-control">
+                    <input type="date" name="promotion_end" id="promotion_end" value="{{old('promotion_end', $business_promotion->promotion_end)}}" class="form-control">
                 </div>
             </div>
             {{-- Display period --}}
             <div class="row mb-3">
                 <div class="col-6">
                     <label for="display_start" class="form-label">Display start date</label>
-                    <input type="date" name="display_start" id="display_start" value="{{old('display_start', $promotion->display_start)}}" class="form-control">
+                    <input type="date" name="display_start" id="display_start" value="{{old('display_start', $business_promotion->display_start)}}" class="form-control">
                 </div>
                 <div class="col-6">
                     <label for="display_end" class="form-label">Display end date</label>
-                    <input type="date" name="display_end" id="display_end" value="{{old('display_end', $promotion->display_end)}}" class="form-control">
+                    <input type="date" name="display_end" id="display_end" value="{{old('display_end', $business_promotion->display_end)}}" class="form-control">
                 </div>
             </div>
             {{-- Introduction --}}
             <div class="row mb-3">
                 <div class="col">
                     <label for="introduction" class="form-label">Introduction<span class="color-red">*</span></label>
-                    <textarea name="introduction" id="introduction" rows="5" class="form-control" value="">{{old('introduction', $promotion->introduction)}}</textarea>
+                    <textarea name="introduction" id="introduction" rows="5" class="form-control" value="">{{old('introduction', $business_promotion->introduction)}}</textarea>
                     @error('introduction')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror
@@ -86,18 +86,18 @@
             {{-- File --}}
             <div class="row mb-3 ">
                 <div class="col">
-                    <label for="photo" class="form-label">Photo upload<span class="color-red">*</span></label>
+                    <label for="image" class="form-label">Photo upload<span class="color-red">*</span></label>
                 </div> 
                 <div class="row">  
                     <div class="col-4">
-                        @if($promotion->photo)
-                            <img src="{{$promotion->photo}}" class="img-lg mb-2"  alt="Promotion image">
+                        @if($business_promotion->image)
+                            <img src="{{$business_promotion->image}}" class="img-lg mb-2"  alt="Promotion image">
                         @else
                             <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
                         @endif
-                        <input type="file" name="photo" id="photo" class="form-control form-control-sm w-100 mb-auto p-2" >
+                        <input type="file" name="image" id="image" class="form-control form-control-sm w-100 mb-auto p-2" >
                     </div>
-                    @error('photo')
+                    @error('image')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
                     @enderror
                     <p class="form-text text-danger ">

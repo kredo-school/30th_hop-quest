@@ -43,6 +43,7 @@ class BusinessController extends Controller
         $this->business->name = $request->name;
         $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode (file_get_contents($request->main_image));
         $this->business->email = $request->email;
+        $this->business->zip = $request->zip;
         $this->business->term_start = $request->term_start;
         $this->business->term_end = $request->term_end;
         $this->business->introduction = $request->introduction;

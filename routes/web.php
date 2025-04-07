@@ -17,6 +17,10 @@ use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
 use App\Http\Controllers\Business\BusinessController;
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\Business\BusinessCommentController;
+>>>>>>> main
 use App\Http\Controllers\Business\BusinessPromotionController;
 use App\Http\Controllers\Business\QuestLikeController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -44,6 +48,11 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
     Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
     Route::get('/{id}/allreviews', [ProfileController::class, 'allReviews'])->name('allreviews');
     Route::get('/{id}/review', [BusinessCommentController::class, 'showReview'])->name('review');
+<<<<<<< HEAD
+=======
+    Route::get('/{id}/review/index', [BusinessCommentController::class, 'showIndex'])->name('indexreview');
+    Route::delete('/{id}/review/delete', [BusinessCommentController::class, 'deleteReview'])->name('delete.review');
+>>>>>>> main
 });
 
 //FOLLOWS
@@ -127,8 +136,8 @@ Route::group(['prefix' => '/spot', 'as' => 'spot.'], function(){
     Route::post('/{spot_id}/comment/store', [App\Http\Controllers\Spot\CommentController::class, 'store'])->name('comment.store');
     Route::delete('/{spot_id}/comment/{comment_id}/destroy', [App\Http\Controllers\Spot\CommentController::class, 'destroy'])->name('comment.destroy');
     // Spot Comment Likes
-    Route::post('/{spot_id}/comment/{comment_id}/like', [LikeCommentController::class, 'like'])->name('comment.like');
-    Route::delete('/{spot_id}/comment/{comment_id}/unlike', [App\Http\Controllers\Spot\LikeCommentController::class, 'unlike'])->name('comment.unlike');
+    Route::post('/comment/{comment_id}/like', [App\Http\Controllers\Spot\LikeCommentController::class, 'like'])->name('comment.like');
+    Route::delete('/comment/{comment_id}/unlike', [App\Http\Controllers\Spot\LikeCommentController::class, 'unlike'])->name('comment.unlike');
 });
 
 
@@ -143,4 +152,3 @@ Route::get('/register/business', [RegisterController::class, 'registerBusiness']
 Route::post('/store/business', [App\Http\Controllers\Auth\RegisterController::class, 'storeBusiness'])->name('register.business.submit');
 Route::get('/register/tourist', [App\Http\Controllers\Auth\RegisterController::class, 'registerTourist'])->name('register.tourist');
 Route::post('/store/tourist', [App\Http\Controllers\Auth\RegisterController::class, 'storeTourist'])->name('register.submit');
-

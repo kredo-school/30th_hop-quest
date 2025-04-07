@@ -92,7 +92,7 @@
                 <div class="row">
                     <div class="col-6 mb-3">
                         <label for="zip" class="form-label d-inline">Zip Code<span style="color: #D24848;">*</span></label>
-                        <input type="text" name="zip" id="zip" class="form-control" >
+                        <input type="text" name="zip" id="zip" class="form-control" value="{{old('zip', $business->zip)}}">
                     </div>
                     <!-- Phone Number -->
                     <div class="col-6 mb-3">
