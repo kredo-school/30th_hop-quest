@@ -20,13 +20,11 @@ class Business extends Model
     //business has many promotions
     public function businessPromotions(){
         return $this->hasMany(BusinessPromotion::class);
-<<<<<<< HEAD
-=======
+
     }
 
-    public function reviews(){
-        return $this->hasMany(Review::class);
->>>>>>> main
+    public function businessComment(){
+        return $this->hasMany(BusinessComment::class);
     }
 
     public function photos(){

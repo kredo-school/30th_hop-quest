@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessComment;
-<<<<<<< HEAD
+
 
 class BusinessCommentController extends Controller
 {
@@ -20,19 +20,7 @@ class BusinessCommentController extends Controller
         $this->business_comment = $business_comment;
         $this->business = $business;
         $this->user = $user;
-=======
-use App\Models\Spot;
 
-class BusinessCommentController extends Controller
-{
-    private $business;
-    private $business_comment;
-
-
-    public function __construct(BusinessComment $business_comment, Business $business){
-        $this->business_comment = $business_comment;
-        $this->business = $business;
->>>>>>> main
     }
 
     public function reviews($id){
@@ -40,21 +28,15 @@ class BusinessCommentController extends Controller
         $all_business_comments = $this->business_comment->latest()->paginate(10);
         $business_comment_a = $this->business_comment->findOrFail($id);
         $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-<<<<<<< HEAD
+
         return view('businessusers.reviews.allreviews')->with('all_business_comments', $all_business_comments)->with('all_businesses',$all_businesses)->with('business_comment', $business_comment_a);
-=======
+
         return view('businessusers.reviews.allreviews' ,compact('all_business_comments', 'all_businesses'))->with('business_comment', $business_comment_a);
->>>>>>> main
+
     }
 
     public function showReview($id){
         $business_comment_a = $this->business_comment->findOrFail($id);
-<<<<<<< HEAD
-        return view('businessusers.reviews.showreview')->with('review', $business_comment_a);
-    }
-
-}
-=======
         return view('businessusers.reviews.showreview')->with('business_comment', $business_comment_a);
     }
 
@@ -124,4 +106,3 @@ class BusinessCommentController extends Controller
 
 
 
->>>>>>> main
