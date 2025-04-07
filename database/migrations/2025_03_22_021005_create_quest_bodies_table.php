@@ -20,7 +20,6 @@ return new class extends Migration
             $table->boolean('is_agenda')->default(true);
             $table->unsignedBigInteger('day_number');
             $table->text('introduction');
-            $table->text('business_title');
             $table->integer('is_agenda');
             $table->longText('image');
             $table->timestamps();
