@@ -208,49 +208,72 @@
                     @endforeach
                 </div>
                 
-                <!-- Business Facility Detail Form -->
-                <div class="mb-4 p-4 border rounded bg-light">
-                    <h4 class="form-label d-inline">Detailes</h4>
-                    @php
-                        $details = [
-                            'Accessibility' => [
-                                'Wheelchair accessible', 'Elevator access', 'Accessible parking',
-                                'Accessible restroom', 'Braille signage', 'Hearing loop system'
-                            ],
-                            'Facilities' => [
-                                'Free Wi-Fi', 'Public restroom', 'Parking available',
-                                'Bicycle parking', 'Changing room', 'Shower facilities'
-                            ],
-                            'Payment Options' => [
-                                'Credit cards accepted', 'Google Pay and Apple Pay', 'Cash only', 'Cash accepted',
-                                'Visa and Mastercard contactless payment', 'bitcoin payment'
-                            ],
-                            'Smoking Policy' => [
-                                'Completely non-smoking', 'Smoking area available',
-                                'Designated smoking rooms', 'Outdoor smoking section',
-                                'Smoking permitted throughout'
-                            ],
-                        ];
-                    @endphp
+                <!-- Facility Details -->
+                <label class="form-label font-bold mb-1">Facility Details</label>
+                <div class="row">
+                    <div class="accordion mb-4" id="detailsAccordion">
+                        @php
+                            $amenities = [
+                                'Accessibility' => [
+                                    'Wheelchair accessible', 'Elevator access', 'Accessible parking',
+                                    'Accessible restroom', 'Braille signage', 'Hearing loop system'
+                                ],
+                                'Facilities' => [
+                                    'Free Wi-Fi', 'Public restroom', 'Parking available',
+                                    'Bicycle parking', 'Changing room', 'Shower facilities'
+                                ],
+                                'Payment Options' => [
+                                    'Credit cards accepted', 'Google Pay and Apple Pay', 'Cash only', 'Cash accepted',
+                                    'Visa and Mastercard contactless payment', 'bitcoin payment'
+                                ],
+                                'Smoking Policy' => [
+                                    'Completely non-smoking', 'Smoking area available',
+                                    'Designated smoking rooms', 'Outdoor smoking section',
+                                    'Smoking permitted throughout'
+                                ],
+                            ];
+                        @endphp
 
-                    @foreach ($details as $category => $items)
-                    <div class="mb-3">
-                        <hr>
-                        <h5 class="font-bold">{{ $category }}</h5>
-                        <div class="row px-4">
-                            @foreach ($items as $item)
-                                <div class="col-md-6 form-check">
-                                    <input type="checkbox"
-                                        class="form-check-input"
-                                        id="{{ Str::slug($category . '-' . $item) }}"
-                                        name="details[{{ $category }}][]"
-                                        value="{{ $item }}" {{ is_array(old('details.'.$category)) && in_array($item, old('details.'.$category)) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="{{ Str::slug($category . '-' . $item) }}">{{ $item }}</label>
+                        @foreach($amenities as $category => $options)
+                            @php $index = $loop->index; @endphp
+                            <div class="accordion-item">
+                                <div class="accordion-header" id="headingDetail{{ $index }}">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseDetail{{ $index }}"
+                                                    aria-expanded="false"
+                                                    aria-controls="collapseDetail{{ $index }}">
+                                                {{ $category }}
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            @endforeach
-                        </div>
+                                <div id="collapseDetail{{ $index }}" class="accordion-collapse collapse"
+                                    aria-labelledby="headingDetail{{ $index }}" data-bs-parent="#detailsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            @foreach($options as $option)
+                                                <div class="col-md-6 mb-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input"
+                                                            type="checkbox"
+                                                            id="{{ Str::slug($option, '_') }}"
+                                                            name="details[{{ $category }}][]"
+                                                            value="{{ $option }}"
+                                                             {{ is_array(old("details.$category")) && in_array($option, old("details.$category")) ? 'checked' : '' }}>>
+                                                        <label class="form-check-label"
+                                                            for="{{ Str::slug($option, '_') }}">{{ $option }}</label>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
 
                 <!-- Identification Information-->
