@@ -44,6 +44,7 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
     Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
     Route::get('/{id}/allreviews', [ProfileController::class, 'allReviews'])->name('allreviews');
+    Route::get('/{id}/allreview', [BusinessCommentController::class, 'showReview'])->name('review');
     Route::get('/{id}/review', [BusinessCommentController::class, 'showReview'])->name('review');
 });
 
