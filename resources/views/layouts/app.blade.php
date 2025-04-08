@@ -52,6 +52,9 @@
                         @elseif(Auth::user()->role_id == 2)
                             <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
                             <img src="{{ asset('images/logo/HopQuest_Business_38px.png') }}" alt="HopQuest LOGO for Business" class="nav-img me-lg-5">
+                        @if(Auth::user()->role_id == 3)
+                            <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+                            <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
                         @endif
                     @endguest
                     </a>
@@ -145,6 +148,10 @@
                                     <a href="{{route('profile.businesses', Auth::user()->id)}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
+                                @elseif(Auth::user()->role_id == 2)
+                                <a href="{{route('profile.businesses', Auth::user()->id)}}" class="dropdown-item">
+                                    <i class="fa-solid fa-circle-user"></i> Profile
+                                </a>
                                 @endif
                                 <hr class="dropdown-divider">
                                 <a class="dropdown-item" href="{{ route('home') }}"
@@ -163,8 +170,26 @@
                 </div>
             </div>
         </nav>
-        <main>
-            @yield('content')
+        <main class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    @if(request()->is('admin/*'))
+                        <div class="col-3">
+                            <div class="list-group">
+                                <a href="{{ route('admin.users') }}" class="list-group-item {{ request()->is('admin/users*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-users"></i> Users
+                                </a>
+
+                            </div>
+                        </div>
+                    @endif
+                    <div class="col-9">
+
+                        @yield('content')
+                    </div>
+                </div>    
+            </div>
+
         </main>
     </div>
     @yield('js')

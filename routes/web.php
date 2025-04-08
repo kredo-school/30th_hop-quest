@@ -144,3 +144,11 @@ Route::get('/register/business', [RegisterController::class, 'registerBusiness']
 Route::post('/store/business', [App\Http\Controllers\Auth\RegisterController::class, 'storeBusiness'])->name('register.business.submit');
 Route::get('/register/tourist', [App\Http\Controllers\Auth\RegisterController::class, 'registerTourist'])->name('register.tourist');
 Route::post('/store/tourist', [App\Http\Controllers\Auth\RegisterController::class, 'storeTourist'])->name('register.submit');
+
+//ADMIN
+Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], function(){
+    Route::get('/users', [ProfileController::class, 'index'])->name('users');
+    //admin/users                                                   admin.users
+    Route::delete('/users/{id}/deactivate', [ProfileController::class, 'deactivate'])->name('users.deactivate');
+    Route::patch('/users/{id}/activate', [ProfileController::class, 'activate'])->name('users.activate');
+});

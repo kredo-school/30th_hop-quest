@@ -207,8 +207,8 @@
         <div class="row mt-3 justify-content-center">
             <div class="col-4 ">                        
                 <button type="submit" class="btn btn-green w-100 mb-2">SAVE</button>
-                <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="1" 
-                {{ old('official_badge', Auth::user()->official_certification) ? 'unchecked' : '' }}
+                <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="2" 
+                {{ old('official_badge', Auth::user()->official_certification == 2) ? 'unchecked' : '' }}
                 > Apply for Official certification badge
             </div>
             <div class="col-2"></div>
