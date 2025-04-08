@@ -3,12 +3,28 @@
 @endsection
 
 {{-- @extends('layouts.app') --}}
+
     <div class="card p-3">
 
         {{-- Card Image with official mark --}}
         <img src="{{ asset('images/home/Official Badge.png') }}" class="official" alt="official">
         <a href="#" class="">
-            <img src="{{ asset('images/home/金閣寺の紅葉.webp') }}" class="card-img-top body-image" alt="image">
+            {{-- @php
+                $business_image_path = null;
+
+                if($post->photo){
+                    $priority_one = $post->photos->where('priority', '1')->first();
+                    $business_image_path = $priority_one->image;
+                }
+                $image_path = $post->main_image ?? $business_image_path;
+            @endphp --}}
+
+            @if ($post->main_image)
+                <img src="{{ asset('storage/' . $post->main_image) }}" class="card-img-top body-image" alt="image">
+            @else
+                <img src="{{ asset('images/home/noImage.jpg')}}" class="card-img-top body-image" alt="image">
+            @endif
+
         </a>
 
 
@@ -16,12 +32,28 @@
             <div class="row justify-content-between ms-1">
                 {{-- Category --}}
                 <div class="col-auto p-0">
-                    <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
+                    <h5 class="card-subtitle">Category: 
+                        <strong>
+                            @php
+                                $class = class_basename(get_class($post))
+                            @endphp
+
+                            @if ($class == 'Quest')
+                                Quest
+                            @elseif ($class == 'Spot')
+                                Spot
+                            @elseif ($class == 'Businesses' || $post->category_id == '1')
+                                Location
+                            @elseif ($class == 'Businesses' || $post->category_id == '2')
+                                Event
+                            @endif
+                        </strong>
+                    </h5>
                 </div>
                 
                 {{-- Postdate --}}
                 <div class="col-auto pe-0">
-                    <h5 class="card-subtitle">2025/2/25</h5>
+                    <h5 class="card-subtitle">{{ date('Y/m/d', strtotime($post->created_at)) }}</h5>
                 </div>
             </div>                
 
@@ -29,7 +61,7 @@
             {{-- Title --}}
             <div class="mt-2">
                 <a href="#" class="text-decoration-none">
-                    <h4 class="card-title text-dark"><strong>Kinkakuji Temple of Kyoto</strong></h4>
+                    <h4 class="card-title text-dark"><strong>{{ $post->name ?? $post->title }}</strong></h4>
                 </a>
             </div>
 
@@ -39,14 +71,18 @@
                 {{-- User Icon --}}
                 <div class="col-auto ms-1">
                     <a href="#" class="text-decoration-none h5 d-flex align-items-center">
-                        <img src="{{ asset('images/home/ab67706c0000da84dd49124b694e60d6a1dd1f77.jpg')}}" class="card-icon" alt="card-icon">
+                        @if ($post->user->avatar)
+                            <img src="{{ $post->user->avatar }}" class="card-icon" alt="card-icon">
+                        @else    
+                            <img src="{{ asset('storage/images/home/free-user.png') }}" class="card-icon" alt="card-icon">
+                        @endif
                     </a>
                 </div>
 
                 {{-- User Name --}}
                 <div class="col-auto ms-1 pt-2">
                     <a href="#" class="text-decoration-none h5 d-flex align-items-center">
-                        <h1 class="username h5"><strong>Bruno Marsdddddddddd</strong></h1>
+                        <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
                     </a>
                 </div>
 
@@ -67,13 +103,13 @@
                 </div>
 
                 {{-- Follow Button --}}
-                {{-- <div class="col-auto pb-2 ms-auto">
+                <div class="col-auto pb-2 ms-auto">
                     <form action="#" method="post" class="">
                         @csrf
                         
                         <button type="submit" class="btn btn-sm btn-follow-body">Follow</button>
                     </form>
-                </div> --}}
+                </div>
             </div>
             
             {{-- Heart icon & Like function --}}
@@ -111,7 +147,7 @@
                     </div>
 
                     <button class="btn btn-sm p-0 text-center">
-                        <span>&nbsp;&nbsp;201</span>
+                        <span>&nbsp;&nbsp;{{ $post->view->views ?? 0}}</span>
                     </button>
                 </div>
             </div>
@@ -119,8 +155,7 @@
             {{-- Description of posts --}}
             <div>
                 <p class="card_description">
-                    Kinkakuji (金閣寺, Golden Pavilion) is a Zen temple in northern Kyoto whose top two floors are completely covered in gold leaf. Formally known as Rokuonji, the temple was the retirement villa of the shogun Ashikaga Yoshimitsu, and according to his will it became a Zen temple of the Rinzai sect after his death in 1408. Kinkakuji was the inspiration for the similarly named Ginkakuji (Silver Pavilion), built by Yoshimitsu's grandson, Ashikaga Yoshimasa, on the other side of the city a few decades later.
-                </p>
+                    {{ $post->introduction }}
             </div>
         </div>
     </div>
