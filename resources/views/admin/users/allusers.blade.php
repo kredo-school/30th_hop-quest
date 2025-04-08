@@ -9,19 +9,19 @@
 
 
 @section('content')
-<div class="table-container">
-    <table class="table custom-table border bg-white table-hover align-middle custom-table text-secondary mb-3">
+<div class="">
+    <table class="table border bg-white table-hover align-middle text-secondary">
         <thead class="table-primary text-secondary text-uppercase small">
             <tr>
-                <th>ID</th>
+                <th class="align-middle">ID</th>
                 <th></th>
-                <th>User Name</th>
+                <th class="align-middle">User Name</th>
                 {{-- <th>Email</th> --}}
                 <th>
                     <form method="GET" action="" class="d-inline-block ms-2">
-                        <select name="sort" onchange="this.form.submit()" class="bg-navy-thead mt-3 text-sm">
-                            <option value="">CREATED AT</option>
-                            <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Newest First</option>
+                        <select name="sort" onchange="this.form.submit()" class="bg-skyblue-thead mt-3 text-sm">
+                            <option value="" disabled>CREATED AT</option>
+                            <option value="latest" {{ request('sort', 'latest') == 'latest' ? 'selected' : '' }}>Newest First</option>
                             <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest First</option>
                         </select>
                     </form>

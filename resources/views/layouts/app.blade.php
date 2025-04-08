@@ -148,9 +148,9 @@
                                     <a href="{{route('profile.businesses', Auth::user()->id)}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
-                                @elseif(Auth::user()->role_id == 2)
-                                <a href="{{route('profile.businesses', Auth::user()->id)}}" class="dropdown-item">
-                                    <i class="fa-solid fa-circle-user"></i> Profile
+                                @elseif(Auth::user()->role_id == 3)
+                                <a href="{{route('admin.users.all', Auth::user()->id)}}" class="dropdown-item">
+                                    <i class="fa-solid fa-circle-user"></i> Admin
                                 </a>
                                 @endif
                                 <hr class="dropdown-divider">

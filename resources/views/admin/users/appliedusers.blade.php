@@ -1,18 +1,30 @@
 <div class="bg-yellow">
 @extends('layouts.app')
 
-@section('title', 'Admin: Users')
+@section('title', 'Admin: Applied Users')
+
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+@endsection
 
 @section('content')
 <div class="">
     <table class="table border bg-white table-hover align-middle text-secondary">
-        <thead class="table-success text-secondary text-uppercase small">
+        <thead class="table-primary text-secondary text-uppercase small">
             <tr>
-                <th>ID</th>
+                <th class="align-middle">ID</th>
                 <th></th>
-                <th>User Name</th>
+                <th class="align-middle">User Name</th>
                 {{-- <th>Email</th> --}}
-                <th>Applied at</th>
+                <th>
+                    <form method="GET" action="" class="d-inline-block ms-2">
+                        <select name="sort" onchange="this.form.submit()" class="bg-skyblue-thead mt-3 text-sm">
+                            <option value="" disabled>APPLIED AT</option>
+                            <option value="latest" {{ request('sort', 'latest') == 'latest' ? 'selected' : '' }}>Newest First</option>
+                            <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest First</option>
+                        </select>
+                    </form>
+                </th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -37,7 +49,7 @@
                         {{ $user->email }}
                     </td> --}}
                     <td>
-                        {{date('M d, Y H:m:s', strtotime($user->updated_at))}}
+                        {{date('M d, Y H:i:s', strtotime($user->updated_at))}}
                     </td>
                     @if($user->official_certification == 2)
                         <td>

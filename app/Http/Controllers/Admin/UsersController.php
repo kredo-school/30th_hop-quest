@@ -14,30 +14,38 @@ class UsersController extends Controller
         $this->user = $user;
     }
 
-    public function indexApplied(){
+    public function indexApplied(Request $request){
+
+        $query = User::where('role_id', '!=', 3);
+        $sort = $request->input('sort', 'latest');
+
+        if ($sort === 'latest') {
+            $query->orderBy('updated_at', 'desc');
+        } else { // oldest or default
+            $query->orderBy('updated_at', 'asc');
+        }
 
         $applied_users = $this->user->withTrashed()->whereIn('official_certification',[2,3])->paginate(10);
         
         return view('admin.users.appliedusers')->with('applied_users', $applied_users);       
     } 
 
-    public function index(Request $request)
-{
-    $query = User::query();
+    public function index(Request $request){
+        $query = User::where('role_id', '!=', 3);
+        $sort = $request->input('sort', 'latest');
 
-    if ($request->input('sort') === 'latest') {
-        $query->orderBy('created_at', 'desc');
-    } elseif ($request->input('sort') === 'oldest') {
-        $query->orderBy('created_at', 'asc');
-    }
+        if ($sort === 'latest') {
+            $query->orderBy('created_at', 'desc');
+        } else { // oldest or default
+            $query->orderBy('created_at', 'asc');
+        }
 
     $users = $query->paginate(10);
         return view('admin.users.allusers', compact('users'));       
     } 
 
 
-    public function certify(Request $request, User $user)
-{
+    public function certify(Request $request, User $user){
     $action = $request->input('action');
 
     switch ($action) {
@@ -51,6 +59,8 @@ class UsersController extends Controller
         default:
             abort(400, 'Invalid action.');
     }
+
+
 
     $user->save();
 

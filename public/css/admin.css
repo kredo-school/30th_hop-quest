@@ -1,12 +1,12 @@
-.bg-navy-thead{
-    background-color: #3B3B6B;
-    color:white;
+.bg-skyblue-thead{
+    background-color: #cfe2ff;
+    color:black;
     border: none;
     font-weight: 600;
 }
 
 .custom-table thead{
     background-color: #3B3B6B ;
-    color: white;
+    color: black;
     height: 40px;
 }

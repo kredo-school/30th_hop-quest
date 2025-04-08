@@ -163,7 +163,6 @@
         </div>
 
         @if($user->id == Auth::user()->id)
-            @if($user->official_certification == 1 || $user->official_certification == 3)
                 <div class="card-footer bg-white">
                     {{-- status --}}
                         <div class="row ">
@@ -206,46 +205,6 @@
                             </div>
                         </div>
                 </div> 
-            @elseif($user->official_certification == 2)
-                <div class="card-footer bg-white">
-                    {{-- status --}}
-                        <div class="row ">
-                            <div class="col p-0 mb-3">
-                                {{-- visibility --}}
-                                @if($post['is_trashed'])
-                                    Status: <i class="fa-solid fa-circle color-red"></i> Hidden
-                                @else
-                                    Status: <i class="fa-solid fa-circle color-green"></i> Visible
-                                @endif
-                            </div>    
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                @php
-                                    $postEditRoute = $post['type'] . '.edit';
-                                @endphp
-                                <div class="btn btn-sm btn-outline-green fw-bold mb-2 w-100">EDIT</div>
-                            </div>
-                            <div class="col-6">
-                                @if($post['is_trashed'])                  
-                                    @php
-                                        $modalId = 'activate-' . $post['type'] . $post['id'];
-                                    @endphp
-                                    <div class="btn btn-outline-green w-100" >
-                                        UNHIDE
-                                    </div>
-                                @else
-                                    @php
-                                        $modalId = 'deactivate-' . $post['type'] . $post['id'];
-                                    @endphp
-                                    <div class="btn btn-outline-red w-100" >
-                                        HIDE
-                                    </div>
-                                @endif
-
-                            </div>
-                        </div>
-                </div> 
-            @endif
+            
         @endif
     </div>
