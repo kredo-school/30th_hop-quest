@@ -1,5 +1,3 @@
-console.log("home.js loaded!");
-
 function initSlick(slider) {
     if (!$(slider).hasClass('slick-initialized')) {
         $(slider).slick({
