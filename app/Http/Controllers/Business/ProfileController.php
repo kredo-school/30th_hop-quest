@@ -391,5 +391,21 @@ class ProfileController extends Controller
     
         return view('businessusers.reviews.allreviews', compact('business_comments', 'from_businesses', 'from_users'));
     }
+
+
+    public function deactivate($id){
+        $user = User::findOrFail($id);
+        $user->delete();
+    
+        Auth::logout(); // セッションからログアウト
+        request()->session()->invalidate(); // セッション無効化
+        request()->session()->regenerateToken(); // CSRFトークン再生成
+    
+        return redirect()->route('home'); // ゲストのトップページにリダイレクト
+    }
+    // public function deactivate($id){
+    //     $this->business->destroy($id);
+    //     return view('register.tourist');
+    // }
     
 }

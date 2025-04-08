@@ -52,7 +52,7 @@
                         @elseif(Auth::user()->role_id == 2)
                             <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
                             <img src="{{ asset('images/logo/HopQuest_Business_38px.png') }}" alt="HopQuest LOGO for Business" class="nav-img me-lg-5">
-                        @if(Auth::user()->role_id == 3)
+                        @elseif(Auth::user()->role_id == 3)
                             <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
                             <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
                         @endif
@@ -170,26 +170,38 @@
                 </div>
             </div>
         </nav>
-        <main class="py-5">
-            <div class="container">
-                <div class="row justify-content-center">
-                    @if(request()->is('admin/*'))
-                        <div class="col-3">
-                            <div class="list-group">
-                                <a href="{{ route('admin.users') }}" class="list-group-item {{ request()->is('admin/users*') ? 'active' : '' }}">
-                                    <i class="fa-solid fa-users"></i> Users
-                                </a>
 
+        <main class="pt-5">
+            @if(request()->is('admin/*'))
+                <div class="container mt-5">
+                    <div class="row justify-content-center">                   
+                        <div class="col-3">
+                            <div class="list-group mb-3">
+                                <a href="{{ route('admin.users.all') }}" class="list-group-item {{ request()->is('admin/users/all*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-users"></i> All Users
+                                </a>
+                                <a href="{{ route('admin.users.applied') }}" class="list-group-item {{ request()->is('admin/users/applied*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-users"></i> Badge Applied Users
+                                </a>
+                            </div>
+
+                            <div class="list-group">
+                                <a href="{{ route('admin.users.all') }}" class="list-group-item {{ request()->is('admin/posts/all*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-image"></i> All Posts
+                                </a>
+                                <a href="{{ route('admin.users.applied') }}" class="list-group-item {{ request()->is('admin/posts/applied*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-image"></i> Badge Applied Posts
+                                </a>
                             </div>
                         </div>
-                    @endif
-                    <div class="col-9">
-
-                        @yield('content')
+                        <div class="col-9">
+                            @yield('content')
+                        </div>
                     </div>
-                </div>    
-            </div>
-
+                </div>
+            @else
+                @yield('content')
+            @endif        
         </main>
     </div>
     @yield('js')

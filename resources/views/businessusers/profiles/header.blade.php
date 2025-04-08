@@ -46,8 +46,9 @@
                                 </div>
                             @endif
                             <div class="col-md-2 col-sm-3">
-                                <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile">DELETE</button>
+                                <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile{{ $user->id }}">DELETE</button>
                             </div>
+                            @include('businessusers.profiles.modals.delete')  
                         @elseif(Auth::user()->role_id == 1)
                             <div class="col-md-2 col-sm-2 ms-auto">
                                 @if($user->isFollowed())
@@ -70,7 +71,7 @@
 
                         
                     </div>  
-                    @include('businessusers.profiles.modals.delete')  
+                    
                 
                     {{-- url --}}
                     <div class="row mb-3">

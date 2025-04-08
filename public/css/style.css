@@ -177,6 +177,12 @@ h6{
     width: 100vw;
 }
 
+.bg-yellow{
+    background-color: #F8F0DB;
+    min-height: 100vh;
+    width: 100vw;
+}
+
 /* ---------------border--------------- */
 .border-red{
     border: 1px solid #D24848;

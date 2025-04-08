@@ -20,6 +20,7 @@ use App\Http\Controllers\Business\SpotController;
 use App\Http\Controllers\Business\SpotLikeController;
 use App\Http\Controllers\Business\BusinessPromotionController;
 use App\Http\Controllers\Business\BusinessLikeController;
+use App\Http\Controllers\Admin\UsersController;
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
@@ -41,6 +42,7 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
     Route::patch('/{id}/update', [ProfileController::class, 'update'])->name('update');
+    Route::delete('/{id}/deactivate', [ProfileController::class, 'deactivate'])->name('deactivate');
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
     Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
     Route::get('/{id}/allreviews', [ProfileController::class, 'allReviews'])->name('allreviews');
@@ -147,8 +149,10 @@ Route::post('/store/tourist', [App\Http\Controllers\Auth\RegisterController::cla
 
 //ADMIN
 Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], function(){
-    Route::get('/users', [ProfileController::class, 'index'])->name('users');
+    Route::get('/users/all', [UsersController::class, 'index'])->name('users.all');
+    Route::get('/users/applied', [UsersController::class, 'indexApplied'])->name('users.applied');
     //admin/users                                                   admin.users
-    Route::delete('/users/{id}/deactivate', [ProfileController::class, 'deactivate'])->name('users.deactivate');
-    Route::patch('/users/{id}/activate', [ProfileController::class, 'activate'])->name('users.activate');
+    Route::post('/admin/users/{user}/certify', [UsersController::class, 'certify'])->name('users.certify');
+    Route::delete('/users/{id}/deactivate', [UsersController::class, 'deactivate'])->name('users.deactivate');
+    Route::patch('/users/{id}/activate', [UsersController::class, 'activate'])->name('users.activate');
 });
