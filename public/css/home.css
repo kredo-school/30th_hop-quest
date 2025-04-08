@@ -99,7 +99,7 @@
     }
 
     .hopquest-logo{
-        background-image: url(../images/original-logo.png);
+        background-image: url(../images/home/original-logo.png);
         
         width: 100%;
         height: 100%;
@@ -191,6 +191,14 @@
     .view-all h1{
         font-size: 1.5rem;
         
+    }
+
+    .tab-content {
+        display: none;
+    }
+    
+    .tab-content.active {
+        display: block;
     }
 
     /********************* FAQ **************************/
@@ -560,13 +568,12 @@
 
     
     
-    .line-2{
+    /* .line-2{
         display: block;
         position: relative;
     }
 
     .line-2::after{
-        /* background-color: black;  */
         background: linear-gradient(to right, #D24848 0%, #3B3B6B 33%, #66BFBF 66%, #4496E3 100%);
         content: '';
         display: block;
@@ -581,7 +588,7 @@
 
     .line-2.active::after{
         width: 5.5rem;
-    }
+    } */
 
     
 
@@ -609,13 +616,14 @@
     }
 
     .slider{
-        visibility: hidden;
+        display: none; /**/
+        /* visibility: hidden; */
         opacity: 0;
     }
 
     .slider.active{
+        display: block !important;
         animation: appearance 2.5s forwards;
-        visibility: visible;
     }
 
     .all-posts{
