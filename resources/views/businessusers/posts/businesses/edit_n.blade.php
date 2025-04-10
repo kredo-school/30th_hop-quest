@@ -20,7 +20,7 @@
                 </div>
                 @include('businessusers.posts.businesses.modals.delete')
 
-        <form action="{{ route('business.update', Auth::user()->id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('businesses.update', $business, Auth::user()->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
                 
@@ -31,9 +31,11 @@
                     <select class="form-control w-25" id="business-type" name="category_id">
                         <option value="{{ old('category_id', $business->category_id) }}" selected>
                             @if($business->category_id == 1)
-                                Location
+                                Location</option>
+                                <option value="2">Event
                             @elseif($business->category_id == 2)
-                                Event
+                                Event</option>
+                                <option value="1">Location
                             @endif
                         </option>
                         {{-- <option value="2">Event</option> --}}
@@ -72,17 +74,28 @@
                
  
                 <!-- Contact Information Form -->
-                <div class="mb-4">
+                <div class="row">
                     <!-- Business Email -->
-                    <div class="mb-3">
+                    <div class="col-6 mb-3">
                         <label for="email" class="d-inline me-3 form-label">
                             Business email (No-display to publicity)<span style="color:#D24848;">*</span>
                         </label>
                         <input type="email" id="email" name="email" value="{{ old('email', $business->email) }}" class="form-control">
                     </div>
+                    <!-- Official Website -->
+                    <div class="col-6 mb-3">
+                        <label for="website_url" class="form-label d-inline">Official website URL</label>
+                        <input type="text" name="website_url" id="website_url" class="form-control">
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label for="zip" class="form-label d-inline">Zip Code<span style="color: #D24848;">*</span></label>
+                        <input type="text" name="zip" id="zip" class="form-control" value="{{old('zip', $business->zip)}}">
+                    </div>
                     <!-- Phone Number -->
-                    <div class="mb-3">
+                    <div class="col-6 mb-3">
                         <label for="phonenumber" class="d-inline me-3 form-label">
                             Phone number<span style="color:#D24848;">*</span>
                         </label>
@@ -90,10 +103,7 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="zip" class="form-label d-inline">Zip Code<span style="color: #D24848;">*</span></label>
-                    <input type="text" name="zip" id="zip" class="form-control" >
-                </div>
+
 
                 <div class="mb-3">
                     <label for="address1" class="form-label d-inline">Address 1<span style="color: #D24848;">*</span></label>
@@ -103,6 +113,15 @@
                 <div class="mb-3">
                     <label for="address2" class="form-label d-inline">Address 2</label>
                     <input type="text" name="address2" id="address2" class="form-control">
+                </div>
+
+                {{-- main_image --}}
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="main_image" class="form-label">Upload Main Photo</label>
+                        <img src="{{$business->main_image}}" alt="" class="d-block w-50 mb-2">
+                        <input type="file" name="main_image" id="main_image" class="form-control form-control-sm w-100 mb-auto p-2" >
+                    </div>                
                 </div>
                 
                 <!-- Social Media -->
@@ -158,11 +177,7 @@
                     </div>
                 </div>
 
-                <!-- Official Website -->
-                <div class="mb-3">
-                    <label for="website_url" class="form-label d-inline">Official website URL</label>
-                    <input type="text" name="website_url" id="website_url" class="form-control">
-                </div>
+
 
                 <!-- Welcome message -->
                 <div class="mb-3">
@@ -170,11 +185,7 @@
                         Welcome message<span style="color: #D24848;">*</span>
                     </label>
                     <textarea 
-                        name="introduction" 
-                        id="introduction" 
-                        class="form-control" 
-                        rows="5"
-                    ></textarea>
+                        name="introduction" id="introduction" class="form-control" rows="5">{{ old('introduction', $business->introduction) }}</textarea>
                 </div>
 
                 <!-- Business Hours & Event Time Periods -->
@@ -347,28 +358,58 @@
                         @endfor
                     </div>
                 </div> --}}
+
                 <div class="mb-4 p-4 border rounded bg-light">
-                    <label for="images" class="form-label">Upload Photos (max 3):</label>
+                    <label for="images" class="form-label">Upload Photo</label>
                     <div class="row">
                         <!-- Priority 1 -->
-                        @forelse ($business->photos as $photo) 
-                        <div class="col-md-4">                       
-                            <label for="images" class="form-label d-block">Priority 1:</label>                                                        
-                                @if($photo->image)
-                                    <img src="{{ $photo->image}}" alt="Business Photo" class="img-lg">
-                                @else
-                                    <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
-                                @endif                                     
-                            <input type="file" name="images[]" accept="image/*" class="form-control">                                              
+                        <div class="col-md-4">  
+                            @if($business->topPhoto)                   
+                                <label for="image" class="form-label d-block"> </label>                                                        
+                                <img src="{{ $business->topPhoto->image }}" alt="Business Photo" class="img-lg mb-2">  
+                                <input type="file" name="image" id="image" class="form-control">  
+                            @else
+                                <label for="image" class="form-label d-block"> </label>
+                                <input type="file" name="image" id="image" class="form-control"> 
+                            @endif    
                         </div>
-                        @empty 
-                        @endforelse  
+
+                {{-- <div class="mb-4 p-4 border rounded bg-light">
+                    <label for="images" class="form-label">Upload Photo</label>
+                    <div class="row">
+                        <!-- Priority 1 -->
+                        <div class="col-md-4">  
+                            @if($business->topPhoto)                   
+                                <label for="image" class="form-label d-block"> </label>                                                        
+                                <img src="{{ $business->topPhoto->image }}" alt="Business Photo" class="img-lg mb-2">  
+                                <input type="file" name="image" id="image" class="form-control">  
+                            @else
+                                <label for="image" class="form-label d-block"> </label>
+                                <input type="file" name="image" id="image" class="form-control"> 
+                            @endif    
+                        </div>
+
+                {{-- <div class="mb-4 p-4 border rounded bg-light">
+                    <label for="images" class="form-label">Upload Photo</label>
+                    <div class="row">
+                        <!-- Priority 1 -->
+                        <div class="col-md-4">  
+                            @if($business->topPhoto)                   
+                                <label for="image" class="form-label d-block"> </label>                                                        
+                                <img src="{{ $business->topPhoto->image }}" alt="Business Photo" class="img-lg mb-2">  
+                                <input type="file" name="image" id="image" class="form-control">  
+                            @else
+                                <label for="image" class="form-label d-block"> </label>
+                                <input type="file" name="image" id="image" class="form-control"> 
+                            @endif    
+                        </div>
+
                         <!-- Priority 2 -->
 
                         
                         <!-- Priority 3 -->
 
-                    </div>
+                    </div> --}}
                     {{-- @for ($i = 1; $i <= 3; $i++)
                         @php
                             $targetPhoto = $business->photos->firstWhere('priority', $i);
@@ -420,12 +461,6 @@
                         <input type="checkbox" class="form-check-input mb-2" id="official-check">
                         Apply for Official certification badge
                     </div>
-
-                    <!-- checkboxにチェックをつけた場合 -->
-                    @include('businessusers.posts.businesses.modals.save_official')
-
-                    <!-- checkboxにチェックをつけない場合 -->
-                    @include('businessusers.posts.businesses.modals.save')
 
                     <div class="col-2"></div>
                     <div class="col-4 ">

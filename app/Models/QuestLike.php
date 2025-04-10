@@ -4,14 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class QuestLike extends Model
-{
-    public $timestamps = false; //no timestamps
+class QuestLike extends Model{
+    
+    protected $table = 'quest_likes'; 
 
-    protected $fillable = [
-        'quest_id',
-        'user_id',
-    ];
+    public $timestamps = false; 
+    protected $fillable = ['user_id', 'quest_id'];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    
+    public function quest(){
+        return $this->belongsTo(Quest::class);
+    }
 
     //Quest_like belongs to user
     public function user(){

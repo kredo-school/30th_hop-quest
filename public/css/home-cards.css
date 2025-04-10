@@ -2,15 +2,35 @@
     position: relative;
     padding-left: 5%; 
     padding-top: 5%;
-    width: 80%;
-    max-height: 95%;
+    width: 22.1rem;
+    height: 22rem;
+    /* height: auto; */
+
 }
 
+.slick-slide {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+    
+.slick-track {
+    display: flex !important;
+}
+
+.slick-slide > div {
+    /* height: auto !important; */
+    height: 31rem !important;
+}
+
+
+
 .body-image{
-    widows: 100%;
+    width: 100%;
     height: auto;
-    /* height: 12rem;
-    width: 18rem; */
+    height: 12rem;
+    width: 20rem;
     border-radius: 5px;
 }
 
@@ -76,4 +96,9 @@
     border: solid 2px #4496E3 !important;
     border-radius: 20px !important;
     text-decoration: none !important;
+}
+
+
+button.btn.btn-sm.shadow-none{
+    margin-top: 0.5rem;
 }

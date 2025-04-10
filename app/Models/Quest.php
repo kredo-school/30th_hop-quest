@@ -1,9 +1,10 @@
 <?php
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Quest extends Model
 {
@@ -24,6 +25,22 @@ class Quest extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function questLikes(){
+        return $this->hasMany(QuestLike::class);
+    }
+
+    public function pageViews(){
+        return $this->hasMany(PageView::class);
+    }
+
+    public function isLiked(){
+        return $this->questLikes()->where('user_id', Auth::user()->id)->exists();
+    }
+
+    public function view(): MorphOne{
+        return $this->morphOne(PageView::class, 'page');
+    }
+
     public function questBodies()
     {
         return $this->hasMany(QuestBody::class, 'quest_id', 'id')
@@ -31,23 +48,9 @@ class Quest extends Model
                     ->orderBy('id');
     }
 
-
     //Quest has many quest_comments
     public function Questcomments(){
         return $this->hasMany(QuestComment::class);
     }
 
-    //Quest has many Quest_likes
-    public function likes(){
-        return $this->hasMany(QuestLike::class);
-    }
-
-    //return true if $this post is liked by Auth user
-    public function isLiked(){
-        return $this->likes()->where('user_id', Auth::user()->id)->exists();
-        //$this = post
-        //$this->likes() = get all likes of the post
-        //where() = within the likes, look for user_id =Auth user
-        //exists() = return true if where() finds something
-    }
 }
