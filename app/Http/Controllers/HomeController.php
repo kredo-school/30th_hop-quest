@@ -39,9 +39,31 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-    public function index(){
-        return view('home.home');
+     public function index(){
+
+        $popular_quests     = Quest::with('view')->whereHas('view')->get()
+                        ->sortByDesc(fn($quest) => $quest->view->views ?? 0)->take(9)->values();
+
+        $popular_spots      = Spot::with('view')->whereHas('view')->get()
+                        ->sortByDesc(fn($spot) => $spot->view->views ?? 0)->take(9)->values();
+
+        $popular_locations  = Business::with('view')->whereHas('view')->where('category_id' ,'1')->get()
+                        ->sortByDesc(fn($location) => $location->view->views ?? 0)->take(9)->values();
+        
+        $popular_events     = Business::with('view')->whereHas('view')->where('category_id' ,'2')->get()
+                        ->sortByDesc(fn($event) => $event->view->views ?? 0)->take(9)->values();
+        
+        $popular_follwings  = $popular_quests->concat($popular_spots)->concat($popular_locations)->concat($popular_events)
+                        ->sortByDesc(fn($post) => $post->view->views ?? 0)->take(9)->values();
+
+        return view('home.home')
+                ->with('popular_quests', $popular_quests)
+                ->with('popular_spots', $popular_spots)
+                ->with('popular_locations', $popular_locations)
+                ->with('popular_events', $popular_events)
+                ->with('popular_follwings', $popular_follwings);
     }
+    
 
     // Search Result
     public function search(Request $request){
@@ -110,7 +132,7 @@ class HomeController extends Controller
             'comments_count' => $item->comments_count,
             // 'views_count' => $item->views_count,
             'is_liked' => $item->isLiked(),  
-            'type' => 'spot',                  
+            'type' => 'spots',                  
         ];
     });
 
@@ -140,7 +162,7 @@ class HomeController extends Controller
             'comments_count' => $item->comments_count,
             // 'views_count' => $item->views_count,
             'is_liked' => $item->isLiked(),
-            'type' => 'quest',  
+            'type' => 'quests',  
         ];
     });
 
@@ -177,7 +199,7 @@ class HomeController extends Controller
             'comments_count' => $item->comments_count,
             // 'views_count' => $item->views_count,
             'is_liked' => $item->isLiked(),     // ← 追加
-            'type' => 'business', 
+            'type' => 'businesses', 
         ];
     });
 
@@ -213,7 +235,7 @@ class HomeController extends Controller
             'comments_count' => $item->comments_count,
             // 'views_count' => $item->views_count,
             'is_liked' => $item->isLiked(),     // ← 追加
-            'type' => 'business', 
+            'type' => 'businesses', 
         ];
     });
 
@@ -299,7 +321,7 @@ public function showQuests(Request $request){
             'comments_count' => $item->comments_count,
             // 'views_count' => $item->views_count,
             'is_liked' => $item->isLiked(),     // ← 追加
-            'type' => 'quest', 
+            'type' => 'quests', 
         ];
     });
 
@@ -380,7 +402,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(), 
-                'type' => 'spot', 
+                'type' => 'spots', 
             ];
         });
 
@@ -467,7 +489,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'business', 
+                'type' => 'businesses', 
             ];
         });
         
@@ -554,7 +576,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'business', 
+                'type' => 'businesses', 
             ];
         });
 
@@ -635,7 +657,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'spot',                  
+                'type' => 'spots',                  
             ];
         });
     
@@ -666,7 +688,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(),
-                'type' => 'quest',  
+                'type' => 'quests',  
             ];
         });
     
@@ -704,7 +726,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'business', 
+                'type' => 'businesses', 
             ];
         });
     
@@ -741,7 +763,7 @@ public function showQuests(Request $request){
                 'comments_count' => $item->comments_count,
                 // 'views_count' => $item->views_count,
                 'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'business', 
+                'type' => 'businesses', 
             ];
         });
 

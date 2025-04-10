@@ -7,19 +7,26 @@ use App\Http\Controllers\FollowController;
 
 use App\Http\Middleware\PageViewMiddleware;
 use App\Http\Controllers\Spot\LikeController;
-
-
 use App\Http\Controllers\Spot\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
 use App\Http\Controllers\Business\QuestController;
+<<<<<<< HEAD
 use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\BusinessCommentLikeController;
+=======
+use App\Http\Controllers\TouristProfileController;
+use App\Http\Controllers\Business\QuestLikeController;
+use App\Http\Controllers\Business\BusinessCommentController;
+>>>>>>> main
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
 use App\Http\Controllers\Business\BusinessController;
-use App\Http\Controllers\Business\PromotionController;
+use App\Http\Controllers\Business\BusinessPromotionController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Business\BusinessLikeController;
+use App\Http\Controllers\Business\SpotLikeController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,7 +39,7 @@ Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 
 //PROFILES
-Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
+Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function () {
     Route::get('/promotions/{id}', [ProfileController::class, 'showPromotions'])->name('promotions');
     Route::get('/businesses/{id}', [ProfileController::class, 'showBusinesses'])->name('businesses');
     Route::get('/modelquests/{id}', [ProfileController::class, 'showModelQuests'])->name('quests');
@@ -54,19 +61,19 @@ Route::delete('/follow/{user_id}/delete', [FollowController::class, 'delete'])->
 Route::get('/business/business', [BusinessController::class, 'index'])->name('business.index');
 
 //PROMOTION
-Route::group(['prefix' => '/business/promotion', 'as' => 'promotions.'], function(){
-    Route::get('/create', [PromotionController::class, 'create'])->name('create');
-    Route::get('/{id}/edit', [PromotionController::class, 'edit'])->name('edit');
-    Route::patch('/{id}/update', [PromotionController::class, 'update'])->name('update');
-    Route::post('/store', [PromotionController::class, 'store'])->name('store');
-    Route::get('/show/{id}', [PromotionController::class, 'show'])->name('show');
-    Route::get('/confirm', [PromotionController::class, 'confirm'])->name('confirm');
-    Route::delete('/{id}/deactivate', [PromotionController::class, 'deactivate'])->name('deactivate');
-    Route::patch('/{id}/activate', [PromotionController::class, 'activate'])->name('activate');
+Route::group(['prefix' => '/business/promotion', 'as' => 'promotions.'], function () {
+    Route::get('/create', [BusinessPromotionController::class, 'create'])->name('create');
+    Route::get('/{id}/edit', [BusinessPromotionController::class, 'edit'])->name('edit');
+    Route::patch('/{id}/update', [BusinessPromotionController::class, 'update'])->name('update');
+    Route::post('/store', [BusinessPromotionController::class, 'store'])->name('store');
+    Route::get('/show/{id}', [BusinessPromotionController::class, 'show'])->name('show');
+    Route::get('/confirm', [BusinessPromotionController::class, 'confirm'])->name('confirm');
+    Route::delete('/{id}/deactivate', [BusinessPromotionController::class, 'deactivate'])->name('deactivate');
+    Route::patch('/{id}/activate', [BusinessPromotionController::class, 'activate'])->name('activate');
 });
 
 //MANAGEMENT BUSINESS
-Route::group(['prefix' => '/business/business', 'as' => 'businesses.'], function(){
+Route::group(['prefix' => '/business/business', 'as' => 'businesses.'], function () {
     Route::get('/create', [BusinessController::class, 'create'])->name('create');
     Route::get('/{id}/edit', [BusinessController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [BusinessController::class, 'update'])->name('update');
@@ -78,14 +85,14 @@ Route::group(['prefix' => '/business/business', 'as' => 'businesses.'], function
     Route::patch('photos/{business}/update', [PhotoController::class, 'update'])->name('photos.update');
     Route::delete('/{id}/deactivate', [BusinessController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [BusinessController::class, 'activate'])->name('activate');
-    });
+});
 
 //LIKES BUSINESS
 Route::post('/home/like/business/{business_id}/store', [BusinessLikeController::class, 'storeBusinessLike'])->name('businesses.like.store');
 Route::delete('/home/like/business/{business_id}/delete', [BusinessLikeController::class, 'deleteBusinessLike'])->name('businesses.like.delete');
 
 //QUESTS simple
-Route::group(['prefix' => '/home/modelquest', 'as' => 'quests.'], function(){
+Route::group(['prefix' => '/home/modelquest', 'as' => 'quests.'], function () {
     Route::get('/create', [QuestController::class, 'create'])->name('create');
     Route::get('/{id}/edit', [QuestController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [QuestController::class, 'update'])->name('update');
@@ -101,7 +108,7 @@ Route::post('/home/like/quest/{quest_id}/store', [QuestLikeController::class, 's
 Route::delete('/home/like/quest/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('quests.like.delete');
 
 //SPOT
-Route::group(['prefix' => '/home/spot', 'as' => 'spot.'], function(){
+Route::group(['prefix' => '/home/spot', 'as' => 'spots.'], function () {
     Route::post('/like/{spot_id}/store', [SpotLikeController::class, 'storeLike'])->name('like.store');
     Route::delete('/like/{spot_id}/delete', [SpotLikeController::class, 'deleteLike'])->name('like.delete');
 });
@@ -116,7 +123,7 @@ Route::get('/home/posts/events', [HomeController::class, 'showEvents'])->name('p
 Route::get('/home/posts/followings', [HomeController::class, 'showFollowings'])->name('posts.followings');
 
 // Spot 
-Route::group(['prefix' => '/spot', 'as' => 'spot.'], function(){
+Route::group(['prefix' => '/spot', 'as' => 'spot.'], function () {
     Route::get('/create', [App\Http\Controllers\Spot\IndexController::class, 'create'])->name('create');
     Route::post('/store', [App\Http\Controllers\Spot\IndexController::class, 'store'])->name('store');
     Route::get('/{id}', [App\Http\Controllers\Spot\IndexController::class, 'show'])->middleware(PageViewMiddleware::class)->name('show');
@@ -127,8 +134,8 @@ Route::group(['prefix' => '/spot', 'as' => 'spot.'], function(){
     Route::post('/{spot_id}/comment/store', [App\Http\Controllers\Spot\CommentController::class, 'store'])->name('comment.store');
     Route::delete('/{spot_id}/comment/{comment_id}/destroy', [App\Http\Controllers\Spot\CommentController::class, 'destroy'])->name('comment.destroy');
     // Spot Comment Likes
-    Route::post('/{spot_id}/comment/{comment_id}/like', [LikeCommentController::class, 'like'])->name('comment.like');
-    Route::delete('/{spot_id}/comment/{comment_id}/unlike', [App\Http\Controllers\Spot\LikeCommentController::class, 'unlike'])->name('comment.unlike');
+    Route::post('/comment/{comment_id}/like', [App\Http\Controllers\Spot\LikeCommentController::class, 'like'])->name('comment.like');
+    Route::delete('/comment/{comment_id}/unlike', [App\Http\Controllers\Spot\LikeCommentController::class, 'unlike'])->name('comment.unlike');
 });
 
 
@@ -144,3 +151,21 @@ Route::post('/store/business', [App\Http\Controllers\Auth\RegisterController::cl
 Route::get('/register/tourist', [App\Http\Controllers\Auth\RegisterController::class, 'registerTourist'])->name('register.tourist');
 Route::post('/store/tourist', [App\Http\Controllers\Auth\RegisterController::class, 'storeTourist'])->name('register.submit');
 
+// tourists profile
+Route::middleware('auth')->group(
+    function () {
+        Route::get('/myprofile/edit', [TouristProfileController::class, 'edit'])->name('myprofile.edit');
+        Route::patch('/myprofile/update', [TouristProfileController::class, 'update'])->name('myprofile.update');
+    }
+);
+// Route::get('/profile/{id}', [TouristProfileController::class, 'show'])->name('profile.show');
+
+// tourists profile
+Route::get('/myprofile', [TouristProfileController::class, 'myProfileShow'])->name('myprofile.show');
+Route::get('/profile/{id}', [TouristProfileController::class, 'showOtherProfile'])->name('profile.show');
+
+// Password Update
+Route::patch('/password/update', [TouristProfileController::class, 'updatePassword'])->name('password.update');
+
+// Delete Modal
+Route::delete('/myprofile', [TouristProfileController::class, 'destroy'])->name('myprofile.destroy');

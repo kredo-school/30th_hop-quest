@@ -103,3 +103,13 @@ thead{
     z-index: 100;
 }
 
+<<<<<<< HEAD
+=======
+.bg-navy-thead{
+    background-color: #3B3B6B;
+    color:white;
+    border: none;
+    font-weight: 600;
+}
+
+>>>>>>> main

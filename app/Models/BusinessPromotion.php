@@ -6,18 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Review extends Model
+class BusinessPromotion extends Model
 {
     use SoftDeletes;
-
+    protected $table = 'business_promotions';
+    
+    //promotion belongs to one business
     public function business(){
-        return $this->belongsTo(Business::class)->withTrashed();
+        return $this->belongsTo(Business::class);
     }
 
     public function user(){
         return $this->belongsTo(User::class);
     }
 
+<<<<<<< HEAD:app/Models/Review.php
     public function BusinessReviewLikes(){
         return $this->hasMany(BusinessReviewLike::class);
     }
@@ -31,4 +34,6 @@ class Review extends Model
     public function businessRelation(){
         return $this->belongsTo(Business::class, 'business_id');
     }
+=======
+>>>>>>> main:app/Models/BusinessPromotion.php
 }

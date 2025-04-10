@@ -7,9 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Business;
+use App\Models\BusinessDetail;
+use App\Models\BusinessHour;
+use App\Models\Detail;
 use App\Models\Photo;
 use App\Http\Controllers\Business\PhotoController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class BusinessController extends Controller
 {
@@ -31,7 +35,7 @@ class BusinessController extends Controller
     public function store(Request $request){
         $request->validate([
             'main_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         $this->business->category_id = $request->category_id;
@@ -39,6 +43,7 @@ class BusinessController extends Controller
         $this->business->name = $request->name;
         $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode (file_get_contents($request->main_image));
         $this->business->email = $request->email;
+        $this->business->zip = $request->zip;
         $this->business->term_start = $request->term_start;
         $this->business->term_end = $request->term_end;
         $this->business->introduction = $request->introduction;
@@ -46,29 +51,65 @@ class BusinessController extends Controller
         $this->business->save();
 
         // PhotoController の store を呼び出して写真を保存
-        if ($request->hasFile('image')) {
-            $uploaded = $request->file('image');
-            $encoded = "data:photo/" . $uploaded->extension() . ";base64," . base64_encode(file_get_contents($uploaded));
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $i => $photo) {
+                if ($photo) {
+                    $encoded = "data:image/" . $photo->extension() . ";base64," . base64_encode(file_get_contents($photo));
+                    $priority = $request->input("priorities.$i") ?? ($i + 1);
     
-            Photo::create([
-                'business_id' => $this->business->id,
-                'image' => $encoded,
-                'priority' => 1,
+                    Photo::create([
+                        'business_id' => $this->business->id,
+                        'image' => $encoded,
+                        'priority' => $priority,
+                    ]);
+                }
+            }
+        }
+
+        // BusinessDetailを作成（business_idは自動で入る）
+        $businessDetail = $this->business->businessDetails()->create([
+        ]);
+
+        // 各カテゴリごとに Details を保存
+        foreach ($request->input('details', []) as $category => $items) {
+            foreach ($items as $itemName) {
+                $businessDetail->details()->create([
+                    'category' => $category,
+                    'name' => $itemName,
+                ]);
+            }
+        }
+
+        // 営業時間の保存
+        $businessHours = $request->input('business_hours', []);
+
+        foreach ($businessHours as $day => $data) {
+            $this->business->businessHours()->create([
+                'day_of_week' => $day,
+                'opening_time' => $data['opening_time'] ?? null,
+                'closing_time' => $data['closing_time'] ?? null,
+                'break_start' => $data['break_start'] ?? null,
+                'break_end' => $data['break_end'] ?? null,
+                'notice' => $data['notice'] ?? null,
+                'is_closed' => isset($data['is_closed']), // チェックが入っているかどうかで判定
             ]);
         }
+        
     
         return redirect()->route('profile.businesses', Auth::id());
     }
 
     public function edit($id){
         $business_a = $this->business->findOrFail($id);
-        return view('businessusers.posts.businesses.edit_n')->with('business', $business_a);
+        $businessHours = $business_a->businessHours->keyBy('day_of_week');
+        $businessDetail = $business_a->businessDetails()->first();
+        $checkedDetailItems = $businessDetail?->details->pluck('name')->toArray() ?? [];
+        return view('businessusers.posts.businesses.edit_n', compact('businessHours','checkedDetailItems'))->with('business', $business_a);
     }
 
     public function update(Request $request, $id){
         $request->validate([
             'main_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
         $business_a = $this->business->findOrFail($id);
@@ -89,13 +130,54 @@ class BusinessController extends Controller
 
         $business_a->save();        
         
-        if ($request->hasFile('image')) {
-            // PhotoController をインスタンス化
-            $photoController = app(\App\Http\Controllers\Business\PhotoController::class);
+        if ($request->hasFile('photos')) {
+            $photoController = app(PhotoController::class);
+            $photoController->update($request, $business_a);
+        }
 
-            // 呼び出して結果を受け取る
-            $response = $photoController->update($request, $business_a);          
-            }
+        
+        // 1. Businessの基本情報を更新
+        $business_a->update([
+        'name' => $request->input('name'),
+        'description' => $request->input('description'),
+        ]);
+        $businessDetail = $business_a->businessDetails()->create([
+            // 内容
+        ]);
+    // 2. BusinessHoursを一旦削除してから再作成（曜日単位のユニーク制約がなければこれが簡単）
+    $business_a->businessHours()->delete();
+
+    $businessHours = $request->input('business_hours', []);
+
+    foreach ($businessHours as $day => $data) {
+        $business_a->businessHours()->create([
+            'day_of_week'   => $day,
+            'opening_time'  => $data['opening_time'] ?? null,
+            'closing_time'  => $data['closing_time'] ?? null,
+            'break_start'   => $data['break_start'] ?? null,
+            'break_end'     => $data['break_end'] ?? null,
+            'notice'        => $data['notice'] ?? null,
+            'is_closed'     => isset($data['is_closed']),
+        ]);
+    }
+
+    $businessDetail = $business_a->businessDetails()->first();
+    if (!$businessDetail) {
+        $businessDetail = $business_a->businessDetails()->create();
+    }
+    
+    // 古い details を削除
+    $businessDetail->details()->delete();
+    
+    // 新しい details を保存
+    foreach ($request->input('details', []) as $category => $items) {
+        foreach ($items as $itemName) {
+            $businessDetail->details()->create([
+                'category' => $category,
+                'name' => $itemName,
+            ]);
+        }
+    }
 
         
         return redirect()->route('profile.businesses',Auth::user()->id);

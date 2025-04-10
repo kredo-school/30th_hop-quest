@@ -48,7 +48,7 @@
         {{-- forelse --}}
         <div class="row mb-1">
             <div class="row mb-1">
-                @forelse($promotions as $post)
+                @forelse($business_promotions as $post)
                     <div class="col-lg-4 col-md-6 col-sm">
                         @include('businessusers.profiles.post-body-profile')
                     </div>         
@@ -62,7 +62,7 @@
 
         </div>
         <div class="d-flex justify-content-end mb-5">
-        {{ $promotions->links() }}
+        {{ $business_promotions->links() }}
         </div>
     </div>
 </div>

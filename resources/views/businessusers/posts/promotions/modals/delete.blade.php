@@ -1,4 +1,4 @@
-<div class="modal fade" id="delete-promotion">
+<div class="modal fade" id="delete-business_promotion">
     <div class="modal-dialog">
         <div class="modal-content border-danger">
             <div class="modal-header border-danger">

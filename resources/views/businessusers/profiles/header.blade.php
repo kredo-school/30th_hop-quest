@@ -26,7 +26,7 @@
                 <!-- Username -->
                 <div class="col-md col-sm">
                     <div class="row">   
-                                                <div class="col-md-auto col-sm-8">
+                        <div class="col-md-auto col-sm-8">
                             <h3 class="mb-1 text-truncate fw-bold">{{ $user->name }}</h3>
                         </div>
                         <div class="col-md-1 col-sm-1 pb-2 p-1">
@@ -42,8 +42,7 @@
                             <div class="col-md-2 col-sm-3">
                                 <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile">DELETE</button>
                             </div>
-                        @endif
-                        @if($user->role_id == 1)
+                        @elseif(Auth::user()->role_id == 1)
                             <div class="col-md-2 col-sm-2 ms-auto">
                                 @if($user->isFollowed())
                                 {{-- unfollow --}}
@@ -80,9 +79,9 @@
                     <div class="row mb-3">
                         <div class="col-auto">
                             @if($user->id == Auth::user()->id)
-                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotions->count()+$user->businesses->count()+$user->quests->count()}}</span> {{$user->promotions->count()+$user->businesses->count()+$user->quests->count()==1 ? 'post' : 'posts'}}</a>
+                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->businessPromotions->count()+$user->businesses->count()+$user->quests->count()}}</span> {{$user->businessPromotions->count()+$user->businesses->count()+$user->quests->count()==1 ? 'post' : 'posts'}}</a>
                             @elseif($user->id != Auth::user()->id)
-                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->promotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()}}</span> {{$user->promotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()==1 ? 'post' : 'posts'}}</a>
+                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->businessPromotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()}}</span> {{$user->businessPromotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()==1 ? 'post' : 'posts'}}</a>
                             @endif
                         </div>
                         <div class="col-auto">
