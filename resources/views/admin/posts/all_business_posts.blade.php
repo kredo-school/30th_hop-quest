@@ -14,7 +14,7 @@
         <thead class="table-primary text-secondary text-uppercase small">
             <tr>
                 {{-- <th class="align-middle">ID</th> --}}
-                <th rowspan="2"></th>
+                <th></th>
                 <th class="align-middle">Title</th>
                 <th class="align-middle">User name</th>
                 {{-- <th>Email</th> --}}
