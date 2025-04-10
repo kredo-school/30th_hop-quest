@@ -27,7 +27,7 @@
                         </select>
                     </form>
                 </th>
-                <th rowspan="2" class="align-middle text-center"></th>
+                <th class="align-middle text-center"></th>
                 <th></th>
             </tr>
 
@@ -36,7 +36,7 @@
             @forelse($applied_posts as $post)
                 <tr>
                     {{-- <td>{{$user->id}}</td> --}}
-                    <td rowspan="2">
+                    <td>
                         @if($post->main_image)
                             <img src="{{ $post->main_image }}" alt="" class="img-md d-block mx-auto">
                         @else
@@ -50,7 +50,7 @@
                     {{-- <td>
                         {{ $user->email }}
                     </td> --}}
-                    <td rowspan="2">
+                    <td>
                         {{date('M d, Y H:i:s', strtotime($post->updated_at))}}
                     </td>
                     @if($post->official_certification == 2)
@@ -61,7 +61,7 @@
                                 <button type="submit" class="btn btn-sm btn-green w-100">Approve</button>
                             </form>
                         </td>
-                        <td rowspan="2">
+                        <td>
                             <form method="POST" action="{{ route('admin.posts.certify', $post->id) }}">
                                 @csrf
                                 <input type="hidden" name="action" value="reject">
@@ -69,10 +69,10 @@
                             </form>
                         </td>
                     @elseif($post->official_certification == 3)
-                        <td rowspan="2">
+                        <td>
                             <button class="btn btn-sm btn-outline-green w-100 mb-3">Approved</button>
                         </td>
-                        <td rowspan="2">
+                        <td>
                             <form method="POST" action="{{ route('admin.posts.certify', $post->id) }}">
                                 @csrf
                                 <input type="hidden" name="action" value="revoke">

@@ -29,6 +29,28 @@ class CommentsController extends Controller
         $sort = $request->get('sort', 'created_at');
         $perPage = 10;
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        // Businesses
+        $businesses = BusinessComment::with('user')
+        ->withTrashed()
+        ->get()
+        ->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'spot_id' => $item->spot_id,
+                'content' => $item->content,
+                'user_name' => optional($item->user)->name,
+                'user_avatar' => optional($item->user)->avatar,
+                'title' => $item->title,
+                'category_id' => null,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
+                'type' => 'businesses',                  
+            ];
+        });
         // Spots
         $spots = SpotComment::with('user')
         ->withTrashed()
@@ -39,11 +61,11 @@ class CommentsController extends Controller
                 'user' => $item->user,
                 'user_id' => $item->user_id,
                 'spot_id' => $item->spot_id,
+                'content' => $item->content,
                 'user_name' => optional($item->user)->name,
                 'user_avatar' => optional($item->user)->avatar,
                 'title' => $item->title,
                 'category_id' => null,
-                'tab_id' => 1,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
@@ -60,10 +82,12 @@ class CommentsController extends Controller
                 'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
-                'quest_id' => $item->quest_id,
-                'user_name' => optional($item->user)->name,
+                'spot_id' => $item->spot_id,
                 'content' => $item->content,
-                'tab_id' => 1,
+                'user_name' => optional($item->user)->name,
+                'user_avatar' => optional($item->user)->avatar,
+                'title' => $item->title,
+                'category_id' => null,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
@@ -72,7 +96,8 @@ class CommentsController extends Controller
         });
 
         // 全部まとめる
-        $comments = $quests->concat($spots);
+        $comments = $quests->concat($spots)->concat($businesses);
+        // $comments = $quests;
 
         $comments = match($sort) {
             'oldest' => $comments->sortBy('created_at'),
@@ -105,5 +130,39 @@ class CommentsController extends Controller
                 'sort' => $sort,
             ]);
 
+        }
+
+        public function deactivate($id){
+        $spots = SpotComment::with('user')
+        ->withTrashed()
+        ->get()
+        ->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'spot_id' => $item->spot_id,
+                'content' => $item->content,
+                'user_name' => optional($item->user)->name,
+                'user_avatar' => optional($item->user)->avatar,
+                'title' => $item->title,
+                'category_id' => null,
+                'tab_id' => 1,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
+                'type' => 'spots',                  
+            ];
+        });
+        $comments = $spots;
+            $comments->destroy($id);
+            return redirect()->back();
+        }
+    
+        public function activate($id){
+            $this->user->onlyTrashed()->findOrFail($id)->restore();
+            //restore() -- restores a soft-deleted record
+            //  onlyTrashed() -- get only soft-deleted records
+            return redirect()->back();
         }
 }

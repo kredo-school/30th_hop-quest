@@ -170,4 +170,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], fu
     Route::patch('/posts/{id}/activate', [BusinessesController::class, 'activate'])->name('posts.activate');
     Route::get('/posts/tourists', [PostsController::class, 'indexTourists'])->name('posts.tourists');
     Route::get('/comments', [CommentsController::class, 'indexComments'])->name('comments');
+    Route::delete('/comments/{id}/deactivate', [CommentsController::class, 'deactivate'])->name('comments.deactivate');
+    Route::patch('/comments/{id}/activate', [CommentsController::class, 'activate'])->name('comments.activate');
 });
