@@ -30,7 +30,7 @@ body {
 .card-reset,
 .card-login,
 .card-register {
-    background-color: rgba(255, 251, 240, 0.8);
+    background-color: rgba(255, 251, 240, 0.6);
     border-radius: 10px;
 }
 
