@@ -33,7 +33,7 @@
                                     <i class="fas fa-user text-primary"></i>
                                 </span>
                             </div>
-                            @error('company')
+                            @error('name')
                                 <div class="text-danger small">{{ $message }}</div>
                             @enderror
                         </div>
@@ -101,14 +101,17 @@
                             <button type="submit" class="btn btn-danger w-100">REGISTER</button>
                         </div>
                     </div>
-                        <!-- Extra Links -->
-                        <div class="text-end mt-5">
-                            <a href="{{ route('register.tourist') }}" class="text-decoration-none text-dark text-end poppins-bold">Stop to create account for Business</a>
-                        </div>
-                        <div class="text-end mt-4">
-                            <a href="{{ route('login') }}" class="text-decoration-none text-dark text-end poppins-bold">Already have an account?
-                            </a>
-                        </div>
+                    <!-- Extra Links -->
+                    <div class="text-end mt-5">
+                        <a href="{{ route('register.tourist') }}"
+                            class="text-decoration-none text-dark text-end poppins-bold">Stop to create account for
+                            Business</a>
+                    </div>
+                    <div class="text-end mt-4">
+                        <a href="{{ route('login') }}" class="text-decoration-none text-dark text-end poppins-bold">Already
+                            have an account?
+                        </a>
+                    </div>
                 </form>
             </div>
         </div>
