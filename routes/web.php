@@ -35,6 +35,7 @@ Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 //PROFILES
 Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function () {
+    Route::get('/{id}', [ProfileController::class, 'showProfile'])->name('header');
     Route::get('/promotions/{id}', [ProfileController::class, 'showPromotions'])->name('promotions');
     Route::get('/businesses/{id}', [ProfileController::class, 'showBusinesses'])->name('businesses');
     Route::get('/modelquests/{id}', [ProfileController::class, 'showModelQuests'])->name('quests');

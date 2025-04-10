@@ -1,4 +1,4 @@
-<div class="bg-blue">
+{{-- <div class="bg-blue">
 @extends('layouts.app')
 
 @section('title', 'Posts')
@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="{{ asset('css/post-body.css')}}">
 @endsection
 
-@section('content')
-    @include('businessusers.profiles.header')
+@section('content') --}}
+    {{-- @include('businessusers.profiles.header') --}}
 
 <div class="row justify-content-center bg-blue">
 {{-- Management business --}}
-    <div class="col-8 mb-3 ">
+    {{-- <div class="col-8 mb-3 "> --}}
     {{-- Tabs for categories --}}
         <div class="row tag-category">
             <div class="col-auto">
@@ -57,8 +57,11 @@
             @endforelse
 
         </div>
+        <div class="d-flex justify-content-end mb-5">
+            {{ $businesses->links() }}
+        </div>
 
-    </div>
+    {{-- </div> --}}
 </div>
 </div>
-@endsection
+{{-- @endsection --}}

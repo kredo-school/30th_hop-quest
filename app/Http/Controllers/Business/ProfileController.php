@@ -373,5 +373,102 @@ class ProfileController extends Controller
     
         return view('businessusers.reviews.allreviews', compact('business_comments', 'from_businesses', 'from_users'));
     }
+
+    protected function getPaginatedBusinesses(Request $request, $id)
+{
+    $perPage = 3;
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    $sort = $request->get('sort', 'latest');
+
+    // ロケーションとイベントを取得・マージ（今までと同じ）
+    $locations = Business::where('category_id', 1)
+        ->where('user_id', $id)
+        ->withCount(['businessLikes as likes_count', 'businessComments as comments_count'])
+        ->with(['photos' => fn($q) => $q->orderBy('priority')->limit(1), 'user'])
+        ->withTrashed()
+        ->get()
+        ->map(fn($item) => [
+            'id' => $item->id,
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'title' => $item->name,
+                'introduction' => $item->introduction,
+                'main_image' => $item->main_image,
+                'category_id' => 1,
+                'tab_id' => 1,
+                'duration' => $item->duration,
+                'official_certification' => $item->official_certification,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'likes_count' => $item->likes_count, // ← 追加
+                'comments_count' => $item->comments_count,
+                // 'views_count' => $item->views_count,
+                'is_liked' => $item->isLiked(),
+                'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
+                'type' => 'businesses', 
+        ]);
+
+    $events = Business::where('category_id', 2)
+        ->where('user_id', $id)
+        ->withCount(['businessLikes as likes_count', 'businessComments as comments_count'])
+        ->with(['photos' => fn($q) => $q->orderBy('priority')->limit(1), 'user'])
+        ->withTrashed()
+        ->get()
+        ->map(fn($item) => [
+            'id' => $item->id,
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'title' => $item->name,
+                'introduction' => $item->introduction,
+                'main_image' => $item->main_image,
+                'category_id' => 2,
+                'tab_id' => 2,
+                'duration' => $item->duration,
+                'official_certification' => $item->official_certification,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'likes_count' => $item->likes_count, // ← 追加
+                'comments_count' => $item->comments_count,
+                // 'views_count' => $item->views_count,
+                'is_liked' => $item->isLiked(),
+                'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
+                'type' => 'businesses', 
+        ]);
+
+    $businesses = $locations->concat($events);
+
+    // ソート（必要に応じて拡張）
+    $businesses = match($sort) {
+        'latest' => $businesses->sortByDesc('created_at'),
+        default  => $businesses->sortByDesc('created_at'),
+    };
+
+    // ページネーション
+    return new LengthAwarePaginator(
+        $businesses->forPage($currentPage, $perPage),
+        $businesses->count(),
+        $perPage,
+        $currentPage,
+        [
+            'path' => $request->url(),
+            'query' => $request->query(),
+        ]
+    );
+}
+
+    public function showProfile(Request $request, $id){
+        $user_a = $this->user->findOrFail($id);
+        $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
+        $business_comments = DB::table('business_comments')
+        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
+        ->where('businesses.user_id', $id)
+        ->select('business_comments.*') 
+        ->latest()->paginate(3);
+
+        $businesses = $this->getPaginatedBusinesses($request, $id);
+        
+
+        return view('businessusers.profiles.header_modify', compact('all_businesses', 'business_comments', 'businesses'))->with('user', $user_a);
+    }
     
 }
