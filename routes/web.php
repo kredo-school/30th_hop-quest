@@ -12,7 +12,6 @@ use App\Http\Controllers\Spot\LikeController;
 use App\Http\Controllers\Spot\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
-use App\Http\Controllers\Business\QuestController;
 use App\Http\Controllers\Business\ReviewController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
@@ -185,7 +184,7 @@ Route::prefix('/questbody')->name('questbody.')->controller(QuestBodyController:
     Route::post('/agenda/{id}', 'toggleAgenda')->name('toggleAgenda');
     Route::get('/getAllQuestBodies/{questId}','getAllQuestBodies')->name('getAllQuestBody');
 
-    // ✅ 補助機能（QuestBody関連）
+    // ✅補助機能（QuestBody関連）
     Route::get('/user/searchbusinesses', 'getMyBusinesses')->name('mybusinesses');
     Route::get('/search/Ajax',  'searchAjax')->name('search');
 });
