@@ -468,8 +468,7 @@
                             SAVE
                         </button>
                         <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="2" 
-                        {{ old('official_badge', $business->official_certification == 2) ? 'unchecked' : '' }}
-                > Apply for Official certification badge
+                        {{ old('official_badge', $business->official_certification == 2) ? 'unchecked' : '' }}> Apply for Official certification badge
                     </div>
 
                     <div class="col-2"></div>

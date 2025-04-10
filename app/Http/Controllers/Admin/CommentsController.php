@@ -38,9 +38,10 @@ class CommentsController extends Controller
                 'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
+                'spot_id' => $item->spot_id,
                 'user_name' => optional($item->user)->name,
+                'user_avatar' => optional($item->user)->avatar,
                 'title' => $item->title,
-                'main_image' => $item->main_image,
                 'category_id' => null,
                 'tab_id' => 1,
                 'created_at' => $item->created_at,
@@ -71,16 +72,16 @@ class CommentsController extends Controller
         });
 
         // 全部まとめる
-        $posts = $quests->concat($spots);
+        $comments = $quests->concat($spots);
 
-        $posts = match($sort) {
-            'oldest' => $posts->sortBy('created_at'),
-            default  => $posts->sortByDesc('created_at'), 
+        $comments = match($sort) {
+            'oldest' => $comments->sortBy('created_at'),
+            default  => $comments->sortByDesc('created_at'), 
         };
 
         $paginated = new LengthAwarePaginator(
-            $posts->forPage($currentPage, $perPage),
-            $posts->count(),
+            $comments->forPage($currentPage, $perPage),
+            $comments->count(),
             $perPage,
             $currentPage,
             [
@@ -91,16 +92,16 @@ class CommentsController extends Controller
 
         switch ($sort) {
             case 'oldest':
-                $posts = $posts->sortBy('created_at')->values();
+                $comments = $comments->sortBy('created_at')->values();
                 break;
             case 'latest':
             default:                
-                $posts = $posts->sortByDesc('created_at')->values();
+                $comments = $comments->sortByDesc('created_at')->values();
                 break;    
         }
 
             return view('admin.comments.all_comments', [
-                'posts' => $paginated,
+                'comments' => $paginated,
                 'sort' => $sort,
             ]);
 

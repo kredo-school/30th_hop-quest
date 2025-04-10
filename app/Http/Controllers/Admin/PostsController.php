@@ -99,7 +99,7 @@ class PostsController extends Controller
                 break;    
         }
    
-            return view('admin.posts.all_tourist_posts', [
+            return view('admin.posts.other_posts', [
                 'posts' => $paginated,
                 'sort' => $sort,
             ]);

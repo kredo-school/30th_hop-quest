@@ -63,6 +63,9 @@
             @endforelse
 
         </div>
+        <div class="d-flex justify-content-end mb-5">
+            {{ $businesses->links() }}
+            </div>
 
     </div>
 </div>

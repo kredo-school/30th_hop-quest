@@ -49,7 +49,9 @@
                     <td>
                         <a href="#" class="text-decoration-none text-dark" >{{ $post->name }}</a>
                     </td>
-                    <td class="align-middle">{{$post->user->name}}</td>
+                    <td class="align-middle">
+                        <a href="{{route('profile.businesses', $post->user->id)}}" class="text-decoration-none text-dark">{{$post->user->name}}</a>
+                    </td>
                     {{-- <td>
                         {{ $user->email }}
                     </td> --}}

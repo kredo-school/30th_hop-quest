@@ -137,6 +137,7 @@ class BusinessController extends Controller
     public function update(Request $request, $id){
         $request->validate([
             'main_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',        
             'introduction' => 'required_if:official_certification,2|max:1000',
             'phonenumber' => 'required_if:official_certification,2|max:20',
             'zip' => 'required_if:official_certification,2|max:7',
