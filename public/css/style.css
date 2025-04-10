@@ -248,6 +248,10 @@ h6{
     transform: scale(1.2, 1.2); 
 }
 
+.fa-heart.text-red {
+    color: #D24848;
+}
+
 /* FOR SNS ICON */
 .icon-md{
     font-size: 2.1875rem;
