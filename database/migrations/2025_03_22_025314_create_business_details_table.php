@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('business_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('business_id');
+            $table->unsignedBigInteger('business_info_id');
+            $table->boolean('is_valid')->default(false);
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
+            $table->foreign('business_info_id')->references('id')->on('business_info')->onDelete('cascade');
         });
     }
 
