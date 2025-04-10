@@ -24,9 +24,9 @@
                 </div>
                 {{-- <div class="col-2"></div> --}}
                 <!-- Username -->
-                <div class="col">
-                    <div class="row">                      
-                        <div class="col-auto">
+                <div class="col-md col-sm">
+                    <div class="row">   
+                        <div class="col-md-auto col-sm-8">
                             <h3 class="mb-1 text-truncate fw-bold">{{ $user->name }}</h3>
                         </div>
                         <div class="col-1 pb-2 p-1">

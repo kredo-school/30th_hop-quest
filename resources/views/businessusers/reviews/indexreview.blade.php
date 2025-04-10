@@ -124,7 +124,6 @@
                                         @endif
                                     </form>
                                 </th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody class="">
@@ -151,13 +150,6 @@
                                             @endif
                                         </td>
                                         <td class="text-center">{{ $business_comment->created_at }}</td>
-                                        <td class="pe-2">
-                                            {{-- delete --}}
-                                            <button class="btn btn-sm btn-red " data-bs-toggle="modal" data-bs-target="#delete-review{{$business_comment->id}}">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                            @include('businessusers.reviews.modals.delete')
-                                        </td>
                                     </tr>
                                 @endif
                             @empty

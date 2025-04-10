@@ -229,23 +229,22 @@
                     @endphp
 
                     @foreach ($details as $category => $items)
-                        <div class="mb-3">
-                            <hr>
-                            <h5 class="font-bold">{{ $category }}</h5>
-                            <div class="row px-4">
-                                @foreach ($items as $item)
-                                    <div class="col-md-6 form-check">
-                                        <input type="checkbox"
-                                            class="form-check-input"
-                                            id="{{ Str::slug($item) }}"
-                                            name="details[]"
-                                            value="{{ $item }}">
-                                        <label class="form-check-label" for="{{ Str::slug($item) }}">{{ $item }}</label>
-                                    </div>
-                                    
-                                @endforeach
-                            </div>
+                    <div class="mb-3">
+                        <hr>
+                        <h5 class="font-bold">{{ $category }}</h5>
+                        <div class="row px-4">
+                            @foreach ($items as $item)
+                                <div class="col-md-6 form-check">
+                                    <input type="checkbox"
+                                        class="form-check-input"
+                                        id="{{ Str::slug($category . '-' . $item) }}"
+                                        name="details[{{ $category }}][]"
+                                        value="{{ $item }}">
+                                    <label class="form-check-label" for="{{ Str::slug($category . '-' . $item) }}">{{ $item }}</label>
+                                </div>
+                            @endforeach
                         </div>
+                    </div>
                     @endforeach
                 </div>
 
@@ -267,14 +266,28 @@
                 
 
                 {{-- images --}}
-                <div class="border p-4 rounded bg-light mb-3">
-                    <!-- Priority 1 -->
-                    <div class="col-md-4">
-                        <label for="image" class="form-label">Upload Photo</label>
-                        <input type="file" name="image" id="image" class="form-control">
-                    </div>                
+                <div class="mb-4 p-4 border rounded bg-light">
+                    <h4 class="form-label d-inline">Business/Event photos</h4>
+                    <div class="row">
+                        @for ($i = 1; $i <= 3; $i++)
+                        <div class="col-md-4 mb-3 text-center">
+                            <div class="position-relative">
+                                <div class="photo-preview" id="preview_{{ $i }}">
+                                    <label class="form-label d-block text-center">Photo {{ $i }}</label>
+                                    <input type="file"
+                                           id="photo_{{ $i }}"
+                                           name="photos[{{ $i }}]"
+                                           class="form-control photo-input"
+                                           accept="image/*">
+                                    <input type="hidden" name="priorities[{{ $i }}]" value="{{ $i }}">
+                                </div>
+                            </div>
+                        </div>
+                        @endfor
+                    </div>
                 </div>
-                
+
+               
             <!-- Submission Buttons -->
                 <div class="row">
                     <div class="row mt-3 justify-content-center">

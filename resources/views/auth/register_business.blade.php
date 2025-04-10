@@ -33,7 +33,7 @@
                                     <i class="fas fa-user text-primary"></i>
                                 </span>
                             </div>
-                            @error('company')
+                            @error('name')
                                 <div class="text-danger small">{{ $message }}</div>
                             @enderror
                         </div>
@@ -82,33 +82,36 @@
                             @enderror
                         </div>
 
-                        <div class="row justify-content-end">
-                            <!-- Phone Number -->
-                            <div class="col-md-6 mb-3">
-                                <label for="phone" class="form-label text-start w-100">Phone Number</label>
-                                <div class="input-group">
-                                    <input id="phone" type="text" name="phone" value="{{ old('phone') }}"
-                                        placeholder="Enter phone number" required class="form-control">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-phone text-primary"></i>
-                                    </span>
-                                </div>
-                                @error('phone')
-                                    <div class="text-danger small">{{ $message }}</div>
-                                @enderror
+                        <!-- Phone Number -->
+                        <div class="col-md-6 mt-auto">
+                            <label for="phonenumber" class="form-label text-start w-100">Phone Number</label>
+                            <div class="input-group">
+                                <input id="phonenumber" type="text" name="phonenumber" value="{{ old('phone') }}"
+                                    placeholder="Enter phone number" required class="form-control">
+                                <span class="input-group-text">
+                                    <i class="fas fa-phone text-primary"></i>
+                                </span>
                             </div>
-
-                            <!-- REGISTER Button -->
-                            <div class="col-md-6 mt-3 g-4">
-                                <button type="submit" class="btn btn-danger w-100">REGISTER</button>
-                            </div>
+                            @error('phone')
+                                <div class="text-danger small">{{ $message }}</div>
+                            @enderror
                         </div>
-                        <!-- Extra Links -->
-                        <div class="text-end mx-5 g-3">
-                            <a href="{{ route('login.business') }}" class="text-decoration-none text-dark">Already have an
-                                account?
-                                Login</a>
+                        <!-- REGISTER Button -->
+                        <div class="col-md-6 mt-auto">
+                            <button type="submit" class="btn btn-danger w-100">REGISTER</button>
                         </div>
+                    </div>
+                    <!-- Extra Links -->
+                    <div class="text-end mt-5">
+                        <a href="{{ route('register.tourist') }}"
+                            class="text-decoration-none text-dark text-end poppins-bold">Stop to create account for
+                            Business</a>
+                    </div>
+                    <div class="text-end mt-4">
+                        <a href="{{ route('login') }}" class="text-decoration-none text-dark text-end poppins-bold">Already
+                            have an account?
+                        </a>
+                    </div>
                 </form>
             </div>
         </div>
