@@ -21,6 +21,9 @@ use App\Http\Controllers\Business\SpotLikeController;
 use App\Http\Controllers\Business\BusinessPromotionController;
 use App\Http\Controllers\Business\BusinessLikeController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\BusinessesController;
+use App\Http\Controllers\Admin\PostsController;
+use App\Http\Controllers\Admin\CommentsController;
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
@@ -149,10 +152,22 @@ Route::post('/store/tourist', [App\Http\Controllers\Auth\RegisterController::cla
 
 //ADMIN
 Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], function(){
-    Route::get('/users/all', [UsersController::class, 'index'])->name('users.all');
+    Route::get('/users/business', [UsersController::class, 'indexBusiness'])->name('users.business');
     Route::get('/users/applied', [UsersController::class, 'indexApplied'])->name('users.applied');
+    Route::get('/users/{id}/review', [UsersController::class, 'adminReview'])->name('users.review');
     //admin/users                                                   admin.users
     Route::post('/admin/users/{user}/certify', [UsersController::class, 'certify'])->name('users.certify');
     Route::delete('/users/{id}/deactivate', [UsersController::class, 'deactivate'])->name('users.deactivate');
     Route::patch('/users/{id}/activate', [UsersController::class, 'activate'])->name('users.activate');
+    Route::get('/users/tourists', [UsersController::class, 'indexTourists'])->name('users.tourists');
+
+    Route::get('/posts/business', [BusinessesController::class, 'index'])->name('posts');
+    Route::get('/posts/applied', [BusinessesController::class, 'indexApplied'])->name('posts.applied');
+    Route::get('/posts/{id}/review', [BusinessesController::class, 'adminReview'])->name('posts.review');
+    //admin/users                                                   admin.users
+    Route::post('/admin/posts/{post}/certify', [BusinessesController::class, 'certify'])->name('posts.certify');
+    Route::delete('/posts/{id}/deactivate', [BusinessesController::class, 'deactivate'])->name('posts.deactivate');
+    Route::patch('/posts/{id}/activate', [BusinessesController::class, 'activate'])->name('posts.activate');
+    Route::get('/posts/tourists', [PostsController::class, 'indexTourists'])->name('posts.tourists');
+    Route::get('/comments', [CommentsController::class, 'indexComments'])->name('comments');
 });

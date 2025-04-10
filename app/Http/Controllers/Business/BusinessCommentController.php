@@ -37,11 +37,13 @@ class BusinessCommentController extends Controller
 
     public function showReview($id){
         $business_comment_a = $this->business_comment->findOrFail($id);
-        return view('businessusers.reviews.showreview')->with('business_comment', $business_comment_a);
+        $user_a = $this->user->findOrFail($id);
+        return view('businessusers.reviews.showreview')->with('business_comment', $business_comment_a)->with('user', $user_a);
     }
 
-    public function show(Request $request){
+    public function show(Request $request, $id){
     $query = BusinessComment::query();
+    $user_a = $this->user->findOrFail($id);
 
     if ($request->filled('business_id')) {
         $query->where('business_id', $request->business_id);
@@ -50,7 +52,7 @@ class BusinessCommentController extends Controller
     $business_comments = $query->with('businessRelation', 'userRelation')->latest()->paginate(10);
     $businesses = Business::all(); // Spot一覧取得
 
-    return view('businessusers.reviews.indexreview', compact('business_comments', 'businesses'));
+    return view('businessusers.reviews.indexreview', compact('business_comments', 'businesses'))->with('user', $user_a);
     }
 
     public function showIndex(Request $request){

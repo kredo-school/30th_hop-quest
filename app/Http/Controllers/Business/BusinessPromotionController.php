@@ -34,11 +34,7 @@ class BusinessPromotionController extends Controller
             'title' => 'required',
             'business_id' => 'required',
             'introduction' => 'required|max:2000',
-<<<<<<< HEAD
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-=======
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
->>>>>>> main
         ]);
 
         $this->business_promotion->title = $request->title;
@@ -49,11 +45,7 @@ class BusinessPromotionController extends Controller
         $this->business_promotion->display_end = $request->display_end;
         $this->business_promotion->business_id = $request->business_id;
         $this->business_promotion->user_id = Auth::user()->id;
-<<<<<<< HEAD
-        $this->business_promotion->photo = "data:photo/".$request->photo->extension().";base64,".base64_encode (file_get_contents($request->photo)); 
-=======
-        $this->business_promotion->image = "data:photo/".$request->image->extension().";base64,".base64_encode (file_get_contents($request->photo)); 
->>>>>>> main
+        $this->business_promotion->image = "data:photo/".$request->image->extension().";base64,".base64_encode (file_get_contents($request->image)); 
 
 
         $this->business_promotion->save();
@@ -74,11 +66,7 @@ class BusinessPromotionController extends Controller
             'title' => 'required',
             'business_id' => 'required',
             'introduction' => 'required|max:2000',
-<<<<<<< HEAD
-            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-=======
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
->>>>>>> main
         ]);
 
         $all_business_promotions = $this->business_promotion->where('user_id', Auth::user()->id)->latest()->get();
@@ -94,21 +82,13 @@ class BusinessPromotionController extends Controller
         $business_promotion_a->business_id = $request->business_id;
         $business_promotion_a->user_id = Auth::user()->id;
 
-        if($request->photo){
-<<<<<<< HEAD
-            $business_promotion_a->photo = "data:photo/".$request->photo->extension().";base64,".base64_encode(file_get_contents($request->photo));
-=======
-            $business_promotion_a->image = "data:photo/".$request->image->extension().";base64,".base64_encode(file_get_contents($request->photo));
->>>>>>> main
+        if($request->image){
+            $business_promotion_a->image = "data:photo/".$request->image->extension().";base64,".base64_encode(file_get_contents($request->image));
         }
         $business_promotion_a->save();
 
         //redirect to Show Post
-<<<<<<< HEAD
         return redirect()->route('profile.promotions', Auth::user()->id)->with('all_business_promotions', $all_business_promotions)->with('all_businesses', $all_businesses);
-=======
-        return redirect()->route('profile.promotions', Auth::user()->id)->with('all_promotions', $all_business_promotions)->with('all_businesses', $all_businesses);
->>>>>>> main
     }
 
     public function show($id){

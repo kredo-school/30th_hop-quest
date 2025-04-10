@@ -19,14 +19,14 @@
                     @if($user->avatar)
                         <img src="{{$user->avatar}}" alt="" class="rounded-circle avatar-xxl">
                     @else
-                        <i class="fa-solid fa-circle-user text-secondary icon-xl d-block text-center"></i>
+                        <i class="fa-solid fa-circle-user text-secondary profile-xxl d-block text-center"></i>
                     @endif
                 </div>
                 {{-- <div class="col-2"></div> --}}
                 <!-- Username -->
                 <div class="col-md col-sm">
                     <div class="row">   
-                                                <div class="col-md-auto col-sm-8">
+                        <div class="col-md-auto col-sm-8">
                             <h3 class="mb-1 text-truncate fw-bold">{{ $user->name }}</h3>
                         </div>
                         <div class="col-md-1 col-sm-1 pb-2 p-1">

@@ -4,33 +4,21 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Business;
 
 class UsersController extends Controller
 {
     private $user;
+    private $business;
     
-    public function __construct(User $user){
+    public function __construct(User $user, Business $business){
         $this->user = $user;
+        $this->business = $business;
     }
 
-    public function indexApplied(Request $request){
-
-        $query = User::where('role_id', '!=', 3);
-        $sort = $request->input('sort', 'latest');
-
-        if ($sort === 'latest') {
-            $query->orderBy('updated_at', 'desc');
-        } else { // oldest or default
-            $query->orderBy('updated_at', 'asc');
-        }
-
-        $applied_users = $this->user->withTrashed()->whereIn('official_certification',[2,3])->paginate(10);
-        
-        return view('admin.users.appliedusers')->with('applied_users', $applied_users);       
-    } 
-
-    public function index(Request $request){
+    public function indexBusiness(Request $request){
         $query = User::where('role_id', '!=', 3);
         $sort = $request->input('sort', 'latest');
 
@@ -40,8 +28,44 @@ class UsersController extends Controller
             $query->orderBy('created_at', 'asc');
         }
 
-    $users = $query->paginate(10);
-        return view('admin.users.allusers', compact('users'));       
+        $users = $query->where('role_id', 2)->withTrashed()->paginate(10);
+
+        return view('admin.users.all_business_users', compact('users'));       
+    } 
+
+    public function indexApplied(Request $request){
+        $sort = $request->input('sort', 'latest');   
+        $query = $this->user
+            ->withTrashed()
+            ->where('role_id', '!=', 3)
+            ->whereIn('official_certification', [2, 3]);
+    
+        if ($sort === 'latest') {
+            $query->orderBy('updated_at', 'desc');
+        } else {
+            $query->orderBy('updated_at', 'asc');
+        }
+    
+        $applied_users = $query->paginate(10);
+    
+        return view('admin.users.applied_users', compact('applied_users'));
+    }
+
+
+
+    public function indexTourists(Request $request){
+        $query = User::where('role_id', 1);
+        $sort = $request->input('sort', 'latest');
+
+        if ($sort === 'latest') {
+            $query->orderBy('created_at', 'desc');
+        } else { // oldest or default
+            $query->orderBy('created_at', 'asc');
+        }
+
+        $users = $query->withTrashed()->paginate(10);
+
+        return view('admin.users.all_tourists', compact('users'));       
     } 
 
 
@@ -59,14 +83,16 @@ class UsersController extends Controller
         default:
             abort(400, 'Invalid action.');
     }
-
-
-
     $user->save();
 
     return redirect()->back();
-}
+    }
+    
+    public function adminReview($id){
+        $user_a = $this->user->findOrFail($id);
+        return view('admin.users.foradminreview')->with('user',$user_a);
 
+    }
 
     public function deactivate($id){
         $this->user->destroy($id);
@@ -79,4 +105,6 @@ class UsersController extends Controller
         //  onlyTrashed() -- get only soft-deleted records
         return redirect()->back();
     }
+
+
 }

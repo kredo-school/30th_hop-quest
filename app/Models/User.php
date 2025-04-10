@@ -120,4 +120,8 @@ class User extends Authenticatable
         return $this->hasMany(Spot::class)->latest();
     }
 
+    public function questComments(){
+        return $this->hasMany(QuestComment::class)->withTrashed()->latest();
+    }
+
 }

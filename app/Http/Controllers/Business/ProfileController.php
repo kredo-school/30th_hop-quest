@@ -44,11 +44,12 @@ class ProfileController extends Controller
         'email' => 'required|max:50|email',
         //UPDATING: unique:<table>,<column>,<id of updated row>
         // CREATING: unique:<table>,<column>
-        'introduction' => 'max:1000',
+        'introduction' => 'required_if:official_certification,2|max:1000',
         'phonenumber' => 'required_if:official_certification,2|max:20',
         'zip' => 'required_if:official_certification,2|max:7',
         'address' => 'required_if:official_certification,2|max:255'
     ], [
+        'introduction.required_if' => 'Required for official certification badge',
         'phonenumber.required_if' => 'Required for official certification badge',
         'zip.required_if' => 'Required for official certification badge',
         'address.required_if' => 'Required for official certification badge',
@@ -344,8 +345,9 @@ class ProfileController extends Controller
         return view('businessusers.profiles.followers',compact('all_businesses', 'business_comments'))->with('user', $user_a);
     }
 
-    public function allReviews(Request $request){
+    public function allReviews(Request $request, $id){
         $user = Auth::user();
+        $user_a = $this->user->findOrFail($id);
     
         // ログインユーザーが登録しているBusiness一覧
         // $all_businesses = Business::where('user_id', Auth::user()->id)->get();
@@ -389,7 +391,7 @@ class ProfileController extends Controller
             ->pluck('businessRelation')
             ->unique('id');
     
-        return view('businessusers.reviews.allreviews', compact('business_comments', 'from_businesses', 'from_users'));
+        return view('businessusers.reviews.allreviews', compact('business_comments', 'from_businesses', 'from_users'))->with('user', $user_a);
     }
 
 

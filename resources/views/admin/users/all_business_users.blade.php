@@ -1,41 +1,39 @@
-<div class="bg-yellow">
+<div class="bg-blue">
 @extends('layouts.app')
 
-@section('title', 'Admin: Users')
+@section('title', 'Admin: Business Users')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 @endsection
 
-
 @section('content')
 <div class="">
-    <table class="table border bg-white table-hover align-middle text-secondary">
+    <table class="table border bg-white table-hover align-middle text-secondary mt-5">
         <thead class="table-primary text-secondary text-uppercase small">
             <tr>
-                <th class="align-middle">ID</th>
+                {{-- <th class="align-middle">ID</th> --}}
                 <th></th>
                 <th class="align-middle">User Name</th>
                 {{-- <th>Email</th> --}}
                 <th>
                     <form method="GET" action="" class="d-inline-block ms-2">
-                        <select name="sort" onchange="this.form.submit()" class="bg-skyblue-thead mt-3 text-sm">
-                            <option value="" disabled>CREATED AT</option>
-                            <option value="latest" {{ request('sort', 'latest') == 'latest' ? 'selected' : '' }}>Newest First</option>
-                            <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest First</option>
+                        <label for="sort" class=""></label>
+                        <select name="sort" id="sort" onchange="this.form.submit()" class="bg-skyblue-thead mt-3 text-sm">
+                            <option value="" disabled selected>CREATD AT</option>
+                            <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>FROM LATEST</option>
+                            <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>FROM OLDEST</option>
                         </select>
                     </form>
                 </th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th class="align-middle">status</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @forelse($users as $user)
                 <tr>
-                    <td>{{$user->id}}</td>
+                    {{-- <td>{{$user->id}}</td> --}}
                     <td>
                         <a href="{{route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark fw-bold">
                         @if($user->avatar)
@@ -54,42 +52,13 @@
                     <td>
                         {{date('M d, Y H:i:s', strtotime($user->created_at))}}
                     </td>
-                    @if($user->official_certification == 1)
-                        <td></td>
-                        <td></td>
-                    @elseif($user->official_certification == 2)
-                        <td>
-                            <form method="POST" action="{{ route('admin.users.certify', $user->id) }}">
-                                @csrf
-                                <input type="hidden" name="action" value="approve">
-                                <button type="submit" class="btn btn-sm btn-green w-100">Approve</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form method="POST" action="{{ route('admin.users.certify', $user->id) }}">
-                                @csrf
-                                <input type="hidden" name="action" value="reject">
-                                <button type="submit" class="btn btn-sm btn-red w-100">Reject</button>
-                            </form>
-                        </td>
-                    @elseif($user->official_certification == 3)
-                        <td>
-                            <div class="btn btn-sm btn-outline-green w-100 mb-3">Approved</div>
-                        </td>
-                        <td>
-                            <form method="POST" action="{{ route('admin.users.certify', $user->id) }}">
-                                @csrf
-                                <input type="hidden" name="action" value="revoke">
-                                <button type="submit" class="btn btn-sm btn-navy w-100">Revoke</button>
-                            </form>
-                        </td>
-                    @endif
+                    
                     <td>
                         {{-- status --}}
                         @if($user->trashed())
-                            <i class="fa-regular fa-circle"></i> Inactive
+                            <i class="fa-solid fa-circle color-red"></i> Inactive
                         @else
-                            <i class="fa-solid fa-circle text-success"></i> Active
+                            <i class="fa-solid fa-circle color-green"></i> Active
                         @endif
                     </td>
                     <td>
@@ -111,7 +80,7 @@
                                 @endif
                             </div>                         
                         </div>
-                        @include('admin.users.status')
+                        @include('admin.users.user_status')
                         @endif
                     </td>
                 </tr>
@@ -123,7 +92,9 @@
             @endforelse
         </tbody>
     </table>
-    {{ $users->links() }}
+    <div class="d-flex justify-content-end mb-5">
+        {{ $users->links() }}
+    </div>
 </div>
 </div>
 @endsection

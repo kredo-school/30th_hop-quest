@@ -79,7 +79,7 @@
                 });
                 </script> --}}
                 @else
-                    <i class="fa-solid fa-circle-user text-secondary icon-xl d-block text-center"></i>
+                    <i class="fa-solid fa-circle-user text-secondary profile-xl d-block text-center"></i>
                 @endif
             </div>
             <div class="col">
