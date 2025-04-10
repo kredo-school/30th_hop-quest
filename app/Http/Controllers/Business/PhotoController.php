@@ -21,42 +21,63 @@ class PhotoController extends Controller
 
     public function store(Request $request, Business $business){
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
+    
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $i => $photo) {
+                if ($photo) {
+                    $encoded = "data:image/" . $photo->extension() . ";base64," . base64_encode(file_get_contents($photo));
+                    $priority = $request->input("priorities.$i") ?? ($i + 1);
+                    $existing = $business->photos()->where('priority', $priority)->first();
 
-        $image = $request->file('image');
-
-        $encoded = "data:photo/" . $image->extension() . ";base64," . base64_encode(file_get_contents($image));
-
-        $business->photos()->create([
-            'image' => $encoded,
-            'priority' => 1,
-        ]);
-        return redirect()->back();
+                    if ($existing) {
+                        $existing->update(['image' => $encoded]);
+                    } else {
+                        $business->photos()->create([
+                            'image' => $encoded,
+                            'priority' => $priority,
+                        ]);
+                    }
+                }
+            }
+            return redirect()->back();
+        }
     }
+
     
     public function update(Request $request, Business $business){
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
-
-        $uploaded = $request->file('image');
-        $encoded = "data:image/" . $uploaded->extension() . ";base64," . base64_encode(file_get_contents($uploaded));
-
-        $image = $business->photos()->where('priority', 1)->first();
-
-        if ($image) {
-            $image->update([
-                'image' => $encoded,
-            ]);
-        } else {
-            $business->photos()->create([
-                'image' => $encoded,
-                'priority' => 1,
-            ]);
+    
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $i => $photo) {
+                if ($photo) {
+                    $encoded = "data:image/" . $photo->extension() . ";base64," . base64_encode(file_get_contents($photo));
+                    $priority = $request->input("priorities.$i") ?? ($i + 1);
+    
+                    $existing = $business->photos()->where('priority', $priority)->first();
+    
+                    if ($existing) {
+                        $existing->update(['image' => $encoded]);
+                    } else {
+                        $business->photos()->create([
+                            'image' => $encoded,
+                            'priority' => $priority,
+                        ]);
+                    }
+                }
+            }
         }
-
         return redirect()->back();
+}
+
+public function edit(Business $business)
+{
+    $photos = $business->photos()->orderBy('priority')->get()->keyBy('priority');
+
+    return view('businessusers.posts.businesses.edit_n', compact('business', 'photos'));
 }
 
 //     public function update(Request $request, Business $business){

@@ -26,7 +26,7 @@
                 <!-- Username -->
                 <div class="col-md col-sm">
                     <div class="row">   
-                                                <div class="col-md-auto col-sm-8">
+                        <div class="col-md-auto col-sm-8">
                             <h3 class="mb-1 text-truncate fw-bold">{{ $user->name }}</h3>
                         </div>
                         <div class="col-md-1 col-sm-1 pb-2 p-1">

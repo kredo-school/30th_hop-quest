@@ -7,23 +7,21 @@ use App\Http\Controllers\FollowController;
 
 use App\Http\Middleware\PageViewMiddleware;
 use App\Http\Controllers\Spot\LikeController;
-
-
 use App\Http\Controllers\Spot\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
 use App\Http\Controllers\Business\QuestController;
 use App\Http\Controllers\TouristProfileController;
-use App\Http\Controllers\Business\ReviewController;
+use App\Http\Controllers\Business\QuestLikeController;
+use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
 use App\Http\Controllers\Business\BusinessController;
-use App\Http\Controllers\Business\SpotLikeController;
-use App\Http\Controllers\Business\QuestLikeController;
+use App\Http\Controllers\Business\BusinessPromotionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Business\BusinessLikeController;
-use App\Http\Controllers\Business\BusinessCommentController;
-use App\Http\Controllers\Business\BusinessPromotionController;
+use App\Http\Controllers\Business\SpotLikeController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -48,7 +46,6 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function () 
     Route::get('/{id}/allreviews', [ProfileController::class, 'allReviews'])->name('allreviews');
     Route::get('/{id}/review', [BusinessCommentController::class, 'showReview'])->name('review');
     Route::get('/{id}/review/index', [BusinessCommentController::class, 'showIndex'])->name('indexreview');
-    Route::delete('/{id}/review/delete', [BusinessCommentController::class, 'deleteReview'])->name('delete.review');
 });
 
 //FOLLOWS
