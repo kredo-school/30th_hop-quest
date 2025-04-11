@@ -13,6 +13,10 @@
     border-radius: 5px;
 }
 
+.opacity-50 {
+    opacity: 0.5;
+}
+
 .body-image{
     widows: 100%;
     height: auto;

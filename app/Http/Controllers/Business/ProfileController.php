@@ -44,11 +44,12 @@ class ProfileController extends Controller
         'email' => 'required|max:50|email',
         //UPDATING: unique:<table>,<column>,<id of updated row>
         // CREATING: unique:<table>,<column>
-        'introduction' => 'max:1000',
-        'phonenumber' => 'required_if:official_certification,1|max:20',
-        'zip' => 'required_if:official_certification,1|max:7',
-        'address' => 'required_if:official_certification,1|max:255'
+        'introduction' => 'required_if:official_certification,2|max:1000',
+        'phonenumber' => 'required_if:official_certification,2|max:20',
+        'zip' => 'required_if:official_certification,2|max:7',
+        'address' => 'required_if:official_certification,2|max:255'
     ], [
+        'introduction.required_if' => 'Required for official certification badge',
         'phonenumber.required_if' => 'Required for official certification badge',
         'zip.required_if' => 'Required for official certification badge',
         'address.required_if' => 'Required for official certification badge',
@@ -72,6 +73,24 @@ class ProfileController extends Controller
     }
     if($request->avatar){
         $user_a->avatar = "data:image/".$request->avatar->extension().";base64,".base64_encode(file_get_contents($request->avatar));
+    }
+
+    $current_cert = $user_a->official_certification;
+
+    if ($current_cert == 3) {
+        if ($request->has('official_certification')) {
+            // チェックあり → 特別な認定を外して普通の認定に戻す
+            $user_a->official_certification = 2;
+        } else {
+            // チェックなし → 認定全部外す
+            $user_a->official_certification = 1;
+        }
+    } else {
+        if ($request->has('official_certification')) {
+            $user_a->official_certification = 2;
+        } else {
+            $user_a->official_certification = 1;
+        }
     }
 
     $user_a->save();
@@ -326,8 +345,9 @@ class ProfileController extends Controller
         return view('businessusers.profiles.followers',compact('all_businesses', 'business_comments'))->with('user', $user_a);
     }
 
-    public function allReviews(Request $request){
+    public function allReviews(Request $request, $id){
         $user = Auth::user();
+        $user_a = $this->user->findOrFail($id);
     
         // ログインユーザーが登録しているBusiness一覧
         // $all_businesses = Business::where('user_id', Auth::user()->id)->get();
@@ -371,7 +391,23 @@ class ProfileController extends Controller
             ->pluck('businessRelation')
             ->unique('id');
     
-        return view('businessusers.reviews.allreviews', compact('business_comments', 'from_businesses', 'from_users'));
+        return view('businessusers.reviews.allreviews', compact('business_comments', 'from_businesses', 'from_users'))->with('user', $user_a);
     }
+
+
+    public function deactivate($id){
+        $user = User::findOrFail($id);
+        $user->delete();
+    
+        Auth::logout(); // セッションからログアウト
+        request()->session()->invalidate(); // セッション無効化
+        request()->session()->regenerateToken(); // CSRFトークン再生成
+    
+        return redirect()->route('home'); // ゲストのトップページにリダイレクト
+    }
+    // public function deactivate($id){
+    //     $this->business->destroy($id);
+    //     return view('register.tourist');
+    // }
     
 }

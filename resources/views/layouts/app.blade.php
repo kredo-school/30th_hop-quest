@@ -60,12 +60,13 @@
                     @else
                         @if (Auth::user()->role_id == 1)
                             <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-                                <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO"
-                                    class="nav-img me-lg-5">
-                            @elseif(Auth::user()->role_id == 2)
-                                <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-                                    <img src="{{ asset('images/logo/HopQuest_Business_38px.png') }}"
-                                        alt="HopQuest LOGO for Business" class="nav-img me-lg-5">
+                            <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
+                        @elseif(Auth::user()->role_id == 2)
+                            <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+                            <img src="{{ asset('images/logo/HopQuest_Business_38px.png') }}" alt="HopQuest LOGO for Business" class="nav-img me-lg-5">
+                        @elseif(Auth::user()->role_id == 3)
+                            <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+                            <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5"><span class="color-navy fw-bold">Admin</span>
                         @endif
                     @endguest
                 </a>
@@ -95,24 +96,25 @@
                                 </li>
                             @endif
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item my-auto">
-                                <a href="{{ route('home') }}" class="nav-link" href="">HOME</a>
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li>
-                            {{-- <li class="nav-item dropdown my-auto"> --}}
-                            <li class="nav-item dropdown my-auto">
-                                <a id="navbarDropdown" class="nav-link btn " href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>+Add</a>
+                        @endif
+                    @else
+                        <li class="nav-item my-auto">
+                            <a href="{{ route('home') }}" class="nav-link" href="">HOME</a>
+                        </li>
+                        {{-- <li class="nav-item dropdown my-auto"> --}}
+                        <li class="nav-item dropdown my-auto">
+                            @if(Auth::user()->role_id == 3)
+                            @else
+                                <a id="navbarDropdown" class="nav-link btn " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>+Add</a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    @if (Auth::user()->role_id == 1)
+                                    @if(Auth::user()->role_id == 1)
                                         <a href="#" class="dropdown-item text-dark">
                                             <i class="fa-solid fa-circle-plus icon-sm"></i> Add Quest
-                                        </a>
+                                        </a>                              
                                         <a href="#" class="dropdown-item text-dark">
                                             <i class="fa-solid fa-circle-plus icon-sm"></i> Add Spot
                                         </a>
@@ -125,12 +127,14 @@
                                         </a>
                                         <a href="#" class="dropdown-item text-dark">
                                             <i class="fa-solid fa-circle-plus icon-sm"></i> Add Quest
-                                        </a>
+                                        </a>  
                                     @endif
+                                </div>    
+                                @endif
 
-                                </div>
-                            </li>
-                            <li class="nav-item my-auto">
+                            
+                        </li>
+                        <li class="nav-item my-auto">
                             <li class="nav-item my-auto">
                                 <a href="#" class="nav-link" href="">FAQ</a>
                             </li>
@@ -147,30 +151,32 @@
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{-- {{ Auth::user()->name }} --}}
 
-                                    {{-- DROPDOWN --}}
-                                    @if (Auth::user()->avatar)
-                                        <img src="{{ Auth::user()->avatar }}" alt=""
-                                            class="rounded-circle avatar-sm">
-                                    @else
-                                        <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
-                                    @endif
+                                {{-- DROPDOWN --}}
+                                @if(Auth::user()->avatar)
+                                    <img src="{{Auth::user()->avatar}}" alt="" class="rounded-circle avatar-sm">
+                                @else
+                                    <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                                @endif
+                            </a>
+                            <!-- Dropdown menu -->
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                {{-- PROFILE --}}
+                                @if(Auth::user()->role_id == 1)
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fa-solid fa-circle-user"></i> Profile
+                                    </a>
+                                @elseif(Auth::user()->role_id == 2)
+                                    <a href="{{route('profile.businesses', Auth::user()->id)}}" class="dropdown-item">
+                                        <i class="fa-solid fa-circle-user"></i> Profile
+                                    </a>
+                                @elseif(Auth::user()->role_id == 3)
+                                <a href="{{route('admin.users.business', Auth::user()->id)}}" class="dropdown-item">
+                                    <i class="fa-solid fa-circle-user"></i> Admin
                                 </a>
-                                <!-- Dropdown menu -->
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    {{-- PROFILE --}}
-                                    @if (Auth::user()->role_id == 1)
-                                        <a href="#" class="dropdown-item">
-                                            <i class="fa-solid fa-circle-user"></i> Profile
-                                        </a>
-                                    @elseif(Auth::user()->role_id == 2)
-                                        <a href="{{ route('profile.businesses', Auth::user()->id) }}"
-                                            class="dropdown-item">
-                                            <i class="fa-solid fa-circle-user"></i> Profile
-                                        </a>
-                                    @endif
-                                    <hr class="dropdown-divider">
-                                    <a class="dropdown-item" href="{{ route('home') }}"
-                                        onclick="event.preventDefault();
+                                @endif
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item" href="{{ route('home') }}"
+                                   onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
                                         <i class="fa-solid fa-arrow-right-from-bracket"></i> {{ __('Logout') }}
                                     </a>
@@ -186,8 +192,69 @@
                 </div>
             </div>
         </nav>
-        <main>
-            @yield('content')
+
+        <main class="pt-5">
+            @if(request()->is('admin/*'))
+                <div class="container mt-5">
+                    <div class="row justify-content-center">                   
+                        <div class="col-3">
+                            <h4>User list</h4>
+                            <div class="list-group mb-3">                               
+                                <a href="{{ route('admin.users.business') }}" class="list-group-item {{ request()->is('admin/users/business*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-users"></i> Business Users
+                                </a>
+                                <a href="{{ route('admin.users.tourists') }}" class="list-group-item {{ request()->is('admin/users/tourists*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-users"></i> Tourists
+                                </a>
+                                <a href="{{ route('admin.users.applied') }}" class="list-group-item d-flex justify-content-between align-items-center {{ request()->is('admin/users/applied*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-certificate"></i> Badge Applied Business Users
+                                    @php
+                                        $pending_count = \App\Models\User::where('official_certification', 2)->count();
+                                    @endphp
+                                
+                                    <span class="badge {{ $pending_count == 0 ? 'bg-info' : 'bg-danger' }} ms-auto">
+                                    {{ $pending_count }}
+                                    </span>
+                                </a>
+                            </div>
+
+                            <h4>Post list</h4>
+                            <div class="list-group mb-3">
+                                
+                                <a href="{{ route('admin.posts') }}" class="list-group-item {{ request()->is('admin/posts/business*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-images"></i> Business Posts
+                                </a>
+                                <a href="{{ route('admin.posts.tourists') }}" class="list-group-item {{ request()->is('admin/posts/tourists*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-images"></i> Other Posts
+                                </a>
+                                <a href="{{ route('admin.posts.applied') }}" class="list-group-item d-flex justify-content-between align-items-center {{ request()->is('admin/posts/applied*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-certificate"></i> Badge Applied Business Posts
+                                    @php
+                                        $pending_count = \App\Models\Business::where('official_certification', 2)->count();
+                                    @endphp
+                                
+                                    <span class="badge {{ $pending_count == 0 ? 'bg-info' : 'bg-danger' }} ms-auto">
+                                    {{ $pending_count }}
+                                    </span>
+                                </a>
+                            </div>
+
+                            <h4>Comment list</h4>
+                            <div class="list-group">
+                                
+                                <a href="{{ route('admin.comments') }}" class="list-group-item {{ request()->is('admin/comments*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-comments"></i> Comments
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            @yield('content')
+                        </div>
+                    </div>
+                </div>
+            @else
+                @yield('content')
+            @endif        
         </main>
     </div>
     @yield('js')

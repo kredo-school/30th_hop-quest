@@ -19,7 +19,7 @@
                     @if($user->avatar)
                         <img src="{{$user->avatar}}" alt="" class="rounded-circle avatar-xxl">
                     @else
-                        <i class="fa-solid fa-circle-user text-secondary icon-xl d-block text-center"></i>
+                        <i class="fa-solid fa-circle-user text-secondary profile-xxl d-block text-center"></i>
                     @endif
                 </div>
                 {{-- <div class="col-2"></div> --}}
@@ -27,21 +27,28 @@
                 <div class="col-md col-sm">
                     <div class="row">   
                         <div class="col-md-auto col-sm-8">
-                            <h3 class="mb-1 text-truncate fw-bold">{{ $user->name }}</h3>
+                            <h3 class="pb-2 text-truncate fw-bold">{{ $user->name }}</h3>
                         </div>
                         <div class="col-md-1 col-sm-1 pb-2 p-1">
-                            @if($user->official_certification == 2)
+                            @if($user->official_certification == 3)
                                 <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0 avatar-xs" alt="official-personal"> 
                             @endif
                         </div>
                         @if($user->id == Auth::user()->id)
-                            {{-- edit profile --}}
+                            @if($user->official_certification == 2)
                             <div class="col-md-2 col-sm-3 ms-auto">
-                                <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
+                                <div class="btn btn-sm btn-navy mb-2 w-100">REVIEWING</div>
                             </div>
+                            @else
+                            {{-- edit profile --}}
+                                <div class="col-md-2 col-sm-3 ms-auto">
+                                    <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
+                                </div>
+                            @endif
                             <div class="col-md-2 col-sm-3">
-                                <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile">DELETE</button>
+                                <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile{{ $user->id }}">DELETE</button>
                             </div>
+                            @include('businessusers.profiles.modals.delete')  
                         @elseif(Auth::user()->role_id == 1)
                             <div class="col-md-2 col-sm-2 ms-auto">
                                 @if($user->isFollowed())
@@ -64,7 +71,7 @@
 
                         
                     </div>  
-                    @include('businessusers.profiles.modals.delete')  
+                    
                 
                     {{-- url --}}
                     <div class="row mb-3">

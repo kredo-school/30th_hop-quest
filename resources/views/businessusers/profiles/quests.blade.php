@@ -40,9 +40,15 @@
         <hr>
         <div class="row">
             @if($user->id == Auth::user()->id)
-                <div class="col-2 ms-auto mb-2">
-                    <a href="{{ route('quests.create', $user->id) }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
-                </div>
+                @if($user->official_certification == 1||$user->official_certification == 3)
+                    <div class="col-2 ms-auto mb-2 ">
+                        <a href="{{ route('businesses.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
+                    </div>
+                @elseif($user->official_certification == 2)
+                    <div class="col-2 ms-auto mb-2 ">
+                        <button class="btn btn-sm btn-outline-navy text-navy mb-2 w-100" disabled><i class="fa-solid fa-plus"></i> ADD</button>
+                    </div>
+                @endif
             @endif
         </div>
 
