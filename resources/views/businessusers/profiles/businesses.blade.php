@@ -14,7 +14,7 @@
 {{-- Management business --}}
     {{-- <div class="col-8 mb-3 "> --}}
     {{-- Tabs for categories --}}
-        <div class="row tag-category">
+        {{-- <div class="row tag-category">
             <div class="col-auto">
                 <a href="{{ route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark" data-category="business">
                     <h3 class="poppins-semibold {{ request()->is('business/profile/businesses*') ? 'active' : '' }}">
@@ -37,14 +37,14 @@
                 </a>
             </div>
         </div> 
-        <hr>
-        <div class="row">
+        <hr> --}}
+        {{-- <div class="row">
             @if($user->id == Auth::user()->id)
             <div class="col-2 ms-auto mb-2 ">
                 <a href="{{ route('businesses.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
             @endif
-        </div>
+        </div> --}}
 
         {{-- business --}}
         <div class="row mb-1">

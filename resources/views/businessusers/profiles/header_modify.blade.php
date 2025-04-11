@@ -91,7 +91,7 @@
                     <div class="row mb-3">
                         <div class="col-auto">
                             @if($user->id == Auth::user()->id)
-                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->businessPromotions->count()+$user->businesses->count()+$user->quests->count()}}</span> {{$user->businessPromotions->count()+$user->businesses->count()+$user->quests->count()==1 ? 'post' : 'posts'}}</a>
+                                <a href="{{ route('profile.header', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->businessPromotions->count()+$user->businesses->count()+$user->quests->count()}}</span> {{$user->businessPromotions->count()+$user->businesses->count()+$user->quests->count()==1 ? 'post' : 'posts'}}</a>
                             @elseif($user->id != Auth::user()->id)
                                 <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->businessPromotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()}}</span> {{$user->businessPromotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()==1 ? 'post' : 'posts'}}</a>
                             @endif
@@ -147,9 +147,42 @@
                     <p>{{ $user->introduction}}</p>
                 @endif               
             </div> 
-            <div class="row">
+
+               {{-- === タブ切り替えエリア === --}}
+    <ul class="nav nav-tabs mt-4 custom-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link {{ $activeTab == 'businesses' ? 'active text-danger' : '' }}" href="{{ route('profile.header', ['id' => $user->id, 'tab' => 'businesses']) }}">Management Business</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ $activeTab == 'promotions' ? 'active text-danger' : '' }}" href="{{ route('profile.header', ['id' => $user->id, 'tab' => 'promotions']) }}">Promotions</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ $activeTab == 'quests' ? 'active text-danger' : '' }}" href="{{ route('profile.header', ['id' => $user->id, 'tab' => 'quests']) }}">Model Quests</a>
+        </li>
+    </ul>
+
+    {{-- === コンテンツ表示（Switch） === --}}
+        <div class="row mt-4">
+            @switch($activeTab)
+                @case('businesses')
+                    @include('businessusers.profiles.businesses', ['businesses' => $businesses])
+                    @break
+
+                @case('promotions')
+                    @include('businessusers.profiles.promotions', ['promotions' => $business_promotions])
+                    @break
+
+                @case('quests')
+                    @include('businessusers.profiles.quests', ['quests' => $quests])
+                    @break
+
+                @default
+                    @include('businessusers.profiles.businesses', ['businesses' => $businesses])
+            @endswitch
+        </div>
+            {{-- <div class="row">
                 @include('businessusers.profiles.businesses')  
-            </div>      
+            </div>       --}}
         </div>
     </div>
 

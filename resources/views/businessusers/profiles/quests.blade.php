@@ -1,4 +1,4 @@
-<div class="bg-blue">
+{{-- <div class="bg-blue">
 @extends('layouts.app')
 
 @section('title', 'Posts')
@@ -8,13 +8,14 @@
 @endsection
 
 @section('content')
-    @include('businessusers.profiles.header')
+    @include('businessusers.profiles.header') --}}
 
 <div class="row justify-content-center bg-blue">
     {{-- Model Quests --}}
-    <div class="col-8 mb-3">
+    {{-- <div class="col-8 mb-3"> --}}
+        {{-- @include('businessusers.profiles.tabs', ['activeTab' => 'quests', 'user' => $user]) --}}
             {{-- Tabs for categories --}}
-        <div class="row tag-category">
+        {{-- <div class="row tag-category">
             <div class="col-auto">
                 <a href="{{ route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark" data-category="business">
                     <h3 class="poppins-semibold {{ request()->is('business/profile/businesses*') ? 'active' : '' }}">
@@ -44,9 +45,9 @@
                     <a href="{{ route('quests.create', $user->id) }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
                 </div>
             @endif
-        </div>
+        </div> --}}
 
-        <div class="row mb-1">
+        <div class="row mb-1 mt-4">
             @forelse($quests as $post)
                 <div class="col-lg-4 col-md-6 col-sm">
                     @include('businessusers.profiles.post-body-profile')
@@ -61,4 +62,4 @@
     </div>
 </div>
 </div>
-@endsection
+{{-- @endsection --}}

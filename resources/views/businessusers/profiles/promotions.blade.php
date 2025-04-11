@@ -1,4 +1,4 @@
-<div class="bg-blue">
+{{-- <div class="bg-blue">
 @extends('layouts.app')
 
 @section('title', 'Posts')
@@ -8,13 +8,14 @@
 @endsection
 
 @section('content')
-    @include('businessusers.profiles.header')
+    @include('businessusers.profiles.header') --}}
 
 <div class="row justify-content-center bg-blue">
     {{-- Promotions --}}
-    <div class="col-8 mb-5">
+    {{-- <div class="col-8 mb-5"> --}}
+        {{-- @include('businessusers.profiles.tabs', ['activeTab' => 'promotions', 'user' => $user]) --}}
             {{-- Tabs for categories --}}
-        <div class="row tag-category">
+        {{-- <div class="row tag-category">
             <div class="col-auto">
                 <a href="{{ route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark" data-category="business">
                     <h3 class="poppins-semibold {{ request()->is('business/profile/businesses*') ? 'active' : '' }}">
@@ -44,27 +45,22 @@
                 <a href="{{ route('promotions.create') }}" class="btn btn-sm btn-navy text-white mb-2 w-100"><i class="fa-solid fa-plus"></i> ADD</a>
             </div>
         </div>
-        @endif
+        @endif --}}
         {{-- forelse --}}
         <div class="row mb-1">
-            <div class="row mb-1">
-                @forelse($business_promotions as $post)
-                    <div class="col-lg-4 col-md-6 col-sm">
-                        @include('businessusers.profiles.post-body-profile')
-                    </div>         
-                @empty
-                    <h4 class="h4 text-center text-secondary">No posts yet</h4>
-                @endforelse
-            </div>
-
-
-
+            @forelse($business_promotions as $post)
+                <div class="col-lg-4 col-md-6 col-sm">
+                    @include('businessusers.profiles.post-body-profile')
+                </div>         
+            @empty
+                <h4 class="h4 text-center text-secondary">No posts yet</h4>
+            @endforelse
 
         </div>
         <div class="d-flex justify-content-end mb-5">
-        {{ $business_promotions->links() }}
+            {{ $business_promotions->links() }}
         </div>
     </div>
 </div>
 </div>
-@endsection
+{{-- @endsection --}}

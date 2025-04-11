@@ -8,8 +8,8 @@
 @endsection
 
 @section('content')
-    @include('businessusers.profiles.header')
-
+<link rel="stylesheet" href="{{asset('css/style.css')}}"> 
+    {{-- @include('businessusers.profiles.header_modify') --}}
     @if($user->followers->isNotEmpty())
     <div class="row justify-content-center mt-5">
         <div class="col-4">
@@ -64,7 +64,7 @@
     @endif
         <div class="row justify-content-center mt-2 mb-5"> 
             <div class="col-2 align-center ">
-                <a href="{{route('profile.promotions', Auth::user()->id)}}">
+                <a href="{{route('profile.header', Auth::user()->id)}}">
                     <button class="btn btn-green text-uppercase w-100  mt-1">Back to Profile</button>
                 </a>
             </div>
