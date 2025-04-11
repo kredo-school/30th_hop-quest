@@ -36,9 +36,6 @@ Route::get('/search', [HomeController::class, 'search'])->name('search');
 //PROFILES
 Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function () {
     Route::get('/{id}', [ProfileController::class, 'showProfile'])->name('header');
-    Route::get('/promotions/{id}', [ProfileController::class, 'showPromotions'])->name('promotions');
-    Route::get('/businesses/{id}', [ProfileController::class, 'showBusinesses'])->name('businesses');
-    Route::get('/modelquests/{id}', [ProfileController::class, 'showModelQuests'])->name('quests');
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
     Route::patch('/{id}/update', [ProfileController::class, 'update'])->name('update');

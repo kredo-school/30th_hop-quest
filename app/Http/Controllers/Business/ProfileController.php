@@ -298,9 +298,9 @@ protected function getPaginatedPromotions(Request $request, $id){
         $business_promotions = $this->getPaginatedPromotions($request, $id);
         $quests = $this->getPaginatedQuests($request, $id);
         $followers = $this->user->followers()->get();
+        $follows = $this->user->follows()->get();
         
-
-        return view('businessusers.profiles.header_modify', compact('all_businesses', 'business_comments', 'businesses','business_promotions', 'quests','tab','section','followers'))->with('user', $user_a)->with('activeTab', $tab);
+                return view('businessusers.profiles.header_modify', compact('all_businesses', 'business_comments', 'businesses','business_promotions', 'quests','tab','section','followers','follows'))->with('user', $user_a)->with('activeTab', $tab);
     }
     
 }

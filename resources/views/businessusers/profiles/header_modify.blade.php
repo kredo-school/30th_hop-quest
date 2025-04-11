@@ -1,4 +1,9 @@
-<div class="bg-blue">
+@if($user->role_id == 1)
+    <div class="bg-navy text-white">
+@else
+    <div class="bg-blue text-dark">
+@endif
+
 @extends('layouts.app')
 
 @section('title', 'Posts')
@@ -70,6 +75,14 @@
                                     <button type="submit" class="btn btn-follow fw-bold mb-2 w-100">Follow</button>
                                 </form>
                                 @endif 
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                @if(auth()->check() && auth()->id() !== $user->id && auth()->user()->isFollowing($user) && $user->isFollowing(auth()->user()))
+                                    <button class="btn btn-primary fw-bold mb-2 w-100" data-user-id="{{ $user->id }}" data-toggle="modal" data-target="#messageModal">
+                                        Message
+                                    </button>
+                                    @include("tourists.message.modal.message_modal")
+                                @endif
                             </div> 
                         @endif                   
 
@@ -84,54 +97,19 @@
                                 <a href="#" class="text-decoration-none text-dark ">{{ $user->website_url }}</a>
                             @endif
                         </div>
-                    </div> 
-                    
-                    {{-- items --}}
-                    <div class="row mb-3">
-                        <!--Post-->
-                        <div class="col-auto">
-                            @if($user->id == Auth::user()->id)
-                                <a href="{{ route('profile.header', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->businessPromotions->count()+$user->businesses->count()+$user->quests->count()}}</span> {{$user->businessPromotions->count()+$user->businesses->count()+$user->quests->count()==1 ? 'post' : 'posts'}}</a>
-                            @elseif($user->id != Auth::user()->id)
-                                <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->businessPromotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()}}</span> {{$user->businessPromotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()==1 ? 'post' : 'posts'}}</a>
-                            @endif
-                        </div>
-                        <!--Follower-->
-                        <div class="col-auto">
-                            <a href="{{ route('profile.header', ['id' => $user->id, 'section' => 'followers']) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->followers->count()}}</span> {{$user->followers->count()==1 ? 'follower' : 'followers'}}</a>
-                        </div>
-                        @if($user->id == Auth::user()->id)
-                        <div class="col-auto">
-                            @if($user->id == Auth::user()->id)                             
-                                <a href="{{ route('profile.allreviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$business_comments->count()}}</span> {{$business_comments->count()==1 ? 'review' : 'reviews'}}</a>
-                            @endif
-                        </div>
+                        @if(Auth::user()->role_id == 1)
+                        {{-- <div class="col-2 ms-auto">
+                            <button class="btn btn-primary fw-bold mb-2 w-100 text-white ms-auto" data-bs-toggle="modal" data-bs-target="#mutual-follow{{$user->id}}">MESSAGE</button>
+                                @if(auth()->user()->isFollowing($user) && $user->isFollowing(auth()->user()))
+                                    
+                                @endif
+                        </div>   --}}
+                            @include('tourists.message.modal.mutual_follow')  
                         @endif
-
-                        {{-- SNS icons --}}
-                        <div class="col-auto ms-auto">
-                            @if($user->instagram)
-                                <a href="#" class="text-decoration-none">
-                                <i class="fa-brands fa-instagram text-dark icon-md px-4"></i>
-                                </a>
-                            @endif
-                            @if($user->facebook)
-                                <a href="#" class="text-decoration-none">
-                                <i class="fa-brands fa-facebook text-dark icon-md px-4"></i>
-                                </a>
-                            @endif
-                            @if($user->x)
-                                <a href="#" class="text-decoration-none">
-                                <i class="fa-brands fa-x-twitter text-dark icon-md px-4"></i>
-                                </a>
-                            @endif
-                            @if($user->tiktok)
-                                <a href="#" class="text-decoration-none">
-                                <i class="fa-brands fa-tiktok text-dark icon-md px-4"></i>
-                                </a>
-                            @endif
-                        </div>
-                    </div>
+                    </div> 
+                    <div class="row mb-3">
+                        @include('businessusers.profiles.partial.counter')
+                    </div>    
                 </div> 
             </div>
             {{-- introduction --}}
@@ -220,6 +198,49 @@
                                     <h4 class="h4 text-center text-secondary">No followers yet</h4>
                                 @endforelse   
                             </ul>
+                        @elseif ($section == 'follows')
+                            <h3 class="text-center mb-3">Followers</h3>                            
+                            <ul class="list-group">
+                                @foreach($user->follows as $following)
+                                    <div class="row bg-white p-2 rounded-4 mb-3 d-flex align-items-center">
+                                        <div class="col-auto">
+                                            {{-- icon/avatar --}}
+                                            <a href="{{route('profile.show', $following->followed->id)}}">
+                                                @if($following->followed->avatar)
+                                                    <img src="{{$following->followed->avatar}}" alt="" class="rounded-circle avatar-sm">
+                                                @else
+                                                    <i class="fa-solid fa-circle-user text-secondary profile-sm"></i>
+                                                @endif
+                                            </a>
+                                        </div>
+                                        <div class="col ps-0 text-truncate">
+                                            {{-- name --}}
+                                            <a href="{{route('profile.show', $following->followed->id)}}" class="text-decoration-none text-dark fw-bold">
+                                                {{$following->followed->name}}
+                                            </a>
+                                        </div>
+                                        <div class="col-auto">
+                                            {{-- button --}}
+                                            @if($following->followed->id != Auth::user()->id)
+                                                @if($following->followed->isFollowed())
+                                                    {{-- unfollow --}}
+                                                    <form action="{{route('follow.delete', $following->followed->id)}}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn-following ">Following</button>
+                                                    </form>
+                                                @else  
+                                                    {{-- follow --}}
+                                                    <form action="{{route('follow.store', $following->followed->id)}}" method="post">
+                                                        @csrf
+                                                        <button type="submit" class="btn-follow ">Follow</button>
+                                                    </form>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach   
+                            </ul>
                         @else
                     </div>
                 </div>
@@ -228,7 +249,7 @@
                                     @include('businessusers.profiles.businesses', ['businesses' => $businesses])
                                     @break
                                 @case('promotions')
-                                    @include('businessusers.profiles.promotions', ['promotions' => $promotions])
+                                    @include('businessusers.profiles.promotions', ['promotions' => $business_promotions])
                                     @break
                                 @case('quests')
                                     @include('businessusers.profiles.quests', ['quests' => $quests])
