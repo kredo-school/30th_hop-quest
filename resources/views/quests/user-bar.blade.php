@@ -67,7 +67,7 @@
                         </form>
     
                         <button class="btn btn-sm p-0 text-center open-likes-modal" data-bs-toggle="modal" data-bs-target="#likes-modal" data-quest-id="{{ $quest_a->id }}">
-                            <span class="like-count" data-quest-id="{{ $quest_a->id }}">{{ $quest_a->likes->count() }}</span>
+                            <span class="like-count" data-quest-id="{{ $quest_a->id }}">{{ $quest_a->questLikes->count() }}</span>
                         </button>
                         
                     {{-- Modal for displaying all users who liked owner of post--}}

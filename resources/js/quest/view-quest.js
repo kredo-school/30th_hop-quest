@@ -177,77 +177,77 @@ document.querySelectorAll('.follow-toggle-form button').forEach(button => {
 });
 
 
-// コメント数＆いいね情報の取得と描画
-async function fetchCommentStats(questId) {
-    try { 
-        const res = await fetch(`/quest/${questId}/comments/stats`);
+// // コメント数＆いいね情報の取得と描画
+// async function fetchCommentStats(questId) {
+//     try { 
+//         const res = await fetch(`/quest/${questId}/comments/stats`);
         
-        if (!res.ok) throw new Error("ステータスエラー");
-        const data = await res.json();
+//         if (!res.ok) throw new Error("ステータスエラー");
+//         const data = await res.json();
 
 
-    // コメント数更新
-    const commentCountLabel = document.querySelector('.comment-count');
-    if (commentCountLabel) {
-        commentCountLabel.textContent = `Comments(${data.comment_count})`;
-    }
+//     // コメント数更新
+//     const commentCountLabel = document.querySelector('.comment-count');
+//     if (commentCountLabel) {
+//         commentCountLabel.textContent = `Comments(${data.comment_count})`;
+//     }
 
-    // 各コメントのいいね状態更新
-    data.comment_stats.forEach(stat => {
-        const likeBtn = document.querySelector(`.comment-like-btn[data-comment-id="${stat.id}"]`);
-        const countSpan = document.querySelector(`.comment-like-count[data-comment-id="${stat.id}"]`);
+//     // 各コメントのいいね状態更新
+//     data.comment_stats.forEach(stat => {
+//         const likeBtn = document.querySelector(`.comment-like-btn[data-comment-id="${stat.id}"]`);
+//         const countSpan = document.querySelector(`.comment-like-count[data-comment-id="${stat.id}"]`);
 
-        if (likeBtn && countSpan) {
-            countSpan.textContent = stat.like_count;
-            likeBtn.classList.toggle('liked', stat.liked_by_auth_user);
-        }
-    });
+//         if (likeBtn && countSpan) {
+//             countSpan.textContent = stat.like_count;
+//             likeBtn.classList.toggle('liked', stat.liked_by_auth_user);
+//         }
+//     });
 
-} catch (err) {
-    console.error("❌ fetchCommentStats エラー:", err);
-}
-}
+// } catch (err) {
+//     console.error("❌ fetchCommentStats エラー:", err);
+// }
+// }
 
-// コメントのいいね切り替え処理 
-function setupCommentLikeHandlers() { 
-    const buttons = document.querySelectorAll('.comment-like-btn');
+// // コメントのいいね切り替え処理 
+// function setupCommentLikeHandlers() { 
+//     const buttons = document.querySelectorAll('.comment-like-btn');
 
-    buttons.forEach(btn => {
-    btn.addEventListener('click', async () => {
-        const commentId = btn.dataset.commentId;
-        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+//     buttons.forEach(btn => {
+//     btn.addEventListener('click', async () => {
+//         const commentId = btn.dataset.commentId;
+//         const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        try {
-            const res = await fetch(`/comment/${commentId}/toggle-like`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': token,
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-            });
+//         try {
+//             const res = await fetch(`/comment/${commentId}/toggle-like`, {
+//                 method: 'POST',
+//                 headers: {
+//                     'X-CSRF-TOKEN': token,
+//                     'Content-Type': 'application/json',
+//                     'Accept': 'application/json',
+//                 },
+//             });
 
-            if (!res.ok) {
-                const errorText = await res.text();
-                console.error("❌ エラー:", errorText);
-                return;
-            }
+//             if (!res.ok) {
+//                 const errorText = await res.text();
+//                 console.error("❌ エラー:", errorText);
+//                 return;
+//             }
 
-            const result = await res.json();
+//             const result = await res.json();
 
-            const countSpan = document.querySelector(`.comment-like-count[data-comment-id="${commentId}"]`);
-            if (countSpan) {
-                countSpan.textContent = result.like_count;
-            }
+//             const countSpan = document.querySelector(`.comment-like-count[data-comment-id="${commentId}"]`);
+//             if (countSpan) {
+//                 countSpan.textContent = result.like_count;
+//             }
 
-            btn.classList.toggle('liked', result.liked);
+//             btn.classList.toggle('liked', result.liked);
 
-        } catch (error) {
-            console.error("🚨 JSエラー:", error);
-        }
-    });
-});
-}
+//         } catch (error) {
+//             console.error("🚨 JSエラー:", error);
+//         }
+//     });
+// });
+// }
 
 
 

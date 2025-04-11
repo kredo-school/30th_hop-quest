@@ -8,9 +8,13 @@
                 @forelse ($comment->QuestCommentlikes as $like)
                     @php 
                         $user = $like->user; 
+                        $authUser = Auth::user();
+                        $isOwn = $authUser && $authUser->id === $user->id;
+                        $isFollowing = $authUser && $authUser->follows->contains('followed_id', $user->id);
                     @endphp
-                
+
                     <div class="row align-items-center mb-3">
+                        {{-- アバター --}}
                         <div class="col-2 d-flex justify-content-center">
                             @if($user->avatar)
                                 <img src="{{ asset('storage/' . $user->avatar) }}" alt="" class="rounded-circle avatar-sm">
@@ -18,34 +22,29 @@
                                 <i class="fa-solid fa-circle-user text-secondary icon-mmd text-center"></i>
                             @endif
                         </div>
+
+                        {{-- ユーザー名 --}}
                         <div class="col-7 text-start">
-                            <a href="" class="text-decoration-none text-dark fw-bold">
-                                {{-- {{ route('profile.show', $user->id) }} --}}
+                            <a href="#" class="text-decoration-none text-dark fw-bold">
                                 {{ $user->name }}
                             </a>
                         </div>
-                        <div class="col-3 text-end">
-                            @if($user->id !== Auth::id())
+
+                        {{-- フォローボタン（自分以外のときだけ表示） --}}
+                        @if(!$isOwn)
+                            <div class="col-3 text-end">
                                 <form class="follow-toggle-form" data-user-id="{{ $user->id }}">
                                     @csrf
-                                    @php
-                                        $isFollowing = Auth::user()->follows->contains('followed_id', $user->id);
-                                    @endphp
-
-                                    @if($user->id !== Auth::id())
-                                        <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">
-                                            {{ $isFollowing ? 'Following' : 'Follow' }}
-                                        </button>
-                                    @endif
-
+                                    <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">
+                                        {{ $isFollowing ? 'Following' : 'Follow' }}
+                                    </button>
                                 </form>
-                            @endif
-                        </div>
+                            </div>
+                        @endif
                     </div>
                 @empty
                     <p class="text-center text-muted">No likes yet.</p>
                 @endforelse
-                
             </div>
         </div>
     </div>

@@ -348,7 +348,7 @@ class QuestController extends Controller{
         $user = Auth::user();
         $quest = Quest::findOrFail($id);
     
-        $like = $quest->likes()->where('user_id', $user->id)->first();
+        $like = $quest->questLikes()->where('user_id', $user->id)->first();
     
         if ($like) {
             $like->delete();
@@ -363,7 +363,7 @@ class QuestController extends Controller{
     
         return response()->json([
             'liked' => $liked,
-            'like_count' => $quest->likes()->count(),
+            'like_count' => $quest->questLikes()->count(),
         ]);
     }
 

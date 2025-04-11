@@ -178,19 +178,18 @@ Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->gro
     //SHOW - EDIT QUEST
     Route::get('/{quest_id}/edit', 'showQuestEdit')->name('edit');
     Route::put('/{quest_id}/update', 'updateQuest')->name('update');
+    //SHOW - CONFIRM QUEST
+    Route::get('/confirm-quest/{quest_id}', 'showConfirmQuest')->name('confirm');
+    //VIEW QUEST
+    Route::get('/{quest_id}', 'showViewQuest')->name('show');
     //RESTORE - UNHIEDE
     Route::post('/{quest_id}/restore', 'restore')->name('restore');
     //SOFT DELETE - HIHE (back to Confirm--> change later redirect to MyPage)
     Route::delete('/{quest_id}/hide', 'softDelete')->name('softDelete');
-    //SHOW - CONFIRM QUEST
-    Route::get('/confirm-quest/{quest_id}', 'showConfirmQuest')->name('confirm');
-    //VIEW QUEST
-    Route::get('/{quest_id}', 'showViewQuest')->name('show'); 
+
     Route::post('/{id}/toggle-like', 'toggleLike')->name('toggle-like');
     Route::get('/{id}/likes', 'getLikes')->name('likes');
     Route::delete('/delete/{questId}', 'deleteQuest')->name('delete');
-
-    
     Route::post('/follow/{userId}', [QuestController::class, 'toggleFollow'])->name('quest.toggleFollow');
 });
 
