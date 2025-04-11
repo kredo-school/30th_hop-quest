@@ -24,7 +24,11 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             
-            $table->foreign('quest_id')->references('id')->on('quests');
+            // 🔗 外部キー制約（詳細付き）
+            $table->foreign('quest_id')
+                ->references('id')->on('quests')
+                ->onDelete('cascade');
+                
             $table->foreign('spot_id')->references('id')->on('spots');
             $table->foreign('business_id')->references('id')->on('businesses');
         });
