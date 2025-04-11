@@ -1,133 +1,174 @@
 @extends('layouts.app')
 
 @section('css')
-    <link rel="stylesheet" href="css/add-quest.css">
+    <link rel="stylesheet" href="{{ asset('css/quest/view-quest.css') }}">
 @endsection
 
-@section('title', 'Quest')
+@section('title', 'Add Quest - Confirmation')
 
 @section('content')
-<div class="bg-green">
-    <div class="container py-4 col-9 px-0">
-    <section class="position-relative my-5" id="header">
-            <img src="{{asset('images/quest/pexels-pixabay-459203_optimized_.jpg')}}" alt="header-img" id="header-img" class="img-fluid w-100">
-        
-            <div class="overlay position-absolute bottom-0 start-0 p-3 text-white">
-                <!-- タイトル -->
-                <h3 class="my-0" id="header-title">Japan - Kyoto 15days Fun Trip!</h3>
-                <!-- 日付 -->
-                <h4 class="my-0" id="header-dates">2025/01/01 - 2025/01/15</h4>
-                <!-- 紹介文 -->
-                <p class="m-0 p-0" id="header-intro">with my family! this is my sisters birthday trip!</p>
-            </div>
-     </section>
+<div class="{{ $quest_a->user->role_id === 1 ? 'bg-green' : 'bg-blue' }}">
+    <div class="container py-5 col-9 px-0">
+        @php
+            $hasCertifiedBusiness = $quest_a->user_id === 2 && $quest_a->questBodies->contains(function($body) {
+                return $body->business && $body->business->official_certification == 3;
+            });
+        @endphp
 
-     <section>
-        @include('quests.user-bar')
-            
-     </section>
+        <section class="position-relative my-5" id="header">
+            <img 
+                src="{{ asset('storage/' . $quest_a->main_image) }}" 
+                alt="header-img" 
+                class="img-fluid w-100 rounded-3 {{ $hasCertifiedBusiness ? 'border-quest-red' : '' }}">
+
+            @if($hasCertifiedBusiness)
+                <img src="{{ asset('images/logo/OfficialBadge.png') }}" alt="Certified Badge" class="official-badge avatar-xxl d-none d-md-block">
+                <img src="{{ asset('images/logo/OfficialBadge.png') }}" alt="Certified Badge" class="official-badge-xl avatar-xl d-md-none">
+            @endif
+
+            <div class="overlay position-absolute bottom-0 start-0 p-3 text-white">
+                @php
+                    $firstBusiness = $quest_a->questBodies->first(function ($body) {
+                        return $body->business !== null;
+                    });
+                @endphp
+
+                <h3>{{ $quest_a->title }}</h3>
+
+                @if($quest_a->user_id !== 1 && $firstBusiness)
+                    <h4><i class="fa-solid fa-location-dot"></i> {{ $firstBusiness->business->name }}</h4>
+                @endif
+
+                <h4>
+                    @if ($quest_a->start_date && $quest_a->end_date)
+                        {{ $quest_a->start_date }} - {{ $quest_a->end_date }}
+                    @elseif ($quest_a->duration)
+                        {{ $quest_a->duration }} {{ $quest_a->duration == 1 ? 'day' : 'days' }} Quest
+                    @endif
+                </h4>
+            </div>
+        </section>
+
+        <div class="px-0">
+            @include('quests.user-bar')
+        </div>
 
         <div class="container mt-5">
             <div class="row align-items-stretch p-0">
-                <!-- 左側: Quest - Agenda -->
                 <div class="col-md-6 d-flex px-0" id="agenda-list">
-                    <div class="bg-white rounded-3 w-100 p-2 me-2">
-                        <h4>Quest - Agenda</h4>
-                        <ul>
-                            <li class="day-tag">Day - 1
-                                <ul>
-                                    <li>- Kinkakuji-Temple</li>
-                                </ul>
-                            </li>
-                            <li class="day-tag">Day - 2
-                                <ul>
-                                    <li>- Kinkakuji-Temple</li>
-                                </ul>
-                            </li>
-                            <li class="day-tag">Day - 3
-                                <ul>
-                                    <li>- Kinkakuji-Temple</li>
-                                </ul>
-                            </li>
-                            <li class="day-tag">Day - 4
-                                <ul>
-                                    <li>- Kinkakuji-Temple</li>
-                                </ul>
-                            </li>
-                        </ul>
+                    <div class="bg-white rounded-3 w-100 p-3 me-0 me-md-2 mb-3 mb-md-0">
+                        <h4 class="raleway-semibold fs-5 mb-3 text-center">Quest - Agenda</h4>
+                        <div class="agenda-wrapper">
+                            <ul class="list-unstyled">
+                                @foreach($agenda_bodys->groupBy('day_number') as $day => $bodys)
+                                    <li class="day-tag mb-2">
+                                        <p class="text-decoration-underline p-0 m-0">Day - {{ $day }}</p>
+                                        <ul>
+                                            @foreach($bodys as $body)
+                                                <li>
+                                                    @if ($body->spot)
+                                                        {{ $body->spot->title }}
+                                                    @elseif ($body->business)
+                                                        @if ($quest_a->user_id === 2)
+                                                            {{ $body->business_title }}
+                                                        @else
+                                                            {{ $body->business->name }}
+                                                        @endif
+                                                    @else
+                                                        <span class="text-muted">Undefined</span>
+                                                    @endif
+
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            
-                <!-- 右側: Googleマップ -->
                 <div class="col-md-6 px-0">
-                    <div class="bg-white rounded-3 container-fluid p-2 ms-2">
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.146784010381!2d123.903637375094!3d10.33013598979281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a9992189a343c3%3A0xa7758b38dbbe1750!2sQQEnglish%20IT%20Park%20Campus!5e0!3m2!1sja!2sph!4v1742469854398!5m2!1sja!2sph" 
-                            width="100%" 
-                            height="300" 
-                            style="border:0;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
+                    <div class="bg-white rounded-3 container-fluid p-2">
+                        <script>
+                            window.questMapLocations = @json($locations);
+                        </script>
+                        <div id="map" style="height: 500px; width: 100%;"></div>
                     </div>
-                </div>{{-- </div> --}}
+                </div>
             </div>
         </div>
-    
-        <section id="day-template" class="container bg-white my-5 rounded-3 p-3 border-red">
-            <div class="row px-0">
-                <p class="color-red fs-3 text-center" id="day-number">Day 2</p>
-            </div>
-            <div class="row px-3">
-                <h4 class="col-md-10 spot-name text-start poppins-bold px-0" id="spot-name">SPOT NAME</h4>
 
-            <div class="row px-0">
-                <div class="col-md-6 spot-image-container">
-                    <img  src="{{asset('images/quest/pexels-pixabay-459203_optimized_.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail" id="spot-image">
-                </div>
-                <div class="col-md-6 mt-4 mt-md-0">
-                    <p class="spot-description w-100" id="spot-description">Description Here------Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantium animi, sunt impedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quamisi hic adipisci amet accusantium pariatur, error molestiae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantium animi, sunt impedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quam nobis ullam corrupti optio voluptates libero, labore hic sint debitis nisi iste repellat, beatae dolorem voluptas a, placeat enim repudiandae dicta minus aliquid dolore! Vitae reprehenderit libero nisi hic adipisci amet accusantium pariatur, error molestiae.</p>
-                </div>
-            </div>
-        </section>
-        <section id="day-template" class="container bg-white my-5 rounded-3 p-3 border-red">
-            <div class="row px-0">
-                <p class="color-red fs-3 text-center" id="day-number">Day 2</p>
-            </div>
-            <div class="row px-3">
-                <h4 class="col-md-10 spot-name text-start poppins-bold px-0" id="spot-name">SPOT NAME</h4>
+        <div class="bg-white rounded-3 my-4 p-3">
+            <h4 class="fs-5 raleway-semibold text-center">Introduction</h4>
+            <p class="my-0" id="header-intro">{{ $quest_a->introduction ?? '' }}</p>
+        </div>
 
-            <div class="row px-0">
-                <div class="col-md-6 spot-image-container">
-                    <img  src="{{asset('images/quest/pexels-pixabay-459203_optimized_.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail d-block" id="spot-image">
-                    <img  src="{{asset('images/quest/pexels-pixabay-459203_optimized_.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail d-block" id="spot-image">
-                    <img  src="{{asset('images/quest/pexels-pixabay-459203_optimized_.jpg')}}" alt="" class="spot-image img-fluid image-thumbnail d-block" id="spot-image">
-                </div>
-                <div class="col-md-6 mt-4 mt-md-0">
-                    <p class="spot-description w-100" id="spot-description">Description Here------Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantium animi, sunt impedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quamisi hic adipisci amet accusantium pariatur, error molestiae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quamisi hic adipisci amet accusantium pariatur, error molestiae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi rem repellat blanditiis soluta assumenda rerum temporibus obcaecati ex! Laudantium animi, sunt impedit incidunt officia dolor, a dicta expedita numquam ad non odio maxime sit totam doloremque eos vero reiciendis eveniet laboriosam neque! Odit deleniti quam nobis ullam corrupti optio voluptates libero, labore hic sint debitis nisi iste repellat, beatae dolorem voluptas a, placeat enim repudiandae dicta minus aliquid dolore! Vitae reprehenderit libero nisi hic adipisci amet accusantium pariatur, error molestiae.</p>
-                </div>
-            </div>
-        </section>
+        <div id="quest-body-container" class="reveal-section revealed">
+            @if(isset($questBodies) && $questBodies->isNotEmpty())
+                @foreach ($questBodies->groupBy('day_number') as $day => $bodies)
+                    @php $firstBody = $bodies->first(); @endphp
+                    <div class="day-group bg-white rounded-3 p-3 my-3 border {{ $firstBody->border_class }}" data-day="{{ $day }}">
+                        <p class="day-number p-4 text-center fs-3 poppins-semibold {{ $firstBody->color_class }}">DAY {{ $day }}</p>
+                        @foreach ($bodies as $questbody)
+                            <div class="spot-entry">
+                                <div class="row pb-3 justify-content-between align-items-center">
+                                    <h4 class="spot-name poppins-bold col-md-10 text-start">
+                                        @if ($quest_a->user_id == 2)
+                                            {{ $questbody->business_title }}
+                                        @else
+                                            @if ($questbody->spot)
+                                                {{ $questbody->spot->title }}
+                                            @elseif ($questbody->business)
+                                                {{ $questbody->business->name }}
+                                            @else
+                                                <span class="text-muted">Undefined</span>
+                                            @endif
+                                        @endif
+                                    </h4>
+                                </div>
 
-        <section class="text-center">
-            @include('components.comment')
-         </section>
+                                <div class="row">
+                                    @php
+                                        $images = is_array(json_decode($questbody->image, true)) ? json_decode($questbody->image, true) : [];
+                                    @endphp
+                                    <div class="col-lg-6 image-container">
+                                        @foreach ($images as $image)
+                                            <img src="{{ asset('storage/' . ltrim($image, '/')) }}" alt="画像" class="img-fluid mb-2 rounded">
+                                        @endforeach
+                                    </div>
+                                    <div class="col-lg-6 mt-4 mt-lg-0 spot-description-container">
+                                        <p class="spot-description w-100">{!! nl2br(e($questbody->introduction)) !!}</p>
+                                    </div>
+                                </div>
 
+                                @if(!$loop->last)
+                                    <hr class="my-3 mt-5">
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+            @else
+                <h4>No Entry. Please add Spots or businesses on your Quest!</h4>
+            @endif
+        </div>
+        <div class="text-center mt-5 pt-3" id="comment-section">
+            @include('quests.comment.body')
         </div>
     </div>
-    
-<!-- Go to Top Button -->
-<div class="top-button-container">
-    <button class="top-button">
-        <a href="#" class="text-decoration-none color-navy">
-            <i class="fa-solid fa-plane-up fs-3"></i>
-            <p class="color-navy m-0 p-0 text-center fs-8 poppins-semibold">Go TOP</p>
-        </a>
-    </button>
+
+    <div class="top-button-container">
+        <button class="top-button">
+            <a href="#" class="text-decoration-none color-navy">
+                <i class="fa-solid fa-plane-up fs-3"></i>
+                <p class="color-navy m-0 p-0 text-center fs-8 poppins-semibold">Go TOP</p>
+            </a>
+        </button>
+    </div>
 </div>
 
-</div>
-
-@vite(['resources/js/quest/scroll-adjustment.js'])
+@vite(['resources/js/quest/view-quest.js'])
+<script type="text/javascript" src="{{ Vite::asset('resources/js/quest/map.js') }}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap&loading=async" async defer></script>
 @endsection
+

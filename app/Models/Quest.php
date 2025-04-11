@@ -10,6 +10,16 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 class Quest extends Model
 {
     use SoftDeletes;
+
+    protected $table = 'quests';
+
+    protected $dates = ['deleted_at'];
+    public $timestamps = true;
+
+    protected $fillable = [
+        'title', 'user_id', 'start_date', 'end_date', 'duration',
+        'introduction', 'main_image', 'is_public'
+    ];
     
     public function user(){
         return $this->belongsTo(User::class);
@@ -34,4 +44,17 @@ class Quest extends Model
     public function view(): MorphOne{
         return $this->morphOne(PageView::class, 'page');
     }
+
+
+    public function questBodies(){
+        return $this->hasMany(QuestBody::class, 'quest_id', 'id')
+                    ->orderBy('day_number')
+                    ->orderBy('id');
+    }
+
+    //Quest has many Quest_likes
+    public function likes(){
+        return $this->hasMany(QuestLike::class);
+    }
+
 }

@@ -10,10 +10,10 @@ use App\Http\Controllers\Spot\LikeController;
 use App\Http\Controllers\Spot\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
-use App\Http\Controllers\Business\QuestController;
+use App\Http\Controllers\Business\QuestController as BusinessQuestController;
 use App\Http\Controllers\TouristProfileController;
 use App\Http\Controllers\Business\QuestLikeController;
-use App\Http\Controllers\Business\QuestCommentController;
+use App\Http\Controllers\Business\QuestCommentController as BusinessQuestCommentCOntroller;
 use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
@@ -28,6 +28,9 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\BusinessesController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\CommentsController;
+use App\Http\Controllers\Quest\QuestController;
+use App\Http\Controllers\Quest\QuestBodyController;
+use App\Http\Controllers\Quest\QuestCommentController;
 
 
 Route::get('/', function () {
@@ -96,14 +99,14 @@ Route::delete('/home/like/business/{business_id}/delete', [BusinessLikeControlle
 
 //QUESTS simple
 Route::group(['prefix' => '/home/modelquest', 'as' => 'quests.'], function () {
-    Route::get('/create', [QuestController::class, 'create'])->name('create');
-    Route::get('/{id}/edit', [QuestController::class, 'edit'])->name('edit');
-    Route::patch('/{id}/update', [QuestController::class, 'update'])->name('update');
-    Route::post('/store', [QuestController::class, 'store'])->name('store');
+    Route::get('/create', [BusinessQuestController::class, 'create'])->name('create');
+    Route::get('/{id}/edit', [BusinessQuestController::class, 'edit'])->name('edit');
+    Route::patch('/{id}/update', [BusinessQuestController::class, 'update'])->name('update');
+    Route::post('/store', [BusinessQuestController::class, 'store'])->name('store');
     Route::delete('/{id}/deactivate', [QuestController::class, 'deactivate'])->name('deactivate');
-    Route::patch('/{id}/activate', [QuestController::class, 'activate'])->name('activate');
-    Route::post('/like/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('like.store');
-    Route::delete('/like/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('like.delete');
+    Route::patch('/{id}/activate', [BusinessQuestController::class, 'activate'])->name('activate');
+    Route::post('/like/{quest_id}/store', [BusinessQuestLikeController::class, 'storeQuestLike'])->name('like.store');
+    Route::delete('/like/{quest_id}/delete', [BusinessQuestLikeController::class, 'deleteQuestLike'])->name('like.delete');
 });
 
 //LIKE QUEST
@@ -197,6 +200,54 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], fu
     Route::patch('/{id}/business/comment/activate', [BusinessCommentController::class, 'activateBusinessComment'])->name('activate.business.comment');
     Route::delete('/{id}/spot/comment/deactivate', [SpotCommentController::class, 'deactivateSpotComment'])->name('deactivate.spot.comment');
     Route::patch('/{id}/spot/comment/activate', [SpotCommentController::class, 'activateSpotComment'])->name('activate.spot.comment');
-    Route::delete('/{id}/quest/comment/deactivate', [QuestCommentController::class, 'deactivateQuestComment'])->name('deactivate.quest.comment');
-    Route::patch('/{id}/quest/comment/activate', [QuestCommentController::class, 'activateQuestComment'])->name('activate.quest.comment');
+    Route::delete('/{id}/quest/comment/deactivate', [BusinessQuestCommentController::class, 'deactivateQuestComment'])->name('deactivate.quest.comment');
+    Route::patch('/{id}/quest/comment/activate', [BusinessQuestCommentController::class, 'activateQuestComment'])->name('activate.quest.comment');
+});
+
+// =============================== QuestController
+Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->group(function () {
+    //SHOW - ADD QUEST 
+    Route::get('/add', 'showAddQuest')->name('add');
+    Route::post('/store', 'storeQuest')->name('store');
+    //SHOW - EDIT QUEST
+    Route::get('/{quest_id}/edit', 'showQuestEdit')->name('edit');
+    Route::put('/{quest_id}/update', 'updateQuest')->name('update');
+    //SHOW - CONFIRM QUEST
+    Route::get('/confirm/{quest_id}', 'showConfirmQuest')->name('confirm');
+    //VIEW QUEST
+    Route::get('/{quest_id}', 'showViewQuest')->name('show');
+    //RESTORE - UNHIEDE
+    Route::post('/{quest_id}/restore', 'restore')->name('restore');
+    //SOFT DELETE - HIHE (back to Confirm--> change later redirect to MyPage)
+    Route::delete('/{quest_id}/hide', 'softDelete')->name('softDelete');
+
+    Route::post('/{id}/toggle-like', 'toggleLike')->name('toggle-like');
+    Route::get('/{id}/likes', 'getLikes')->name('likes');
+    Route::delete('/delete/{questId}', 'deleteQuest')->name('delete');
+    Route::post('/follow/{userId}', [QuestController::class, 'toggleFollow'])->name('quest.toggleFollow');
+});
+
+
+// =============================== QuestBodyController
+Route::prefix('/questbody')->name('questbody.')->controller(QuestBodyController::class)->group(function () {
+    Route::post('/store', 'storeQuestBody')->name('store');
+    Route::put('/update/{id}', 'updateQuestBody')->name('update');
+    Route::delete('/delete/{id}', 'deleteQuestBody')->name('delete');
+    Route::post('/image/delete', 'deleteImage')->name('image.delete');
+    Route::post('/agenda/{id}', 'toggleAgenda')->name('toggleAgenda');
+    Route::get('/getAllQuestBodies/{questId}','getAllQuestBodies')->name('getAllQuestBody');
+
+    // ✅補助機能（QuestBody関連）
+    Route::get('/user/searchbusinesses', 'getMyBusinesses')->name('mybusinesses');
+    Route::get('/search/Ajax',  'searchAjax')->name('search');
+});
+
+// =============================== QuestCommentController
+Route::prefix('/questcomment')->name('questcomment.')->controller(QuestCommentController::class)->group(function () {
+    Route::post('/store/{quest_id}', 'storeQuestComment')->name('store');
+    Route::delete('/delete/{id}', 'deleteQuestComment')->name('delete');
+    Route::post('/{comment_id}/toggle-like', 'toggleCommentLike')->name('toggleLike');
+    Route::get('/{commentId}/likes', 'getCommentLikes')->name('likes');
+
+    Route::get('/{quest_id}/stats', 'getQuestCommentStats')->name('stats');
 });
