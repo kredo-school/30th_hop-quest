@@ -12,9 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->text('zip')->nullable()->after('website_url');
-            $table->string('address')->nullable()->after('zip');
-            $table->string('phonenumber')->nullable()->after('address');
+            // 各カラムが存在するかどうかを確認してから追加
+            if (!Schema::hasColumn('users', 'zip')) {
+                $table->text('zip')->nullable()->after('website_url');
+            }
+            
+            if (!Schema::hasColumn('users', 'address')) {
+                $table->string('address')->nullable()->after('zip');
+            }
+            
+            if (!Schema::hasColumn('users', 'phonenumber')) {
+                $table->string('phonenumber')->nullable()->after('address');
+            }
         });
     }
 
@@ -24,9 +33,18 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('zip');
-            $table->dropColumn('address');
-            $table->dropColumn('phonenumber');
+            // 各カラムが存在する場合のみ削除
+            if (Schema::hasColumn('users', 'zip')) {
+                $table->dropColumn('zip');
+            }
+            
+            if (Schema::hasColumn('users', 'address')) {
+                $table->dropColumn('address');
+            }
+            
+            if (Schema::hasColumn('users', 'phonenumber')) {
+                $table->dropColumn('phonenumber');
+            }
         });
     }
 };

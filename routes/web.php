@@ -131,10 +131,6 @@ Route::group(['prefix' => '/spot', 'as' => 'spot.'], function(){
     Route::delete('/{spot_id}/comment/{comment_id}/unlike', [App\Http\Controllers\Spot\LikeCommentController::class, 'unlike'])->name('comment.unlike');
 });
 
-
-
-
-
 // password reset
 Route::get('/password/reset', [ForgotPasswordController::class, 'show'])->name('password.request');
 

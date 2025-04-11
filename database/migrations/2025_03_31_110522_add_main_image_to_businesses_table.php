@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('businesses', function (Blueprint $table) {
-            $table->longText('main_image')->nullable()->after('introduction');
+            if (!Schema::hasColumn('businesses', 'main_image')) {
+                $table->longText('main_image')->nullable()->after('introduction');
+            }
         });
     }
 
@@ -22,7 +24,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('businesses', function (Blueprint $table) {
-            $table->dropColumn('main_image');
+            // カラムが存在する場合のみ削除
+            if (Schema::hasColumn('businesses', 'main_image')) {
+                $table->dropColumn('main_image');
+            }
         });
     }
 };

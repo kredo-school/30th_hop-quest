@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Schema;
 
 class ProfileController extends Controller
 {
@@ -85,11 +86,14 @@ class ProfileController extends Controller
         $user_a->load(['businesses.photos' => function ($query) {
             $query->orderBy('priority', 'asc')->limit(1);
         }]);
-        $reviews = DB::table('reviews')
-            ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
-            ->where('businesses.user_id', $id)
-            ->select('reviews.*') 
-            ->get();
+        $reviews = [];
+        if (Schema::hasTable('reviews')) {
+            $reviews = DB::table('reviews')
+                ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+                ->where('businesses.user_id', $id)
+                ->select('reviews.*') 
+                ->get();
+        }
         $sort = $request->get('sort', 'latest');
         $perPage = 3;
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
@@ -195,11 +199,14 @@ class ProfileController extends Controller
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
         $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $reviews = DB::table('reviews')
-        ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
-        ->where('businesses.user_id', $id)
-        ->select('reviews.*') 
-        ->get();
+        $reviews = [];
+        if (Schema::hasTable('reviews')) {
+            $reviews = DB::table('reviews')
+                ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+                ->where('businesses.user_id', $id)
+                ->select('reviews.*') 
+                ->get();
+}
         $sort = $request->get('sort', 'latest');
         $perPage = 3;
         $currentPage = LengthAwarePaginator::resolveCurrentPage();

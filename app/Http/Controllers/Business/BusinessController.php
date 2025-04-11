@@ -34,8 +34,17 @@ class BusinessController extends Controller
 
     public function store(Request $request){
         $request->validate([
-            'main_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'main_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'introduction' => 'required_if:official_certification,2|max:1000',
+            'phonenumber' => 'required_if:official_certification,2|max:20',
+            'zip' => 'required_if:official_certification,2|max:7',
+            'address_1' => 'required_if:official_certification,2|max:255'
+        ], [
+            'introduction.required_if' => 'Required for official certification badge',
+            'phonenumber.required_if' => 'Required for official certification badge',
+            'zip.required_if' => 'Required for official certification badge',
+            'address_1.required_if' => 'Required for official certification badge',
         ]);
 
         $this->business->category_id = $request->category_id;
@@ -58,9 +67,24 @@ class BusinessController extends Controller
             $this->business->x = $request->x;
             $this->business->tiktok = $request->tiktok;
             $this->business->identification_number = $request->identification_number;
-            $this->business->official_certification = 1;
             $this->business->display_start = $request->display_start;
             $this->business->display_end = $request->display_end;
+            $current_cert = $this->business->official_certification;
+                    if ($current_cert == 3) {
+                        if ($request->has('official_certification')) {
+                            // チェックあり → 特別な認定を外して普通の認定に戻す
+                            $this->business->official_certification = 2;
+                        } else {
+                            // チェックなし → 認定全部外す
+                            $this->business->official_certification = 1;
+                        }
+                    } else {
+                        if ($request->has('official_certification')) {
+                            $this->business->official_certification = 2;
+                        } else {
+                            $this->business->official_certification = 1;
+                        }
+                    }
             $this->business->save();
 
         // PhotoController の store を呼び出して写真を保存
@@ -122,7 +146,17 @@ class BusinessController extends Controller
 
     public function update(Request $request, $id){
         $request->validate([
-            'main_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'main_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'introduction' => 'required_if:official_certification,2|max:1000',
+            'phonenumber' => 'required_if:official_certification,2|max:20',
+            'zip' => 'required_if:official_certification,2|max:7',
+            'address_1' => 'required_if:official_certification,2|max:255'
+        ], [
+            'introduction.required_if' => 'Required for official certification badge',
+            'phonenumber.required_if' => 'Required for official certification badge',
+            'zip.required_if' => 'Required for official certification badge',
+            'address_1.required_if' => 'Required for official certification badge',
         ]);
 
         $business_a = $this->business->findOrFail($id);
@@ -149,9 +183,22 @@ class BusinessController extends Controller
         $business_a->identification_number = $request->identification_number;
         $business_a->display_start = $request->display_start;
         $business_a->display_end = $request->display_end;
-        $business_a->official_certification = 1;
-
-
+        $current_cert = $business_a->official_certification;
+        if ($current_cert == 3) {
+            if ($request->has('official_certification')) {
+                // チェックあり → 特別な認定を外して普通の認定に戻す
+                $business_a->official_certification = 2;
+            } else {
+                // チェックなし → 認定全部外す
+                $business_a->official_certification = 1;
+            }
+        } else {
+            if ($request->has('official_certification')) {
+                $business_a->official_certification = 2;
+            } else {
+                $business_a->official_certification = 1;
+            }
+        }
         if($request->main_image){
             $business_a->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
         }
