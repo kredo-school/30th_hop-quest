@@ -122,7 +122,7 @@
             </div>
             <div class="row pt-0">       
                 <div class="col align-center mb-0">
-                    <a href="{{route('profile.businesses', Auth::user()->id)}}">
+                    <a href="{{route('profile.header', Auth::user()->id)}}">
                         <button class="btn btn-green text-uppercase w-25 position-absolute start-50 translate-middle mt-1">Back to Profile</button>
                     </a>
                 </div>
@@ -133,3 +133,4 @@
 
 </div>
 @endsection
+

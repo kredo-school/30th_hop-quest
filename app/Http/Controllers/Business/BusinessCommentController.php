@@ -68,35 +68,10 @@ class BusinessCommentController extends Controller
             return view('businessusers.reviews.allreviews', compact('business_comments', 'from_businesses', 'from_users',))->with('user', $user_a);
     }
 
-    public function reviews($id){
-        //get the data of 1 post where ID = $id
-        $all_business_comments = $this->business_comment->latest()->paginate(10);
-        $business_comment_a = $this->business_comment->findOrFail($id);
-        $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-
-        return view('businessusers.reviews.allreviews')->with('all_business_comments', $all_business_comments)->with('all_businesses',$all_businesses)->with('business_comment', $business_comment_a);
-
-        return view('businessusers.reviews.allreviews' ,compact('all_business_comments', 'all_businesses'))->with('business_comment', $business_comment_a);
-
-    }
-
     public function showReview($id){
         $business_comment_a = $this->business_comment->findOrFail($id);
         return view('businessusers.reviews.showreview')->with('business_comment', $business_comment_a);
     }
-
-    public function show(Request $request){
-        $query = BusinessComment::query();
-
-        if ($request->filled('business_id')) {
-            $query->where('business_id', $request->business_id);
-        }
-
-        $business_comments = $query->with('businessRelation', 'userRelation')->latest()->paginate(10);
-        $businesses = Business::all(); // Spot一覧取得
-
-        return view('businessusers.reviews.indexreview', compact('business_comments', 'businesses'));
-        }
 
     public function showIndex(Request $request){
         $query = BusinessComment::with('userRelation', 'businessRelation');

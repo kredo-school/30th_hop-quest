@@ -10,7 +10,6 @@
 
 @section('content')
 
-
 <!-- Header image -->
     <div class="row">
         <div class="mb-3 pt-3">
@@ -89,6 +88,7 @@
                     
                     {{-- items --}}
                     <div class="row mb-3">
+                        <!--Post-->
                         <div class="col-auto">
                             @if($user->id == Auth::user()->id)
                                 <a href="{{ route('profile.header', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->businessPromotions->count()+$user->businesses->count()+$user->quests->count()}}</span> {{$user->businessPromotions->count()+$user->businesses->count()+$user->quests->count()==1 ? 'post' : 'posts'}}</a>
@@ -96,8 +96,9 @@
                                 <a href="{{ route('profile.businesses', $user->id) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->businessPromotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()}}</span> {{$user->businessPromotionsVisible->count()+$user->businessesVisible->count()+$user->questsVisible->count()==1 ? 'post' : 'posts'}}</a>
                             @endif
                         </div>
+                        <!--Follower-->
                         <div class="col-auto">
-                            <a href="{{ route('profile.followers', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->followers->count()}}</span> {{$user->followers->count()==1 ? 'follower' : 'followers'}}</a>
+                            <a href="{{ route('profile.header', ['id' => $user->id, 'section' => 'followers']) }}" class="text-decoration-none text-dark"><span class="fw-bold">{{$user->followers->count()}}</span> {{$user->followers->count()==1 ? 'follower' : 'followers'}}</a>
                         </div>
                         @if($user->id == Auth::user()->id)
                         <div class="col-auto">
@@ -105,14 +106,6 @@
                                 <a href="{{ route('profile.allreviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$business_comments->count()}}</span> {{$business_comments->count()==1 ? 'review' : 'reviews'}}</a>
                             @endif
                         </div>
-                            {{-- @forelse($all_businesses as $business)
-                                @if($business->user->id == Auth::user()->id)
-                                    <a href="{{ route('profile.reviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$business->reviews->count()}}</span> {{$business->reviews->count()==1 ? 'review' : 'reviews'}}</a>
-                                @endif
-                            @empty
-                                <a href="{{ route('profile.reviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">0</span> reviews</a>
-                            @endforelse
-                        </div> --}}
                         @endif
 
                         {{-- SNS icons --}}
@@ -147,46 +140,105 @@
                     <p>{{ $user->introduction}}</p>
                 @endif               
             </div> 
+        </div>
 
                {{-- === タブ切り替えエリア === --}}
-    <ul class="nav nav-tabs mt-4 custom-tabs" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link {{ $activeTab == 'businesses' ? 'active text-danger' : '' }}" href="{{ route('profile.header', ['id' => $user->id, 'tab' => 'businesses']) }}">Management Business</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ $activeTab == 'promotions' ? 'active text-danger' : '' }}" href="{{ route('profile.header', ['id' => $user->id, 'tab' => 'promotions']) }}">Promotions</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ $activeTab == 'quests' ? 'active text-danger' : '' }}" href="{{ route('profile.header', ['id' => $user->id, 'tab' => 'quests']) }}">Model Quests</a>
-        </li>
-    </ul>
+            @if (!$section)
+               <ul class="nav nav-tabs custom-tabs mt-4" role="tablist">
+                   <li class="nav-item">
+                       <a class="nav-link {{ $tab == 'businesses' ? 'active-tab' : '' }}"
+                           href="{{ route('profile.header', ['id' => $user->id, 'tab' => 'businesses']) }}">
+                           Management Business
+                       </a>
+                   </li>
+                   <li class="nav-item">
+                       <a class="nav-link {{ $tab == 'promotions' ? 'active-tab' : '' }}"
+                           href="{{ route('profile.header', ['id' => $user->id, 'tab' => 'promotions']) }}">
+                           Promotions
+                       </a>
+                   </li>
+                   <li class="nav-item">
+                       <a class="nav-link {{ $tab == 'quests' ? 'active-tab' : '' }}"
+                           href="{{ route('profile.header', ['id' => $user->id, 'tab' => 'quests']) }}">
+                           Model Quests
+                       </a>
+                   </li>
+               </ul>
+           @endif
 
     {{-- === コンテンツ表示（Switch） === --}}
-        <div class="row mt-4">
-            @switch($activeTab)
-                @case('businesses')
-                    @include('businessusers.profiles.businesses', ['businesses' => $businesses])
-                    @break
-
-                @case('promotions')
-                    @include('businessusers.profiles.promotions', ['promotions' => $business_promotions])
-                    @break
-
-                @case('quests')
-                    @include('businessusers.profiles.quests', ['quests' => $quests])
-                    @break
-
-                @default
-                    @include('businessusers.profiles.businesses', ['businesses' => $businesses])
-            @endswitch
-        </div>
-            {{-- <div class="row">
-                @include('businessusers.profiles.businesses')  
-            </div>       --}}
-        </div>
-    </div>
-
     
+        <div class="row justify-content-center mt-5">
+        <!--Follower-->    
+                <div class="col-6">
+                    <div class="row mb-3 align-items-center ">
+                        @if ($section == 'followers')
+                            <h3 class="text-center mb-3">Followers</h3>                            
+                            <ul class="list-group">
+                                @forelse($user->followers as $follower)  
+                                    <div class="row bg-white p-2 rounded-4 mb-3 d-flex align-items-center">                 
+                                        <div class="col-auto">
+                                            {{-- icon/avatar --}}
+                                            {{-- <a href="{{route('profile.show', $follower->follower->id)}}"> --}}
+                                            <a href="#">
+                                                @if($follower->follower->avatar)
+                                                    <img src="{{$follower->follower->avatar}}" alt="" class="rounded-circle avatar-sm">
+                                                @else
+                                                        <i class="fa-solid fa-circle-user text-secondary profile-sm"></i>
+                                                @endif
+                                            </a>
+                                        </div>
+                                        <div class="col ps-0 text-truncate">
+                                            {{-- name --}}
+                                            {{-- <a href="{{route('profile.show', $follower->follower->id)}}" 
+                                                class="text-decoration-none text-dark fw-bold"> --}}
+                                            <a href="#" class="text-decoration-none text-dark fw-bold">
+                                                {{$follower->follower->name}}
+                                            </a>
+                                        </div>
+                                        <div class="col-auto mt-3">
+                                            {{-- button --}}
+                                            @if($follower->follower->id != Auth::user()->id)
+                                                @if($follower->follower->isFollowed())
+                                                    {{-- unfollow --}}
+                                                    <form action="{{route('follow.delete', $follower->follower->id)}}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn-following ">Following</button>
+                                                    </form>
+                                                @else  
+                                                    {{-- follow --}}
+                                                    <form action="{{route('follow.store', $follower->follower->id)}}" method="post">
+                                                        @csrf
+                                                        <button type="submit" class="btn-follow ">Follow</button>
+                                                    </form>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div> 
+                                @empty
+                                    <h4 class="h4 text-center text-secondary">No followers yet</h4>
+                                @endforelse   
+                            </ul>
+                        @else
+                    </div>
+                </div>
+                            @switch($tab)
+                                @case('businesses')
+                                    @include('businessusers.profiles.businesses', ['businesses' => $businesses])
+                                    @break
+                                @case('promotions')
+                                    @include('businessusers.profiles.promotions', ['promotions' => $promotions])
+                                    @break
+                                @case('quests')
+                                    @include('businessusers.profiles.quests', ['quests' => $quests])
+                                    @break
+                                @default
+                                    @include('businessusers.profiles.businesses', ['businesses' => $businesses])
+                            @endswitch
+                        @endif
+        </div>
+    </div>   
 </div>
 @endsection
 
