@@ -7,9 +7,9 @@
     <div class="card p-3">
         <div class="card-header border-0 bg-light p-0 overflow-hidden">
             {{-- Card Image with official mark --}}
-            @if($post['official_certification']==2)
+            @if($post['official_certification']==3)
                 <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official" alt="official">              
-            @elseif($post['official_certification'] == 1)
+            @else
             @endif
             <a href="#" >
                 <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">

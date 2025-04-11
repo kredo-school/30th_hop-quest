@@ -35,14 +35,45 @@ class BusinessController extends Controller
     public function store(Request $request){
         $request->validate([
             'main_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
-            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',        
+            'introduction' => 'required_if:official_certification,2|max:1000',
+            'phonenumber' => 'required_if:official_certification,2|max:20',
+            'zip' => 'required_if:official_certification,2|max:7',
+            'address_1' => 'required_if:official_certification,2|max:255'
+        ], [
+            'introduction.required_if' => 'Required for official certification badge',
+            'phonenumber.required_if' => 'Required for official certification badge',
+            'zip.required_if' => 'Required for official certification badge',
+            'address_1.required_if' => 'Required for official certification badge',
         ]);
 
         $this->business->category_id = $request->category_id;
         $this->business->user_id = Auth::user()->id;
         $this->business->name = $request->name;
         $this->business->email = $request->email;
-        $this->business->official_certification = 1;
+        $this->business->zip = $request->zip;
+        $this->business->term_start = $request->term_start;
+        $this->business->term_end = $request->term_end;
+        $this->business->introduction = $request->introduction;
+
+        $current_cert = $this->business->official_certification;
+
+        if ($current_cert == 3) {
+            if ($request->has('official_certification')) {
+                // チェックあり → 特別な認定を外して普通の認定に戻す
+                $this->business->official_certification = 2;
+            } else {
+                // チェックなし → 認定全部外す
+                $this->business->official_certification = 1;
+            }
+        } else {
+            if ($request->has('official_certification')) {
+                $this->business->official_certification = 2;
+            } else {
+                $this->business->official_certification = 1;
+            }
+        }
+
         $this->business->save();
 
         // PhotoController の store を呼び出して写真を保存
@@ -61,34 +92,34 @@ class BusinessController extends Controller
             }
         }
 
-        // BusinessDetailを作成（business_idは自動で入る）
-        $businessDetail = $this->business->businessDetails()->create([
-        ]);
+        // // BusinessDetailを作成（business_idは自動で入る）
+        // $businessDetail = $this->business->businessDetails()->create([
+        // ]);
 
-        // 各カテゴリごとに Details を保存
-        foreach ($request->input('details', []) as $category => $items) {
-            foreach ($items as $itemName) {
-                $businessDetail->details()->create([
-                    'category' => $category,
-                    'name' => $itemName,
-                ]);
-            }
-        }
+        // // 各カテゴリごとに Details を保存
+        // foreach ($request->input('details', []) as $category => $items) {
+        //     foreach ($items as $itemName) {
+        //         $businessDetail->details()->create([
+        //             'category' => $category,
+        //             'name' => $itemName,
+        //         ]);
+        //     }
+        // }
 
-        // 営業時間の保存
-        $businessHours = $request->input('business_hours', []);
+        // // 営業時間の保存
+        // $businessHours = $request->input('business_hours', []);
 
-        foreach ($businessHours as $day => $data) {
-            $this->business->businessHours()->create([
-                'day_of_week' => $day,
-                'opening_time' => $data['opening_time'] ?? null,
-                'closing_time' => $data['closing_time'] ?? null,
-                'break_start' => $data['break_start'] ?? null,
-                'break_end' => $data['break_end'] ?? null,
-                'notice' => $data['notice'] ?? null,
-                'is_closed' => isset($data['is_closed']), // チェックが入っているかどうかで判定
-            ]);
-        }
+        // foreach ($businessHours as $day => $data) {
+        //     $this->business->businessHours()->create([
+        //         'day_of_week' => $day,
+        //         'opening_time' => $data['opening_time'] ?? null,
+        //         'closing_time' => $data['closing_time'] ?? null,
+        //         'break_start' => $data['break_start'] ?? null,
+        //         'break_end' => $data['break_end'] ?? null,
+        //         'notice' => $data['notice'] ?? null,
+        //         'is_closed' => isset($data['is_closed']), // チェックが入っているかどうかで判定
+        //     ]);
+        // }
         
     
         return redirect()->route('profile.businesses', Auth::id());
@@ -105,6 +136,16 @@ class BusinessController extends Controller
     public function update(Request $request, $id){
         $request->validate([
             'main_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',        
+            'introduction' => 'required_if:official_certification,2|max:1000',
+            'phonenumber' => 'required_if:official_certification,2|max:20',
+            'zip' => 'required_if:official_certification,2|max:7',
+            'address_1' => 'required_if:official_certification,2|max:255'
+        ], [
+            'introduction.required_if' => 'Required for official certification badge',
+            'phonenumber.required_if' => 'Required for official certification badge',
+            'zip.required_if' => 'Required for official certification badge',
+            'address_1.required_if' => 'Required for official certification badge',
         ]);
 
         $business_a = $this->business->findOrFail($id);
@@ -113,11 +154,34 @@ class BusinessController extends Controller
         $business_a->user_id = Auth::user()->id;
         $business_a->name = $request->name;
         $business_a->email = $request->email;
-        $business_a->official_certification = 1;
+        $business_a->zip = $request->zip;
+        $business_a->phonenumber = $request->phonenumber;
+        $business_a->address_1 = $request->address_1;
+        $business_a->term_start = $request->term_start;
+        $business_a->term_end = $request->term_end;
+        $business_a->introduction = $request->introduction;
 
 
         if($request->main_image){
             $business_a->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
+        }
+
+        $current_cert = $business_a->official_certification;
+
+        if ($current_cert == 3) {
+            if ($request->has('official_certification')) {
+                // チェックあり → 特別な認定を外して普通の認定に戻す
+                $business_a->official_certification = 2;
+            } else {
+                // チェックなし → 認定全部外す
+                $business_a->official_certification = 1;
+            }
+        } else {
+            if ($request->has('official_certification')) {
+                $business_a->official_certification = 2;
+            } else {
+                $business_a->official_certification = 1;
+            }
         }
 
         $business_a->save();        
@@ -128,48 +192,48 @@ class BusinessController extends Controller
         }
 
         
-        // 1. Businessの基本情報を更新
-        $business_a->update([
-        'name' => $request->input('name'),
-        'description' => $request->input('description'),
-        ]);
-        $businessDetail = $business_a->businessDetails()->create([
-            // 内容
-        ]);
-    // 2. BusinessHoursを一旦削除してから再作成（曜日単位のユニーク制約がなければこれが簡単）
-    $business_a->businessHours()->delete();
+    //     // 1. Businessの基本情報を更新
+    //     $business_a->update([
+    //     'name' => $request->input('name'),
+    //     'description' => $request->input('description'),
+    //     ]);
+    //     $businessDetail = $business_a->businessDetails()->create([
+    //         // 内容
+    //     ]);
+    // // 2. BusinessHoursを一旦削除してから再作成（曜日単位のユニーク制約がなければこれが簡単）
+    // $business_a->businessHours()->delete();
 
-    $businessHours = $request->input('business_hours', []);
+    // $businessHours = $request->input('business_hours', []);
 
-    foreach ($businessHours as $day => $data) {
-        $business_a->businessHours()->create([
-            'day_of_week'   => $day,
-            'opening_time'  => $data['opening_time'] ?? null,
-            'closing_time'  => $data['closing_time'] ?? null,
-            'break_start'   => $data['break_start'] ?? null,
-            'break_end'     => $data['break_end'] ?? null,
-            'notice'        => $data['notice'] ?? null,
-            'is_closed'     => isset($data['is_closed']),
-        ]);
-    }
+    // foreach ($businessHours as $day => $data) {
+    //     $business_a->businessHours()->create([
+    //         'day_of_week'   => $day,
+    //         'opening_time'  => $data['opening_time'] ?? null,
+    //         'closing_time'  => $data['closing_time'] ?? null,
+    //         'break_start'   => $data['break_start'] ?? null,
+    //         'break_end'     => $data['break_end'] ?? null,
+    //         'notice'        => $data['notice'] ?? null,
+    //         'is_closed'     => isset($data['is_closed']),
+    //     ]);
+    // }
 
-    $businessDetail = $business_a->businessDetails()->first();
-    if (!$businessDetail) {
-        $businessDetail = $business_a->businessDetails()->create();
-    }
+    // $businessDetail = $business_a->businessDetails()->first();
+    // if (!$businessDetail) {
+    //     $businessDetail = $business_a->businessDetails()->create();
+    // }
     
-    // 古い details を削除
-    $businessDetail->details()->delete();
+    // // 古い details を削除
+    // $businessDetail->details()->delete();
     
-    // 新しい details を保存
-    foreach ($request->input('details', []) as $category => $items) {
-        foreach ($items as $itemName) {
-            $businessDetail->details()->create([
-                'category' => $category,
-                'name' => $itemName,
-            ]);
-        }
-    }
+    // // 新しい details を保存
+    // foreach ($request->input('details', []) as $category => $items) {
+    //     foreach ($items as $itemName) {
+    //         $businessDetail->details()->create([
+    //             'category' => $category,
+    //             'name' => $itemName,
+    //         ]);
+    //     }
+    // }
 
         
         return redirect()->route('profile.businesses',Auth::user()->id);

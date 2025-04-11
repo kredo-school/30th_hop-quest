@@ -7,21 +7,27 @@ use App\Http\Controllers\FollowController;
 use App\Http\Controllers\Quest\QuestController;
 use App\Http\Controllers\Quest\QuestBodyController;
 use App\Http\Controllers\Quest\QuestCommentController;
+use App\Http\Controllers\Business\QuestLikeController;
 use App\Http\Middleware\PageViewMiddleware;
 use App\Http\Controllers\Spot\LikeController;
 use App\Http\Controllers\Spot\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
 use App\Http\Controllers\TouristProfileController;
-use App\Http\Controllers\Business\QuestLikeController;
 use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
 use App\Http\Controllers\Business\BusinessController;
+use App\Http\Controllers\Business\SpotController;
+use App\Http\Controllers\Business\SpotLikeController;
+use App\Http\Controllers\Business\SpotCommentController;
 use App\Http\Controllers\Business\BusinessPromotionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Business\BusinessLikeController;
-use App\Http\Controllers\Business\SpotLikeController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\BusinessesController;
+use App\Http\Controllers\Admin\PostsController;
+use App\Http\Controllers\Admin\CommentsController;
 
 
 Route::get('/', function () {
@@ -42,6 +48,7 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function () 
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
     Route::patch('/{id}/update', [ProfileController::class, 'update'])->name('update');
+    Route::delete('/{id}/deactivate', [ProfileController::class, 'deactivate'])->name('deactivate');
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
     Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
     Route::get('/{id}/allreviews', [ProfileController::class, 'allReviews'])->name('allreviews');
@@ -165,6 +172,34 @@ Route::patch('/password/update', [TouristProfileController::class, 'updatePasswo
 
 // Delete Modal
 Route::delete('/myprofile', [TouristProfileController::class, 'destroy'])->name('myprofile.destroy');
+
+//ADMIN
+Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], function(){
+    Route::get('/users/business', [UsersController::class, 'indexBusiness'])->name('users.business');
+    Route::get('/users/applied', [UsersController::class, 'indexApplied'])->name('users.applied');
+    Route::get('/users/{id}/review', [UsersController::class, 'adminReview'])->name('users.review');
+    //admin/users                                                   admin.users
+    Route::post('/admin/users/{user}/certify', [UsersController::class, 'certify'])->name('users.certify');
+    Route::delete('/users/{id}/deactivate', [UsersController::class, 'deactivate'])->name('users.deactivate');
+    Route::patch('/users/{id}/activate', [UsersController::class, 'activate'])->name('users.activate');
+    Route::get('/users/tourists', [UsersController::class, 'indexTourists'])->name('users.tourists');
+
+    Route::get('/posts/business', [BusinessesController::class, 'index'])->name('posts');
+    Route::get('/posts/applied', [BusinessesController::class, 'indexApplied'])->name('posts.applied');
+    Route::get('/posts/{id}/review', [BusinessesController::class, 'adminReview'])->name('posts.review');
+    //admin/users                                                   admin.users
+    Route::post('/admin/posts/{post}/certify', [BusinessesController::class, 'certify'])->name('posts.certify');
+    Route::delete('/posts/{id}/deactivate', [BusinessesController::class, 'deactivate'])->name('posts.deactivate');
+    Route::patch('/posts/{id}/activate', [BusinessesController::class, 'activate'])->name('posts.activate');
+    Route::get('/posts/tourists', [PostsController::class, 'indexTourists'])->name('posts.tourists');
+    Route::get('/comments', [CommentsController::class, 'indexComments'])->name('comments');
+    Route::delete('/{id}/business/comment/deactivate', [BusinessCommentController::class, 'deactivateBusinessComment'])->name('deactivate.business.comment');
+    Route::patch('/{id}/business/comment/activate', [BusinessCommentController::class, 'activateBusinessComment'])->name('activate.business.comment');
+    Route::delete('/{id}/spot/comment/deactivate', [SpotCommentController::class, 'deactivateSpotComment'])->name('deactivate.spot.comment');
+    Route::patch('/{id}/spot/comment/activate', [SpotCommentController::class, 'activateSpotComment'])->name('activate.spot.comment');
+    Route::delete('/{id}/quest/comment/deactivate', [QuestCommentController::class, 'deactivateQuestComment'])->name('deactivate.quest.comment');
+    Route::patch('/{id}/quest/comment/activate', [QuestCommentController::class, 'activateQuestComment'])->name('activate.quest.comment');
+});
 // login business
 // Route::get('/login/business', [App\Http\Controllers\Auth\LoginController::class, 'show'])->name('login.business');
 

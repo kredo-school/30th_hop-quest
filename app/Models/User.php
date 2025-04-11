@@ -12,7 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable,SoftDeletes;
+
+    const ADMIN_ROLE_ID = 3;
+    const USER_ROLE_ID_1 = 1;
+    const USER_ROLE_ID_2 = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -77,6 +81,26 @@ class User extends Authenticatable
     //return true if $this user is followed by Auth user
     public function isFollowed(){
         return $this->followers()->where('follower_id', Auth::user()->id)->exists();
+    }
+
+    public function following(){
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id');
+    }
+
+    public function quests(){
+        return $this->hasMany(Quest::class)->withTrashed()->latest();
+    }
+
+    public function questsVisible(){
+        return $this->hasMany(Quest::class)->latest();
+    }
+
+    public function spots(){
+        return $this->hasMany(Spot::class)->latest();
+    }
+
+    public function questComments(){
+        return $this->hasMany(QuestComment::class)->withTrashed()->latest();
     }
 
 }
