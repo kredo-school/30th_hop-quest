@@ -71,12 +71,6 @@ function applyHeightAdjustment(description, totalImageHeight) {
 }
 
 // 🔥 ページの読み込み時とリサイズ時に実行
-// window.addEventListener("load", adjustDescriptionHeight);
-window.addEventListener("resize", adjustDescriptionHeight);
-
-
-//=====================================================Modal================================
-
     window.addEventListener("load", adjustDescriptionHeight);
     window.addEventListener("resize", adjustDescriptionHeight);
 
@@ -90,6 +84,7 @@ document.querySelectorAll('.like-form').forEach(form => {
         const token = form.querySelector('input[name="_token"]').value;
 
         try {
+            // 🔁 ライクのトグル処理
             const response = await fetch(`/quest/${questId}/toggle-like`, {
                 method: 'POST',
                 headers: {
@@ -107,7 +102,7 @@ document.querySelectorAll('.like-form').forEach(form => {
 
             const result = await response.json();
 
-            // ⭐ アイコン更新（formの中のbutton > i を直接操作）
+            // ✅ アイコン更新
             const icon = form.querySelector('.like-btn i');
             icon.classList.remove('fa-regular', 'fa-solid', 'text-danger');
             if (result.liked) {
@@ -116,11 +111,59 @@ document.querySelectorAll('.like-form').forEach(form => {
                 icon.classList.add('fa-regular');
             }
 
-            // ⭐ カウント更新（like-countの該当questだけ更新）
+            // ✅ カウント更新
             const countSpans = document.querySelectorAll(`.like-count[data-quest-id="${questId}"]`);
             countSpans.forEach(span => {
                 span.textContent = result.like_count;
             });
+
+            // ✅ モーダルの中身更新
+            const modalBody = document.querySelector(`#likes-modal-${questId} .modal-body`);
+            if (modalBody) {
+                const likesResponse = await fetch(`/quest/${questId}/likes`);
+                if (!likesResponse.ok) {
+                    throw new Error("モーダル用のいいねリスト取得に失敗しました");
+                }
+
+                const users = await likesResponse.json();
+
+                modalBody.innerHTML = "";
+
+                if (users.length === 0) {
+                    modalBody.innerHTML = "<p class='text-center text-muted'>No likes yet.</p>";
+                } else {
+                    users.forEach(user => {
+                        const avatarHtml = user.avatar
+                            ? `<img src="${user.avatar}" alt="" class="rounded-circle avatar-sm">`
+                            : `<i class="fa-solid fa-circle-user text-secondary icon-mmd text-center"></i>`;
+
+                        const followButtonHtml = user.is_own
+                            ? ''
+                            : `
+                            <div class="col-3 text-end">
+                                <form class="follow-toggle-form" data-user-id="${user.id}">
+                                    <button type="button" class="btn px-3 py-0 ${user.is_followed ? 'btn-following' : 'btn-follow'}">
+                                        ${user.is_followed ? 'Following' : 'Follow'}
+                                    </button>
+                                </form>
+                            </div>`;
+
+                        modalBody.innerHTML += `
+                            <div class="row align-items-center mb-3">
+                                <div class="col-2 d-flex justify-content-center">
+                                    ${avatarHtml}
+                                </div>
+                                <div class="col-7">
+                                    <a href="#" class="text-decoration-none text-dark fw-bold">
+                                        ${user.name}
+                                    </a>
+                                </div>
+                                ${followButtonHtml}
+                            </div>
+                        `;
+                    });
+                }
+            }
 
         } catch (error) {
             console.error("🚨 JSエラー:", error);
@@ -129,6 +172,7 @@ document.querySelectorAll('.like-form').forEach(form => {
         btn.disabled = false;
     });
 });
+
 
 
 //==============================================-Like Modal

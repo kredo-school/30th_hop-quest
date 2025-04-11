@@ -8,8 +8,13 @@
 
 
             {{-- User Icon --}}
-            <div class="col-auto m-2">
-                <a href="#" class="text-decoration-none h5 d-flex align-items-center my-0">
+            <div class="col-auto m-2 align-items-center">
+                @php
+                    $isOwnProfile = Auth::check() && Auth::id() === $quest_a->user->id;
+                    $profileRoute = $isOwnProfile ? route('myprofile.show') : route('profile.show');
+                @endphp
+
+                <a href="{{ $profileRoute }}" class="text-decoration-none h5 d-flex my-0">
                     @if($quest_a->user->avatar)
                         <img src="{{ $quest_a->user->avatar }}" class="avatar-md rounded-circle ms-0 ms-md-2" alt="icon">
                     @else
@@ -19,11 +24,11 @@
             </div>
             {{-- User Name --}}
             <div class="col-md ms-3 pt-3 d-sm-none">
-                <div class="row my-0 justify-content-center">
+                <div class="row my-0">
                     <div class="col-auto px-0">
-                        <a href="#" class="text-decoration-none h5 d-flex align-items-center mb-0 pt-1">
+                        <a href="{{ $profileRoute }}" class="text-decoration-none h5 d-flex mb-0 pt-1">
                             <h1 class="username h5 poppins-semibold mb-0" id="username">{{ $quest_a->user->name }}</h1>
-                        </a>
+                        </a>                        
                     </div>
                     {{-- User official mark --}}                    {{-- User official mark --}}
                     @if(optional($quest_a->user)->official_certification == 2)
@@ -101,9 +106,9 @@
         <div class="col-md ms-3 pt-3 d-none d-sm-block">
             <div class="row my-0">
                 <div class="col-auto px-0">
-                    <a href="#" class="text-decoration-none h5 d-flex align-items-center mb-0 pt-1">
+                    <a href="{{ $profileRoute }}" class="text-decoration-none h5 d-flex mb-0 pt-1">
                         <h1 class="username h5 poppins-semibold mb-0" id="username">{{ $quest_a->user->name }}</h1>
-                    </a>
+                    </a>                    
                 </div>
                 {{-- User official mark --}}
                 @if(optional($quest_a->user)->official_certification == 2)

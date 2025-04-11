@@ -213,6 +213,8 @@ Route::prefix('/questcomment')->name('questcomment.')->controller(QuestCommentCo
     Route::post('/store/{quest_id}', 'storeQuestComment')->name('store');
     Route::delete('/delete/{id}', 'deleteQuestComment')->name('delete');
     Route::post('/{comment_id}/toggle-like', 'toggleCommentLike')->name('toggleLike');
+    Route::get('/{commentId}/likes', 'getCommentLikes')->name('likes');
+
     Route::get('/{quest_id}/stats', 'getQuestCommentStats')->name('stats');
 });
 

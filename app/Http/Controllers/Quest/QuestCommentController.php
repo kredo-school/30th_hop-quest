@@ -13,28 +13,64 @@ class QuestCommentController extends Controller
     //cpmment
     public function toggleCommentLike($commentId) { 
         $user = Auth::user(); 
-        $comment = QuestComment::findOrFail($commentId);
-        $like = QuestCommentLike::where('quest_comment_id', $comment->id)
-                            ->where('user_id', $user->id)
-                            ->first();
-
+        $comment = QuestComment::with('questCommentLikes.user')->findOrFail($commentId);
+    
+        $like = $comment->questCommentLikes()
+                        ->where('user_id', $user->id)
+                        ->first();
+    
         if ($like) {
             $like->delete();
             $liked = false;
         } else {
             QuestCommentLike::create([
                 'quest_comment_id' => $comment->id,
-                'user_id' => $user->id, // ✅ これを忘れずに！
+                'user_id' => $user->id,
             ]);
             $liked = true;
         }
-
+    
+        // もう一度最新のいいねを取得（削除後の反映）
+        $likes = $comment->questCommentLikes()->with('user')->get();
+    
+        $users = $likes->map(function ($like) use ($user) {
+            $likedUser = $like->user;
+            return [
+                'id' => $likedUser->id,
+                'name' => $likedUser->name,
+                'avatar' => $likedUser->avatar ? asset('storage/' . $likedUser->avatar) : null,
+                'isOwn' => $user->id === $likedUser->id,
+                'isFollowing' => $user->follows->contains('followed_id', $likedUser->id),
+            ];
+        });
+    
         return response()->json([
             'liked' => $liked,
-            'like_count' => $comment->questCommentLikes()->count(),
-            'quest_id' => $comment->quest_id // ← クエストIDを追加！
+            'like_count' => $likes->count(),
+            'quest_id' => $comment->quest_id,
+            'users' => $users,
         ]);
     }
+    
+    public function getCommentLikes($commentId){
+        $comment = QuestComment::with('QuestCommentlikes.user')->findOrFail($commentId);
+    
+        $users = $comment->QuestCommentlikes->map(function ($like) {
+            $user = $like->user;
+            $auth = Auth::user();
+    
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'avatar' => $user->avatar,
+                'is_own' => $auth && $auth->id === $user->id,
+                'is_followed' => $auth ? $auth->follows->contains('followed_id', $user->id) : false,
+            ];
+        });
+    
+        return response()->json($users);
+    }
+    
     
     public function getCommentStats($questId) { 
         $comments = QuestComment::with('questCommentLikes') ->where('quest_id', $questId) ->get();

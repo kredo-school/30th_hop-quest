@@ -369,28 +369,25 @@ class QuestController extends Controller{
 
     //Like Modal
     public function getLikes($id){
-        $quest = Quest::with('likes.user')->findOrFail($id);
+        $quest = Quest::with('questLikes.user')->findOrFail($id); // ✅ リレーション名修正
 
-        $likeUsers = $quest->likes->map(function ($like) {
+        $authUser = Auth::user();
+
+        $likeUsers = $quest->questLikes->map(function ($like) use ($authUser) {
             $user = $like->user;
-            $isFollowed = false;
-        
-            if ($user && Auth::check()) {
-                /** @var \App\Models\User $authUser */
-                $authUser = Auth::user();
-                $isFollowed = $authUser->follows()->where('followed_id', $user->id)->exists();
-            }
-            
-        
+
             return [
                 'id' => $user->id ?? null,
                 'name' => $user->name ?? 'Unknown',
                 'avatar' => $user->avatar ?? null,
-                'is_followed' => $isFollowed,
+                'is_own' => $authUser && $authUser->id === ($user->id ?? null),
+                'is_following' => $authUser && $user ? $authUser->follows->contains('followed_id', $user->id) : false,
             ];
         });
+
         return response()->json($likeUsers);
     }
+
 //===============================================================View Quest
     public function showViewQuest($id){
         $quest = Quest::with(['questBodies.spot', 'questBodies.business'])->findOrFail($id);

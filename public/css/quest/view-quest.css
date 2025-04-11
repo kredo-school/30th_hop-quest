@@ -191,4 +191,17 @@
     z-index: 10;
 }
 
+.modal {
+  z-index: 1055 !important; /* Bootstrapの標準より上 */
+}
+
+.modal-backdrop {
+  z-index: 1050 !important;
+}
+
+body.modal-open {
+  overflow: hidden; /* 背景スクロール防止 */
+}
+
+
 

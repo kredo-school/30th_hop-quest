@@ -163,11 +163,13 @@
                             </div>
 
                             <div class="col-lg-5 mt-3 mt-lg-0">
-                                <a href="#" class="btn btn-blue w-100 px-0">
+                                {{-- <button type="button" class="btn btn-blue w-100 px-0" data-bs-toggle="modal" data-bs-target="#addSpotModal-{{ $quest->id }}">
+                                    <i class="fa-solid fa-plus icon-xs d-inline"></i> ADD SPOT
+                                </button> --}}
+                                <a href="{{ route('spot.create') }}" target="_blank" class="btn btn-blue w-100 px-0">
                                     <i class="fa-solid fa-plus icon-xs d-inline"></i> ADD SPOT
                                 </a>
                             </div>
-                        </div>
                     @endif
 
                     <div class="row">
@@ -399,8 +401,10 @@
         @include('quests.modals.quest-body.delete-modal', ['questbody' => $questbody])
     @endforeach
 @endif
+@include('quests.modals.quest.quest-add-spot')
 {{-- 編集モーダルの JS --}}
 @vite(['resources/js/quest/quest-body/edit-modal.js'])
 @vite(['resources/js/quest/edit-quest.js'])
 @endsection
+
 
