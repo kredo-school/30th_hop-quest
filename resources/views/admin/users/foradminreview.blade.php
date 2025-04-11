@@ -30,8 +30,19 @@
     <div class="pb-5 row justify-content-center pt-2">
         <div class="col-10">  
             <div class="row mb-3">
+                <label for="name" class="form-label">Header photo</label>
+                <div class="pt-2 px-0">
+                    @if($user->header)
+                        <img src="{{$user->header}}" class="header-image"  alt="">
+                    @else
+                        <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
+                    @endif
+                </div>
+            </div>
+            <div class="row mb-3">                
                 <!-- Avatar image -->
                 <div class="col-auto profile-image">
+                    <label for="name" class="form-label">Avatar image</label>
                     @if($user->avatar)
                         <img src="{{$user->avatar}}" alt="" class="rounded-circle avatar-xl d-block mx-auto">
                     @else
@@ -43,47 +54,66 @@
             <div class="row mb-3">
                 <div class="col">
                     <label for="name" class="form-label">Business user name<span class="color-red">*</span></label>
-                    <input type="text" name="name" id="name" value="{{$user->name}}" class="form-control" readonly>
+                    <div class="h4">{{$user->name}}</div>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-6">
                     <label for="email" class="form-label">E-mail address<span class="color-red">*</span></label>
-                    <input type="email" name="email" id="email" value="{{$user->email}}" class="form-control" readonly>
+                    <div class="h4">{{$user->email}}</div>
                 </div>
                 <div class="col-6">
                     <label for="website_url" class="form-label">Website URL</label>
-                    <input type="text" name="website_url" id="website_url" value="{{$user->website_url}}" class="form-control" readonly>
+                    @if($user->website_url)
+                        <div class="h4">{{$user->website_url}}</div>
+                    @else
+                        <div>---</div>
+                    @endif
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-6">
                     <label for="zip" class="form-label">ZIP code<span class="color-red">*</span></label>
-                    <input type="text" name="zip" id="zip" value="{{$user->zip}}" class="form-control" readonly>
+                    @if($user->website_url)
+                        <div class="h4">{{$user->zip}}</div>
+                    @else
+                        <div>---</div>
+                    @endif
                 </div>
                 <div class="col-6">
                     <label for="phonenumber" class="form-label">Phone number<span class="color-red">*</span></label>
-                    <input type="text" name="phonenumber" id="phonenumber" value="{{$user->phonenumber}}" class="form-control" readonly>
+                    @if($user->phonenumber)
+                        <div class="h4">{{$user->phonenumber}}</div>
+                    @else
+                        <div>---</div>
+                    @endif
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col">
                     <label for="address" class="form-label">Address<span class="color-red">*</span></label>
-                    <input type="text" name="address" id="address" value="{{$user->address}}" class="form-control" readonly>
+                    @if($user->address)
+                        <div class="h4">{{$user->address}}</div>
+                    @else
+                        <div>---</div>
+                    @endif
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col">
                     <label for="introduction" class="form-label">Introduction<span class="color-red">*</span></label>
-                    <textarea name="introduction" id="introduction" rows="5" class="form-control" value="{{$user->introduction}}" readonly>
-                    </textarea>
+                    @if($user->introduction)
+                        <div class="h4">{{$user->introduction}}</div>
+                    @else
+                        <div>---</div>
+                    @endif
                 </div>    
             </div>
     
             <!-- SNS -->
             <div class="row mb-5">
                 <div class="col">
-                    <div class="row">
+                    <div class="row mb-2">
                         <div class="col">
                             <label for="sns" class="form-label">Social media</label>
                         </div>
@@ -96,7 +126,11 @@
                                 <label for="instagram" class="form-label"><i class="fa-brands fa-instagram text-dark icon-md pe-2"></i></label>
                             </div>
                             <div class="col">
-                                <input type="text" name="instagram" id="instagram" value="{{$user->instagram}}" class="form-control" readonly>
+                                @if($user->instagram)
+                                    <div class="h4">{{$user->instagram}}</div>
+                                @else
+                                    <div>---</div>
+                                @endif
                             </div>
                         </div>
                     </div>  
@@ -106,7 +140,11 @@
                                 <label for="facebook" class="form-label"><i class="fa-brands fa-facebook text-dark icon-md pe-2"></i></label>
                             </div>
                             <div class="col">
-                                <input type="text" name="facebook" id="facebook" value="{{$user->facebook}}" class="form-control" readonly>
+                                @if($user->facebook)
+                                    <div class="h4">{{$user->facebook}}</div>
+                                @else
+                                    <div>---</div>
+                                @endif
                             </div>
                         </div>    
                     </div>
@@ -118,7 +156,11 @@
                                 <label for="x" class="form-label"><i class="fa-brands fa-x-twitter text-dark icon-md pe-2"></i></label>
                             </div>
                             <div class="col">
-                                <input type="text" name="x" id="x" value="{{$user->x}}" class="form-control" readonly>
+                                @if($user->x)
+                                    <div class="h4">{{$user->x}}</div>
+                                @else
+                                    <div>---</div>
+                                @endif
                             </div>
                         </div>
                     </div>  
@@ -128,7 +170,11 @@
                                 <label for="tiktok" class="form-label"><i class="fa-brands fa-tiktok text-dark icon-md pe-2"></i></label>
                             </div>
                             <div class="col">
-                                <input type="text" name="tiktok" id="tiktok" value="{{$user->tiktok}}" class="form-control" readonly>
+                                @if($user->tiktok)
+                                    <div class="h4">{{$user->tiktok}}</div>
+                                @else
+                                    <div>---</div>
+                                @endif
                             </div>
                         </div>    
                     </div>

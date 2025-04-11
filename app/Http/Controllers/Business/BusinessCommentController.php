@@ -103,7 +103,20 @@ class BusinessCommentController extends Controller
         return redirect()->back();
     }
 
+    public function deactivateBusinessComment($id){
+        $this->business_comment->destroy($id);
+        return redirect()->back();
     }
+
+    public function activateBusinessComment($id){
+        $this->business_comment->onlyTrashed()->findOrFail($id)->restore();
+        //restore() -- restores a soft-deleted record
+        //  onlyTrashed() -- get only soft-deleted records
+        return redirect()->back();
+    }
+
+
+}
 
 
 

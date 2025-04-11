@@ -15,7 +15,7 @@
                 @endif --}}
             </div>
             <div class="modal-footer border-0">
-                <form action="{{ route('admin.comments.deactivate', $comment['id'])}}" method="post">
+                <form action="{{ route('admin.deactivate.business.comment', $comment['id'])}}" method="post">
                     @csrf
                     @method('DELETE')
                     <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-outline-danger">Cancel</button>
@@ -43,7 +43,7 @@
                 @endif --}}
             </div>
             <div class="modal-footer border-0">
-                <form action="{{route('admin.comments.activate', $comment['id'])}}" method="post">
+                <form action="{{route('admin.activate.business.comment', $comment['id'])}}" method="post">
                     @csrf
                     @method('PATCH')
                     <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-outline-success">Cancel</button>

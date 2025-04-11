@@ -1,14 +1,15 @@
 <div class="bg-blue">
-    @extends('layouts.app')
-    
-    @section('title', 'Admin: Users')
-    
-    @section('css')
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
-    @endsection
-    
-    
-    @section('content')
+@extends('layouts.app')
+
+@section('title', 'Admin: Users')
+
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+{{-- <link rel="stylesheet" href="{{ asset('css/review.css') }}"> --}}
+@endsection
+
+
+@section('content')
     <div class="">
         <table class="table border bg-white table-hover align-middle text-secondary mt-5">
             <thead class="table-primary text-secondary text-uppercase small">
@@ -18,7 +19,7 @@
                     <th class="align-middle">user name</th>
                     <th class="align-middle">comment</th>
                     {{-- <th>Email</th> --}}
-                    <th rowspan="2">
+                    <th>
                         <form method="GET" action="" class="d-inline-block ms-2">
                             <label for="sort" class=""></label>
                             <select name="sort" id="sort" onchange="this.form.submit()" class="bg-skyblue-thead mt-3 text-sm">
@@ -28,10 +29,9 @@
                             </select>
                         </form>
                     </th>
-                    <th rowspan="2" class="align-middle">status</th>
-                    <th rowspan="2"></th>
-                </tr>
-    
+                    <th class="align-middle">status</th>
+                    <th></th>
+                </tr>    
             </thead>
             <tbody>
                 @forelse($comments as $comment)
@@ -39,27 +39,22 @@
                         {{-- <td>{{$user->id}}</td> --}}
                         <td >
                             <a href="{{route('profile.businesses', $comment['user_id'])}}" class="text-decoration-none text-dark fw-bold">
-                            {{-- @if($comment['user_avatar'])
+                            @if($comment['user_avatar'])
                                 <img src="{{ $comment['user_avatar'] }}" alt="" class="rounded-circle avatar-sm d-block mx-auto">
                             @else
                                 <i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i>
-                            @endif --}}
+                            @endif
                             </a>
                         </td>
                         <td>
                             <a href="#" class="text-decoration-none text-dark" >{{ $comment['user_name'] }}</a>
                         </td>
-                        <td class="align-middle">
+                        <td class="">
                             <a href="{{route('profile.businesses', $comment['user_id'])}}" class="text-decoration-none text-dark">{{$comment['content']}}</a>
                         </td>
-                        {{-- <td>
-                            {{ $user->email }}
-                        </td> --}}
                         <td>
                             {{date('M d, Y H:i:s', strtotime($comment['created_at']))}}
-
-                        </td>
-                        
+                        </td>                       
                         <td>
                             {{-- status --}}
                             @if($comment['is_trashed'])
@@ -68,26 +63,32 @@
                                 <i class="fa-solid fa-circle color-green"></i> Visible
                             @endif
                         </td>
-                        <td>
+                        <td>                           
                             @if($comment['user_id'] != Auth::user()->id)
-                            <div class="dropdown">
-                                <button class="btn btn-sm" data-bs-toggle="dropdown"> 
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    @if($comment['is_trashed'])
-                                        {{-- activate --}}
-                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#activate-comment{{$comment['id']}}">
-                                            <i class="fa-solid fa-eye"></i> Activate 
-                                        </button>
-                                    @else
-                                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deactivate-comment{{$comment['id']}}">
-                                            <i class="fa-solid fa-eye-slash"></i> Deactivate 
-                                        </button>
-                                    @endif
-                                </div>                         
-                            </div>
-                            @include('admin.comments.comment_status')
+                                <div class="dropdown">
+                                    <button class="btn btn-sm" data-bs-toggle="dropdown"> 
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        @if($comment['is_trashed'])
+                                            {{-- activate --}}
+                                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#activate-comment{{$comment['id']}}">
+                                                <i class="fa-solid fa-eye"></i> Activate 
+                                            </button>
+                                        @else
+                                            <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deactivate-comment{{$comment['id']}}">
+                                                <i class="fa-solid fa-eye-slash"></i> Deactivate 
+                                            </button>
+                                        @endif
+                                    </div>                         
+                                </div>
+                                @if($comment['type'] == 'businesses')
+                                    @include('admin.comments.business_comment_status')
+                                @elseif($comment['type'] == 'quests')
+                                    @include('admin.comments.quest_comment_status')
+                                @elseif($comment['type'] == 'spots')
+                                    @include('admin.comments.spot_comment_status')
+                                @endif
                             @endif
                         </td>
                     </tr>
@@ -103,5 +104,5 @@
             {{ $comments->links() }}
         </div>
     </div>
-    </div>
-    @endsection
+</div>
+@endsection

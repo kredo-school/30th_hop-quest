@@ -47,7 +47,7 @@
                         </a>
                     </td>
                     <td>
-                        <a href="{{route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark fw-bold">{{ $user->name }}</a>
+                        <a href="{{route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark">{{ $user->name }}</a>
                     </td>
                     {{-- <td>
                         {{ $user->email }}

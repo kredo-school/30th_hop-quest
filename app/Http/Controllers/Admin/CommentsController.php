@@ -110,6 +110,7 @@ class CommentsController extends Controller
             $perPage,
             $currentPage,
             [
+                'path' => $request->url(),
                 'query' => $request->query(), // ← クエリを保持！（sort=likes など）
             ]
 
@@ -132,37 +133,5 @@ class CommentsController extends Controller
 
         }
 
-        public function deactivate($id){
-        $spots = SpotComment::with('user')
-        ->withTrashed()
-        ->get()
-        ->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'user' => $item->user,
-                'user_id' => $item->user_id,
-                'spot_id' => $item->spot_id,
-                'content' => $item->content,
-                'user_name' => optional($item->user)->name,
-                'user_avatar' => optional($item->user)->avatar,
-                'title' => $item->title,
-                'category_id' => null,
-                'tab_id' => 1,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
-                'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
-                'type' => 'spots',                  
-            ];
-        });
-        $comments = $spots;
-            $comments->destroy($id);
-            return redirect()->back();
-        }
-    
-        public function activate($id){
-            $this->user->onlyTrashed()->findOrFail($id)->restore();
-            //restore() -- restores a soft-deleted record
-            //  onlyTrashed() -- get only soft-deleted records
-            return redirect()->back();
-        }
+
 }

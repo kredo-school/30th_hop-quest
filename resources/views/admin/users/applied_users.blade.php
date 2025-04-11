@@ -41,7 +41,7 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{route('admin.users.review', $user->id)}}" class="text-decoration-none text-dark fw-bold">{{ $user->name }}</a>
+                        <a href="{{route('admin.users.review', $user->id)}}" class="text-decoration-none text-dark">{{ $user->name }}</a>
                     </td>
                     {{-- <td>
                         {{ $user->email }}

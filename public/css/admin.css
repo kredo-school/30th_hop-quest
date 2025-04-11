@@ -10,3 +10,11 @@
     color: white;
     line-height: 1.2;
 } */
+
+.table-comment{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+}

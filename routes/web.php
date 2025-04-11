@@ -12,12 +12,14 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
 use App\Http\Controllers\Business\QuestController;
 use App\Http\Controllers\Business\QuestLikeController;
+use App\Http\Controllers\Business\QuestCommentController;
 use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\SpotController;
 use App\Http\Controllers\Business\SpotLikeController;
+use App\Http\Controllers\Business\SpotCommentController;
 use App\Http\Controllers\Business\BusinessPromotionController;
 use App\Http\Controllers\Business\BusinessLikeController;
 use App\Http\Controllers\Admin\UsersController;
@@ -50,6 +52,8 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
     Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
     Route::get('/{id}/allreviews', [ProfileController::class, 'allReviews'])->name('allreviews');
     Route::get('/{id}/review', [BusinessCommentController::class, 'showReview'])->name('review');
+
+    
 });
 
 //FOLLOWS
@@ -170,6 +174,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], fu
     Route::patch('/posts/{id}/activate', [BusinessesController::class, 'activate'])->name('posts.activate');
     Route::get('/posts/tourists', [PostsController::class, 'indexTourists'])->name('posts.tourists');
     Route::get('/comments', [CommentsController::class, 'indexComments'])->name('comments');
-    Route::delete('/comments/{id}/deactivate', [CommentsController::class, 'deactivate'])->name('comments.deactivate');
-    Route::patch('/comments/{id}/activate', [CommentsController::class, 'activate'])->name('comments.activate');
+    Route::delete('/{id}/business/comment/deactivate', [BusinessCommentController::class, 'deactivateBusinessComment'])->name('deactivate.business.comment');
+    Route::patch('/{id}/business/comment/activate', [BusinessCommentController::class, 'activateBusinessComment'])->name('activate.business.comment');
+    Route::delete('/{id}/spot/comment/deactivate', [SpotCommentController::class, 'deactivateSpotComment'])->name('deactivate.spot.comment');
+    Route::patch('/{id}/spot/comment/activate', [SpotCommentController::class, 'activateSpotComment'])->name('activate.spot.comment');
+    Route::delete('/{id}/quest/comment/deactivate', [QuestCommentController::class, 'deactivateQuestComment'])->name('deactivate.quest.comment');
+    Route::patch('/{id}/quest/comment/activate', [QuestCommentController::class, 'activateQuestComment'])->name('activate.quest.comment');
 });
