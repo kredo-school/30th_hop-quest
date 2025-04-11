@@ -107,7 +107,7 @@
                     }
                 });
             }, {
-                threshold: 0.1, // 要素が10%見えたら発火
+                threshold: 0.08, // 要素が10%見えたら発火
             });
     
             sections.forEach(section => {
@@ -162,13 +162,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ヘッダー反映
-    document.getElementById("header-title").textContent = title;
-    document.getElementById("header-intro").textContent = intro;
-    if (roleId === 1) {
-        document.getElementById("header-dates").textContent = startDate + "〜" + endDate;
-    } else if (roleId === 2) {
-        document.getElementById("header-dates").textContent = `${duration}日間`;
+    const headerTitle = document.getElementById("header-title");
+    if (headerTitle) headerTitle.textContent = title;
+
+    const headerIntro = document.getElementById("header-intro");
+    if (headerIntro) headerIntro.textContent = intro;
+
+    const headerDates = document.getElementById("header-dates");
+    if (headerDates) {
+        if (roleId === 1) {
+            headerDates.textContent = startDate + "〜" + endDate;
+        } else if (roleId === 2) {
+            headerDates.textContent = `${duration}日間`;
+        }
     }
+
 
     // 画像プレビュー処理（そのままでOK）
     if (fileInput.files.length > 0) {
@@ -589,5 +597,35 @@ window.addEventListener("resize", adjustDescriptionHeight);
 
     window.addEventListener("load", adjustDescriptionHeight);
     window.addEventListener("resize", adjustDescriptionHeight);
-
+//=================================================AGENDA
+    document.querySelectorAll('.agenda-toggle').forEach(toggle => {
+        toggle.addEventListener('change', async function () {
+            const questbodyId = this.dataset.id;
+            const isAgenda = this.checked ? 1 : 0;
+    
+            try {
+                const response = await fetch(`/questbody/agenda/${questbodyId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ is_agenda: isAgenda })
+                });
+    
+                const result = await response.json();
+                if (response.ok) {
+                    console.log(`🟢 Agenda status updated for ID ${questbodyId}:`, result.is_agenda);
+                } else {
+                    console.warn(`⚠️ 更新失敗:`, result);
+                    alert("Agendaの更新に失敗しました");
+                }
+            } catch (error) {
+                console.error("❌ 通信エラー:", error);
+                alert("通信エラーが発生しました");
+            }
+        });
+    });
+    
 

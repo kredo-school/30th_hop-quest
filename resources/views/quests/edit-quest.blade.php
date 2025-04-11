@@ -401,9 +401,8 @@
         @include('quests.modals.quest-body.delete-modal', ['questbody' => $questbody])
     @endforeach
 @endif
-@include('quests.modals.quest.quest-add-spot')
+{{-- @include('quests.modals.quest.quest-add-spot') --}}
 {{-- 編集モーダルの JS --}}
-@vite(['resources/js/quest/quest-body/edit-modal.js'])
 @vite(['resources/js/quest/edit-quest.js'])
 @endsection
 

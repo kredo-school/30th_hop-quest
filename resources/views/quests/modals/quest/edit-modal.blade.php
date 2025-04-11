@@ -111,8 +111,8 @@
                         </p>   
                     </div>
                     <div class="text-end">
-                        <button type="button" class="btn btn-md btn-outline-navy" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" name="submit1" id="update" class="btn btn-md btn-navy">Update</button>
+                        <button type="button" class="btn btn-md btn-outline-green" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" name="submit1" id="update" class="btn btn-md btn-green">Update</button>
                     </div>
                 </form> 
             </div>

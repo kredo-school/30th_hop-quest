@@ -11,7 +11,9 @@
             <div class="col-auto m-2 align-items-center">
                 @php
                     $isOwnProfile = Auth::check() && Auth::id() === $quest_a->user->id;
-                    $profileRoute = $isOwnProfile ? route('myprofile.show') : route('profile.show');
+                    $profileRoute = $isOwnProfile
+                        ? route('myprofile.show')
+                        : route('profile.show', ['id' => $quest_a->user->id]);
                 @endphp
 
                 <a href="{{ $profileRoute }}" class="text-decoration-none h5 d-flex my-0">
@@ -21,6 +23,7 @@
                         <i class="fa-solid fa-circle-user text-secondary icon-mmd text-center"></i>
                     @endif
                 </a>
+
             </div>
             {{-- User Name --}}
             <div class="col-md ms-3 pt-3 d-sm-none">

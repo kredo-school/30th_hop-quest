@@ -179,7 +179,7 @@ Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->gro
     Route::get('/{quest_id}/edit', 'showQuestEdit')->name('edit');
     Route::put('/{quest_id}/update', 'updateQuest')->name('update');
     //SHOW - CONFIRM QUEST
-    Route::get('/confirm-quest/{quest_id}', 'showConfirmQuest')->name('confirm');
+    Route::get('/confirm/{quest_id}', 'showConfirmQuest')->name('confirm');
     //VIEW QUEST
     Route::get('/{quest_id}', 'showViewQuest')->name('show');
     //RESTORE - UNHIEDE

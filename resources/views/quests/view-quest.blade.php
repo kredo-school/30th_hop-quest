@@ -152,7 +152,7 @@
                 <h4>No Entry. Please add Spots or businesses on your Quest!</h4>
             @endif
         </div>
-        <div class="text-center" id="comment-section">
+        <div class="text-center mt-5 pt-3" id="comment-section">
             @include('quests.comment.body')
         </div>
     </div>

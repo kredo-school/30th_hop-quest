@@ -147,3 +147,4 @@
         </div>
     </div>
 </div>
+@vite(['resources/js/quest/quest-body/edit-modal.js'])

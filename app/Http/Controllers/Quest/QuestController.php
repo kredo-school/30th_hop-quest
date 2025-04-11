@@ -104,7 +104,7 @@ class QuestController extends Controller{
     }
 
     function getColorClass($day){
-        $classes = ['color-red', 'color-navy', 'color-green', 'color-blue'];
+        $classes = ['color-red', 'color-navy', 'color-green', 'color-Blue'];
         return $classes[($day - 1) % count($classes)];
     }
 
@@ -150,7 +150,7 @@ class QuestController extends Controller{
 
         // 🔁 questBodies に色クラスを付与してBladeに渡す
         $coloredBodies = $quest->questBodies->map(function ($body) {
-            $colorClasses = ['red', 'navy', 'green', 'blue'];
+            $colorClasses = ['red', 'navy', 'green', 'Blue'];
             $index = ($body->day_number - 1) % count($colorClasses);
             $color = $colorClasses[$index];
 
@@ -168,7 +168,7 @@ class QuestController extends Controller{
 
 //================================================================Update Quest
     public function updateQuest(Request $request, $quest_id){
-        $quest = Quest::find($quest_id);
+        $quest = Quest::withTrashed()->find($quest_id);
 
         if (!$quest) {
             return response()->json(['error' => 'Quest not found'], 404);
@@ -269,7 +269,7 @@ class QuestController extends Controller{
 
         // 色クラスを付与
         $coloredBodies = $allBodies->map(function ($body) {
-            $colorClasses = ['red', 'navy', 'green', 'blue'];
+            $colorClasses = ['red', 'navy', 'green', 'Blue'];
             $index = ($body->day_number - 1) % count($colorClasses);
             $color = $colorClasses[$index];
 
@@ -396,7 +396,7 @@ class QuestController extends Controller{
 
         // 色クラスを付与
         $coloredBodies = $allBodies->map(function ($body) {
-            $colorClasses = ['red', 'navy', 'green', 'blue'];
+            $colorClasses = ['red', 'navy', 'green', 'Blue'];
             $index = ($body->day_number - 1) % count($colorClasses);
             $color = $colorClasses[$index];
 

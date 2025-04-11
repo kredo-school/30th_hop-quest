@@ -12,6 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const hiddenInputContainer = modal.querySelector(`#hidden-inputs-${questbodyId}`);
 
             const existingImages = window.questBodyImages[questbodyId] || [];
+            if (!hiddenInputContainer) {
+                console.warn(`⚠️ hiddenInputContainer が見つかりません: modal ID = ${modal.id}`);
+                return; // このモーダルでは処理を中断
+            }
             hiddenInputContainer.innerHTML = "";
             const seen = new Set();
 
