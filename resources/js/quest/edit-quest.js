@@ -29,17 +29,17 @@
         uploadBtn.addEventListener("click", function (event) {
             event.preventDefault(); // デフォルトのボタン動作を防ぐ
     
-            if (fileInput.files.length === 0) {
-                alert("ファイルを選択してください");
-                return;
-            }
-    
             // **選択されたファイルを `uploadedImagesList` に追加**
             Array.from(fileInput.files).forEach(file => {
                 uploadedImagesList.push(file);
             });
     
             updateUploadedFileNames(); // **ファイルリストを更新**
+
+            if (fileInput.files.length === 0) {
+                alert("ファイルを選択してください");
+                return;
+            }
             
             console.log("🖼 アップロード画像リスト:", uploadedImagesList); // 🔥 デバッグ用
     

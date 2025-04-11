@@ -310,13 +310,18 @@
                                 <div class="spot-entry">
                                     <div class="row pb-3 justify-content-between align-items-center">
                                         <h4 class="spot-name poppins-bold col-md-10 text-start">
-                                            @if ($quest->user_id == 2)
-                                                {{ $questbody->business_title }}
+                                            @if ($quest->user_id == 2 && $questbody->business_title)
+                                                {{ $questbody->business_title }} {{-- カスタム入力なのでリンクなし --}}
                                             @else
                                                 @if ($questbody->spot)
-                                                    {{ $questbody->spot->title }}
+                                                    <a href="{{ route('spot.show', ['id' => $questbody->spot->id]) }}" class="text-decoration-none text-dark">
+                                                        {{ $questbody->spot->title }}
+                                                    </a>
                                                 @elseif ($questbody->business)
-                                                    {{ $questbody->business->name }}
+                                                    <a href="}}" class="text-decoration-none text-dark">
+                                                        {{-- {{ route('business.show', ['id' => $questbody->business->id])  --}}
+                                                        {{ $questbody->business->name }}
+                                                    </a>
                                                 @else
                                                     <span class="text-muted">Undefined</span>
                                                 @endif

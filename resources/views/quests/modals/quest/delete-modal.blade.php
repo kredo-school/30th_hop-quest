@@ -1,4 +1,4 @@
-Quests/modals/quest delete-modal.blade.php
+{{-- Quests/modals/quest delete-modal.blade.php --}}
 <!-- resources/views/quests/modals/delete-modal.blade.php -->
 <div class="modal fade" id="delete-quest-{{ $quest->id }}" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">

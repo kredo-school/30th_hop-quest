@@ -1,25 +1,28 @@
-// Js/quest/quest-body/edit-modal.js
 document.addEventListener("DOMContentLoaded", () => {
-    // ===== モーダル初期化処理 =====
+    const uploadedImagesMap = {}; // モーダルごとの画像リストを保持
+
     document.querySelectorAll('.edit-modal').forEach(modal => {
-        modal.addEventListener('shown.bs.modal', function () {
+        const questbodyId = modal.id.replace('edit-questbody-', '');
+
+        modal.addEventListener('shown.bs.modal', () => {
             const textarea = modal.querySelector('textarea');
             textarea?.focus();
 
-            const questbodyId = modal.id.replace('edit-questbody-', '');
             const fileInput = modal.querySelector(`#edit-image-${questbodyId}`);
             const uploadBtn = modal.querySelector(`#upload-btn-${questbodyId}`);
             const newImagesWrapper = modal.querySelector(`#image-list-wrapper-${questbodyId}`);
             const hiddenInputContainer = modal.querySelector(`#hidden-inputs-${questbodyId}`);
 
-            const existingImages = window.questBodyImages[questbodyId] || [];
-            if (!hiddenInputContainer) {
-                console.warn(`⚠️ hiddenInputContainer が見つかりません: modal ID = ${modal.id}`);
-                return; // このモーダルでは処理を中断
-            }
-            hiddenInputContainer.innerHTML = "";
-            const seen = new Set();
+            const submitBtn = modal.querySelector("button.update-btn");
+            const form = modal.querySelector("form");
 
+            // 初期化
+            uploadedImagesMap[questbodyId] = [];
+
+            // 既存画像の hidden input を再構築
+            hiddenInputContainer.innerHTML = "";
+            const existingImages = window.questBodyImages?.[questbodyId] || [];
+            const seen = new Set();
             existingImages.forEach(imgPath => {
                 if (!seen.has(imgPath)) {
                     seen.add(imgPath);
@@ -31,85 +34,98 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            let uploadedImagesList = [];
-
-            if (fileInput && uploadBtn && newImagesWrapper) {
-                uploadBtn.disabled = true;
-
+            // ファイル選択
+            if (!fileInput.dataset.bound) {
                 fileInput.addEventListener("change", () => {
                     uploadBtn.disabled = fileInput.files.length === 0;
                 });
+                fileInput.dataset.bound = "true";
+            }
 
+            // アップロードボタン
+            if (!uploadBtn.dataset.bound) {
                 uploadBtn.addEventListener("click", (event) => {
                     event.preventDefault();
-                    if (fileInput.files.length === 0) return alert("ファイルを選択してください");
-                    Array.from(fileInput.files).forEach(file => uploadedImagesList.push(file));
-                    renderNewImages();
+
+                    const files = Array.from(fileInput.files);
+                    if (files.length === 0) {
+                        alert("ファイルを選択してください");
+                        return;
+                    }
+
+                    // 上限チェック（例：10枚）
+                    const total = uploadedImagesMap[questbodyId].length + files.length + existingImages.length;
+                    if (total > 10) {
+                        alert("一度にアップロードできるのは最大10枚までです。");
+                        return;
+                    }
+
+                    uploadedImagesMap[questbodyId].push(...files);
+                    requestAnimationFrame(() => {
+                        renderNewImages(questbodyId, newImagesWrapper);
+                    });
+
                     fileInput.value = "";
                     uploadBtn.disabled = true;
                 });
+                uploadBtn.dataset.bound = "true";
+            }
 
-                function renderNewImages() {
-                    newImagesWrapper.querySelectorAll(".new-uploaded-image").forEach(el => el.remove());
+            // 削除済み既存画像の hidden input も削除
+            modal.querySelectorAll('.remove-existing-image').forEach(button => {
+                button.addEventListener('click', function () {
+                    const imagePath = this.dataset.img;
+                    this.closest('.col-auto')?.remove();
+                    modal.querySelectorAll(`input[name="existing_images[]"][value="${imagePath}"]`).forEach(input => input.remove());
+                    console.log("🗑 削除（既存画像）:", imagePath);
+                });
+            });
 
-                    uploadedImagesList.forEach((file, index) => {
-                        const fileItem = document.createElement("div");
-                        fileItem.classList.add("col-auto", "text-center", "me-2", "position-relative", "new-uploaded-image");
-
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            const thumbnail = document.createElement("img");
-                            thumbnail.classList.add("img-thumbnail");
-                            thumbnail.src = e.target.result;
-                            thumbnail.alt = `Uploaded Image ${index + 1}`;
-                            thumbnail.style.width = "150px";
-                            thumbnail.style.height = "auto";
-                            fileItem.appendChild(thumbnail);
-                        };
-                        reader.readAsDataURL(file);
-
-                        const deleteButton = document.createElement("button");
-                        deleteButton.classList.add("btn", "btn-sm", "btn-red", "position-absolute", "bottom-0", "end-0", "m-1", "text-white");
-                        deleteButton.innerHTML = "<i class='fa-solid fa-trash'></i>";
-                        deleteButton.addEventListener("click", function () {
-                            uploadedImagesList.splice(index, 1);
-                            renderNewImages();
-                        });
-
-                        fileItem.appendChild(deleteButton);
-                        newImagesWrapper.appendChild(fileItem);
-                    });
-                }
-
-                const submitBtn = modal.querySelector("button.update-btn");
-                const form = modal.querySelector("form");
-
-                submitBtn?.addEventListener("click", async function (event) {
+            // フォーム送信処理
+            if (!submitBtn.dataset.bound) {
+                submitBtn.addEventListener("click", async function (event) {
                     event.preventDefault();
 
                     const introInput = modal.querySelector(`#introduction_${questbodyId}`);
                     const businessTitleInput = modal.querySelector(`#business_title_${questbodyId}`);
-
                     const introError = modal.querySelector(`#intro-error-${questbodyId}`);
                     const imageError = modal.querySelector(`#image-error-${questbodyId}`);
                     const businessTitleError = modal.querySelector(`#business-title-error-${questbodyId}`);
-
                     const roleId = parseInt(window.authRoleId);
+
                     let hasError = false;
 
-                    if (!introInput?.value.trim()) { introError?.classList.remove("d-none"); hasError = true; } else { introError?.classList.add("d-none"); }
-                    if (roleId === 2 && (!businessTitleInput?.value.trim())) { businessTitleError?.classList.remove("d-none"); hasError = true; } else { businessTitleError?.classList.add("d-none"); }
+                    if (!introInput?.value.trim()) {
+                        introError?.classList.remove("d-none");
+                        hasError = true;
+                    } else {
+                        introError?.classList.add("d-none");
+                    }
 
-                    const totalImages = uploadedImagesList.length + hiddenInputContainer.querySelectorAll(`input[name="existing_images[]"]`).length;
-                    if (totalImages === 0) { imageError?.classList.remove("d-none"); hasError = true; } else { imageError?.classList.add("d-none"); }
+                    if (roleId === 2 && (!businessTitleInput?.value.trim())) {
+                        businessTitleError?.classList.remove("d-none");
+                        hasError = true;
+                    } else {
+                        businessTitleError?.classList.add("d-none");
+                    }
+
+                    const existingCount = hiddenInputContainer.querySelectorAll(`input[name="existing_images[]"]`).length;
+                    const totalImages = uploadedImagesMap[questbodyId].length + existingCount;
+                    if (totalImages === 0) {
+                        imageError?.classList.remove("d-none");
+                        hasError = true;
+                    } else {
+                        imageError?.classList.add("d-none");
+                    }
 
                     if (hasError) return;
 
+                    // FormData生成
                     const formData = new FormData(form);
-                    uploadedImagesList.forEach(file => {
+                    uploadedImagesMap[questbodyId].forEach(file => {
                         formData.append("images[]", file);
                     });
-                    
+
                     try {
                         const response = await fetch(form.action, {
                             method: "POST",
@@ -123,42 +139,66 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         if (result.status === 'success') {
                             console.log("✅ 保存成功:", result);
-                            // 保存後にリロード or モーダル閉じる処理など
-                            window.location.reload(); // ← 任意の動作
+                            window.location.reload(); // 必要に応じて変更
                         } else {
                             console.error("⚠️ サーバー側エラー:", result);
                             alert("保存に失敗しました。");
                         }
-
                     } catch (error) {
                         console.error("❌ 通信エラー:", error);
                         alert("通信エラーが発生しました。");
                     }
                 });
+                submitBtn.dataset.bound = "true";
             }
 
-            modal.querySelectorAll('.remove-existing-image').forEach(button => {
-                button.addEventListener('click', function () {
-                    const imagePath = this.dataset.img;
-                    this.closest('.col-auto')?.remove();
-                    modal.querySelectorAll(`input[name="existing_images[]"][value="${imagePath}"]`).forEach(input => input.remove());
-                    console.log("🗑 クライアント側で削除:", imagePath);
-                });
+            // モーダル閉じるときにフォーカス解除（UX向上）
+            modal.addEventListener('hide.bs.modal', () => {
+                const active = document.activeElement;
+                if (modal.contains(active)) {
+                    active.blur();
+                    document.body.setAttribute('tabindex', '-1');
+                    document.body.focus();
+                    document.body.removeAttribute('tabindex');
+                }
             });
 
-            console.log("✅ モーダルID:", modal.id, "に処理がバインドされました");
-        });
-
-        // モーダル閉じる直前にフォーカスを外す
-        modal.addEventListener('hide.bs.modal', () => {
-            const active = document.activeElement;
-            if (modal.contains(active)) {
-                active.blur();
-                document.body.setAttribute('tabindex', '-1');
-                document.body.focus();
-                document.body.removeAttribute('tabindex');
-            }
+            console.log(`✅ モーダル処理バインド済み (ID: ${modal.id})`);
         });
     });
-});
 
+    // サムネイルを表示
+    function renderNewImages(questbodyId, wrapper) {
+        wrapper.querySelectorAll(".new-uploaded-image").forEach(el => el.remove());
+
+        uploadedImagesMap[questbodyId].forEach((file, index) => {
+            const fileItem = document.createElement("div");
+            fileItem.classList.add("col-auto", "text-center", "me-2", "position-relative", "new-uploaded-image");
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                requestAnimationFrame(() => {
+                    const thumbnail = document.createElement("img");
+                    thumbnail.classList.add("img-thumbnail");
+                    thumbnail.src = e.target.result;
+                    thumbnail.alt = `Uploaded Image ${index + 1}`;
+                    thumbnail.style.width = "150px";
+                    thumbnail.style.height = "auto";
+                    fileItem.appendChild(thumbnail);
+                });
+            };
+            reader.readAsDataURL(file);
+
+            const deleteButton = document.createElement("button");
+            deleteButton.classList.add("btn", "btn-sm", "btn-red", "position-absolute", "bottom-0", "end-0", "m-1", "text-white");
+            deleteButton.innerHTML = "<i class='fa-solid fa-trash'></i>";
+            deleteButton.addEventListener("click", function () {
+                uploadedImagesMap[questbodyId].splice(index, 1);
+                renderNewImages(questbodyId, wrapper);
+            });
+
+            fileItem.appendChild(deleteButton);
+            wrapper.appendChild(fileItem);
+        });
+    }
+});

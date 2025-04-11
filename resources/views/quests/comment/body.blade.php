@@ -43,27 +43,41 @@
                     @endauth
 
                     {{-- コメント投稿者の情報 --}}
-                    <div class="comment-header my-2">
-                        <div class="comment-user-icon">
-                            <a href="">
-                                {{-- {{ route('profile.show', $comment->user->id) }} --}}
-                                @if ($comment->user->avatar)
-                                    <img src="{{ asset('storage/' . $comment->user->avatar) }}" class="avatar-sm" alt="icon">
-                                @else
-                                    <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
-                                @endif
+                    {{-- コメント投稿者の情報 --}}
+                    <div class="comment-header my-2 d-flex align-items-center">
+                        @php
+                            $isOwnComment = Auth::check() && Auth::id() === $comment->user_id;
+                            $profileRoute = $isOwnComment
+                                ? route('myprofile.show')
+                                : route('profile.show', ['id' => $comment->user_id]);
+                        @endphp
+
+                        {{-- アバターリンク --}}
+                        <a href="{{ $profileRoute }}" class="text-decoration-none d-flex align-items-center me-2">
+                            @if ($comment->user->avatar)
+                                <img src="{{ asset('storage/' . ltrim($comment->user->avatar, '/')) }}" class="avatar-sm rounded-circle" alt="user icon">
+                            @else
+                                <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                            @endif
+                        </a>
+
+                        {{-- ユーザー名リンク --}}
+                        <div class="d-flex align-items-center flex-wrap">
+                            <a href="{{ $profileRoute }}" class="text-decoration-none">
+                                <span class="username h6 mb-0"><strong>{{ $comment->user->name }}</strong></span>
                             </a>
+                            {{-- 認証バッジ（任意） --}}
+                            {{-- @if(optional($comment->user)->official_certification == 2)
+                                <img src="{{ asset('images/logo/official_personal.png') }}" class="avatar-xs ms-2" alt="official badge">
+                            @endif --}}
                         </div>
-                        <div class="comment-username">
-                            <a href="#" class="text-decoration-none h5 d-flex align-items center">
-                                {{-- {{ route('profile.show', $comment->user->id) }} --}}
-                                <h1 class="username h6" id="username"><strong>{{ $comment->user->name }}</strong></h1>
-                            </a>
-                        </div>
-                        <div class="comment-date" id="date">
-                            <p class="text-decoration-none d-flex align-items-center">{{ date('M d, Y', strtotime($comment->created_at)) }}</p>
+
+                        {{-- 日付 --}}
+                        <div class="ms-auto text-muted small">
+                            {{ date('M d, Y', strtotime($comment->created_at)) }}
                         </div>
                     </div>
+
 
                     {{-- コメント内容 --}}
                     <div class="comment-text col-auto px-2">
