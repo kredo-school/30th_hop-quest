@@ -145,7 +145,7 @@
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 {{-- PROFILE --}}
                                 @if(Auth::user()->role_id == 1)
-                                    <a href="#" class="dropdown-item">
+                                    <a href="{{route('profile.header', Auth::user()->id)}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
                                 @elseif(Auth::user()->role_id == 2)

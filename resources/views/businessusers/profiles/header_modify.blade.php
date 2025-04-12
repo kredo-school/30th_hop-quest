@@ -35,7 +35,7 @@
                     @if($user->avatar)
                         <img src="{{$user->avatar}}" alt="" class="rounded-circle avatar-xxl">
                     @else
-                        <i class="fa-solid fa-circle-user text-secondary icon-xl d-block text-center"></i>
+                        <i class="fa-solid fa-circle-user text-secondary profile-xxl d-block text-center"></i>
                     @endif
                 </div>
                 {{-- <div class="col-2"></div> --}}
@@ -60,6 +60,14 @@
                             </div>
                         @elseif(Auth::user()->role_id == 1)
                             <div class="col-md-2 col-sm-2 ms-auto">
+                                @if(auth()->check() && auth()->id() !== $user->id && auth()->user()->isFollowing($user) && $user->isFollowing(auth()->user()))
+                                    <button class="btn btn-green fw-bold mb-2 w-100" data-user-id="{{ $user->id }}" data-toggle="modal" data-target="#messageModal">
+                                        Message
+                                    </button>
+                                    @include("tourists.message.modal.message_modal")
+                                @endif
+                            </div> 
+                            <div class="col-md-2 col-sm-2 ">
                                 @if($user->isFollowed())
                                 {{-- unfollow --}}
                                     <form action="{{route('follow.delete', $user->id)}}" method="post">
@@ -76,14 +84,7 @@
                                 </form>
                                 @endif 
                             </div>
-                            <div class="col-md-2 col-sm-2">
-                                @if(auth()->check() && auth()->id() !== $user->id && auth()->user()->isFollowing($user) && $user->isFollowing(auth()->user()))
-                                    <button class="btn btn-primary fw-bold mb-2 w-100" data-user-id="{{ $user->id }}" data-toggle="modal" data-target="#messageModal">
-                                        Message
-                                    </button>
-                                    @include("tourists.message.modal.message_modal")
-                                @endif
-                            </div> 
+
                         @endif                   
 
                         
@@ -97,57 +98,37 @@
                                 <a href="#" class="text-decoration-none text-dark ">{{ $user->website_url }}</a>
                             @endif
                         </div>
-                        @if(Auth::user()->role_id == 1)
-                        {{-- <div class="col-2 ms-auto">
+                        {{-- @if(Auth::user()->role_id == 1)
+                        <div class="col-2 ms-auto">
                             <button class="btn btn-primary fw-bold mb-2 w-100 text-white ms-auto" data-bs-toggle="modal" data-bs-target="#mutual-follow{{$user->id}}">MESSAGE</button>
                                 @if(auth()->user()->isFollowing($user) && $user->isFollowing(auth()->user()))
                                     
                                 @endif
-                        </div>   --}}
+                        </div>  
                             @include('tourists.message.modal.mutual_follow')  
-                        @endif
+                        @endif --}}
                     </div> 
                     <div class="row mb-3">
                         @include('businessusers.profiles.partial.counter')
                     </div>    
                 </div> 
-            </div>
+            
             {{-- introduction --}}
             <div class="row mb-3">
                 @if($user->introduction)
                     <p>{{ $user->introduction}}</p>
                 @endif               
             </div> 
-        </div>
+        
 
                {{-- === タブ切り替えエリア === --}}
-            @if (!$section)
-               <ul class="nav nav-tabs custom-tabs mt-4" role="tablist">
-                   <li class="nav-item">
-                       <a class="nav-link {{ $tab == 'businesses' ? 'active-tab' : '' }}"
-                           href="{{ route('profile.header', ['id' => $user->id, 'tab' => 'businesses']) }}">
-                           Management Business
-                       </a>
-                   </li>
-                   <li class="nav-item">
-                       <a class="nav-link {{ $tab == 'promotions' ? 'active-tab' : '' }}"
-                           href="{{ route('profile.header', ['id' => $user->id, 'tab' => 'promotions']) }}">
-                           Promotions
-                       </a>
-                   </li>
-                   <li class="nav-item">
-                       <a class="nav-link {{ $tab == 'quests' ? 'active-tab' : '' }}"
-                           href="{{ route('profile.header', ['id' => $user->id, 'tab' => 'quests']) }}">
-                           Model Quests
-                       </a>
-                   </li>
-               </ul>
-           @endif
+           
+           @include('businessusers.profiles.partial.tabs')
 
     {{-- === コンテンツ表示（Switch） === --}}
     
         <div class="row justify-content-center mt-5">
-        <!--Follower-->    
+                <!--Follower-->    
                 <div class="col-6">
                     <div class="row mb-3 align-items-center ">
                         @if ($section == 'followers')
@@ -158,7 +139,7 @@
                                         <div class="col-auto">
                                             {{-- icon/avatar --}}
                                             {{-- <a href="{{route('profile.show', $follower->follower->id)}}"> --}}
-                                            <a href="#">
+                                            <a href="{{route('profile.header', $follower->follower->id)}}">
                                                 @if($follower->follower->avatar)
                                                     <img src="{{$follower->follower->avatar}}" alt="" class="rounded-circle avatar-sm">
                                                 @else
@@ -170,13 +151,13 @@
                                             {{-- name --}}
                                             {{-- <a href="{{route('profile.show', $follower->follower->id)}}" 
                                                 class="text-decoration-none text-dark fw-bold"> --}}
-                                            <a href="#" class="text-decoration-none text-dark fw-bold">
+                                                <a href="{{route('profile.header', $follower->follower->id)}}" class="text-decoration-none text-dark fw-bold">
                                                 {{$follower->follower->name}}
                                             </a>
                                         </div>
                                         <div class="col-auto mt-3">
                                             {{-- button --}}
-                                            @if($follower->follower->id != Auth::user()->id)
+                                            @if($follower->follower->id != Auth::user()->id && Auth::user()->role_id == 1)
                                                 @if($follower->follower->isFollowed())
                                                     {{-- unfollow --}}
                                                     <form action="{{route('follow.delete', $follower->follower->id)}}" method="post">
@@ -199,13 +180,13 @@
                                 @endforelse   
                             </ul>
                         @elseif ($section == 'follows')
-                            <h3 class="text-center mb-3">Followers</h3>                            
+                            <h3 class="text-center mb-3">Following</h3>                            
                             <ul class="list-group">
-                                @foreach($user->follows as $following)
+                                @forelse($user->follows as $following)
                                     <div class="row bg-white p-2 rounded-4 mb-3 d-flex align-items-center">
                                         <div class="col-auto">
                                             {{-- icon/avatar --}}
-                                            <a href="{{route('profile.show', $following->followed->id)}}">
+                                            <a href="{{route('profile.header', $following->followed->id)}}">
                                                 @if($following->followed->avatar)
                                                     <img src="{{$following->followed->avatar}}" alt="" class="rounded-circle avatar-sm">
                                                 @else
@@ -215,11 +196,11 @@
                                         </div>
                                         <div class="col ps-0 text-truncate">
                                             {{-- name --}}
-                                            <a href="{{route('profile.show', $following->followed->id)}}" class="text-decoration-none text-dark fw-bold">
+                                            <a href="{{route('profile.header', $following->followed->id)}}" class="text-decoration-none text-dark fw-bold">
                                                 {{$following->followed->name}}
                                             </a>
                                         </div>
-                                        <div class="col-auto">
+                                        <div class="col-auto mt-3">
                                             {{-- button --}}
                                             @if($following->followed->id != Auth::user()->id)
                                                 @if($following->followed->isFollowed())
@@ -239,25 +220,27 @@
                                             @endif
                                         </div>
                                     </div>
-                                @endforeach   
+                                @empty
+                                    <h4 class="h4 text-center text-secondary">No following yet</h4>
+                                @endforelse   
                             </ul>
                         @else
                     </div>
                 </div>
-                            @switch($tab)
-                                @case('businesses')
-                                    @include('businessusers.profiles.businesses', ['businesses' => $businesses])
-                                    @break
-                                @case('promotions')
-                                    @include('businessusers.profiles.promotions', ['promotions' => $business_promotions])
-                                    @break
-                                @case('quests')
-                                    @include('businessusers.profiles.quests', ['quests' => $quests])
-                                    @break
-                                @default
-                                    @include('businessusers.profiles.businesses', ['businesses' => $businesses])
-                            @endswitch
-                        @endif
+                @switch($tab)
+                    @case('businesses')
+                        @include('businessusers.profiles.businesses', ['businesses' => $businesses])
+                        @break
+                    @case('promotions')
+                        @include('businessusers.profiles.promotions', ['promotions' => $business_promotions])
+                        @break
+                    @case('quests')
+                        @include('businessusers.profiles.quests', ['quests' => $quests])
+                        @break
+                    @default
+                        @include('businessusers.profiles.businesses', ['businesses' => $businesses])
+                @endswitch
+            @endif
         </div>
     </div>   
 </div>
