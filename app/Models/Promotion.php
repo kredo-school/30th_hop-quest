@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Promotion extends Model
 {
     use SoftDeletes;
+    protected $table = 'business_promotions';
     
     //promotion belongs to one business
     public function business(){
