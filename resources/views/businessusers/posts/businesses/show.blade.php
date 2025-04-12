@@ -59,6 +59,7 @@
                 </div>
             </section>
 
+<<<<<<< HEAD:resources/views/business.blade.php
             <!-- Hotel Description -->
             <div class="hotel-description">
                 <div class="description-box">
@@ -78,6 +79,47 @@
                         <br />
                         Come and experience true hospitality at Hop Hotel! We look forward to welcoming you. 😊🏨✨
                     </p>
+=======
+            <!-- Business Promotion -->
+            <section class="business-promotion">
+                <h3>Business Promotion</h3>
+                <div class="promotion-container">
+                    @if(count($businessPromotions) > 0)
+                        <div class="promotion-carousel">
+                            <div class="carousel-controls">
+                                <button class="carousel-arrow prev" role="button" aria-label="Previous slide">&larr;</button>
+                                <button class="carousel-arrow next" role="button" aria-label="Next slide">&rarr;</button>
+                            </div>
+                            
+                            <div class="carousel-items-container">
+                                @foreach($businessPromotions as $index => $promotion)
+                                    <div class="promotion-item {{ $index < 5 ? 'active' : '' }}">
+                                        @include('businessusers.posts.promotions._promotion', ['promotion' => $promotion])
+                                    </div>
+                                @endforeach
+                            </div>
+                            
+                            <div class="carousel-indicators">
+                                @php
+                                    $totalSlides = ceil(count($businessPromotions) / 3);
+                                @endphp
+                                @for($i = 0; $i < $totalSlides; $i++)
+                                    <div class="carousel-indicator {{ $i === 0 ? 'active' : '' }}" data-index="{{ $i }}"></div>
+                                @endfor
+                            </div>
+                        </div>
+                    @else
+                        <div class="text-center">No promotions available</div>
+                    @endif
+                </div>
+            </section>
+
+            <!-- Business Introduction -->
+            <section class="business-introduction">
+                <h3>Business Introduction</h3>
+                <div class="introduction-box">                   
+                    <p>{{ $business->introduction }}</p>
+>>>>>>> f24e510 (Modify ViewBusiness):resources/views/businessusers/posts/businesses/show.blade.php
                 </div>
             </div>
 
@@ -162,73 +204,44 @@
                 </div>
             </section>
 
-            <!-- Amenities -->
-            <section class="amenities-section">
-                <h2 class="amenities-title">
-                    Amenities
+            <!-- Details -->
+            <section class="details-section">
+                <h2 class="details-title">
+                    Details
                 </h2>
 
-                <div class="amenities-container">
-                    @php
-                        $amenityGroups = [
-                            'Accessibility' => [
-                                ['wheelchair', 'Wheel chair accessible', true],
-                                ['accessibleParking', 'Accessible parking', false],
-                                ['brailleSignage', 'Braille signage', false],
-                                ['elevatorAccess', 'Elevator access', true],
-                                ['accessibleRestroom', 'Accessible restroom', false],
-                                ['hearingLoop', 'Hearing loop system', false]
-                            ],
-                            'Facility' => [
-                                ['freeWifi', 'Free Wi-Fi', true],
-                                ['parkingAvailable', 'Parking available', true],
-                                ['changingRoom', 'Changing room', true],
-                                ['publicRestrooms', 'Public restrooms', true],
-                                ['bicycleParking', 'Bicycle parking', false],
-                                ['showerFacilities', 'shower facilities', false]
-                            ],
-                            'Payment Options' => [
-                                ['creditCards', 'Credit cards accepted', true],
-                                ['cashOnly', 'Cash Only', false],
-                                ['internationalCards', 'International payment cards', false],
-                                ['digitalPayment', 'Digital payment', true],
-                                ['contactlessPayments', 'Contactless Payments', false]
-                            ],
-                            'Smoking Policy' => [
-                                ['nonSmoking', 'Completely non-smoking', true],
-                                ['designatedRooms', 'Designated smoking rooms', false],
-                                ['smokingPermitted', 'Smoking permitted throughout', false],
-                                ['smokingArea', 'Smoking area available', true],
-                                ['outdoorSmoking', 'Outdoor smoking section', false]
-                            ]
-                        ];
-                    @endphp
-
-                    @foreach($amenityGroups as $groupName => $items)
+                <div class="details-container">
+                    @foreach($businessInfoCategories as $index => $category)
                         <div class="amenity-group">
                             <div class="amenity-group-title">
-                                {{ $groupName }} :
+                                {{ $category->name }} :
                             </div>
                             <div class="amenity-items-container">
                                 <div class="amenity-grid">
-                                    @foreach($items as [$id, $label, $checked])
+                                    @foreach($category->businessInfos as $info)
+                                        @php
+                                            $isValid = false;
+                                            if ($info->businessDetails->isNotEmpty()) {
+                                                $isValid = $info->businessDetails->first()->is_valid;
+                                            }
+                                        @endphp
                                         <div class="amenity-item">
+                                            <label for="{{ $info->id }}" class="amenity-label">
+                                                {{ $info->name }}
+                                            </label>
                                             <input 
                                                 type="checkbox" 
-                                                id="{{ $id }}" 
-                                                {{ $checked ? 'checked' : '' }}
+                                                id="{{ $info->id }}" 
+                                                {{ $isValid ? 'checked' : '' }}
                                                 disabled
                                                 class="amenity-checkbox"
                                             />
-                                            <label for="{{ $id }}" class="amenity-label">
-                                                {{ $label }}
-                                            </label>
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
                         </div>
-                        @if(!$loop->last)
+                        @if($index < count($businessInfoCategories) - 1)
                             <hr class="amenity-divider" />
                         @endif
                     @endforeach
@@ -238,59 +251,10 @@
             <!-- Quest Section -->
             <section class="quest-section">
                 <h2 class="quest-title">
-                    Quest
+                    Model Quest
                 </h2>
 
-                <div class="quest-grid">
-                    @for($i = 1; $i <= 4; $i++)
-                        <div class="quest-card">
-                            <div class="quest-card-content">
-                                <img
-                                    class="quest-image"
-                                    alt="Mount Fuji"
-                                    src="{{ asset('public/image-3.png') }}"
-                                />
-
-                                <div class="quest-card-info">
-                                    <div class="quest-card-header">
-                                        <p class="quest-name">
-                                            Mount Fuji
-                                        </p>
-                                        <span class="quest-date">
-                                            2025/2/20
-                                        </span>
-                                    </div>
-
-                                    <div class="quest-stats">
-                                        @foreach(['heart', 'message-circle', 'share-2'] as $icon)
-                                            <div class="stat-item">
-                                                <img src="{{ asset('public/' . $icon . '.svg') }}" class="stat-icon" alt="{{ $icon }}" />
-                                                <span class="stat-value">1033</span>
-                                            </div>
-                                        @endforeach
-                                    </div>
-
-                                    <div class="quest-footer">
-                                        <div class="quest-user">
-                                            <div class="user-avatar">
-                                                <img src="{{ asset('public/main-picture-1.png') }}" alt="Profile" class="avatar-image" />
-                                            </div>
-                                            <span class="user-name">
-                                                Mt. Fuji Official
-                                            </span>
-                                        </div>
-
-                                        <button class="follow-button">
-                                            <span class="follow-text">
-                                                FOLLOW
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endfor
-                </div>
+     
             </section>
 
             <!-- Hotel Images -->
@@ -324,5 +288,8 @@
     <script async
         src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&libraries=places&callback=initMap">
     </script>
+
+    {{--promotion carousel --}}
+    <script src="{{ asset('js/viewbusiness.js') }}"></script>
 
 @endsection
