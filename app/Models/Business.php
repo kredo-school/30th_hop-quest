@@ -10,7 +10,31 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 class Business extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['name'];
+    
+    protected $fillable = [
+        'name',
+        'term_start',
+        'term_end',
+        'display_start',
+        'display_end',
+        'sp_notes',
+        'zip',
+        'identification_number',
+        // 'business_hours' を削除
+    ];
+    
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        // 'business_hours' => 'json' を削除
+        'term_start' => 'date',
+        'term_end' => 'date',
+        'display_start' => 'date',
+        'display_end' => 'date',
+    ];
    
     //business belongs to one user
     public function user(){
@@ -65,5 +89,4 @@ class Business extends Model
     public function businessHours(){
         return $this->hasMany(BusinessHour::class);
     }
-    
 }

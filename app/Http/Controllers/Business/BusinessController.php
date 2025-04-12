@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessDetail;
+use App\Models\BusinessInfoCategory;
 use App\Models\BusinessHour;
 use App\Models\Detail;
 use App\Models\Photo;
@@ -104,18 +105,18 @@ class BusinessController extends Controller
         }
 
         // BusinessDetailを作成（business_idは自動で入る）
-        $businessDetail = $this->business->businessDetails()->create([
-        ]);
+        // $businessDetail = $this->business->businessDetails()->create([
+        // ]);
 
         // 各カテゴリごとに Details を保存
-        foreach ($request->input('details', []) as $category => $items) {
-            foreach ($items as $itemName) {
-                $businessDetail->details()->create([
-                    'category' => $category,
-                    'name' => $itemName,
-                ]);
-            }
-        }
+        // foreach ($request->input('details', []) as $category => $items) {
+        //     foreach ($items as $itemName) {
+        //         $businessDetail->details()->create([
+        //             'category' => $category,
+        //             'name' => $itemName,
+        //         ]);
+        //     }
+        // }
 
         // 営業時間の保存
         $businessHours = $request->input('business_hours', []);
@@ -139,9 +140,18 @@ class BusinessController extends Controller
     public function edit($id){
         $business_a = $this->business->findOrFail($id);
         $businessHours = $business_a->businessHours->keyBy('day_of_week');
-        $businessDetail = $business_a->businessDetails()->first();
-        $checkedDetailItems = $businessDetail->details ? $businessDetail->details->pluck('name')->toArray() : [];
-        return view('businessusers.posts.businesses.edit_n', compact('businessHours','checkedDetailItems'))->with('business', $business_a);
+        // $businessDetail = $business_a->businessDetails()->first();
+        // $checkedDetailItems = $businessDetail->details ? $businessDetail->details->pluck('name')->toArray() : [];
+        // $businessInfoCategories = BusinessInfoCategory::with(['businessInfos' => function($query) use ($id) {
+        //     $query->with(['businessDetails' => function($query) use ($id) {
+        //         $query->where('business_id', $id);
+        //     }]);
+        // }])->get();
+        // return view('businessusers.posts.businesses.edit_n', compact('businessHours','checkedDetailItems'))->with('business', $business_a);
+        return view('businessusers.posts.businesses.edit_n')
+        ->with('business', $business_a)
+        ->with('businessHours', $businessHours);
+        // ->with('businessInfoCategories', $businessInfoCategories);
     }
 
     public function update(Request $request, $id){
@@ -169,7 +179,6 @@ class BusinessController extends Controller
         $business_a->term_end = $request->term_end;
         $business_a->introduction = $request->introduction;
         $business_a->status = $request->status;
-        $business_a->business_hours = $request->business_hours;
         $business_a->sp_notes = $request->sp_notes;
         $business_a->address_1 = $request->address_1;
         $business_a->address_2 = $request->address_2;
@@ -216,9 +225,9 @@ class BusinessController extends Controller
         'name' => $request->input('name'),
         'description' => $request->input('description'),
         ]);
-        $businessDetail = $business_a->businessDetails()->create([
-            // 内容
-        ]);
+        // $businessDetail = $business_a->businessDetails()->create([
+        //     'business_info_id' => 1
+        // ]);
     // 2. BusinessHoursを一旦削除してから再作成（曜日単位のユニーク制約がなければこれが簡単）
     $business_a->businessHours()->delete();
 
@@ -236,34 +245,26 @@ class BusinessController extends Controller
         ]);
     }
 
-    $businessDetail = $business_a->businessDetails()->first();
-    if (!$businessDetail) {
-        $businessDetail = $business_a->businessDetails()->create();
-    }
+    // $businessDetail = $business_a->businessDetails()->first();
+    // if (!$businessDetail) {
+    //     $businessDetail = $business_a->businessDetails()->create();
+    // }
     
     // 古い details を削除
-    $businessDetail->details()->delete();
+    // $businessDetail->details()->delete();
     
     // 新しい details を保存
-    foreach ($request->input('details', []) as $category => $items) {
-        foreach ($items as $itemName) {
-            $businessDetail->details()->create([
-                'category' => $category,
-                'name' => $itemName,
-            ]);
-        }
-    }
+    // foreach ($request->input('details', []) as $category => $items) {
+    //     foreach ($items as $itemName) {
+    //         $businessDetail->details()->create([
+    //             'category' => $category,
+    //             'name' => $itemName,
+    //         ]);
+    //     }
+    // }
 
         
         return redirect()->route('profile.businesses',Auth::user()->id);
-    }
-
-
-    public function show($id){
-        //get the data of 1 post where ID = $id
-        $business_a = $this->business->findOrFail($id);
-        
-        return view('businessusers.posts.businesses.show')->with('business', $business_a);
     }
 
     public function deactivate($id){
