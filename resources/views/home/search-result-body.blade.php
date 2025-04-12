@@ -5,11 +5,31 @@
 {{-- @extends('layouts.app') --}}
     <div class="card p-3">
 
-        {{-- Card Image with official mark --}}
-        <img src="{{ asset('images/home/Official Badge.png') }}" class="official" alt="official">
+                {{-- what model is the post in? --}}
+                @php
+                    $class = class_basename(get_class($post));
+                @endphp
 
-        <a href="{{ route('spot.show', $post->id )}}" class="">
-            @php
+        {{-- Card Image with official mark --}}
+        @if ($class === 'Business' && $post->official_certification === 3)
+            <img src="{{ asset('images/home/Official Badge.png') }}" class="official" alt="official">
+        @endif
+
+
+        @if($class === 'Quest')
+            {{-- <a href="{{ route('quest.show', $post->id )}}" class=""> --}}
+
+        @elseif($class === 'Spot')
+            <a href="{{ route('spot.show', $post->id )}}" class="">
+
+        @elseif($class === 'Business' && $post->category_id === 1)
+            {{-- <a href="{{ route('business.show', $post->id )}}" class=""> --}}
+
+        @elseif($class === 'Business' && $post->category_id === 2)
+            {{-- <a href="{{ route('business.show', $post->id )}}" class=""> --}}
+
+        @endif
+            {{-- @php
                 if ($post->photos) {
                     $priority_one = $post->photos->where('priority', '1')->first();
                     $business_image_path = $priority_one->image;
@@ -17,12 +37,12 @@
 
                 $image_path = $post->main_image ?? $post->main_image ?? $business_image_path;
 
-            @endphp
+            @endphp --}}
             
-            @if ($image_path)
-                <img src="{{ asset('storage/' . $image_path) }}" class="card-img-top body-image" alt="image">
+            @if ($post->main_image)
+                <img src="{{ asset('storage/' . $post->main_image) }}" class="card-img-top body-image" alt="image">
             @else
-                <img src="{{ asset('images/home/noImage.jpg') }}" class="card-img-top body-image" alt="image">
+                <img src="{{ asset('storage/app/public/images/home/noImage.jpg')}}" class="card-img-top body-image" alt="image">
             @endif
         </a>
         
@@ -32,10 +52,6 @@
                 <div class="col-auto p-0">
                     <h5 class="card-subtitle">Category: 
                         <strong>
-                            @php
-                                $class = class_basename(get_class($post));
-                            @endphp
-
                             @if ($class == 'Quest')
                                 Quest
                             @elseif ($class == 'Spot')
@@ -117,7 +133,7 @@
                 </form>
 
                 <button class="btn btn-sm p-0 text-center">
-                    <span>10</span>
+                    <span>{{ $post->likes->count() }}</span>
                 </button>
                 {{-- Modal for displaying all users who liked owner of post--}}
                                         
@@ -130,7 +146,7 @@
                     </div>
 
                     <button class="btn btn-sm p-0 text-center">
-                        <span>&nbsp;&nbsp; ?</span>
+                        <span>&nbsp;&nbsp;{{ $post->comments->count() }}</span>
                     </button>
                 </div>
 
