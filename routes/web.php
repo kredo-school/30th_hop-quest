@@ -15,6 +15,7 @@ use App\Http\Controllers\Business\ReviewController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
 use App\Http\Controllers\Business\BusinessController;
+use App\Http\Controllers\Business\ViewBusiness;
 use App\Http\Controllers\Business\PromotionController;
 use App\Http\Controllers\Business\QuestLikeController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -50,8 +51,6 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function(){
 Route::post('/follow/{user_id}/store', [FollowController::class, 'store'])->name('follow.store');
 Route::delete('/follow/{user_id}/delete', [FollowController::class, 'delete'])->name('follow.delete');
 
-//BUSINESS
-Route::get('/business/business', [BusinessController::class, 'index'])->name('business.index');
 
 //PROMOTION
 Route::group(['prefix' => '/business/promotion', 'as' => 'promotions.'], function(){
@@ -65,7 +64,7 @@ Route::group(['prefix' => '/business/promotion', 'as' => 'promotions.'], functio
     Route::patch('/{id}/activate', [PromotionController::class, 'activate'])->name('activate');
 });
 
-//MANAGEMENT BUSINESS
+//Manegement BUSINESS
 Route::group(['prefix' => '/business/business', 'as' => 'businesses.'], function(){
     Route::get('/create', [BusinessController::class, 'create'])->name('create');
     Route::get('/{id}/edit', [BusinessController::class, 'edit'])->name('edit');
@@ -77,8 +76,12 @@ Route::group(['prefix' => '/business/business', 'as' => 'businesses.'], function
     Route::get('photos/edit/{business}', [PhotoController::class, 'edit'])->name('photos.edit');
     Route::patch('photos/{business}/update', [PhotoController::class, 'update'])->name('photos.update');
     Route::delete('/{id}/deactivate', [BusinessController::class, 'deactivate'])->name('deactivate');
-    Route::patch('/{id}/activate', [BusinessController::class, 'activate'])->name('activate');
-    });
+    Route::patch('/{id}/activate', [BusinessController::class, 'activate'])->name('activate'); 
+});
+
+//View Business
+Route::get('/business/{id}', [ViewBusiness::class, 'show'])->name('business.show');
+
 
 //LIKES BUSINESS
 Route::post('/home/like/business/{business_id}/store', [BusinessLikeController::class, 'storeBusinessLike'])->name('businesses.like.store');
@@ -138,6 +141,3 @@ Route::get('/password/reset', [ForgotPasswordController::class, 'show'])->name('
 Route::get('/register/business', [RegisterController::class, 'registerBusiness'])->name('register.business');
 Route::post('/store/business', [App\Http\Controllers\Auth\RegisterController::class, 'storeBusiness'])->name('register.business.submit');
 Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
-
-// View Business
-Route::get('/business/{id}', [App\Http\Controllers\Business\ViewBusiness::class, 'show'])->name('business.show');

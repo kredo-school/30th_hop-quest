@@ -23,21 +23,24 @@ class ViewBusiness extends Controller
 
     public function show($id)
     {
-        $business = $this->business->find($id);
-        $businessPromotions = $this->businessPromotion->where('business_id', $id)->get();
-        $businessHours = $this->businessHours->where('business_id', $id)->get();
-        $businessInfoCategories = BusinessInfoCategory::with(['businessInfos' => function($query) use ($id) {
-            $query->with(['businessDetails' => function($query) use ($id) {
-                $query->where('business_id', $id);
-            }]);
-        }])->get();
+        try {
+            $business = $this->business->findOrFail($id);
+            $businessPromotions = $this->businessPromotion->where('business_id', $id)->get();
+            $businessHours = $this->businessHours->where('business_id', $id)->get();
+            $businessInfoCategories = BusinessInfoCategory::with(['businessInfos' => function($query) use ($id) {
+                $query->with(['businessDetails' => function($query) use ($id) {
+                    $query->where('business_id', $id);
+                }]);
+            }])->get();
 
-        return view('businessusers.businesses.show')
-                ->with('business', $business)
-                ->with('businessHours', $businessHours)
-                ->with('businessInfoCategories', $businessInfoCategories)
-                ->with('businessPromotions', $businessPromotions);
-
+            return view('businessusers.posts.businesses.show')
+                    ->with('business', $business)
+                    ->with('businessHours', $businessHours)
+                    ->with('businessInfoCategories', $businessInfoCategories)
+                    ->with('businessPromotions', $businessPromotions);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->route('home')->with('error', 'ビジネス情報が見つかりませんでした。');
+        }
     }
 
 }

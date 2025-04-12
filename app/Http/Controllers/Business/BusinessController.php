@@ -30,7 +30,7 @@ class BusinessController extends Controller
 
     public function create(){
         $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return view('businessusers.posts.businesses.add_n')->with('all_businesses',$all_businesses);
+        return view('businessusers.posts.businesses.add')->with('all_businesses',$all_businesses);
     }
 
     public function store(Request $request){
@@ -148,7 +148,7 @@ class BusinessController extends Controller
         //     }]);
         // }])->get();
         // return view('businessusers.posts.businesses.edit_n', compact('businessHours','checkedDetailItems'))->with('business', $business_a);
-        return view('businessusers.posts.businesses.edit_n')
+        return view('businessusers.posts.businesses.edit')
         ->with('business', $business_a)
         ->with('businessHours', $businessHours);
         // ->with('businessInfoCategories', $businessInfoCategories);
