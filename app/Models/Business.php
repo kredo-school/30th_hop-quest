@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Business extends Model
 {
     use SoftDeletes;
+    protected $fillable = ['name'];
    
     //business belongs to one user
     public function user(){
@@ -20,10 +21,11 @@ class Business extends Model
     //business has many promotions
     public function businessPromotions(){
         return $this->hasMany(BusinessPromotion::class);
+
     }
 
-    public function reviews(){
-        return $this->hasMany(Review::class);
+    public function businessComment(){
+        return $this->hasMany(BusinessComment::class);
     }
 
     public function photos(){
@@ -67,4 +69,11 @@ class Business extends Model
         return $this->hasMany(BusinessComment::class);
     }
 
+    public function businessDetails(){
+        return $this->hasMany(BusinessDetail::class);
+    }
+
+    public function businessHours(){
+        return $this->hasMany(BusinessHour::class);
+    }
 }

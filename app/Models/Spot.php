@@ -20,9 +20,6 @@ class Spot extends Model
         return $this->hasMany(SpotLike::class);
     }
 
-    public function spotComments(){
-        return $this->hasMany(SpotComment::class);
-    }
 
     public function pageViews(){
         return $this->hasMany(PageView::class);
@@ -41,6 +38,11 @@ class Spot extends Model
     }
 
     public function comments(){
+        return $this->hasMany(SpotComment::class);
+    }
+
+
+    public function spotComments(){
         return $this->hasMany(SpotComment::class);
     }
 

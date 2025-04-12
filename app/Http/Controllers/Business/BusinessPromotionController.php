@@ -45,7 +45,7 @@ class BusinessPromotionController extends Controller
         $this->business_promotion->display_end = $request->display_end;
         $this->business_promotion->business_id = $request->business_id;
         $this->business_promotion->user_id = Auth::user()->id;
-        $this->business_promotion->image = "data:photo/".$request->image->extension().";base64,".base64_encode (file_get_contents($request->photo)); 
+        $this->business_promotion->image = "data:photo/".$request->image->extension().";base64,".base64_encode (file_get_contents($request->image)); 
 
 
         $this->business_promotion->save();
@@ -82,13 +82,13 @@ class BusinessPromotionController extends Controller
         $business_promotion_a->business_id = $request->business_id;
         $business_promotion_a->user_id = Auth::user()->id;
 
-        if($request->photo){
-            $business_promotion_a->image = "data:photo/".$request->image->extension().";base64,".base64_encode(file_get_contents($request->photo));
+        if($request->image){
+            $business_promotion_a->image = "data:photo/".$request->image->extension().";base64,".base64_encode(file_get_contents($request->image));
         }
         $business_promotion_a->save();
 
         //redirect to Show Post
-        return redirect()->route('profile.promotions', Auth::user()->id)->with('all_promotions', $all_business_promotions)->with('all_businesses', $all_businesses);
+        return redirect()->route('profile.promotions', Auth::user()->id)->with('all_business_promotions', $all_business_promotions)->with('all_businesses', $all_businesses);
     }
 
     public function show($id){

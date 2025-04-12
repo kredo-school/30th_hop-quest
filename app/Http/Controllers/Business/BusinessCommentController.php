@@ -8,17 +8,19 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessComment;
-use App\Models\Spot;
+
 
 class BusinessCommentController extends Controller
 {
+    private $user;
     private $business;
     private $business_comment;
 
-
-    public function __construct(BusinessComment $business_comment, Business $business){
+    public function __construct(BusinessComment $business_comment, Business $business, User $user){
         $this->business_comment = $business_comment;
         $this->business = $business;
+        $this->user = $user;
+
     }
 
     public function reviews($id){
@@ -26,16 +28,22 @@ class BusinessCommentController extends Controller
         $all_business_comments = $this->business_comment->latest()->paginate(10);
         $business_comment_a = $this->business_comment->findOrFail($id);
         $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
+
+        return view('businessusers.reviews.allreviews')->with('all_business_comments', $all_business_comments)->with('all_businesses',$all_businesses)->with('business_comment', $business_comment_a);
+
         return view('businessusers.reviews.allreviews' ,compact('all_business_comments', 'all_businesses'))->with('business_comment', $business_comment_a);
+
     }
 
     public function showReview($id){
         $business_comment_a = $this->business_comment->findOrFail($id);
-        return view('businessusers.reviews.showreview')->with('business_comment', $business_comment_a);
+        $user_a = $this->user->findOrFail($id);
+        return view('businessusers.reviews.showreview')->with('business_comment', $business_comment_a)->with('user', $user_a);
     }
 
-    public function show(Request $request){
+    public function show(Request $request, $id){
     $query = BusinessComment::query();
+    $user_a = $this->user->findOrFail($id);
 
     if ($request->filled('business_id')) {
         $query->where('business_id', $request->business_id);
@@ -44,7 +52,7 @@ class BusinessCommentController extends Controller
     $business_comments = $query->with('businessRelation', 'userRelation')->latest()->paginate(10);
     $businesses = Business::all(); // Spot一覧取得
 
-    return view('businessusers.reviews.indexreview', compact('business_comments', 'businesses'));
+    return view('businessusers.reviews.indexreview', compact('business_comments', 'businesses'))->with('user', $user_a);
     }
 
     public function showIndex(Request $request){
@@ -95,7 +103,20 @@ class BusinessCommentController extends Controller
         return redirect()->back();
     }
 
+    public function deactivateBusinessComment($id){
+        $this->business_comment->destroy($id);
+        return redirect()->back();
     }
+
+    public function activateBusinessComment($id){
+        $this->business_comment->onlyTrashed()->findOrFail($id)->restore();
+        //restore() -- restores a soft-deleted record
+        //  onlyTrashed() -- get only soft-deleted records
+        return redirect()->back();
+    }
+
+
+}
 
 
 
