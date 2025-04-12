@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const uploadedImagesMap = {}; // モーダルごとの画像リストを保持
 
-    document.querySelectorAll('.edit-modal').forEach(modal => {
+    document.querySelectorAll('.edit-questbody-modal').forEach(modal => {
         const questbodyId = modal.id.replace('edit-questbody-', '');
 
         modal.addEventListener('shown.bs.modal', () => {

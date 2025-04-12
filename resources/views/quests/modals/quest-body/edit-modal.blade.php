@@ -1,6 +1,6 @@
 <!-- resources/views/quests/modals/edit-modal.blade.php -->
 
-<div class="modal fade edit-modal" id="edit-questbody-{{ $questbody->id }}"
+<div class="modal fade edit-questbody-modal" id="edit-questbody-{{ $questbody->id }}"
     tabindex="-1"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
@@ -147,4 +147,4 @@
         </div>
     </div>
 </div>
-@vite(['resources/js/quest/quest-body/edit-modal.js'])
+@vite(['resources/js/quest/quest-body/edit-questbody-modal.js'])

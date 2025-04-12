@@ -9,7 +9,7 @@
 @section('content')
 {{-- ユーザーのロールIDをJSに渡す --}}
 <script>
-    window.authRoleId = @json(Auth::check() ? Auth::user()->role_id : 'guest');
+    window.authRoleId = @json(Auth::check() ? Auth::user()->role_id : null);
 </script>
 <div class="{{ Auth::user()->role_id === 1 ? 'bg-green' : 'bg-blue' }}">
     <div class="container py-5 col-9">
@@ -234,16 +234,16 @@
                     <!-- メイン画像 -->
                     <img src="{{ asset('storage/' . $quest->main_image) }}" alt="header-img" class="img-fluid w-100 rounded-3 {{ $hasCertifiedBusiness ? 'border-quest-red' : '' }}">
 
-                @if($hasCertifiedBusiness)
-                    <img 
-                        src="{{ asset('images/logo/OfficialBadge.png') }}" 
-                        alt="Certified Badge"
-                        class="official-badge avatar-xxl d-none d-md-block">
-                    <img 
-                        src="{{ asset('images/logo/OfficialBadge.png') }}" 
-                        alt="Certified Badge"
-                        class="official-badge-xl avatar-xl  d-md-none">
-                @endif
+                    @if($hasCertifiedBusiness)
+                        <img 
+                            src="{{ asset('images/logo/OfficialBadge.png') }}" 
+                            alt="Certified Badge"
+                            class="official-badge avatar-xxl d-none d-md-block">
+                        <img 
+                            src="{{ asset('images/logo/OfficialBadge.png') }}" 
+                            alt="Certified Badge"
+                            class="official-badge-xl avatar-xl  d-md-none">
+                    @endif
                     <!-- 右上のオーバーレイ部分 -->
                     <div class="overlay position-absolute top-0 end-0 p-3 text-white">
                         <!-- 編集・削除ボタン -->

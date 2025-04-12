@@ -1,3 +1,5 @@
+// Js/quest/edit-quest.js
+
     // **アップロードした画像を保存するリスト**
     let uploadedImagesList = [];
 
@@ -29,17 +31,17 @@
         uploadBtn.addEventListener("click", function (event) {
             event.preventDefault(); // デフォルトのボタン動作を防ぐ
     
+            if (fileInput.files.length === 0) {
+                alert("ファイルを選択してください");
+                return;
+            }
+    
             // **選択されたファイルを `uploadedImagesList` に追加**
             Array.from(fileInput.files).forEach(file => {
                 uploadedImagesList.push(file);
             });
     
             updateUploadedFileNames(); // **ファイルリストを更新**
-
-            if (fileInput.files.length === 0) {
-                alert("ファイルを選択してください");
-                return;
-            }
             
             console.log("🖼 アップロード画像リスト:", uploadedImagesList); // 🔥 デバッグ用
     
@@ -115,86 +117,7 @@
         });
     
     
-//=================================FORM1=============================================
-//===============================================UPDATE==================================
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll('.edit-modal').forEach(modal => {
-        modal.addEventListener('shown.bs.modal', () => {
-            const updateBtn = modal.querySelector("#update");
-            if (!updateBtn) return;
 
-            updateBtn.addEventListener("click", function(event) {
-                event.preventDefault(); // ←絶対必要！
-                console.log("モーダル内のUpdateボタン押された");
-
-
-    const roleId = parseInt(document.querySelector("body").dataset.roleId); // bladeでdata属性渡す
-
-    const title = document.getElementById("title").value;
-    const intro = document.getElementById("introduction").value;
-    const fileInput = document.getElementById("main_image");
-
-    let startDate = null;
-    let endDate = null;
-    let duration = null;
-
-    if (roleId === 1) {
-        startDate = document.getElementById("start_date").value;
-        endDate = document.getElementById("end_date").value;
-
-        if (!title || !startDate || !endDate || !intro) {
-            alert("すべての項目を入力してください");
-            return;
-        }
-
-        if (new Date(startDate) > new Date(endDate)) {
-            alert("終了日は開始日より後の日付を選んでください");
-            return;
-        }
-
-    } else if (roleId === 2) {
-        duration = document.getElementById("duration").value;
-        if (!title || !duration || !intro) {
-            alert("すべての項目を入力してください");
-            return;
-        }
-    }
-
-    // ヘッダー反映
-    const headerTitle = document.getElementById("header-title");
-    if (headerTitle) headerTitle.textContent = title;
-
-    const headerIntro = document.getElementById("header-intro");
-    if (headerIntro) headerIntro.textContent = intro;
-
-    const headerDates = document.getElementById("header-dates");
-    if (headerDates) {
-        if (roleId === 1) {
-            headerDates.textContent = startDate + "〜" + endDate;
-        } else if (roleId === 2) {
-            headerDates.textContent = `${duration}日間`;
-        }
-    }
-
-
-    // 画像プレビュー処理（そのままでOK）
-    if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const headerImg = document.getElementById("header-img");
-            if (headerImg) {
-                headerImg.src = e.target.result;
-                sessionStorage.setItem("headerImage", e.target.result);
-            }
-        };
-        reader.readAsDataURL(file);
-    }
-    document.getElementById("form1").submit();
-});
-});
-});
-});
 
 
 
