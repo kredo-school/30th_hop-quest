@@ -4,25 +4,28 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FollowController;
-
 use App\Http\Middleware\PageViewMiddleware;
-use App\Http\Controllers\Spot\SpotLikeController;
-use App\Http\Controllers\Spot\SpotController;
-use App\Http\Controllers\Spot\SpotCommentController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Business\PhotoController;
-use App\Http\Controllers\Quest\QuestController;
-use App\Http\Controllers\TouristProfileController;
-use App\Http\Controllers\Quest\QuestLikeController;
-use App\Http\Controllers\Business\BusinessCommentController;
-use App\Http\Controllers\Business\ProfileController;
-use App\Http\Controllers\Spot\LikeCommentController;
-use App\Http\Controllers\Business\BusinessController;
-use App\Http\Controllers\Business\BusinessPromotionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\TouristProfileController;
+
+use App\Http\Controllers\Business\ProfileController;
+use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\BusinessLikeController;
+use App\Http\Controllers\Business\BusinessCommentController;
+use App\Http\Controllers\Business\BusinessPromotionController;
+use App\Http\Controllers\Business\PhotoController;
 
+use App\Http\Controllers\Spot\SpotController;
+use App\Http\Controllers\Spot\SpotLikeController;
+use App\Http\Controllers\Spot\SpotCommentController;
+use App\Http\Controllers\Spot\SpotCommentLikeController;
 
+use App\Http\Controllers\Quest\QuestController;
+use App\Http\Controllers\Quest\QuestLikeController;
+use App\Http\Controllers\Quest\QuestCommentController;
+use App\Http\Controllers\Quest\QuestCommentLikeController;
+use App\Http\Controllers\Quest\QuestBodyController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -122,8 +125,8 @@ Route::group(['prefix' => '/spot', 'as' => 'spot.'], function () {
     Route::post('/{spot_id}/comment/store', [SpotCommentController::class, 'store'])->name('comment.store');
     Route::delete('/{spot_id}/comment/{comment_id}/destroy', [SpotCommentController::class, 'destroy'])->name('comment.destroy');
     // Spot Comment Likes
-    Route::post('/comment/{comment_id}/like', [App\Http\Controllers\Spot\LikeCommentController::class, 'like'])->name('comment.like');
-    Route::delete('/comment/{comment_id}/unlike', [App\Http\Controllers\Spot\LikeCommentController::class, 'unlike'])->name('comment.unlike');
+    Route::post('/comment/{comment_id}/like', [SpotCommentLikeController::class, 'like'])->name('comment.like');
+    Route::delete('/comment/{comment_id}/unlike', [SpotCommentLikeController::class, 'unlike'])->name('comment.unlike');
 });
 
 

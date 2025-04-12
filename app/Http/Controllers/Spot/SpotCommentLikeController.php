@@ -8,7 +8,7 @@ use App\Models\SpotCommentLike;
 use App\Models\SpotComment;
 use Illuminate\Support\Facades\Auth;
 
-class LikeCommentController extends Controller
+class SpotCommentLikeController extends Controller
 {
     private $likeComment;
     private $comment;
