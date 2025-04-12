@@ -43,6 +43,7 @@ Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function () 
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
     Route::patch('/{id}/update', [ProfileController::class, 'update'])->name('update');
+    Route::delete('/{id}/deactivate', [ProfileController::class, 'deactivate'])->name('deactivate');
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
     Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
     Route::get('/{id}/allreviews', [BusinessCommentController::class, 'showAllReviews'])->name('allreviews');
@@ -160,3 +161,31 @@ Route::patch('/password/update', [TouristProfileController::class, 'updatePasswo
 
 // Delete Modal
 Route::delete('/myprofile', [TouristProfileController::class, 'destroy'])->name('myprofile.destroy');
+
+//ADMIN
+Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], function(){
+    Route::get('/users/business', [UsersController::class, 'indexBusiness'])->name('users.business');
+    Route::get('/users/applied', [UsersController::class, 'indexApplied'])->name('users.applied');
+    Route::get('/users/{id}/review', [UsersController::class, 'adminReview'])->name('users.review');
+    //admin/users                                                   admin.users
+    Route::post('/admin/users/{user}/certify', [UsersController::class, 'certify'])->name('users.certify');
+    Route::delete('/users/{id}/deactivate', [UsersController::class, 'deactivate'])->name('users.deactivate');
+    Route::patch('/users/{id}/activate', [UsersController::class, 'activate'])->name('users.activate');
+    Route::get('/users/tourists', [UsersController::class, 'indexTourists'])->name('users.tourists');
+
+    Route::get('/posts/business', [BusinessesController::class, 'index'])->name('posts');
+    Route::get('/posts/applied', [BusinessesController::class, 'indexApplied'])->name('posts.applied');
+    Route::get('/posts/{id}/review', [BusinessesController::class, 'adminReview'])->name('posts.review');
+    //admin/users                                                   admin.users
+    Route::post('/admin/posts/{post}/certify', [BusinessesController::class, 'certify'])->name('posts.certify');
+    Route::delete('/posts/{id}/deactivate', [BusinessesController::class, 'deactivate'])->name('posts.deactivate');
+    Route::patch('/posts/{id}/activate', [BusinessesController::class, 'activate'])->name('posts.activate');
+    Route::get('/posts/tourists', [PostsController::class, 'indexTourists'])->name('posts.tourists');
+    Route::get('/comments', [CommentsController::class, 'indexComments'])->name('comments');
+    Route::delete('/{id}/business/comment/deactivate', [BusinessCommentController::class, 'deactivateBusinessComment'])->name('deactivate.business.comment');
+    Route::patch('/{id}/business/comment/activate', [BusinessCommentController::class, 'activateBusinessComment'])->name('activate.business.comment');
+    Route::delete('/{id}/spot/comment/deactivate', [SpotCommentController::class, 'deactivateSpotComment'])->name('deactivate.spot.comment');
+    Route::patch('/{id}/spot/comment/activate', [SpotCommentController::class, 'activateSpotComment'])->name('activate.spot.comment');
+    Route::delete('/{id}/quest/comment/deactivate', [QuestCommentController::class, 'deactivateQuestComment'])->name('deactivate.quest.comment');
+    Route::patch('/{id}/quest/comment/activate', [QuestCommentController::class, 'activateQuestComment'])->name('activate.quest.comment');
+});

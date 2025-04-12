@@ -134,32 +134,30 @@
                             <a id="navbarDropdown" class="nav-link btn " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{-- {{ Auth::user()->name }} --}}
 
-                                {{-- DROPDOWN --}}
-                                @if(Auth::user()->avatar)
-                                    <img src="{{Auth::user()->avatar}}" alt="" class="rounded-circle avatar-sm">
-                                @else
-                                    <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
-                                @endif
-                            </a>
-                            <!-- Dropdown menu -->
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                {{-- PROFILE --}}
-                                @if(Auth::user()->role_id == 1)
-                                    <a href="{{route('profile.header', Auth::user()->id)}}" class="dropdown-item">
-                                        <i class="fa-solid fa-circle-user"></i> Profile
-                                    </a>
-                                @elseif(Auth::user()->role_id == 2)
-                                    <a href="{{route('profile.header', Auth::user()->id)}}" class="dropdown-item">
-                                        <i class="fa-solid fa-circle-user"></i> Profile
-                                    </a>
-                                @elseif(Auth::user()->role_id == 3)
-                                <a href="{{route('admin.users.business', Auth::user()->id)}}" class="dropdown-item">
-                                    <i class="fa-solid fa-circle-user"></i> Admin
+                                    {{-- DROPDOWN --}}
+                                    @if (Auth::user()->avatar)
+                                        <img src="{{ Auth::user()->avatar }}" alt=""
+                                            class="rounded-circle avatar-sm">
+                                    @else
+                                        <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                                    @endif
                                 </a>
-                                @endif
-                                <hr class="dropdown-divider">
-                                <a class="dropdown-item" href="{{ route('home') }}"
-                                   onclick="event.preventDefault();
+                                <!-- Dropdown menu -->
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    {{-- PROFILE --}}
+                                    @if (Auth::user()->role_id == 1)
+                                        <a href="#" class="dropdown-item">
+                                            <i class="fa-solid fa-circle-user"></i> Profile
+                                        </a>
+                                    @elseif(Auth::user()->role_id == 2)
+                                        <a href="{{ route('profile.businesses', Auth::user()->id) }}"
+                                            class="dropdown-item">
+                                            <i class="fa-solid fa-circle-user"></i> Profile
+                                        </a>
+                                    @endif
+                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item" href="{{ route('home') }}"
+                                        onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
                                     <i class="fa-solid fa-arrow-right-from-bracket"></i> {{ __('Logout') }}
                                 </a>

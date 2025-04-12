@@ -82,7 +82,7 @@ class BusinessPromotionController extends Controller
         $business_promotion_a->business_id = $request->business_id;
         $business_promotion_a->user_id = Auth::user()->id;
 
-        if($request->photo){
+        if($request->image){
             $business_promotion_a->image = "data:photo/".$request->image->extension().";base64,".base64_encode(file_get_contents($request->image));
         }
         $business_promotion_a->save();

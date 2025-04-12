@@ -79,14 +79,20 @@
                 </div>
 
                 <div class="row">
+                    <div class="col">
+                        <p class="form-label d-inline ">(<span class="color-red fw-bold">**</span> Required items to apply for official certification badge)<p>
+                    </div>        
+                </div>
+
+                <div class="row">
                     <div class="col-6 mb-3">
-                        <label for="zip" class="form-label d-inline">Zip Code<span style="color: #D24848;">*</span></label>
+                        <label for="zip" class="form-label d-inline">Zip Code<span style="color: #D24848;">**</span></label>
                         <input type="text" name="zip" id="zip" class="form-control" >
                     </div>
                     <!-- Phone Number -->
                     <div class="col-6 mb-3">
                         <label for="phonenumber" class="d-inline me-3 form-label">
-                            Phone number<span style="color:#D24848;">*</span>
+                            Phone number<span style="color:#D24848;">**</span>
                         </label>
                         <input type="tel" id="phonenumber" name="phonenumber" class="form-control" placeholder="+ Country code and phone number">
                     </div>
@@ -94,7 +100,7 @@
 
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="address_1" class="form-label">Address 1<span style="color: #D24848;">*</span></label>
+                        <label for="address_1" class="form-label">Address 1<span style="color: #D24848;">**</span></label>
                         <input type="text" name="address_1" id="address_1" class="form-control" >
                     </div>
                 </div>
@@ -109,7 +115,7 @@
                 <div class="row mb-3">
                     <div class="mb-3">
                         <label for="introduction" class="form-label d-inline">
-                            Introduction<span style="color: #D24848;">*</span>
+                            Introduction<span style="color: #D24848;">**</span>
                         </label>
                         <textarea 
                             name="introduction" id="introduction" class="form-control" rows="5"></textarea>
@@ -124,7 +130,7 @@
                     </div>                
                 </div>
 
-                <!-- Business Hours & Event Time Periods -->
+                {{-- <!-- Business Hours & Event Time Periods -->
                 <div class="mb-2">
                     <h3 class="text-xl font-bold mb-3">Business Hours & Event Time Periods</h3>
 
@@ -262,7 +268,7 @@
                         id="identification_number"
                         name="identification_number"
                         class="form-control">
-                </div>
+                </div> --}}
                 
 
                 {{-- images --}}
@@ -293,7 +299,7 @@
                     <div class="row mt-3 justify-content-center">
                         <div class="col-4 ">
                             <button type="submit" class="btn btn-green w-100 mb-2">SAVE</button>
-                            <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="1" 
+                            <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="2" 
                 {{ old('official_badge', Auth::user()->official_certification) ? 'unchecked' : '' }}
                 > Apply for Official certification badge
                             {{-- <input type="checkbox" class="form-check-input mb-2" name="" id="" value=""> Apply for Official certification badge --}}

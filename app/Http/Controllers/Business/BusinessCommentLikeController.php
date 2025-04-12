@@ -15,9 +15,9 @@ class BusinessCommentLikeController extends Controller
         $this->business_comment_like -> $business_comment_like;
     }
 
-    public function store($business_comment_like_id){
+    public function store($business_comment_id){
         $this->business_comment_like->user_id = Auth::user()->id;
-        $this->business_comment_like->$business_comment_like_id = $business_comment_like_id; 
+        $this->business_comment_like->business_comment_id = $business_comment_id; //post we are liking
         $this->business_comment_like->save();
 
         //go to previous page

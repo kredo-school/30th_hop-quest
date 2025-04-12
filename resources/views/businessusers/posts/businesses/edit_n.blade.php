@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{{asset('css/style.css')}}"  /> 
     <main>
         <div class="row justify-content-center">
-            <div class="col-md-10 col-lg-8 box-border mx-auto" style="background-color: #B4D5F4; border-radius: 0px;">
+            <div class="col-md-10 col-lg-8 box-border mx-auto" >
 
                 <div class="d-flex mb-3">
                     <div class="col">
@@ -26,7 +26,7 @@
                 
                 <!-- プルダウンメニュー -->
                 <div class="mb-3">
-                    <label for="business-type" class="form-label">Category <span class="text-danger">*</span></label>
+                    <label for="business-type" class="form-label">Category <span class="color-red">*</span></label>
                     
                     <select class="form-control w-25" id="business-type" name="category_id">
                         <option value="{{ old('category_id', $business->category_id) }}" selected>
@@ -40,13 +40,23 @@
                         </option>
                         {{-- <option value="2">Event</option> --}}
                     </select>
+                    @error('category_id')
+                        <div class="alert alert-danger mt-2">
+                            <p class="mb-0 text-danger small">{{ $message }}</p>
+                        </div>
+                    @enderror
                 </div>
 
                 <!-- Location or Event Details -->
                 <div class="mb-3">
                     <!-- ここにid="name-label" を付けることが重要 -->
-                    <label for="name" class="form-label d-inline" id="name-label">Event Name<span style="color: #D24848;">*</span></label>
+                    <label for="name" class="form-label d-inline" id="name-label">Event Name<span class="color-red">*</span></label>
                     <input type="text" name="name" id="name" value="{{ old('name', $business->name) }}" class="form-control">
+                    @error('name')
+                        <div class="alert alert-danger mt-2">
+                            <p class="mb-0 text-danger small">{{ $message }}</p>
+                        </div>
+                    @enderror
                 </div>
 
                 @push('scripts')
@@ -78,9 +88,14 @@
                     <!-- Business Email -->
                     <div class="col-6 mb-3">
                         <label for="email" class="d-inline me-3 form-label">
-                            Business email (No-display to publicity)<span style="color:#D24848;">*</span>
+                            Business email (No-display to publicity)<span class="color-red">*</span>
                         </label>
                         <input type="email" id="email" name="email" value="{{ old('email', $business->email) }}" class="form-control">
+                        @error('email')
+                            <div class="alert alert-danger mt-2">
+                                <p class="mb-0 text-danger small">{{ $message }}</p>
+                            </div>
+                        @enderror
                     </div>
                     <!-- Official Website -->
                     <div class="col-6 mb-3">
@@ -90,29 +105,50 @@
                 </div>
 
                 <div class="row">
+                    <div class="col">
+                        <p class="form-label d-inline ">(<span class="color-red fw-bold">**</span> Required items to apply for official certification badge)<p>
+                    </div>        
+                </div>
+
+                <div class="row">
                     <div class="col-6 mb-3">
-                        <label for="zip" class="form-label d-inline">Zip Code<span style="color: #D24848;">*</span></label>
+                        <label for="zip" class="form-label d-inline">Zip Code<span class="color-red">**</span></label>
                         <input type="text" name="zip" id="zip" class="form-control" value="{{old('zip', $business->zip)}}">
+                        @error('zip')
+                            <div class="alert alert-danger mt-2">
+                                <p class="mb-0 text-danger small">{{ $message }}</p>
+                            </div>
+                        @enderror
                     </div>
                     <!-- Phone Number -->
                     <div class="col-6 mb-3">
                         <label for="phonenumber" class="d-inline me-3 form-label">
-                            Phone number<span style="color:#D24848;">*</span>
+                            Phone number<span class="color-red">**</span>
                         </label>
-                        <input type="tel" id="phonenumber" name="phonenumber" class="form-control" placeholder="+ Country code and phone number">
+                        <input type="tel" id="phonenumber" name="phonenumber" class="form-control" value="{{old('phonenumber', $business->phonenumber)}}" placeholder="+ Country code and phone number">
+                        @error('phonenumber')
+                        <div class="alert alert-danger mt-2">
+                            <p class="mb-0 text-danger small">{{ $message }}</p>
+                        </div>
+                    @enderror
                     </div>
                 </div>
 
 
 
                 <div class="mb-3">
-                    <label for="address1" class="form-label d-inline">Address 1<span style="color: #D24848;">*</span></label>
-                    <input type="text" name="address1" id="address1" class="form-control" >
+                    <label for="address_1" class="form-label d-inline">Address 1<span class="color-red">**</span></label>
+                    <input type="text" name="address_1" id="address_1" class="form-control" value="{{old('address_1', $business->address_1)}}">
+                    @error('address_1')
+                        <div class="alert alert-danger mt-2">
+                            <p class="mb-0 text-danger small">{{ $message }}</p>
+                        </div>
+                    @enderror
                 </div>
                 
                 <div class="mb-3">
-                    <label for="address2" class="form-label d-inline">Address 2</label>
-                    <input type="text" name="address2" id="address2" class="form-control">
+                    <label for="address_2" class="form-label d-inline">Address 2</label>
+                    <input type="text" name="address_2" id="address_2" class="form-control">
                 </div>
 
                 {{-- main_image --}}
@@ -182,14 +218,19 @@
                 <!-- Welcome message -->
                 <div class="mb-3">
                     <label for="introduction" class="form-label d-inline">
-                        Welcome message<span style="color: #D24848;">*</span>
+                        Introduction<span class="color-red">**</span>
                     </label>
                     <textarea 
-                        name="introduction" id="introduction" class="form-control" rows="5">{{ old('introduction', $business->introduction) }}</textarea>
-                </div>
+                        name="introduction" id="introduction" class="form-control" rows="5" value="{{ old('introduction', $business->introduction) }}"></textarea>
+                    @error('introduction')
+                        <div class="alert alert-danger mt-2">
+                            <p class="mb-0 text-danger small">{{ $message }}</p>
+                        </div>
+                    @enderror
+            </div>
 
                 <!-- Business Hours & Event Time Periods -->
-                <div class="mb-2">
+                {{-- <div class="mb-2">
                     <h3 class="text-xl font-bold mb-3">Business Hours & Event Time Periods</h3>
 
                     <!-- Business Event period -->
@@ -213,9 +254,9 @@
                         <label for="sp_notes" class="form-label d-inline">Special notes</label>
                         <textarea name="sp_notes" id="sp_notes" class="form-control" rows="3"></textarea>
                     </div>
-                </div>
+                </div> --}}
                     
-                <!-- Detailed Weekly Schedule (based on ERD) -->
+                {{-- <!-- Detailed Weekly Schedule (based on ERD) -->
                 <div class="accordion mb-3" id="weekdayAccordion">
                     @foreach(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $index => $day)
                         @php
@@ -345,7 +386,7 @@
                         </div>
                     </div>
                 @endforeach
-                </div>
+                </div> --}}
 
                 <!-- Identification Information-->
                 <div class="mb-4 p-4 border rounded bg-light">
@@ -410,6 +451,15 @@
                     </div>
                     
                 </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 
                 <!-- Submission Buttons -->
                 <div class="row mt-3 justify-content-center">
@@ -417,8 +467,8 @@
                         <button type="submit" class="btn btn-green w-100 mb-2" id="save-button">
                             SAVE
                         </button>
-                        <input type="checkbox" class="form-check-input mb-2" id="official-check">
-                        Apply for Official certification badge
+                        <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="2" 
+                        {{ old('official_badge', $business->official_certification == 2) ? 'unchecked' : '' }}> Apply for Official certification badge
                     </div>
 
                     <div class="col-2"></div>
