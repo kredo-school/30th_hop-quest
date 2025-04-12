@@ -140,7 +140,7 @@ class BusinessController extends Controller
         $business_a = $this->business->findOrFail($id);
         $businessHours = $business_a->businessHours->keyBy('day_of_week');
         $businessDetail = $business_a->businessDetails()->first();
-        $checkedDetailItems = $businessDetail?->details->pluck('name')->toArray() ?? [];
+        $checkedDetailItems = $businessDetail->details ? $businessDetail->details->pluck('name')->toArray() : [];
         return view('businessusers.posts.businesses.edit_n', compact('businessHours','checkedDetailItems'))->with('business', $business_a);
     }
 

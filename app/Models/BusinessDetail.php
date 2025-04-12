@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BusinessDetail extends Model
 {
     use SoftDeletes;
-    
-    protected $fillable = ['business_id'];
 
     protected $fillable = ['business_id', 'business_info_id', 'is_valid'];
 
