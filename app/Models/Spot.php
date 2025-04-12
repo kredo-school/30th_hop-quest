@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+// use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Spot extends Model
 {
@@ -31,8 +32,16 @@ class Spot extends Model
         return $this->spotLikes()->where('user_id', Auth::user()->id)->exists();
     }
 
-    public function view(): MorphOne{
-        return $this->morphOne(PageView::class, 'page');
+    public function views(): MorphMany{
+        return $this->morphMany(PageView::class, 'page');
+    }
+
+    public function likes(){
+        return $this->hasMany(SpotLike::class);
+    }
+
+    public function comments(){
+        return $this->hasMany(SpotComment::class);
     }
 
     

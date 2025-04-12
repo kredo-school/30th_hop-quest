@@ -41,16 +41,16 @@ class HomeController extends Controller
 
      public function index(){
 
-        $popular_quests     = Quest::with('view')->whereHas('view')->get()
+        $popular_quests     = Quest::with('views')->whereHas('views')->get()
                         ->sortByDesc(fn($quest) => $quest->view->views ?? 0)->take(9)->values();
 
-        $popular_spots      = Spot::with('view')->whereHas('view')->get()
+        $popular_spots      = Spot::with('views')->whereHas('views')->get()
                         ->sortByDesc(fn($spot) => $spot->view->views ?? 0)->take(9)->values();
 
-        $popular_locations  = Business::with('view')->whereHas('view')->where('category_id' ,'1')->get()
+        $popular_locations  = Business::with('views')->whereHas('views')->where('category_id' ,'1')->get()
                         ->sortByDesc(fn($location) => $location->view->views ?? 0)->take(9)->values();
         
-        $popular_events     = Business::with('view')->whereHas('view')->where('category_id' ,'2')->get()
+        $popular_events     = Business::with('views')->whereHas('views')->where('category_id' ,'2')->get()
                         ->sortByDesc(fn($event) => $event->view->views ?? 0)->take(9)->values();
         
         $popular_follwings  = $popular_quests->concat($popular_spots)->concat($popular_locations)->concat($popular_events)
@@ -68,38 +68,162 @@ class HomeController extends Controller
     // Search Result
     public function search(Request $request){
 
-        $quests = $this->quest->where('title', 'like', '%' . $request->search . '%')
-                            ->orWhere('introduction', 'like', '%' . $request->search . '%')->latest()->get();
+        $quests = Quest::where('title', 'like', "%{$request->search}%")
+                        ->orWhere('introduction', 'like', "%{$request->search}%")
+                        ->latest()
+                        ->get();
 
-        $spots  = $this->spot->where('title', 'like', '%' . $request->search . '%')
-                            ->orWhere('introduction', 'like', '%' . $request->search . '%')->latest()->get();
+        $spots = Spot::where('title', 'like', "%{$request->search}%")
+                        ->orWhere('introduction', 'like', "%{$request->search}%")
+                        ->latest()
+                        ->get();
 
-        $business_locations = $this->business
-            ->where('category_id', '1')
-            ->where(function ($query) use ($request){
-            $query->where('name', 'like', '%' . $request->search . '%')
-            ->orWhere('introduction', 'like', '%' . $request->search . '%');
-            })->latest()->get();
+        $business_locations = Business::where('category_id', '1')
+                                ->where(function ($query) use ($request) {
+                                    $query->where('name', 'like', "%{$request->search}%")
+                                          ->orWhere('introduction', 'like', "%{$request->search}%");
+                                })
+                                ->latest()
+                                ->get();
 
-        $business_events = $this->business
-            ->where('category_id', '2')
-            ->where(function ($query) use ($request){
-                $query->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('introduction', 'like', '%' . $request->search . '%');
-            })->latest()->get();
+        $business_events = Business::where('category_id', '2')
+                                ->where(function ($query) use ($request) {
+                                    $query->where('name', 'like', "%{$request->search}%")
+                                          ->orWhere('introduction', 'like', "%{$request->search}%");
+                                })
+                                ->latest()
+                                ->get();
 
+        $all = $quests->concat($spots)->concat($business_locations)->concat($business_events);
 
+        $currentPage = LengthAwarePaginator::resolveCurrentPage('all_page');
+        $perPage = 9;
+        $currentItems = $all->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
-        $all_posts = $quests->concat($spots)->concat($business_locations)->concat($business_events);
+        $all_posts = new LengthAwarePaginator(
+            $currentItems,
+            $all->count(),
+            $perPage,
+            $currentPage,
+            ['path' => url('/search'), 'pageName' => 'all_page']
+        );
 
         return view('home.search')
-                ->with('quests', $quests)
-                ->with('spots', $spots)
-                ->with('business_events', $business_events)
-                ->with('business_locations', $business_locations)
-                ->with('all_posts', $all_posts)
-                ->with('request', $request);
+                ->with(compact('quests', 'spots', 'business_locations', 'business_events', 'all_posts', 'request'));
     }
+
+    public function sort(Request $request){
+        $category = $request->input('data-category');
+        $sort = $request->input('sort');
+        $page = $request->input('page', 1);
+        $pageName = $category . '_page';
+
+        switch ($category) {
+            case 'spot':
+                $query = Spot::where('title', 'like', "%{$request->search}%")
+                            ->orWhere('introduction', 'like', "%{$request->search}%");
+                break;
+            case 'quest':
+                $query = Quest::where('title', 'like', "%{$request->search}%")
+                            ->orWhere('introduction', 'like', "%{$request->search}%");
+                break;
+            case 'location':
+                $query = Business::where('category_id', '1')
+                                ->where(function ($q) use ($request) {
+                                    $q->where('name', 'like', "%{$request->search}%")
+                                      ->orWhere('introduction', 'like', "%{$request->search}%");
+                                });
+                break;
+            case 'event':
+                $query = Business::where('category_id', '2')
+                                ->where(function ($q) use ($request) {
+                                    $q->where('name', 'like', "%{$request->search}%")
+                                      ->orWhere('introduction', 'like', "%{$request->search}%");
+                                });
+                break;
+            default:
+                return response()->json([
+                    'html' => $this->renderAllSorted($sort, $request)
+                ]);
+        }
+
+        if ($sort === 'likes') {
+            $query = $query->withCount('likes')->orderByDesc('likes_count');
+        } elseif ($sort === 'views') {
+            $query = $query->withCount('views')->orderByDesc('views_count');
+        } elseif ($sort === 'comments') {
+            $query = $query->withCount('comments')->orderByDesc('comments_count');
+        } elseif ($sort === 'oldest') {
+            $query = $query->oldest();
+        } else {
+            $query = $query->latest();
+        }
+
+        $posts = $query->paginate(9, ['*'], $pageName, $page)
+                       ->appends($request->query());
+
+        return response()->json([
+            'html' => view('home.search-result-body-list', compact('posts'))->render()
+        ]);
+    }
+
+    private function renderAllSorted($sort, Request $request)
+    {
+        $spots = Spot::where('title', 'like', "%{$request->search}%")
+                        ->orWhere('introduction', 'like', "%{$request->search}%")
+                        ->withCount(['likes', 'views', 'comments'])
+                        ->get();
+
+        $quests = Quest::where('title', 'like', "%{$request->search}%")
+                        ->orWhere('introduction', 'like', "%{$request->search}%")
+                        ->withCount(['likes', 'views', 'comments'])
+                        ->get();
+
+        $locations = Business::where('category_id', '1')
+                        ->where(function ($query) use ($request) {
+                            $query->where('name', 'like', "%{$request->search}%")
+                                  ->orWhere('introduction', 'like', "%{$request->search}%");
+                        })
+                        ->withCount(['likes', 'views', 'comments'])
+                        ->get();
+
+        $events = Business::where('category_id', '2')
+                        ->where(function ($query) use ($request) {
+                            $query->where('name', 'like', "%{$request->search}%")
+                                  ->orWhere('introduction', 'like', "%{$request->search}%");
+                        })
+                        ->withCount(['likes', 'views', 'comments'])
+                        ->get();
+
+        $all = $spots->concat($quests)->concat($locations)->concat($events);
+
+        if ($sort === 'likes') {
+            $sorted = $all->sortByDesc('likes_count');
+        } elseif ($sort === 'views') {
+            $sorted = $all->sortByDesc('views_count');
+        } elseif ($sort === 'comments') {
+            $sorted = $all->sortByDesc('comments_count');
+        } elseif ($sort === 'oldest') {
+            $sorted = $all->sortBy('created_at');
+        } else {
+            $sorted = $all->sortByDesc('created_at');
+        }
+
+        $currentPage = $request->input('all_page', 1);
+        $perPage = 9;
+        $currentItems = $sorted->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+        $posts = new LengthAwarePaginator(
+            $currentItems,
+            $sorted->count(),
+            $perPage,
+            $currentPage,
+            ['path' => url('/search'), 'pageName' => 'all_page']
+        );
+
+        return view('home.search-result-body-list', ['posts' => $posts])->render();
+    }
+
 
 //Allshow
     public function showAll(Request $request){

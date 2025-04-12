@@ -1,10 +1,15 @@
+body{
+    background-color: #FFFBF0 !important; 
+}
+
 main{
     overflow-y: hidden;
-    background-color: #FFFBF0;
 }
 
 .wrapper-tag{
     padding-top: 5rem;
+    /* background-color: #FFFBF0; */
+    /* background-color: black; */
 
 }
 
@@ -46,6 +51,10 @@ main{
 
 /* wrapper-body */
 
+.wrapper{
+    /* background-color: black; */
+}
+
 .wrapper-body{
     margin-top: 5rem;
 }
@@ -67,7 +76,7 @@ main{
 }
 
 .tag-category a.active{
-    color: blue !important;
+    color: #D24848 !important;
     
 }
 

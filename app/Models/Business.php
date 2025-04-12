@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+// use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Business extends Model
 {
@@ -50,11 +51,19 @@ class Business extends Model
         return $this->businessLikes()->where('user_id', Auth::user()->id)->exists();
     }
 
-    public function view(): MorphOne{
-        return $this->morphOne(PageView::class, 'page');
+    public function views(): MorphMany{
+        return $this->morphMany(PageView::class, 'page');
     }
 
     public function businessComments(){
+        return $this->hasMany(BusinessComment::class);
+    }
+
+    public function likes(){
+        return $this->hasMany(BusinessLike::class);
+    }
+
+    public function comments(){
         return $this->hasMany(BusinessComment::class);
     }
 

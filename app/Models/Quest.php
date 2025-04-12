@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+// use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Quest extends Model
 {
@@ -31,7 +32,15 @@ class Quest extends Model
         return $this->questLikes()->where('user_id', Auth::user()->id)->exists();
     }
 
-    public function view(): MorphOne{
-        return $this->morphOne(PageView::class, 'page');
+    public function views(): MorphMany{
+        return $this->morphMany(PageView::class, 'page');
+    }
+
+    public function likes(){
+        return $this->hasMany(QuestLike::class);
+    }
+
+    public function comments(){
+        return $this->hasMany(QuestComment::class);
     }
 }

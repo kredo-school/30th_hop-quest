@@ -31,6 +31,7 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
+Route::post('/sort', [HomeController::class, 'sort'])->name('sort');
 
 
 //PROFILES
