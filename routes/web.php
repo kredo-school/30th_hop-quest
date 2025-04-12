@@ -10,10 +10,8 @@ use App\Http\Controllers\Spot\LikeController;
 use App\Http\Controllers\Spot\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
-use App\Http\Controllers\Business\QuestController as BusinessQuestController;
 use App\Http\Controllers\TouristProfileController;
 use App\Http\Controllers\Business\QuestLikeController;
-use App\Http\Controllers\Business\QuestCommentController as BusinessQuestCommentCOntroller;
 use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
@@ -99,12 +97,12 @@ Route::delete('/home/like/business/{business_id}/delete', [BusinessLikeControlle
 
 //QUESTS simple
 Route::group(['prefix' => '/home/modelquest', 'as' => 'quests.'], function () {
-    Route::get('/create', [BusinessQuestController::class, 'create'])->name('create');
-    Route::get('/{id}/edit', [BusinessQuestController::class, 'edit'])->name('edit');
-    Route::patch('/{id}/update', [BusinessQuestController::class, 'update'])->name('update');
-    Route::post('/store', [BusinessQuestController::class, 'store'])->name('store');
+    Route::get('/create', [QuestController::class, 'create'])->name('create');
+    Route::get('/{id}/edit', [QuestController::class, 'edit'])->name('edit');
+    Route::patch('/{id}/update', [QuestController::class, 'update'])->name('update');
+    Route::post('/store', [QuestController::class, 'store'])->name('store');
     Route::delete('/{id}/deactivate', [QuestController::class, 'deactivate'])->name('deactivate');
-    Route::patch('/{id}/activate', [BusinessQuestController::class, 'activate'])->name('activate');
+    Route::patch('/{id}/activate', [QuestController::class, 'activate'])->name('activate');
     Route::post('/like/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('like.store');
     Route::delete('/like/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('like.delete');
 });
@@ -200,8 +198,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], fu
     Route::patch('/{id}/business/comment/activate', [BusinessCommentController::class, 'activateBusinessComment'])->name('activate.business.comment');
     Route::delete('/{id}/spot/comment/deactivate', [SpotCommentController::class, 'deactivateSpotComment'])->name('deactivate.spot.comment');
     Route::patch('/{id}/spot/comment/activate', [SpotCommentController::class, 'activateSpotComment'])->name('activate.spot.comment');
-    Route::delete('/{id}/quest/comment/deactivate', [BusinessQuestCommentController::class, 'deactivateQuestComment'])->name('deactivate.quest.comment');
-    Route::patch('/{id}/quest/comment/activate', [BusinessQuestCommentController::class, 'activateQuestComment'])->name('activate.quest.comment');
+    Route::delete('/{id}/quest/comment/deactivate', [QuestCommentController::class, 'deactivateQuestComment'])->name('deactivate.quest.comment');
+    Route::patch('/{id}/quest/comment/activate', [QuestCommentController::class, 'activateQuestComment'])->name('activate.quest.comment');
 });
 
 // =============================== QuestController

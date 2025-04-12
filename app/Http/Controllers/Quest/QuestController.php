@@ -21,13 +21,20 @@ use App\Models\Follow;
 class QuestController extends Controller{
     private $questbody;
     private $quest;
+    private $user;
+    private $business;
 
-    public function __construct(Quest $quest, QuestBody $questbody){
-        // $this->quest = new Quest();
-        $this->questbody = $questbody;
+    public function __construct(Quest $quest, User $user, Business $business){
         $this->quest = $quest;
+        $this->user = $user;
+        $this->business = $business;
     }
+
 // =============================================================Add Quest
+    public function showAddQuest(){
+        return view('quests.add-quest');
+    }    
+
     public function storeQuest(Request $request){
         $user = Auth::user();
 
@@ -88,9 +95,7 @@ class QuestController extends Controller{
         return response()->json($spots); // JSONとしてレスポンス
     }
 
-    public function showAddQuest(){
-        return view('quests.add-quest');
-    }
+   
     public function deleteQuest($id){
         // $this->post->destroy($id);
         $this->quest->findOrFail($id)->forceDelete();
@@ -108,7 +113,7 @@ class QuestController extends Controller{
         return $classes[($day - 1) % count($classes)];
     }
 
-//================================================================Quest Edit
+//================================================================Edit Quest
     
     public function showQuestEdit($quest_id){
         $user = Auth::user();
@@ -166,7 +171,6 @@ class QuestController extends Controller{
         ]);
     }
 
-//================================================================Update Quest
     public function updateQuest(Request $request, $quest_id){
         $quest = Quest::withTrashed()->find($quest_id);
 
@@ -250,12 +254,6 @@ class QuestController extends Controller{
             return redirect()->route('quest.edit', ['quest_id' => $quest_id]);
     }
 
-    // // CSRF Token
-    // public function refreshCsrfToken(){
-    //     return response()->json([
-    //         'csrf_token' => csrf_token()
-    //     ]);
-    // }
 // =============================================================Confirm Quest
     public function showConfirmQuest($id){
         $quest = Quest::withTrashed()->with(['questBodies.spot', 'questBodies.business'])->findOrFail($id);
@@ -284,11 +282,14 @@ class QuestController extends Controller{
         // 地図用ロケーション作成
         $locations = [];
         foreach ($questBodies as $body) {
-            if ($body->spot && $body->spot->geo_lati && $body->spot->geo_lng) {
+            // dd($body->spot?->geo_lat, $body->spot?->geo_lng);
+
+            if ($body->spot && $body->spot->geo_lat && $body->spot->geo_lng) {
                 $locations[] = [
-                    'lat' => $body->spot->geo_lati,
+                    'lat' => $body->spot->geo_lat,
                     'lng' => $body->spot->geo_lng,
                     'title' => $body->spot->title ?? 'Spot'
+                    
                 ];
             } elseif ($body->business && $body->business->address_2) {
                 $coords = self::getLatLngFromAddress($body->business->address_2);
@@ -437,7 +438,7 @@ class QuestController extends Controller{
         ]);
     }
 
-    // 他のメソッドの上か下に追加でOK！
+//===============================================================LatLng
     private static function getLatLngFromAddress($address){
         $apiKey = env('GOOGLE_MAPS_API_KEY');
         $response = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [
@@ -460,7 +461,7 @@ class QuestController extends Controller{
     }
     
 
-    //RESTORE
+//===============================================================RESTORE
     public function restore($quest_id){
         $quest = Quest::withTrashed()->findOrFail($quest_id);
 
@@ -471,15 +472,31 @@ class QuestController extends Controller{
         // マイページなどに戻る or show にリダイレクト（任意）
         return redirect()->route('quest.show', ['quest_id' => $quest->id]);
     }
-    
-
-    // SOFT DELETE
+//===============================================================SOFT DELETE
     public function softDelete($quest_id){
         $quest = Quest::withTrashed()->findOrFail($quest_id);
         $quest->delete();
 
-        return redirect()->route('quest.confirm', ['quest_id' => $quest_id]);
+        // ユーザーのロールIDによってリダイレクトを振り分け
+        $roleId = Auth::user()->role_id;
+
+        if ($roleId === 1) {
+            return redirect()->route('myprofile.show');
+        } elseif ($roleId === 2) {
+            return redirect()->route('profile.business');
+        } else {
+            return redirect()->route('home');
+        }
+    }
+//==============================================================PROFILE USE
+    public function deactivate($id){
+        $this->quest->destroy($id);
+        return redirect()->back();
     }
 
+    public function activate($id){
+        $this->quest->onlyTrashed()->findOrFail($id)->restore();
+        return redirect()->back();
+    }
 
 }

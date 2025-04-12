@@ -10,7 +10,13 @@ use App\Models\QuestBody;
 
 class QuestCommentController extends Controller
 {
-    //cpmment
+    private $quest_comment;
+
+    public function __construct(QuestComment $quest_comment){
+        $this->quest_comment = $quest_comment;
+    }
+
+    //coment
     public function toggleCommentLike($commentId) { 
         $user = Auth::user(); 
         $comment = QuestComment::with('questCommentLikes.user')->findOrFail($commentId);
@@ -116,5 +122,16 @@ class QuestCommentController extends Controller
         return redirect()->route('quest.show', $comment->quest_id)
                          ->with('message', 'Comment deleted.');
     }
-}
 
+    public function deactivateQuestComment($id){
+        $this->quest_comment->destroy($id);
+        return redirect()->back();
+    }
+
+    public function activateQuestComment($id){
+        $this->quest_comment->onlyTrashed()->findOrFail($id)->restore();
+        //restore() -- restores a soft-deleted record
+        //  onlyTrashed() -- get only soft-deleted records
+        return redirect()->back();
+    }
+}

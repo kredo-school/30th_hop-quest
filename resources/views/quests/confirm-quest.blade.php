@@ -105,8 +105,11 @@
                 <div class="col-md-6 px-0">
                     <div class="bg-white rounded-3 container-fluid p-2">
                         {{-- 地図用位置データ --}}
+                       
                         <script>
+                            
                             window.questMapLocations = @json($locations);
+                            console.log($locations);
                             console.log(window.questMapLocations); 
                         </script>
 
