@@ -6,13 +6,14 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FollowController;
 
 use App\Http\Middleware\PageViewMiddleware;
-use App\Http\Controllers\Spot\LikeController;
-use App\Http\Controllers\Spot\IndexController;
+use App\Http\Controllers\Spot\SpotLikeController;
+use App\Http\Controllers\Spot\SpotController;
+use App\Http\Controllers\Spot\SpotCommentController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Business\PhotoController;
-use App\Http\Controllers\Business\QuestController;
+use App\Http\Controllers\Quest\QuestController;
 use App\Http\Controllers\TouristProfileController;
-use App\Http\Controllers\Business\QuestLikeController;
+use App\Http\Controllers\Quest\QuestLikeController;
 use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\LikeCommentController;
@@ -20,7 +21,7 @@ use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\BusinessPromotionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Business\BusinessLikeController;
-use App\Http\Controllers\Business\SpotLikeController;
+
 
 
 Route::get('/', function () {
@@ -100,12 +101,6 @@ Route::group(['prefix' => '/home/modelquest', 'as' => 'quests.'], function () {
 Route::post('/home/like/quest/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('quests.like.store');
 Route::delete('/home/like/quest/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('quests.like.delete');
 
-//SPOT
-Route::group(['prefix' => '/home/spot', 'as' => 'spots.'], function () {
-    Route::post('/like/{spot_id}/store', [SpotLikeController::class, 'storeLike'])->name('like.store');
-    Route::delete('/like/{spot_id}/delete', [SpotLikeController::class, 'deleteLike'])->name('like.delete');
-});
-
 // Post
 Route::get('/home/posts/all', [HomeController::class, 'showAll'])->name('posts.all');
 Route::get('/home/posts/followings', [HomeController::class, 'showFollowings'])->name('posts.followings');
@@ -117,15 +112,15 @@ Route::get('/home/posts/followings', [HomeController::class, 'showFollowings'])-
 
 // Spot 
 Route::group(['prefix' => '/spot', 'as' => 'spot.'], function () {
-    Route::get('/create', [App\Http\Controllers\Spot\IndexController::class, 'create'])->name('create');
-    Route::post('/store', [App\Http\Controllers\Spot\IndexController::class, 'store'])->name('store');
-    Route::get('/{id}', [App\Http\Controllers\Spot\IndexController::class, 'show'])->middleware(PageViewMiddleware::class)->name('show');
+    Route::get('/create', [SpotController::class, 'create'])->name('create');
+    Route::post('/store', [SpotController::class, 'store'])->name('store');
+    Route::get('/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('show');
     // Spot Likes
-    Route::post('/{spot_id}/like', [App\Http\Controllers\Spot\LikeController::class, 'store'])->name('like');
-    Route::delete('/{spot_id}/unlike', [App\Http\Controllers\Spot\LikeController::class, 'destroy'])->name('unlike');
+    Route::post('/{spot_id}/like', [SpotLikeController::class, 'store'])->name('like');
+    Route::delete('/{spot_id}/unlike', [SpotLikeController::class, 'destroy'])->name('unlike');
     // Spot Comments
-    Route::post('/{spot_id}/comment/store', [App\Http\Controllers\Spot\CommentController::class, 'store'])->name('comment.store');
-    Route::delete('/{spot_id}/comment/{comment_id}/destroy', [App\Http\Controllers\Spot\CommentController::class, 'destroy'])->name('comment.destroy');
+    Route::post('/{spot_id}/comment/store', [SpotCommentController::class, 'store'])->name('comment.store');
+    Route::delete('/{spot_id}/comment/{comment_id}/destroy', [SpotCommentController::class, 'destroy'])->name('comment.destroy');
     // Spot Comment Likes
     Route::post('/comment/{comment_id}/like', [App\Http\Controllers\Spot\LikeCommentController::class, 'like'])->name('comment.like');
     Route::delete('/comment/{comment_id}/unlike', [App\Http\Controllers\Spot\LikeCommentController::class, 'unlike'])->name('comment.unlike');
