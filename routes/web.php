@@ -190,3 +190,51 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], fu
     Route::delete('/{id}/quest/comment/deactivate', [QuestCommentController::class, 'deactivateQuestComment'])->name('deactivate.quest.comment');
     Route::patch('/{id}/quest/comment/activate', [QuestCommentController::class, 'activateQuestComment'])->name('activate.quest.comment');
 });
+
+// =============================== QuestController
+Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->group(function () {
+    //SHOW - ADD QUEST 
+    Route::get('/add', 'showAddQuest')->name('add');
+    Route::post('/store', 'storeQuest')->name('store');
+    //SHOW - EDIT QUEST
+    Route::get('/{quest_id}/edit', 'showQuestEdit')->name('edit');
+    Route::put('/{quest_id}/update', 'updateQuest')->name('update');
+    //SHOW - CONFIRM QUEST
+    Route::get('/confirm/{quest_id}', 'showConfirmQuest')->name('confirm');
+    //VIEW QUEST
+    Route::get('/{quest_id}', 'showViewQuest')->name('show');
+    //RESTORE - UNHIEDE
+    Route::post('/{quest_id}/restore', 'restore')->name('restore');
+    //SOFT DELETE - HIHE (back to Confirm--> change later redirect to MyPage)
+    Route::delete('/{quest_id}/hide', 'softDelete')->name('softDelete');
+
+    Route::post('/{id}/toggle-like', 'toggleLike')->name('toggle-like');
+    Route::get('/{id}/likes', 'getLikes')->name('likes');
+    Route::delete('/delete/{questId}', 'deleteQuest')->name('delete');
+    Route::post('/follow/{userId}', [QuestController::class, 'toggleFollow'])->name('quest.toggleFollow');
+});
+
+
+// =============================== QuestBodyController
+Route::prefix('/questbody')->name('questbody.')->controller(QuestBodyController::class)->group(function () {
+    Route::post('/store', 'storeQuestBody')->name('store');
+    Route::put('/update/{id}', 'updateQuestBody')->name('update');
+    Route::delete('/delete/{id}', 'deleteQuestBody')->name('delete');
+    Route::post('/image/delete', 'deleteImage')->name('image.delete');
+    Route::post('/agenda/{id}', 'toggleAgenda')->name('toggleAgenda');
+    Route::get('/getAllQuestBodies/{questId}','getAllQuestBodies')->name('getAllQuestBody');
+
+    // ✅補助機能（QuestBody関連）
+    Route::get('/user/searchbusinesses', 'getMyBusinesses')->name('mybusinesses');
+    Route::get('/search/Ajax',  'searchAjax')->name('search');
+});
+
+// =============================== QuestCommentController
+Route::prefix('/questcomment')->name('questcomment.')->controller(QuestCommentController::class)->group(function () {
+    Route::post('/store/{quest_id}', 'storeQuestComment')->name('store');
+    Route::delete('/delete/{id}', 'deleteQuestComment')->name('delete');
+    Route::post('/{comment_id}/toggle-like', 'toggleCommentLike')->name('toggleLike');
+    Route::get('/{commentId}/likes', 'getCommentLikes')->name('likes');
+
+    Route::get('/{quest_id}/stats', 'getQuestCommentStats')->name('stats');
+});

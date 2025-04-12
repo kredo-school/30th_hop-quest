@@ -1,3 +1,5 @@
+Js/quest/photo-container.js
+
 window.addEventListener("beforeunload", function() {
     localStorage.clear();
 });
@@ -93,3 +95,4 @@ function initializeFormListeners() {
 document.addEventListener("DOMContentLoaded", function () {
     initializeFormListeners();
 });
+
