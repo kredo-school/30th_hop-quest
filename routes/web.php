@@ -139,3 +139,5 @@ Route::get('/register/business', [RegisterController::class, 'registerBusiness']
 Route::post('/store/business', [App\Http\Controllers\Auth\RegisterController::class, 'storeBusiness'])->name('register.business.submit');
 Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
 
+// View Business
+Route::get('/business/{id}', [App\Http\Controllers\Business\ViewBusiness::class, 'show'])->name('business.show');

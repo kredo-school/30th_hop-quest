@@ -100,6 +100,8 @@
                 
                 <!-- Facility information -->
                 {{-- @include('businessusers.posts.businesses.partials.business-details-facility', ['businessDetail' => $businessDetail ?? null, 'oldValues' => old('details')]) --}}
+                
+
 
                 <!-- Identification Information -->
                 @include('businessusers.posts.businesses.partials.identification-information', ['business' => $business ?? null])
