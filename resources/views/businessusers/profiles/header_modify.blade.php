@@ -229,16 +229,16 @@
                 </div>
                 @switch($tab)
                     @case('businesses')
-                        @include('businessusers.profiles.businesses', ['businesses' => $businesses])
+                        @include('businessusers.posts.businesses.show_body', ['businesses' => $businesses])
                         @break
                     @case('promotions')
-                        @include('businessusers.profiles.promotions', ['promotions' => $business_promotions])
+                        @include('businessusers.posts.promotions.show_body', ['promotions' => $business_promotions])
                         @break
                     @case('quests')
                         @include('businessusers.profiles.quests', ['quests' => $quests])
                         @break
                     @default
-                        @include('businessusers.profiles.businesses', ['businesses' => $businesses])
+                        @include('businessusers.posts.businesses.show_body', ['businesses' => $businesses])
                 @endswitch
             @endif
         </div>
