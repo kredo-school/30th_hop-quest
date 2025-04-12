@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class QuestCommentLike extends Model
 {
-
+    protected $table = 'quest_comment_likes';
     public $timestamps = false; // 👈 これを追加！
 
     protected $fillable = [

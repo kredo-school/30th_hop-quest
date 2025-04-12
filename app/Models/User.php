@@ -104,8 +104,22 @@ class User extends Authenticatable
         return $this->followers()->where('follower_id', Auth::user()->id)->exists();
     }
 
-    public function following(){
+    public function isFollowing(User $user){
+        return $this->followings()->where('followed_id', $user->id)->exists();
+    }
+
+    public function followings(){
         return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id');
+    }
+
+    public function isMutualFollow(User $user): bool{
+        $authUser = Auth::user();
+    
+        if (!$authUser) {
+            return false;
+        }
+    
+        return $authUser->isFollowing($user) && $user->isFollowing($authUser);
     }
 
     public function quests(){

@@ -503,4 +503,46 @@ h6{
     font-weight: bold; 
 }
 
+/* Bootstrapのタブ風スタイルを全解除 */
+.custom-tabs-black .nav-link {
+    border: none !important;
+    background: none !important;
+    color: #555;
+    font-weight: normal;
+    font-size: 1.5rem;
+}
+
+.custom-tabs .nav-link {
+    border: none !important;
+    background: none !important;
+    color: white;
+    font-weight: normal;
+    font-size: 1.5rem;
+}
+
+/* アンダーライン削除 */
+.custom-tabs .nav-link:hover {
+    text-decoration: none;
+}
+
+/* activeタブだけ文字色変更（例：青） */
+.custom-tabs-black .nav-link.active-tab {
+    color: #D24848 ; /* Bootstrapのprimary色 */
+    font-weight: bold;
+}
+
+.custom-tabs .nav-link.active-tab {
+    color: #D24848 ; /* Bootstrapのprimary色 */
+    font-weight: bold;
+}
+
+.custom-tabs-black {
+    border-bottom: 1px solid #555; 
+}
+
+.custom-tabs {
+    border-bottom: 1px solid white; 
+}
+
+
  
