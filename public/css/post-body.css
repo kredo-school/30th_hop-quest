@@ -42,28 +42,28 @@
 
 .card-header{
     display: flow-root;
-    height:280px;
+    height:260px;
     overflow: hidden;
 }
 
 .card-body{
     display: flow-root;
-    height:180px;
+    height:200px;
     margin-bottom: 20px;
 }
 
-.card-body.content{
+.card-body.content-sm{
     display: flow-root;
     height:220px;
     /* margin-bottom: 20px; */
 }
 
-.card-body.content-long{
+.card-body.content-md{
     display: flow-root;
     height:260px;
 }
 
-.card-body.post{
+.card-body.content-lg{
     display: flow-root;
     height:300px;
     margin-bottom: 20px;

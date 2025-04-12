@@ -83,7 +83,6 @@
                                             @endif
                                         </form>
                                     </th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody class="">
@@ -110,27 +109,28 @@
                                             </td>
                                             <td class="text-center">{{ $business_comment->created_at }}</td>
 
-                                        </tr>
-                                    @endif
-                                @empty
-                                @endforelse
-                            </tbody>
-                        </table> 
-                        <div class="d-flex justify-content-end mb-5">
-                            {{ $business_comments->links() }}
-                        </div>
-                    </div>  
-                </div>
-                <div class="row pt-0">       
-                    <div class="col align-center mb-0">
-                        <a href="{{route('profile.businesses', Auth::user()->id)}}">
-                            <button class="btn btn-green text-uppercase w-25 position-absolute start-50 translate-middle mt-1">Back to Profile</button>
-                        </a>
+                                    </tr>
+                                @endif
+                            @empty
+                            @endforelse
+                        </tbody>
+                    </table> 
+                    <div class="d-flex justify-content-end mb-5">
+                        {{ $business_comments->links() }}
                     </div>
+                </div>  
+            </div>
+            <div class="row pt-0">       
+                <div class="col align-center mb-0">
+                    <a href="{{route('profile.header', Auth::user()->id)}}">
+                        <button class="btn btn-green text-uppercase w-25 position-absolute start-50 translate-middle mt-1">Back to Profile</button>
+                    </a>
                 </div>
             </div>
-    
-        </div>        
-    
-    </div>
-    @endsection
+        </div>
+
+    </div>        
+
+</div>
+@endsection
+
