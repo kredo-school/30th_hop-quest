@@ -56,20 +56,20 @@
                 <!-- left: LOGO -->
                 @guest
                     <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-                        <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
-                    @else
-                        @if (Auth::user()->role_id == 1)
-                            <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-                            <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5">
-                        @elseif(Auth::user()->role_id == 2)
-                            <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-                            <img src="{{ asset('images/logo/HopQuest_Business_38px.png') }}" alt="HopQuest LOGO for Business" class="nav-img me-lg-5">
-                        @elseif(Auth::user()->role_id == 3)
-                            <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-                            <img src="{{ asset('images/logo/HopQuest_Admin.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5"><span class="color-navy fw-bold">Admin</span>
-                        @endif
-                    @endguest
-                </a>
+                        <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5"></a>
+                @else
+                    @if (Auth::user()->role_id == 1)
+                        <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+                        <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5"></a>
+                    @elseif(Auth::user()->role_id == 2)
+                        <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+                        <img src="{{ asset('images/logo/HopQuest_Business_38px.png') }}" alt="HopQuest LOGO for Business" class="nav-img me-lg-5"></a>
+                    @elseif(Auth::user()->role_id == 3)
+                        <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
+                        <img src="{{ asset('images/logo/HopQuest_Admin.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5"><span class="color-navy fw-bold"></span></a>
+                    @endif
+                @endguest
+                
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -89,12 +89,12 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-lg-5">
                         <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
+                    @guest
+                        @if (Route::has('login'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                        @endif
 
                         @if (Route::has('register'))
                             <li class="nav-item">
@@ -105,7 +105,7 @@
                         <li class="nav-item my-auto">
                             <a href="{{ route('home') }}" class="nav-link" href="">HOME</a>
                         </li>
-                        {{-- <li class="nav-item dropdown my-auto"> --}}
+
                         <li class="nav-item dropdown my-auto">
                             @if(Auth::user()->role_id == 3)
                             @else
@@ -130,66 +130,64 @@
                                         </a>  
                                     @endif
                                 </div>    
-                                @endif
-
-                            
+                            @endif                       
+                    </li>
+                    <li class="nav-item my-auto">
+                        <li class="nav-item my-auto">
+                            <a href="#" class="nav-link" href="">FAQ</a>
                         </li>
                         <li class="nav-item my-auto">
-                            <li class="nav-item my-auto">
-                                <a href="#" class="nav-link" href="">FAQ</a>
-                            </li>
-                            <li class="nav-item my-auto">
-                                {{-- @if (Auth::user()->role_id == 1)
-                            <li class="nav-item my-auto">
-                                <a href="" class="nav-link d-xl-block d-none" href="">For Business</a>
-                                <a class="nav-link d-block d-xl-none text-center business"><img src="{{asset('images/navbar/icomoon-free--office.svg')}}" alt="For business"><br>business</a>
-                            </li>
-                        @endif --}}
-                            <li class="nav-item dropdown my-auto">
-                                <!-- ICON -->
-                                <a id="navbarDropdown" class="nav-link btn " href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{-- {{ Auth::user()->name }} --}}
+                            {{-- @if (Auth::user()->role_id == 1)
+                        <li class="nav-item my-auto">
+                            <a href="" class="nav-link d-xl-block d-none" href="">For Business</a>
+                            <a class="nav-link d-block d-xl-none text-center business"><img src="{{asset('images/navbar/icomoon-free--office.svg')}}" alt="For business"><br>business</a>
+                        </li>
+                    @endif --}}
+                        <li class="nav-item dropdown my-auto">
+                            <!-- ICON -->
+                            <a id="navbarDropdown" class="nav-link btn " href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{-- {{ Auth::user()->name }} --}}
 
-                                {{-- DROPDOWN --}}
-                                @if(Auth::user()->avatar)
-                                    <img src="{{Auth::user()->avatar}}" alt="" class="rounded-circle avatar-sm">
-                                @else
-                                    <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
-                                @endif
+                            {{-- DROPDOWN --}}
+                            @if(Auth::user()->avatar)
+                                <img src="{{Auth::user()->avatar}}" alt="" class="rounded-circle avatar-sm">
+                            @else
+                                <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                            @endif
                             </a>
-                            <!-- Dropdown menu -->
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                {{-- PROFILE --}}
-                                @if(Auth::user()->role_id == 1)
-                                    <a href="#" class="dropdown-item">
-                                        <i class="fa-solid fa-circle-user"></i> Profile
-                                    </a>
-                                @elseif(Auth::user()->role_id == 2)
-                                    <a href="{{route('profile.businesses', Auth::user()->id)}}" class="dropdown-item">
-                                        <i class="fa-solid fa-circle-user"></i> Profile
-                                    </a>
-                                @elseif(Auth::user()->role_id == 3)
-                                    @can('admin')
-                                    <a href="{{route('admin.users.business', Auth::user()->id)}}" class="dropdown-item">
-                                        <i class="fa-solid fa-circle-user"></i> Admin
-                                    </a>
-                                    @endcan
-                                @endif
-                                <hr class="dropdown-divider">
-                                <a class="dropdown-item" href="{{ route('home') }}"
-                                   onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                        <i class="fa-solid fa-arrow-right-from-bracket"></i> {{ __('Logout') }}
-                                    </a>
+                        <!-- Dropdown menu -->
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            {{-- PROFILE --}}
+                            @if(Auth::user()->role_id == 1)
+                                <a href="#" class="dropdown-item">
+                                    <i class="fa-solid fa-circle-user"></i> Profile
+                                </a>
+                            @elseif(Auth::user()->role_id == 2)
+                                <a href="{{route('profile.businesses', Auth::user()->id)}}" class="dropdown-item">
+                                    <i class="fa-solid fa-circle-user"></i> Profile
+                                </a>
+                            @elseif(Auth::user()->role_id == 3)
+                                @can('admin')
+                                <a href="{{route('admin.users.business', Auth::user()->id)}}" class="dropdown-item">
+                                    <i class="fa-solid fa-circle-user"></i> Admin
+                                </a>
+                                @endcan
+                            @endif
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="{{ route('home') }}"
+                                onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> {{ __('Logout') }}
+                                </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    @endguest
                     </ul>
                 </div>
             </div>
