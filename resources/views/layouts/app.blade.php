@@ -170,7 +170,7 @@
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
                                 @elseif(Auth::user()->role_id == 3)
-                                <a href="{{route('admin.users.business', Auth::user()->id)}}" class="dropdown-item">
+                                <a href="{{route('admin.main', Auth::user()->id)}}" class="dropdown-item">
                                     <i class="fa-solid fa-circle-user"></i> Admin
                                 </a>
                                 @endif

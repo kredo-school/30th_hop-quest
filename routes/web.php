@@ -175,6 +175,7 @@ Route::delete('/myprofile', [TouristProfileController::class, 'destroy'])->name(
 
 //ADMIN
 Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], function(){
+    Route::get('/main', [UsersController::class, 'showLists'])->name('main');
     Route::get('/users/business', [UsersController::class, 'indexBusiness'])->name('users.business');
     Route::get('/users/applied', [UsersController::class, 'indexApplied'])->name('users.applied');
     Route::get('/users/{id}/review', [UsersController::class, 'adminReview'])->name('users.review');
