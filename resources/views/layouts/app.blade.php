@@ -66,7 +66,7 @@
                             <img src="{{ asset('images/logo/HopQuest_Business_38px.png') }}" alt="HopQuest LOGO for Business" class="nav-img me-lg-5">
                         @elseif(Auth::user()->role_id == 3)
                             <a class="navbar-brand me-lg-5" href="{{ route('home') }}">
-                            <img src="{{ asset('images/logo/HopQuest1.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5"><span class="color-navy fw-bold">Admin</span>
+                            <img src="{{ asset('images/logo/HopQuest_Admin.png') }}" alt="HopQuest LOGO" class="nav-img me-lg-5"><span class="color-navy fw-bold">Admin</span>
                         @endif
                     @endguest
                 </a>
