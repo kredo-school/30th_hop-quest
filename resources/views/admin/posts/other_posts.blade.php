@@ -1,7 +1,7 @@
 <div class="bg-blue">
 @extends('layouts.app')
 
-@section('title', 'Admin: Users')
+@section('title', 'Admin: Posts')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/admin.css') }}">

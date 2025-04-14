@@ -1,7 +1,7 @@
 <div class="bg-blue">
 @extends('layouts.app')
 
-@section('title', 'Edit Profiles')
+@section('title', 'For Review')
 
 @section('content')
 <link rel="stylesheet" href="{{asset('css/style.css')}}"  /> 
