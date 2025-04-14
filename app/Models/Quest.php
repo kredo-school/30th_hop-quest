@@ -61,9 +61,4 @@ class Quest extends Model
                     ->orderBy('id');
     }
 
-    //Quest has many Quest_likes
-    public function likes(){
-        return $this->hasMany(QuestLike::class);
-    }
-
 }
