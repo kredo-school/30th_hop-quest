@@ -73,6 +73,22 @@ class User extends Authenticatable
         return $this->hasMany(BusinessCommentLike::class);
     }
 
+    public function questComments(){
+        return $this->hasMany(QuestComment::class)->withTrashed()->latest();
+    }
+
+    public function questCommentLikes(){
+        return $this->hasMany(QuestCommentLike::class);
+    }
+
+    public function spotComments(){
+        return $this->hasMany(SpotComment::class)->withTrashed()->latest();
+    }
+
+    public function spottCommentLikes(){
+        return $this->hasMany(SpotCommentLike::class);
+    }
+
     public function businessLikes(){
         return $this->hasMany(BusinessLike::class);
     }

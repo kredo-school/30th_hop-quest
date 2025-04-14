@@ -10,7 +10,11 @@
         <div class="row">
             <div class="col">
                 <h4 class=" d-inline me-3">Edit Profile</h4>
-                <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items for official certification badge)<p>
+                @if(Auth::user()->role_id == 1)
+                    <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items)<p>
+                @elseif(Auth::user()->role_id == 2)
+                    <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items for official certification badge)<p>
+                @endif
             </div>
         </div>
     </div>
@@ -116,15 +120,25 @@
         </div>
         <div class="row mb-3">
             <div class="col-6">
-                <label for="zip" class="form-label">ZIP code<span class="color-red">*</span></label>
-                <input type="text" name="zip" id="zip" value="{{old('zip', Auth::user()->zip)}}" class="form-control">
+                @if(Auth::user()->role_id == 1)
+                    <label for="zip" class="form-label">ZIP code</label>
+                    <input type="text" name="zip" id="zip" value="{{old('zip', Auth::user()->zip)}}" class="form-control">
+                @elseif(Auth::user()->role_id == 2)
+                    <label for="zip" class="form-label">ZIP code<span class="color-red">*</span></label>
+                    <input type="text" name="zip" id="zip" value="{{old('zip', Auth::user()->zip)}}" class="form-control">
+                @endif
                 @error('zip')
                 <p class="mb-0 text-danger small">{{ $message }}</p>
                 @enderror
             </div>
             <div class="col-6">
-                <label for="phonenumber" class="form-label">Phone number<span class="color-red">*</span></label>
-                <input type="text" name="phonenumber" id="phonenumber" value="{{old('phonenumber', Auth::user()->phonenumber)}}" class="form-control">
+                @if(Auth::user()->role_id == 1)
+                    <label for="phonenumber" class="form-label">Phone number</label>
+                    <input type="text" name="phonenumber" id="phonenumber" value="{{old('phonenumber', Auth::user()->phonenumber)}}" class="form-control">
+                @elseif(Auth::user()->role_id == 2)
+                    <label for="phonenumber" class="form-label">Phone number<span class="color-red">*</span></label>
+                    <input type="text" name="phonenumber" id="phonenumber" value="{{old('phonenumber', Auth::user()->phonenumber)}}" class="form-control">
+                @endif
                 @error('phonenumber')
                 <p class="mb-0 text-danger small">{{ $message }}</p>
                 @enderror
@@ -132,8 +146,13 @@
         </div>
         <div class="row mb-3">
             <div class="col">
-                <label for="address" class="form-label">Address<span class="color-red">*</span></label>
-                <input type="text" name="address" id="address" value="{{old('address', Auth::user()->address)}}" class="form-control">
+                @if(Auth::user()->role_id == 1)
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" name="address" id="address" value="{{old('address', Auth::user()->address)}}" class="form-control">
+                @elseif(Auth::user()->role_id == 2)
+                    <label for="address" class="form-label">Address<span class="color-red">*</span></label>
+                    <input type="text" name="address" id="address" value="{{old('address', Auth::user()->address)}}" class="form-control">
+                @endif
                 @error('address')
                 <p class="mb-0 text-danger small">{{ $message }}</p>
                 @enderror
@@ -141,9 +160,15 @@
         </div>
         <div class="row mb-3">
             <div class="col">
-                <label for="introduction" class="form-label">Introduction<span class="color-red">*</span></label>
-                <textarea name="introduction" id="introduction" rows="5" class="form-control">{{old('introduction', Auth::user()->introduction)}}
-                </textarea>
+                @if(Auth::user()->role_id == 1)
+                    <label for="introduction" class="form-label">Introduction</label>
+                    <textarea name="introduction" id="introduction" rows="5" class="form-control">{{old('introduction', Auth::user()->introduction)}}
+                    </textarea>
+                @elseif(Auth::user()->role_id == 2)
+                    <label for="introduction" class="form-label">Introduction<span class="color-red">*</span></label>
+                    <textarea name="introduction" id="introduction" rows="5" class="form-control">{{old('introduction', Auth::user()->introduction)}}
+                    </textarea>
+                @endif
                 @error('introduction')
                 <p class="mb-0 text-danger small">{{ $message }}</p>
                 @enderror
@@ -207,9 +232,11 @@
         <div class="row mt-3 justify-content-center">
             <div class="col-4 ">                        
                 <button type="submit" class="btn btn-green w-100 mb-2">SAVE</button>
-                <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="1" 
+                @if(Auth::user()->role_id == 2)
+                    <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="1" 
                 {{ old('official_badge', Auth::user()->official_certification) ? 'unchecked' : '' }}
                 > Apply for Official certification badge
+                @endif
             </div>
             <div class="col-2"></div>
             <div class="col-4 ">

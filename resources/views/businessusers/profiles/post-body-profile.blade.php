@@ -7,10 +7,10 @@
     <div class="card p-3">
         <div class="card-header border-0 bg-light p-0 overflow-hidden">
             <!-- Official mark -->
-            @if($post['official_certification']==2)
+            {{-- @if($post['official_certification']==2)
                 <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official" alt="official">              
             @elseif($post['official_certification'] == 1)
-            @endif
+            @endif --}}
             <!--Main_Image-->
             @if($post['type'] == 'businesses')
                 <a href="#" >
@@ -24,38 +24,42 @@
                 <a href="#" >
                     <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
                 </a>
+            @elseif($post['type'] == 'spots')
+                <a href="#" >
+                    <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
+                </a>
             @endif
         </div>
 
         @if($post['type'] == 'businesses')
-            <div class="card-body content-sm"> 
+            <div class="card-body content-md"> 
         @elseif($post['type'] == 'quests')
             <div class="card-body content-md"> 
         @elseif($post['type'] == 'promotions')
             <div class="card-body">  
+        @elseif($post['type'] == 'spots')
+            <div class="card-body content-md">  
         @endif
             <div class="row mb-3">
-                @if ($post['type']== 'businesses')
+                {{-- @if ($post['type']== 'businesses') --}}
                 <!-- Category -->
-                    <div class="col-md-auto col-sm-12 p-0">
-                        <h5 class="card-subtitle">Category: 
-                            @if($post['category_id']==1)
-                                <strong>Location</strong>
-                            @elseif($post['category_id']==2)
-                                <strong>Event</strong>
-                            @endif
-                        </h5>
+                    <div class="col-md-auto col-sm-12 p-0">                      
+                        @if($post['category_id']==1)
+                            <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
+                        @elseif($post['category_id']==2)
+                            <h5 class="card-subtitle">Category: <strong>Event</strong></h5>
+                        @elseif($post['type']== "quests")
+                            <h5 class="card-subtitle">Category: <strong>Quest</strong></h5>
+                        @elseif($post['type']== "spots")
+                            <h5 class="card-subtitle">Category: <strong>Spot</strong></h5>
+                        @elseif($post['tab_id']==3)
+                            <h5 class="card-subtitle fw-bold">{{ $post['business_name']}}</h5>
+                        @endif                    
                     </div>
-                @endif
-                
-                <!-- Related business of promotion -->
-                @if($post['tab_id']==3)
-                <div class="col-md-auto col-sm-12 p-0">
-                    <h5 class="card-subtitle fw-bold">{{ $post['business_name']}}</h5>
-                </div>
-                @endif
+
                 <!-- Postdate -->
                 <div class="col-md-auto col-sm-12 pe-0 ms-auto">
+                    {{-- <h5 class="card-subtitle">{{ $post['created_at']->format('H:i, M d Y')}}</h5> --}}
                     <h5 class="card-subtitle">{{ $post['created_at']->format('H:i, M d Y')}}</h5>
                 </div>
             </div>                
@@ -91,7 +95,7 @@
             </div> 
             @endif
             
-            @if($post['type'] == 'businesses' || $post['type'] == 'quests')
+            @if($post['type'] == 'businesses' || $post['type'] == 'quests' || $post['type'] == 'spots')
             {{-- Heart icon & Like function --}}
             <div class="row align-items-center ">
                 <div class="col-1 ms-2 p-0 mt-3">
@@ -162,7 +166,7 @@
             </div>
         </div>
 
-        @if($user->id == Auth::user()->id)
+        @if($user->id == Auth::user()->id && $post['user_id'] == Auth::user()->id)
         <div class="card-footer bg-white">
             {{-- status --}}
                 <div class="row ">

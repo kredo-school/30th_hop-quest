@@ -297,6 +297,12 @@ h6{
 }
 
 /* ---------------IMAGE--------------- */
+.img-sm{
+    height:4rem;
+    width:6rem;
+    object-fit:cover;
+}
+
 .img-lg{
     height:8rem;
     width:12rem;

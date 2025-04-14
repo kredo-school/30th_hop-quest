@@ -18,4 +18,8 @@ class BusinessLike extends Model
     public function business(){
         return $this->belongsTo(Business::class);
     }
+
+    public function postRelation(){
+        return $this->morphTo(); // あるいは特定のPostモデルへのbelongsTo
+    }
 }

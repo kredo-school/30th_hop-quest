@@ -114,13 +114,13 @@ Route::get('/home/posts/events', [HomeController::class, 'showEvents'])->name('p
 Route::get('/home/posts/followings', [HomeController::class, 'showFollowings'])->name('posts.followings');
 
 // Spot 
-Route::group(['prefix' => '/spot', 'as' => 'spot.'], function () {
+Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
     Route::get('/create', [SpotController::class, 'create'])->name('create');
     Route::post('/store', [SpotController::class, 'store'])->name('store');
     Route::get('/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('show');
     // Spot Likes
-    Route::post('/{spot_id}/like', [SpotLikeController::class, 'store'])->name('like');
-    Route::delete('/{spot_id}/unlike', [SpotLikeController::class, 'destroy'])->name('unlike');
+    Route::post('/{spot_id}/like', [SpotLikeController::class, 'store'])->name('like.store');
+    Route::delete('/{spot_id}/unlike', [SpotLikeController::class, 'destroy'])->name('like.delete');
     // Spot Comments
     Route::post('/{spot_id}/comment/store', [SpotCommentController::class, 'store'])->name('comment.store');
     Route::delete('/{spot_id}/comment/{comment_id}/destroy', [SpotCommentController::class, 'destroy'])->name('comment.destroy');
