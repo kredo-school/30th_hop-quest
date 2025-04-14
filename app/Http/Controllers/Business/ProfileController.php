@@ -410,4 +410,114 @@ class ProfileController extends Controller
     //     return view('register.tourist');
     // }
     
+
+    public function showLists(Request $request, $id){
+        $user_a = $this->user->findOrFail($id);
+        $user_a->load(['businesses.photos' => function ($query) {
+            $query->orderBy('priority', 'asc')->limit(1);
+        }]);
+        $business_comments = DB::table('business_comments')
+            ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
+            ->where('businesses.user_id', $id)
+            ->select('business_comments.*') 
+            ->get();
+        $sort = $request->get('sort', 'latest');
+        $perPage = 3;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        // Locations
+        $locations = Business::where('category_id', 1)
+        ->where('businesses.user_id', $id)
+        ->withCount(['businessLikes as likes_count'])
+        ->withCount(['businessComments as comments_count'])
+        // ->withCount(['pageViews as views_count'])
+        ->with([
+            'photos' => function ($q) {
+                $q->orderBy('priority')->limit(1);
+            },
+            'user' // ← ユーザー情報も一緒に取得
+        ])
+        // ->withCount(['pageViews as views_count'])
+        ->withTrashed()
+        ->get()
+        ->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'title' => $item->name,
+                'introduction' => $item->introduction,
+                'main_image' => $item->main_image,
+                'category_id' => 1,
+                'tab_id' => 1,
+                'duration' => $item->duration,
+                'official_certification' => $item->official_certification,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'likes_count' => $item->likes_count, // ← 追加
+                'comments_count' => $item->comments_count,
+                // 'views_count' => $item->views_count,
+                'is_liked' => $item->isLiked(),
+                'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
+                'type' => 'businesses', 
+            ];
+        });
+
+        // Locations
+        $events = Business::where('category_id', 2)
+        ->where('businesses.user_id', $id)
+        ->withCount(['businessLikes as likes_count'])
+        ->withCount(['businessComments as comments_count'])
+        // ->withCount(['pageViews as views_count'])
+        ->with([
+            'photos' => function ($q) {
+                $q->orderBy('priority')->limit(1);
+            },
+            'user' // ← ユーザー情報も一緒に取得
+            ])
+        // ->withCount(['pageViews as views_count'])
+        ->withTrashed()
+        ->get()
+        ->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'title' => $item->name,
+                'introduction' => $item->introduction,
+                'main_image' => $item->main_image,
+                'category_id' => 2,
+                'tab_id' => 2,
+                'duration' => $item->duration,
+                'official_certification' => $item->official_certification,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'likes_count' => $item->likes_count, // ← 追加
+                'comments_count' => $item->comments_count,
+                // 'views_count' => $item->views_count,
+                'is_liked' => $item->isLiked(),
+                'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
+                'type' => 'businesses', 
+            ];
+        });
+
+        $businesses = $locations->concat($events);
+
+        $businesses = match($sort) {
+            default  => $businesses->sortByDesc('created_at'), 
+        };
+
+        // ページネーション
+        $paginated = new LengthAwarePaginator(
+            $businesses->forPage($currentPage, $perPage),
+            $businesses->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => $request->url(),
+                'query' => $request->query(), // ← クエリを保持！（sort=likes など）
+            ]
+        );
+        return view('businessusers.profiles.admins', compact('business_comments'),['businesses' => $paginated])->with('user', $user_a);
+    }
+
 }

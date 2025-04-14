@@ -18,21 +18,11 @@ class UsersController extends Controller
         $this->business = $business;
     }
 
-    public function showLists(Request $request, $id){
+    public function showLists($id){
         $user_a = $this->user->findOrFail($id);
 
-        $query = Business::query();
-        $sort = $request->input('sort', 'latest');
-
-    // 並び替え（updated_atがあればそれ、なければcreated_at）
-    if ($sort === 'latest') {
-        $query->orderByRaw('COALESCE(updated_at, created_at) DESC');
-    } else {
-        $query->orderByRaw('COALESCE(updated_at, created_at) ASC');
-    }
-
-    $posts = $query->withTrashed()->paginate(10);
-        return view('admin.main', compact('posts'))->with('user', $user_a);
+       
+        return view('admin.main')->with('user', $user_a);
     }
 
     public function indexBusiness(Request $request){
