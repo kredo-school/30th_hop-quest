@@ -18,13 +18,6 @@ class UsersController extends Controller
         $this->business = $business;
     }
 
-    public function showLists($id){
-        $user_a = $this->user->findOrFail($id);
-
-       
-        return view('admin.main')->with('user', $user_a);
-    }
-
     public function indexBusiness(Request $request){
         $query = User::where('role_id', '!=', 3);
         $sort = $request->input('sort', 'latest');
