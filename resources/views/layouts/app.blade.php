@@ -170,9 +170,11 @@
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
                                 @elseif(Auth::user()->role_id == 3)
-                                <a href="{{route('admin.users.business', Auth::user()->id)}}" class="dropdown-item">
-                                    <i class="fa-solid fa-circle-user"></i> Admin
-                                </a>
+                                    @can('admin')
+                                    <a href="{{route('admin.users.business', Auth::user()->id)}}" class="dropdown-item">
+                                        <i class="fa-solid fa-circle-user"></i> Admin
+                                    </a>
+                                    @endcan
                                 @endif
                                 <hr class="dropdown-divider">
                                 <a class="dropdown-item" href="{{ route('home') }}"

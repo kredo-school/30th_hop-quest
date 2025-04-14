@@ -11,7 +11,7 @@
     <div class="row justify-content-center bg-blue">
         <div class="col-8">
     {{-- Management business --}}
-            <div class="container mt-5">
+            <div class="container">
                 <div class="row justify-content-center">                   
                     <div class="col-3">
                         <h4>User list</h4>
