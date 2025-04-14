@@ -149,3 +149,11 @@ body {
     height: 50px;
     object-fit: cover;
 }
+
+.profile-comment{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

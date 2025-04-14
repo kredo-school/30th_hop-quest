@@ -137,23 +137,23 @@ class ProfileController extends Controller
         ->get()
         ->map(fn($item) => [
             'id' => $item->id,
-                'user' => $item->user,
-                'user_id' => $item->user_id,
-                'title' => $item->name,
-                'introduction' => $item->introduction,
-                'main_image' => $item->main_image,
-                'category_id' => 2,
-                'tab_id' => 2,
-                'duration' => $item->duration,
-                'official_certification' => $item->official_certification,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
-                'likes_count' => $item->likes_count, // ← 追加
-                'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
-                'is_liked' => $item->isLiked(),
-                'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
-                'type' => 'businesses', 
+            'user' => $item->user,
+            'user_id' => $item->user_id,
+            'title' => $item->name,
+            'introduction' => $item->introduction,
+            'main_image' => $item->main_image,
+            'category_id' => 2,
+            'tab_id' => 2,
+            'duration' => $item->duration,
+            'official_certification' => $item->official_certification,
+            'created_at' => $item->created_at,
+            'updated_at' => $item->updated_at,
+            'likes_count' => $item->likes_count, // ← 追加
+            'comments_count' => $item->comments_count,
+            // 'views_count' => $item->views_count,
+            'is_liked' => $item->isLiked(),
+            'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
+            'type' => 'businesses', 
         ]);
 
     $businesses = $locations->concat($events);
@@ -493,6 +493,12 @@ protected function getPaginatedLikedPosts(Request $request, $id){
         $sort = $request->get('sort', 'latest');
     
         $user_a = $this->user->findOrFail($id);
+
+        $business_comments = DB::table('business_comments')
+        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
+        ->where('businesses.user_id', $id)
+        ->select('business_comments.*') 
+        ->get();
     
         $businesses = BusinessComment::with('user', 'business')
         ->where('user_id', $id)
@@ -503,6 +509,7 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
+                'posted_user_id' => optional($item->business)->user_id,
                 'user_name' => optional($item->user)->name,
                 'title' => optional($item->business)->name,
                 'main_image' => optional($item->business)->main_image,
@@ -525,6 +532,7 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
+                'posted_user_id' => optional($item->spot)->user_id,
                 'user_name' => optional($item->user)->name,
                 'title' => optional($item->spot)->title,
                 'main_image' => optional($item->spot)->main_image,
@@ -546,6 +554,7 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
+                'posted_user_id' => optional($item->quest)->user_id,
                 'user_name' => optional($item->user)->name,
                 'title' => optional($item->quest)->title,
                 'main_image' => optional($item->quest)->main_image,
