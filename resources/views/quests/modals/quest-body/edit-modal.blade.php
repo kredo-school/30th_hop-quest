@@ -80,8 +80,8 @@
 
                     <div class="row pb-3 pe-0">
                         <label for="edit-image-{{ $questbody->id }}" class="form-label p-2">Photos</label>
-                        <div class="col-9">
-                            <input type="file" name="images[]" id="edit-image-{{ $questbody->id }}" class="custom-file-input form-control" multiple>
+                        <div class="col-12">
+                            <input type="file" name="images[]" id="edit-image-{{ $questbody->id }}" class="custom-file-input form-control w-100" multiple>
                             <p id="image-error-{{ $questbody->id }}" class="text-danger small d-none">Please upload at least one image</p>
                             <div class="hidden-image-inputs" id="hidden-inputs-{{ $questbody->id }}">
                             </div>
