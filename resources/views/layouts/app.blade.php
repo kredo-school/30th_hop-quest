@@ -96,10 +96,10 @@
                                 <a id="navbarDropdown" class="nav-link btn " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>+Add</a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     @if(Auth::user()->role_id == 1)
-                                        <a href="#" class="dropdown-item text-dark">
+                                        <a href="{{ route('quest.add') }}" class="dropdown-item text-dark">
                                             <i class="fa-solid fa-circle-plus icon-sm"></i> Add Quest
-                                        </a>                              
-                                        <a href="#" class="dropdown-item text-dark">
+                                        </a>
+                                        <a href="{{ route('spot.create')}}" class="dropdown-item text-dark">
                                             <i class="fa-solid fa-circle-plus icon-sm"></i> Add Spot
                                         </a>
                                     @elseif(Auth::user()->role_id == 2)
@@ -109,11 +109,11 @@
                                         <a href="{{ route('promotions.create') }}" class="dropdown-item text-dark ">
                                             <i class="fa-solid fa-circle-plus icon-sm"></i> Add Promotion
                                         </a>
-                                        <a href="#" class="dropdown-item text-dark">
+                                        <a href="{{ route('quest.add') }}" class="dropdown-item text-dark">
                                             <i class="fa-solid fa-circle-plus icon-sm"></i> Add Quest
-                                        </a>  
+                                        </a>
                                     @endif
-                                </div>    
+                                </div>
                                 @endif
 
                             
@@ -150,7 +150,7 @@
                                             <i class="fa-solid fa-circle-user"></i> Profile
                                         </a>
                                     @elseif(Auth::user()->role_id == 2)
-                                        <a href="{{ route('profile.businesses', Auth::user()->id) }}"
+                                        <a href="{{ route('profile.header', Auth::user()->id) }}"
                                             class="dropdown-item">
                                             <i class="fa-solid fa-circle-user"></i> Profile
                                         </a>
@@ -176,10 +176,10 @@
         <main class="pt-5">
             @if(request()->is('admin/*'))
                 <div class="container mt-5">
-                    <div class="row justify-content-center">                   
+                    <div class="row justify-content-center">
                         <div class="col-3">
                             <h4>User list</h4>
-                            <div class="list-group mb-3">                               
+                            <div class="list-group mb-3">
                                 <a href="{{ route('admin.users.business') }}" class="list-group-item {{ request()->is('admin/users/business*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-users"></i> Business Users
                                 </a>

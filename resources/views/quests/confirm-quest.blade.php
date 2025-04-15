@@ -195,18 +195,19 @@
         
                     {{-- Right Column: Checkbox + Save --}}
                     @php
-                        $isPrivate = $quest_a->trashed(); // ソフトデリート状態かどうか
+                        $isFirstConfirm = $quest_a->created_at == $quest_a->updated_at;
+                        $isPrivate = !$isFirstConfirm && $quest_a->trashed(); // 初回以外でソフトデリートされてる時のみchecked
                     @endphp
 
                     <div class="col-md-6 ps-4">
                         <div class="form-check mb-3 text-start">
                             <input class="form-check-input" type="checkbox" id="togglePrivate" name="make_private"
-                                {{ $isPrivate ? 'checked' : '' }}>
+                               {{ $isPrivate ? 'checked' : '' }}>
                             <label class="form-check-label" for="togglePrivate">Save as a private Quest</label>
                         </div>
                         <button id="confirm-submit-btn" type="submit" class="btn btn-navy w-75">
-                            {{ $isPrivate ? 'Save' : 'Confirmed' }}
-                        </button>
+                            {{ $isPrivate ? 'Save' : 'Confirm' }}
+                        </button>                        
                     </div>
                 </div>
                 <script>

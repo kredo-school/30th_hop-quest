@@ -91,11 +91,11 @@
                             window.questBodyImages[{{ $questbody->id }}] = @json($existingImages);
                         </script>
                         
-                        <div class="col-3 pe-0">
+                        {{-- <div class="col-3 pe-0">
                             <button type="button" class="btn btn-green custom-file-label w-100" id="upload-btn-{{ $questbody->id }}">
                                 <i class="fa-solid fa-plus icon-xs d-inline"></i> Photo
                             </button>
-                        </div>
+                        </div> --}}
                         <div class="row">
                             <p class="mt-0 xsmall">
                                 Acceptable formats: jpeg, jpg, png, gif only.<br>Max size is 1048 KB
