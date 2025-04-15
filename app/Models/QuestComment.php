@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class QuestComment extends Model
-{
+class QuestComment extends Model{
+
     use SoftDeletes;
     protected $table = 'quest_comments';
 

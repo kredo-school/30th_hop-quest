@@ -7,27 +7,39 @@
     <div class="card p-3">
         <div class="card-header border-0 bg-light p-0 overflow-hidden">
             <!-- Official mark -->
-            {{-- @if($post['official_certification']==2)
+            @if($post['official_certification']==3)
                 <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official" alt="official">              
-            @elseif($post['official_certification'] == 1)
-            @endif --}}
+            @elseif($post['official_certification'] == 1 || $post['official_certification'] == 2)
+            @endif
             <!--Main_Image-->
-            @if($post['type'] == 'businesses')
-                <a href="#" >
-                    <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
-                </a>
-            @elseif($post['type'] == 'promotions')
-                <a href="{{ route('promotions.show', $post['id']) }}" >
-                    <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
-                </a>
-            @elseif($post['type'] == 'quests')
-                <a href="#" >
-                    <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
-                </a>
-            @elseif($post['type'] == 'spots')
-                <a href="#" >
-                    <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
-                </a>
+            @if($post['official_certification']==2)
+                @if($post['type'] == 'businesses')
+                    <a href="#" >
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
+                    </a>
+                @elseif($post['type'] == 'promotions')
+                    <a href="{{ route('promotions.show', $post['id']) }}" >
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
+                    </a>
+                @elseif($post['type'] == 'quests')
+                    <a href="#" >
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
+                    </a>
+                @endif
+            @else
+                @if($post['type'] == 'businesses')
+                    <a href="#" >
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
+                    </a>
+                @elseif($post['type'] == 'promotions')
+                    <a href="{{ route('promotions.show', $post['id']) }}" >
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
+                    </a>
+                @elseif($post['type'] == 'quests')
+                    <a href="#" >
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
+                    </a>
+                @endif
             @endif
         </div>
 
@@ -59,8 +71,11 @@
 
                 <!-- Postdate -->
                 <div class="col-md-auto col-sm-12 pe-0 ms-auto">
-                    {{-- <h5 class="card-subtitle">{{ $post['created_at']->format('H:i, M d Y')}}</h5> --}}
-                    <h5 class="card-subtitle">{{ $post['created_at']->format('H:i, M d Y')}}</h5>
+                    @if($post['updated_at'])
+                        <h5 class="card-subtitle">{{ $post['updated_at']->format('H:i, M d Y')}}</h5>
+                    @else
+                        <h5 class="card-subtitle">{{ $post['created_at']->format('H:i, M d Y')}}</h5>
+                    @endif
                 </div>
             </div>                
 
@@ -166,48 +181,66 @@
             </div>
         </div>
 
-        @if($user->id == Auth::user()->id && $post['user_id'] == Auth::user()->id)
-        <div class="card-footer bg-white">
-            {{-- status --}}
-                <div class="row ">
-                    <div class="col p-0 mb-3">
-                        {{-- visibility --}}
-                        @if($post['is_trashed'])
-                            Status: <i class="fa-solid fa-circle color-red"></i> Hidden
-                        @else
-                            Status: <i class="fa-solid fa-circle color-green"></i> Visible
-                        @endif
-                    </div>    
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        @php
-                            $postEditRoute = $post['type'] . '.edit';
-                        @endphp
-                        <a href="{{ route($postEditRoute, $post['id']) }}" class="btn btn-sm btn-green fw-bold mb-2 w-100">EDIT</a>
-                    </div>
-                    <div class="col-6">
-                        @if($post['is_trashed'])                  
-                            @php
-                                $modalId = 'activate-' . $post['type'] . $post['id'];
-                            @endphp
-                            <button class="btn btn-outline-green w-100" data-bs-toggle="modal" data-bs-target="#{{ $modalId }}">
-                                UNHIDE
-                            </button>
-                        @else
-                            @php
-                                $modalId = 'deactivate-' . $post['type'] . $post['id'];
-                            @endphp
-                            <button class="btn btn-red w-100" data-bs-toggle="modal" data-bs-target="#{{ $modalId }}">
-                                HIDE
-                            </button>
-                        @endif
-                        @include("businessusers.posts.{$post['type']}.modals.hide_unhide", [
-                            'post' => $post,
-                            'modalId' => $modalId,
-                        ])
-                    </div>
-                </div>
-        </div> 
+        @if($user->id == Auth::user()->id)
+                <div class="card-footer bg-white">
+                    {{-- status --}}
+                        <div class="row ">
+                            <div class="col p-0 mb-3">
+                                {{-- visibility --}}
+                                @if($post['is_trashed'])
+                                    Status: <i class="fa-solid fa-circle color-red"></i> Hidden
+                                @else
+                                    Status: <i class="fa-solid fa-circle color-green"></i> Visible
+                                @endif
+                            </div>    
+                        </div>
+                        <div class="row">
+                                @php
+                                    $postEditRoute = $post['type'] . '.edit';
+                                @endphp
+                             <div class="col-6">    
+                                @if($post['official_certification']==2)
+                                    <div class="btn btn-sm btn-navy mb-2 w-100">REVIEWING</div>
+                                @else
+                                    <a href="{{ route($postEditRoute, $post['id']) }}" class="btn btn-sm btn-green fw-bold mb-2 w-100">EDIT</a>
+                                @endif
+                            </div>
+                            <div class="col-6">
+                                @if($post['official_certification']==2)
+                                    @if($post['is_trashed'])                  
+                                        <button class="btn btn-outline-green w-100" disabled>
+                                            UNHIDE
+                                        </button>
+                                    @else
+                                        <button class="btn btn-red w-100" disabled>
+                                            HIDE
+                                        </button>
+                                    @endif
+                                @else
+                                    @if($post['is_trashed'])                  
+                                        @php
+                                            $modalId = 'activate-' . $post['type'] . $post['id'];
+                                        @endphp
+                                        <button class="btn btn-outline-green w-100" data-bs-toggle="modal" data-bs-target="#{{ $modalId }}">
+                                            UNHIDE
+                                        </button>
+                                    @else
+                                        @php
+                                            $modalId = 'deactivate-' . $post['type'] . $post['id'];
+                                        @endphp
+                                        <button class="btn btn-red w-100" data-bs-toggle="modal" data-bs-target="#{{ $modalId }}">
+                                            HIDE
+                                        </button>
+                                    @endif
+                                    @include("businessusers.posts.{$post['type']}.modals.hide_unhide", [
+                                    'post' => $post,
+                                    'modalId' => $modalId,
+                                ])
+                                @endif
+                                
+                            </div>
+                        </div>
+                </div> 
+            
         @endif
     </div>

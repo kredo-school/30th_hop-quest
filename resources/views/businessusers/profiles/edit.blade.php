@@ -83,7 +83,7 @@
                 });
                 </script> --}}
                 @else
-                    <i class="fa-solid fa-circle-user text-secondary icon-xl d-block text-center"></i>
+                    <i class="fa-solid fa-circle-user text-secondary profile-xl d-block text-center"></i>
                 @endif
             </div>
             <div class="col">
@@ -232,9 +232,8 @@
         <div class="row mt-3 justify-content-center">
             <div class="col-4 ">                        
                 <button type="submit" class="btn btn-green w-100 mb-2">SAVE</button>
-                @if(Auth::user()->role_id == 2)
-                    <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="1" 
-                {{ old('official_badge', Auth::user()->official_certification) ? 'unchecked' : '' }}
+                <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="2" 
+                {{ old('official_badge', Auth::user()->official_certification == 2) ? 'unchecked' : '' }}
                 > Apply for Official certification badge
                 @endif
             </div>

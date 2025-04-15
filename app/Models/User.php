@@ -12,7 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable,SoftDeletes;
+
+    const ADMIN_ROLE_ID = 3;
+    const USER_ROLE_ID_1 = 1;
+    const USER_ROLE_ID_2 = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -145,5 +149,4 @@ class User extends Authenticatable
     public function spots(){
         return $this->hasMany(Spot::class)->latest();
     }
-
 }
