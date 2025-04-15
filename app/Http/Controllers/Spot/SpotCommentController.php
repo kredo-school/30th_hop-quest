@@ -11,7 +11,7 @@ use App\Models\Spot;
 use App\Models\SpotComment;
 use App\Models\SpotCommentLike;
 
-class CommentController extends Controller
+class SpotCommentController extends Controller
 {
     private $comment;
 

@@ -123,7 +123,7 @@ class BusinessController extends Controller
         // }
         
     
-        return redirect()->route('profile.businesses', Auth::id());
+        return redirect()->route('profile.header', Auth::id());
     }
 
     public function edit($id){
@@ -237,7 +237,7 @@ class BusinessController extends Controller
     // }
 
         
-        return redirect()->route('profile.businesses',Auth::user()->id);
+        return redirect()->route('profile.header',Auth::user()->id);
     }
 
 

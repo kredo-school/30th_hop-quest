@@ -37,12 +37,10 @@
     <script src="{{ asset('js/home/slick.min.js') }}"></script>
 
     <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Custom CSS -->
-
+    
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -53,14 +51,13 @@
     <script src="{{ asset('js/home/jquery-3.6.0.min.js') }}"></script>
 
     <!-- CSS of slick -->
-    <link rel="stylesheet" href="{{ asset('css/slick/slick.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/slick/slick-theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/slick/slick.css')}}" />
+    <link rel="stylesheet" href="{{ asset('css/slick/slick-theme.css')}}" />
 
     <!-- JS of slick -->
     <script src="{{ asset('js/home/slick.min.js') }}"></script>
-
+    
 </head>
-
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
@@ -91,12 +88,10 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                     {{-- Search bar here --}}
                     <ul class="navbar-nav mx-auto">
-                        {{-- <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto"> --}}
-                        <form action="{{ route('search') }}"
-                            class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto">
-                            <input type="search" name="search" placeholder="Search..."
-                                class="form-control form-control-sm">
-                        </form>
+                            {{-- <form action="" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto"> --}}
+                            <form action="{{ route('search') }}" class="nav-search d-flex align-items-center justify-content-between ms-md-5 my-auto">
+                                <input type="search" name="search" placeholder="Search..." class="form-control form-control-sm">
+                            </form>
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-lg-5">
@@ -211,6 +206,4 @@
     </div>
     @yield('js')
 </body>
-@yield('scripts')
-
 </html>

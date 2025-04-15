@@ -4,31 +4,28 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FollowController;
-
 use App\Http\Middleware\PageViewMiddleware;
-use App\Http\Controllers\Spot\LikeController;
-use App\Http\Controllers\Spot\IndexController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Business\PhotoController;
-use App\Http\Controllers\Business\QuestController;
-use App\Http\Controllers\TouristProfileController;
-use App\Http\Controllers\Business\QuestLikeController;
-use App\Http\Controllers\Business\QuestCommentController;
-use App\Http\Controllers\Business\BusinessCommentController;
-use App\Http\Controllers\Business\ProfileController;
-use App\Http\Controllers\Spot\LikeCommentController;
-use App\Http\Controllers\Business\BusinessController;
-use App\Http\Controllers\Business\SpotController;
-use App\Http\Controllers\Business\SpotLikeController;
-use App\Http\Controllers\Business\SpotCommentController;
-use App\Http\Controllers\Business\BusinessPromotionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Business\BusinessLikeController;
-use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\Admin\BusinessesController;
-use App\Http\Controllers\Admin\PostsController;
-use App\Http\Controllers\Admin\CommentsController;
+use App\Http\Controllers\TouristProfileController;
 
+use App\Http\Controllers\Business\ProfileController;
+use App\Http\Controllers\Business\BusinessController;
+use App\Http\Controllers\Business\BusinessLikeController;
+use App\Http\Controllers\Business\BusinessCommentController;
+use App\Http\Controllers\Business\BusinessPromotionController;
+use App\Http\Controllers\Business\PhotoController;
+
+use App\Http\Controllers\Spot\SpotController;
+use App\Http\Controllers\Spot\SpotLikeController;
+use App\Http\Controllers\Spot\SpotCommentController;
+use App\Http\Controllers\Spot\SpotCommentLikeController;
+
+use App\Http\Controllers\Quest\QuestController;
+use App\Http\Controllers\Quest\QuestLikeController;
+use App\Http\Controllers\Quest\QuestCommentController;
+use App\Http\Controllers\Quest\QuestCommentLikeController;
+use App\Http\Controllers\Quest\QuestBodyController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,20 +35,19 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
+Route::post('/sort', [HomeController::class, 'sort'])->name('sort');
 
 
 //PROFILES
 Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function () {
-    Route::get('/promotions/{id}', [ProfileController::class, 'showPromotions'])->name('promotions');
-    Route::get('/businesses/{id}', [ProfileController::class, 'showBusinesses'])->name('businesses');
-    Route::get('/modelquests/{id}', [ProfileController::class, 'showModelQuests'])->name('quests');
+    Route::get('/{id}', [ProfileController::class, 'showProfile'])->name('header');
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
     Route::patch('/{id}/update', [ProfileController::class, 'update'])->name('update');
     Route::delete('/{id}/deactivate', [ProfileController::class, 'deactivate'])->name('deactivate');
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
     Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
-    Route::get('/{id}/allreviews', [ProfileController::class, 'allReviews'])->name('allreviews');
+    Route::get('/{id}/allreviews', [BusinessCommentController::class, 'showAllReviews'])->name('allreviews');
     Route::get('/{id}/review', [BusinessCommentController::class, 'showReview'])->name('review');
     Route::get('/{id}/review/index', [BusinessCommentController::class, 'showIndex'])->name('indexreview');
 });
@@ -110,12 +106,6 @@ Route::group(['prefix' => '/home/modelquest', 'as' => 'quests.'], function () {
 Route::post('/home/like/quest/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('quests.like.store');
 Route::delete('/home/like/quest/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('quests.like.delete');
 
-//SPOT
-Route::group(['prefix' => '/home/spot', 'as' => 'spots.'], function () {
-    Route::post('/like/{spot_id}/store', [SpotLikeController::class, 'storeLike'])->name('like.store');
-    Route::delete('/like/{spot_id}/delete', [SpotLikeController::class, 'deleteLike'])->name('like.delete');
-});
-
 // Post
 Route::get('/home/posts/all', [HomeController::class, 'showAll'])->name('posts.all');
 Route::get('/home/posts/followings', [HomeController::class, 'showFollowings'])->name('posts.followings');
@@ -127,18 +117,18 @@ Route::get('/home/posts/followings', [HomeController::class, 'showFollowings'])-
 
 // Spot 
 Route::group(['prefix' => '/spot', 'as' => 'spot.'], function () {
-    Route::get('/create', [App\Http\Controllers\Spot\IndexController::class, 'create'])->name('create');
-    Route::post('/store', [App\Http\Controllers\Spot\IndexController::class, 'store'])->name('store');
-    Route::get('/{id}', [App\Http\Controllers\Spot\IndexController::class, 'show'])->middleware(PageViewMiddleware::class)->name('show');
+    Route::get('/create', [SpotController::class, 'create'])->name('create');
+    Route::post('/store', [SpotController::class, 'store'])->name('store');
+    Route::get('/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('show');
     // Spot Likes
-    Route::post('/{spot_id}/like', [App\Http\Controllers\Spot\LikeController::class, 'store'])->name('like');
-    Route::delete('/{spot_id}/unlike', [App\Http\Controllers\Spot\LikeController::class, 'destroy'])->name('unlike');
+    Route::post('/{spot_id}/like', [SpotLikeController::class, 'store'])->name('like');
+    Route::delete('/{spot_id}/unlike', [SpotLikeController::class, 'destroy'])->name('unlike');
     // Spot Comments
-    Route::post('/{spot_id}/comment/store', [App\Http\Controllers\Spot\CommentController::class, 'store'])->name('comment.store');
-    Route::delete('/{spot_id}/comment/{comment_id}/destroy', [App\Http\Controllers\Spot\CommentController::class, 'destroy'])->name('comment.destroy');
+    Route::post('/{spot_id}/comment/store', [SpotCommentController::class, 'store'])->name('comment.store');
+    Route::delete('/{spot_id}/comment/{comment_id}/destroy', [SpotCommentController::class, 'destroy'])->name('comment.destroy');
     // Spot Comment Likes
-    Route::post('/comment/{comment_id}/like', [App\Http\Controllers\Spot\LikeCommentController::class, 'like'])->name('comment.like');
-    Route::delete('/comment/{comment_id}/unlike', [App\Http\Controllers\Spot\LikeCommentController::class, 'unlike'])->name('comment.unlike');
+    Route::post('/comment/{comment_id}/like', [SpotCommentLikeController::class, 'like'])->name('comment.like');
+    Route::delete('/comment/{comment_id}/unlike', [SpotCommentLikeController::class, 'unlike'])->name('comment.unlike');
 });
 
 
@@ -200,4 +190,52 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], fu
     Route::patch('/{id}/spot/comment/activate', [SpotCommentController::class, 'activateSpotComment'])->name('activate.spot.comment');
     Route::delete('/{id}/quest/comment/deactivate', [QuestCommentController::class, 'deactivateQuestComment'])->name('deactivate.quest.comment');
     Route::patch('/{id}/quest/comment/activate', [QuestCommentController::class, 'activateQuestComment'])->name('activate.quest.comment');
+});
+
+// =============================== QuestController
+Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->group(function () {
+    //SHOW - ADD QUEST 
+    Route::get('/add', 'showAddQuest')->name('add');
+    Route::post('/store', 'storeQuest')->name('store');
+    //SHOW - EDIT QUEST
+    Route::get('/{quest_id}/edit', 'showQuestEdit')->name('edit');
+    Route::put('/{quest_id}/update', 'updateQuest')->name('update');
+    //SHOW - CONFIRM QUEST
+    Route::get('/confirm/{quest_id}', 'showConfirmQuest')->name('confirm');
+    //VIEW QUEST
+    Route::get('/{quest_id}', 'showViewQuest')->name('show');
+    //RESTORE - UNHIEDE
+    Route::post('/{quest_id}/restore', 'restore')->name('restore');
+    //SOFT DELETE - HIHE (back to Confirm--> change later redirect to MyPage)
+    Route::delete('/{quest_id}/hide', 'softDelete')->name('softDelete');
+
+    Route::post('/{id}/toggle-like', 'toggleLike')->name('toggle-like');
+    Route::get('/{id}/likes', 'getLikes')->name('likes');
+    Route::delete('/delete/{questId}', 'deleteQuest')->name('delete');
+    Route::post('/follow/{userId}', [QuestController::class, 'toggleFollow'])->name('quest.toggleFollow');
+});
+
+
+// =============================== QuestBodyController
+Route::prefix('/questbody')->name('questbody.')->controller(QuestBodyController::class)->group(function () {
+    Route::post('/store', 'storeQuestBody')->name('store');
+    Route::put('/update/{id}', 'updateQuestBody')->name('update');
+    Route::delete('/delete/{id}', 'deleteQuestBody')->name('delete');
+    Route::post('/image/delete', 'deleteImage')->name('image.delete');
+    Route::post('/agenda/{id}', 'toggleAgenda')->name('toggleAgenda');
+    Route::get('/getAllQuestBodies/{questId}','getAllQuestBodies')->name('getAllQuestBody');
+
+    // ✅補助機能（QuestBody関連）
+    Route::get('/user/searchbusinesses', 'getMyBusinesses')->name('mybusinesses');
+    Route::get('/search/Ajax',  'searchAjax')->name('search');
+});
+
+// =============================== QuestCommentController
+Route::prefix('/questcomment')->name('questcomment.')->controller(QuestCommentController::class)->group(function () {
+    Route::post('/store/{quest_id}', 'storeQuestComment')->name('store');
+    Route::delete('/delete/{id}', 'deleteQuestComment')->name('delete');
+    Route::post('/{comment_id}/toggle-like', 'toggleCommentLike')->name('toggleLike');
+    Route::get('/{commentId}/likes', 'getCommentLikes')->name('likes');
+
+    Route::get('/{quest_id}/stats', 'getQuestCommentStats')->name('stats');
 });

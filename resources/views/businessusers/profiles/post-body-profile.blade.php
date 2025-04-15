@@ -44,9 +44,9 @@
         </div>
 
         @if($post['type'] == 'businesses')
-            <div class="card-body content"> 
+            <div class="card-body content-sm"> 
         @elseif($post['type'] == 'quests')
-            <div class="card-body content-long"> 
+            <div class="card-body content-md"> 
         @elseif($post['type'] == 'promotions')
             <div class="card-body">  
         @endif
@@ -85,7 +85,7 @@
             <div class="row mb-1">
                 <div class="col p-0">
                     <a href="#" class="text-decoration-none">
-                        <h4 class="card-title text-dark fw-bold">{{ $post['title'] }}</h4>
+                        <h4 class="card-title text-dark fw-bold pb-2">{{ $post['title'] }}</h4>
                     </a>
                 </div>
             </div>

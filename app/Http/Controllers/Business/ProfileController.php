@@ -30,6 +30,7 @@ class ProfileController extends Controller
         $this->business_promotion = $business_promotion;
         $this->quest = $quest;
         $this->business_comment = $business_comment;
+        $this->middleware('auth');
     }
 
     public function edit($id){
@@ -95,41 +96,30 @@ class ProfileController extends Controller
 
     $user_a->save();
 
-    return redirect()->route('profile.businesses',Auth::user()->id);
+    return redirect()->route('profile.header',Auth::user()->id);
 
     }
 
-    public function showBusinesses(Request $request, $id){
+    public function followers($id){
         $user_a = $this->user->findOrFail($id);
-        $user_a->load(['businesses.photos' => function ($query) {
-            $query->orderBy('priority', 'asc')->limit(1);
-        }]);
-        $business_comments = DB::table('business_comments')
-            ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
-            ->where('businesses.user_id', $id)
-            ->select('business_comments.*') 
-            ->get();
-        $sort = $request->get('sort', 'latest');
-        $perPage = 3;
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        // Locations
-        $locations = Business::where('category_id', 1)
-        ->where('businesses.user_id', $id)
-        ->withCount(['businessLikes as likes_count'])
-        ->withCount(['businessComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
-        ->with([
-            'photos' => function ($q) {
-                $q->orderBy('priority')->limit(1);
-            },
-            'user' // ← ユーザー情報も一緒に取得
-        ])
-        // ->withCount(['pageViews as views_count'])
+
+        return view('businessusers.profiles.followers')->with('user', $user_a);
+    }
+
+    protected function getPaginatedBusinesses(Request $request, $id){
+    $perPage = 3;
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    $sort = $request->get('sort', 'latest');
+
+    // ロケーションとイベントを取得・マージ（今までと同じ）
+    $locations = Business::where('category_id', 1)
+        ->where('user_id', $id)
+        ->withCount(['businessLikes as likes_count', 'businessComments as comments_count'])
+        ->with(['photos' => fn($q) => $q->orderBy('priority')->limit(1), 'user'])
         ->withTrashed()
         ->get()
-        ->map(function ($item) {
-            return [
-                'id' => $item->id,
+        ->map(fn($item) => [
+            'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
                 'title' => $item->name,
@@ -147,27 +137,16 @@ class ProfileController extends Controller
                 'is_liked' => $item->isLiked(),
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
                 'type' => 'businesses', 
-            ];
-        });
+        ]);
 
-        // Locations
-        $events = Business::where('category_id', 2)
-        ->where('businesses.user_id', $id)
-        ->withCount(['businessLikes as likes_count'])
-        ->withCount(['businessComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
-        ->with([
-            'photos' => function ($q) {
-                $q->orderBy('priority')->limit(1);
-            },
-            'user' // ← ユーザー情報も一緒に取得
-            ])
-        // ->withCount(['pageViews as views_count'])
+    $events = Business::where('category_id', 2)
+        ->where('user_id', $id)
+        ->withCount(['businessLikes as likes_count', 'businessComments as comments_count'])
+        ->with(['photos' => fn($q) => $q->orderBy('priority')->limit(1), 'user'])
         ->withTrashed()
         ->get()
-        ->map(function ($item) {
-            return [
-                'id' => $item->id,
+        ->map(fn($item) => [
+            'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
                 'title' => $item->name,
@@ -185,116 +164,44 @@ class ProfileController extends Controller
                 'is_liked' => $item->isLiked(),
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
                 'type' => 'businesses', 
-            ];
-        });
+        ]);
 
-        $businesses = $locations->concat($events);
+    $businesses = $locations->concat($events);
 
-        $businesses = match($sort) {
-            default  => $businesses->sortByDesc('created_at'), 
-        };
+    // ソート（必要に応じて拡張）
+    $businesses = match($sort) {
+        'latest' => $businesses->sortByDesc('created_at'),
+        default  => $businesses->sortByDesc('created_at'),
+    };
 
-        // ページネーション
-        $paginated = new LengthAwarePaginator(
-            $businesses->forPage($currentPage, $perPage),
-            $businesses->count(),
-            $perPage,
-            $currentPage,
-            [
-                'path' => $request->url(),
-                'query' => $request->query(), // ← クエリを保持！（sort=likes など）
-            ]
-        );
-        return view('businessusers.profiles.businesses', compact('business_comments'),['businesses' => $paginated])->with('user', $user_a);
-    }
+    // ページネーション
+    return new LengthAwarePaginator(
+        $businesses->forPage($currentPage, $perPage),
+        $businesses->count(),
+        $perPage,
+        $currentPage,
+        [
+            'path' => $request->url(),
+            'query' => $request->query(),
+        ]
+    );
+}
 
-    
-    public function showPromotions(Request $request,$id){
-        //get data of 1 user
-        $user_a = $this->user->findOrFail($id);
-        $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $all_business_promotions = $this->business_promotion->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $business_comments = DB::table('business_comments')
-        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
-        ->where('businesses.user_id', $id)
-        ->select('business_comments.*') 
-        ->get();
-        $sort = $request->get('sort', 'latest');
-        $perPage = 3;
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        // Promotions        
-        $business_promotions = BusinessPromotion::with('user', 'business')
-        ->where('user_id', $user_a->id)
-        ->withTrashed()
-        ->get()
-        ->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'user' => $item->user,
-                'user_id' => $item->user_id,
-                'business_name' => optional($item->business)->name,
-                'title' => $item->title,
-                'introduction' => $item->introduction,
-                'main_image' => $item->image,
-                'category_id' => null,
-                'tab_id' => 3,
-                'duration' => null,
-                'official_certification' => null,
-                'promotion_start' => $item->promotion_start,
-                'promotion_end' => $item->promotion_end,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
-                'likes_count' => null,
-                'comments_count' => null,
-                // 'views_count' => $item->views_count,
-                'is_liked' => null,
-                'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
-                'type' => 'promotions', 
-            ];
-        });
+protected function getPaginatedQuests(Request $request, $id){
+    $perPage = 3;
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    $sort = $request->get('sort', 'latest');
 
-        $business_promotions = match($sort) {
-            default  => $business_promotions->sortByDesc('created_at'), 
-        };
-
-        // ページネーション
-        $paginated = new LengthAwarePaginator(
-            $business_promotions->forPage($currentPage, $perPage),
-            $business_promotions->count(),
-            $perPage,
-            $currentPage,
-            [
-                'path' => $request->url(),
-                'query' => $request->query(), // ← クエリを保持！（sort=likes など）
-            ]
-        );
-
-        return view('businessusers.profiles.promotions', compact('all_business_promotions','all_businesses', 'business_comments'),['business_promotions' => $paginated])->with('user', $user_a);
-    }
-
-
-    public function showModelQuests(Request $request, $id){
-        $user_a = $this->user->findOrFail($id);
-        $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $business_comments = DB::table('business_comments')
-        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
-        ->where('businesses.user_id', $id)
-        ->select('business_comments.*') 
-        ->latest()->paginate(3);
-        $sort = $request->get('sort', 'latest');
-        $perPage = 3;
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        // Quests        
-        $quests = Quest::with('user')
-        ->where('user_id', $user_a->id)
+    // ロケーションとイベントを取得・マージ（今までと同じ）
+    $quests = Quest::with('user')
+        ->where('user_id', $id)
         ->withCount(['questLikes as likes_count'])
         ->withCount(['questComments as comments_count'])
         // ->withCount(['pageViews as views_count'])
         ->withTrashed()
         ->get()
-        ->map(function ($item) {
-            return [
-                'id' => $item->id,
+        ->map(fn($item) => [
+            'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
                 'title' => $item->title,
@@ -312,29 +219,89 @@ class ProfileController extends Controller
                 'is_liked' => $item->isLiked(),
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
                 'type' => 'quests', 
-            ];
-        });
+        ]);
 
-        $quests = match($sort) {
-            default  => $quests->sortByDesc('created_at'), 
-        };
 
-        // ページネーション
-        $paginated = new LengthAwarePaginator(
-            $quests->forPage($currentPage, $perPage),
-            $quests->count(),
-            $perPage,
-            $currentPage,
-            [
-                'path' => $request->url(),
-                'query' => $request->query(), // ← クエリを保持！（sort=likes など）
-            ]
-        );
+    // ソート（必要に応じて拡張）
+    $quests = match($sort) {
+        'latest' => $quests->sortByDesc('created_at'),
+        default  => $quests->sortByDesc('created_at'),
+    };
 
-        return view('businessusers.profiles.quests', compact('all_businesses', 'business_comments'),['quests' => $paginated])->with('user', $user_a);
-    }
+    // ページネーション
+    return new LengthAwarePaginator(
+        $quests->forPage($currentPage, $perPage),
+        $quests->count(),
+        $perPage,
+        $currentPage,
+        [
+            'path' => $request->url(),
+            'query' => $request->query(),
+        ]
+    );
+}
 
-    public function followers($id){
+protected function getPaginatedPromotions(Request $request, $id){
+    $perPage = 3;
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    $sort = $request->get('sort', 'latest');
+    $business_comments = DB::table('business_comments')
+        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
+        ->where('businesses.user_id', $id)
+        ->select('business_comments.*') 
+        ->get();
+
+    // ロケーションとイベントを取得・マージ（今までと同じ）
+    $business_promotions = BusinessPromotion::with('user', 'business')
+        ->where('user_id', $id)
+        ->withTrashed()
+        ->get()
+        ->map(fn($item) => [
+            'id' => $item->id,
+            'user' => $item->user,
+            'user_id' => $item->user_id,
+            'business_name' => optional($item->business)->name,
+            'title' => $item->title,
+            'introduction' => $item->introduction,
+            'main_image' => $item->image,
+            'category_id' => null,
+            'tab_id' => 3,
+            'duration' => null,
+            'official_certification' => null,
+            'promotion_start' => $item->promotion_start,
+            'promotion_end' => $item->promotion_end,
+            'created_at' => $item->created_at,
+            'updated_at' => $item->updated_at,
+            'likes_count' => null,
+            'comments_count' => null,
+            // 'views_count' => $item->views_count,
+            'is_liked' => null,
+            'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
+            'type' => 'promotions', 
+        ]);
+
+
+    // ソート（必要に応じて拡張）
+    $business_promotions = match($sort) {
+        'latest' => $business_promotions->sortByDesc('created_at'),
+        default  => $business_promotions->sortByDesc('created_at'),
+    };
+
+    // ページネーション
+    return new LengthAwarePaginator(
+        $business_promotions->forPage($currentPage, $perPage),
+        $business_promotions->count(),
+        $perPage,
+        $currentPage,
+        [
+            'path' => $request->url(),
+            'query' => $request->query(),
+        ]
+    );
+}
+
+
+    public function showProfile(Request $request, $id){
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
         $business_comments = DB::table('business_comments')
@@ -345,9 +312,8 @@ class ProfileController extends Controller
         return view('businessusers.profiles.followers',compact('all_businesses', 'business_comments'))->with('user', $user_a);
     }
 
-    public function allReviews(Request $request, $id){
+    public function allReviews(Request $request){
         $user = Auth::user();
-        $user_a = $this->user->findOrFail($id);
     
         // ログインユーザーが登録しているBusiness一覧
         // $all_businesses = Business::where('user_id', Auth::user()->id)->get();
@@ -391,7 +357,7 @@ class ProfileController extends Controller
             ->pluck('businessRelation')
             ->unique('id');
     
-        return view('businessusers.reviews.allreviews', compact('business_comments', 'from_businesses', 'from_users'))->with('user', $user_a);
+        return view('businessusers.reviews.allreviews', compact('business_comments', 'from_businesses', 'from_users'));
     }
 
 

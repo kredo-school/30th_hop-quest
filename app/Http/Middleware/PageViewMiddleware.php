@@ -61,4 +61,28 @@ class PageViewMiddleware
 
         return $next($request);
     }
+
+
+
+
+
+
+
+    // Below codes are for counting number of views, but it doesn't contain about prevention counting from the same Ip address user.
+    // public function handle(Request $request, Closure $next): Response
+    // {
+
+    //     $id     = $request->route('id');
+    //     $type   = explode('/', trim($request->path(), '/'))[0] ?? null;
+
+
+    //     $modelClass = 'App\\Models\\' . ucfirst($type);
+    //         $pageViews = $this->page_view->firstOrCreate([
+    //             'page_id'       => $id,
+    //             'page_type'     => $modelClass
+    //         ]);
+            
+    //         $pageViews->increment('views');           
+    //         return $next($request);
+    // }
 }
