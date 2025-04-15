@@ -23,15 +23,12 @@ class Quest extends Model
         return $this->hasMany(QuestComment::class);
     }
 
-    public function pageViews(){
-        return $this->hasMany(PageView::class);
-    }
-
     public function isLiked(){
         return $this->questLikes()->where('user_id', Auth::user()->id)->exists();
     }
 
-    public function view(): MorphOne{
-        return $this->morphOne(PageView::class, 'page');
+    public function pageViews()
+    {
+        return $this->morphMany(PageView::class, 'page');
     }
 }

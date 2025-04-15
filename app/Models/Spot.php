@@ -40,10 +40,10 @@ class Spot extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function views()
-    {
-        return $this->hasMany(View::class);
-    }
+    // public function views()
+    // {
+    //     return $this->hasMany(View::class);
+    // }
 
     public function view(): MorphOne{
         return $this->morphOne(PageView::class, 'page');
@@ -57,12 +57,14 @@ class Spot extends Model
         return $this->hasMany(SpotComment::class);
     }
 
-    public function pageViews(){
-        return $this->hasMany(PageView::class);
-    }
 
     public function isLiked(){
         return $this->spotLikes()->where('user_id', Auth::user()->id)->exists();
+    }
+
+    public function pageViews()
+    {
+        return $this->morphMany(PageView::class, 'page');
     }
     
 }

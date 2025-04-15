@@ -160,7 +160,7 @@
                 </div>
                 <div class="col-2 ms-1 px-0">
                     <button class="dropdown-item text-dark">
-                        {{-- <span>{{ $post['views_count'] }}</span> --}}
+                        <span>{{ $post['views_count'] }}</span>
                     </button>
                 </div>
             </div>

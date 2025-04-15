@@ -12,4 +12,6 @@ class PageView extends Model
     public function page(): MorphTo{
         return $this->morphTo();
     }
+
+    
 }
