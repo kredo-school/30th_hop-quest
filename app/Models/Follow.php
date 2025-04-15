@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Follow extends Model
 {
     public $timestamps = false;
+
+    protected $fillable = ['follower_id', 'followed_id'];
     
     //follow belongs to user (opposite to follows())
     public function followed(){

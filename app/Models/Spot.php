@@ -26,6 +26,9 @@ class Spot extends Model
     }
 
     public function isLiked(){
+        if (!Auth::check()) {
+            return false;
+        }
         return $this->spotLikes()->where('user_id', Auth::user()->id)->exists();
     }
 
