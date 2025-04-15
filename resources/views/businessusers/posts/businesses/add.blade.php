@@ -40,27 +40,7 @@
                         <input type="text" name="name" id="name" value="{{ old('name') }}" class="form-control">
                     </div>
                 </div>
-                {{-- @push('scripts') --}}
-                <!-- JavaScript -->
-                <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        var select = document.getElementById("category_id"); 
-                        var label = document.getElementById("name-label");
-                        // 初期表示時にも選択されていれば変更
-                        updateLabel();
-                        
-                        select.addEventListener("change", function() {
-                            updateLabel();
-                        });
-                        function updateLabel() {
-                            if (select.value == "1") {
-                                label.innerHTML = "Location Name<span class='text-danger'>*</span>";
-                            } else if (select.value == "2") {
-                                label.innerHTML = "Event Name<span class='text-danger'>*</span>";
-                            }
-                        }
-                    });
-                </script>
+                <script src="{{ asset('js/business.js') }}"></script>
 
                 <!-- Contact Information Form -->
                 @include('businessusers.posts.businesses.partials.contact-information')

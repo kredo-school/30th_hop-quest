@@ -21,6 +21,8 @@ class BusinessController extends Controller
     private $user;
     private $business;
     private $photo;
+    private $business_promotion;
+    private $business_hour;
 
     public function __construct(Photo $photo, Business $business, User $user, BusinessPromotion $business_promotion, BusinessHour $business_hour){
         $this->photo = $photo;

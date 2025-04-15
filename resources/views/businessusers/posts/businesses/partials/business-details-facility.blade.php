@@ -1,29 +1,3 @@
-@php
-// BusinessFacility.phpのコンストラクタから移植したロジック
-$amenities = $amenities ?? [
-    'Accessibility' => [
-        'Wheelchair accessible', 'Elevator access', 'Accessible parking',
-        'Accessible restroom', 'Braille signage', 'Hearing loop system'
-    ],
-    'Facilities' => [
-        'Free Wi-Fi', 'Public restroom', 'Parking available',
-        'Bicycle parking', 'Changing room', 'Shower facilities'
-    ],
-    'Payment Options' => [
-        'Credit cards accepted', 'Google Pay and Apple Pay', 'Cash only', 'Cash accepted',
-        'Visa and Mastercard contactless payment', 'bitcoin payment'
-    ],
-    'Smoking Policy' => [
-        'Completely non-smoking', 'Smoking area available',
-        'Designated smoking rooms', 'Outdoor smoking section',
-        'Smoking permitted throughout'
-    ],
-];
-// チェック済みアイテムの取得ロジック
-$checkedDetailItems = $checkedDetailItems ?? [];
-@endphp
-
-<!-- 先ほど送っていただいたBladeテンプレートコード -->
 <div class="row">
     <div class="accordion mb-4" id="detailsAccordion">
         @foreach($amenities as $category => $options)

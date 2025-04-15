@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('title', 'Edit A Business - Location or Event')
@@ -44,33 +43,7 @@
                         </div>
 
                         <!-- インラインスクリプトで確実に実行 -->
-                        <script>
-                            // ページ読み込み完了時に実行
-                            document.addEventListener("DOMContentLoaded", function() {
-                                // 要素の取得
-                                var categorySelect = document.getElementById("category_id");
-                                var nameLabel = document.getElementById("name-label");
-                                
-                                // 要素が見つからない場合は処理を終了
-                                if (!categorySelect || !nameLabel) return;
-                                
-                                // ラベル更新関数
-                                function updateNameLabel() {
-                                    if (categorySelect.value == "1") {
-                                        nameLabel.innerHTML = "Location Name<span style='color: #D24848;'>*</span>";
-                                    } else if (categorySelect.value == "2") {
-                                        nameLabel.innerHTML = "Event Name<span style='color: #D24848;'>*</span>";
-                                    }
-                                }
-                                
-                                // セレクト変更時にラベルを更新
-                                categorySelect.addEventListener("change", updateNameLabel);
-                                
-                                // 初期表示時にも実行
-                                updateNameLabel();
-                            });
-                        </script>
-
+                        <script src="{{ asset('js/business.js') }}"></script>
 
                         <!-- Contact Information Form -->
                         @include('businessusers.posts.businesses.partials.contact-information')
