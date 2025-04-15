@@ -9,8 +9,11 @@
 
 @section('content')
     @if ($user)
-        <div class="container-fluid">
-            <div class="header-container"></div>
+        <div class="container-fluid px-0">
+            <div class="header-container mt-3 px-0">
+                <img src="{{ $user->header ?? asset('images/profiles/header.jpg') }}" alt="Header Image" class="w-100"
+                    style="height: 360px; object-fit: cover;">
+            </div>
 
             <div class="row mx-5">
                 <!-- Sidebar -->
@@ -23,16 +26,18 @@
                     <div class="profile-container p-4 mx-4">
                         {{-- Profile Header --}}
                         <div class="row align-items-center text-white text-center">
-                            <div class="col-md-2 avatar-container d-flex justify-content-center">
-                                <img src="{{ $user['avatar'] }}" class="avatar">
+                            <div class="col-md-2 mt-4 avatar-container d-flex justify-content-center">
+                                <img src="{{ $user->avatar ?? asset('images/profiles/avatar.jpg') }}" alt="Avatar"
+                                    class="rounded-circle border border-white shadow" width="150" height="150"
+                                    style="object-fit: cover;">
                             </div>
-                            <div class="col-md-4 text-start">
+                            <div class="col-md-4 mt-3 text-start">
                                 <h4 class="username">{{ $user['name'] }}</h4>
                             </div>
-                            <div class="col-md-3 text-center">
+                            <div class="col-md-3 mt-4 text-center">
                                 <button class="btn btn-info text-white rounded fw-bold fs-5 w-75">FOLLOW</button>
                             </div>
-                            <div class="col-md-3 text-center">
+                            <div class="col-md-3 mt-4 text-center">
                                 <button class="btn btn-info text-white rounded fw-bold fs-5 w-75">MESSAGE</button>
                             </div>
                         </div>

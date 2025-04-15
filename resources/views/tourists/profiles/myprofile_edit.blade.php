@@ -8,63 +8,24 @@
 @endsection
 
 @section('content')
-    <div class="container mb-5" style="margin-top: 100px;">
-        <div class="profile-container">
-            <label class="header d-block mb-3" style="cursor: pointer;">
-                <input type="file" id="headerInput" accept="image/*" class="d-none">
-                <img id="headerPreview" src="{{ asset('images/profiles/header.jpg') }}" alt="Header Image">
-            </label>
-            <label class="avatar">
-                <input type="file" id="avatarInput" accept="image/*">
-                <img id="avatarPreview" src="{{ asset('images/profiles/avatar.jpg') }}" alt="Avatar Image">
-            </label>
-        </div>
+    <div class="container mb-5 profile-edit-spacing">
+        <form action="{{ route('myprofile.update', $user['id']) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PATCH')
 
-        <!-- Header Image -->
-        {{-- <div class="mb-4" style="margin-top: 100px;">
-            @if ($user['header'])
-                <div class="header-container mb-2">
-                    <label>
-                        <span class="header">&#128100;</span>
-                        <span class="camera">&#128247;</span>
-                        <input type="file" name="header">
-                    </label>
+            <div class="profile-container">
+                <label class="header d-block mb-3">
+                    <input type="file" id="header" name="header" accept="image/*" class="d-none">
+                    <img id="headerPreview" src="{{ asset('images/profiles/header.jpg') }}" alt="Header Image">
+                </label>
+                <label class="avatar">
+                    <input type="file" id="avatar" name="avatar" accept="image/*">
+                    <img id="avatarPreview" src="{{ asset('images/profiles/avatar.jpg') }}" alt="Avatar Image">
+                </label>
+            </div>
 
-                </div>
-            @endif
-           
-            <div class="form-text">Supported: jpeg, jpg, png, gif (max 1048Kb)</div>
-            @error('header')
-                <div class="text-danger small">{{ $message }}</div>
-            @enderror
-        </div> --}}
-
-        <!-- Avatar Image -->
-        {{-- <div class="mb-4">
-            @if ($user['avatar'])
-                <div class="avatar-container mb-2">
-                    <label>
-                        <span class="user">&#128100;</span>
-                        <span class="camera">&#128247;</span>
-                        <input type="file" name="avatar">
-                    </label>
-                  
-                </div>
-            @endif
-          
-            <div class="form-text">Supported: jpeg, jpg, png, gif (max 1048Kb)</div>
-            @error('avatar')
-                <div class="text-danger small">{{ $message }}</div>
-            @enderror
-        </div> --}}
-
-        <!-- Profile Form -->
-        <div class="card rounded bg-white px-5 py-3 mt-5">
-            <h3 class="text-center mb-4 fw-bold">Edit Profile</h3>
-
-            <form action="{{ route('myprofile.update', $user['id']) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PATCH')
+            <div class="card rounded bg-white px-5 py-3 mt-5">
+                <h3 class="text-center mb-4 fw-bold">Edit Profile</h3>
 
                 <!-- Username -->
                 <div class="mb-3">
@@ -125,8 +86,8 @@
                     <div class="text-center">
                         <button type="submit" class="btn btn-success px-5">SAVE</button>
                     </div>
-            </form>
-        </div>
+        </form>
+    </div>
     </div>
 
     <!-- Password Change -->

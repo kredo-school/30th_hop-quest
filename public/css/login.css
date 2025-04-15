@@ -1,5 +1,6 @@
 body {
-    background-image: url('/images/town.jpg');
+    background: url('/images/town.jpg') no-repeat center center;
+    background-size: cover;
 }
 
  .container-login{

@@ -147,17 +147,17 @@ Route::get('/register/tourist', [App\Http\Controllers\Auth\RegisterController::c
 Route::post('/store/tourist', [App\Http\Controllers\Auth\RegisterController::class, 'storeTourist'])->name('register.submit');
 
 // tourists profile
+
+Route::get('/myprofile', [TouristProfileController::class, 'myProfileShow'])->name('myprofile');
 Route::middleware('auth')->group(
     function () {
         Route::get('/myprofile/edit', [TouristProfileController::class, 'edit'])->name('myprofile.edit');
         Route::patch('/myprofile/update', [TouristProfileController::class, 'update'])->name('myprofile.update');
     }
 );
-// Route::get('/profile/{id}', [TouristProfileController::class, 'show'])->name('profile.show');
-
-// tourists profile
 Route::get('/myprofile', [TouristProfileController::class, 'myProfileShow'])->name('myprofile.show');
 Route::get('/profile/{id}', [TouristProfileController::class, 'showOtherProfile'])->name('profile.show');
+
 
 // Password Update
 Route::patch('/password/update', [TouristProfileController::class, 'updatePassword'])->name('password.update');

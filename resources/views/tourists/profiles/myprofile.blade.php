@@ -9,8 +9,11 @@
 
 @section('content')
     @if ($user)
-        <div class="container-fluid">
-            <div class="header-container"></div>
+        <div class="container-fluid px-0">
+            <div class="header-container mt-3 px-0">
+                <img src="{{ $user->header ?? asset('images/profiles/header.jpg') }}" alt="Header Image" class="w-100"
+                    style="height: 470px; object-fit: cover;">
+            </div>
 
             <div class="row mx-5">
                 <!-- Sidebar -->
