@@ -126,7 +126,6 @@ class QuestController extends Controller{
             abort(403, 'Unauthorized action.');
         }
 
-
         // dayList 作成（これは今のままでOK）
         $dayList = [];
         $dayNumber = 1;

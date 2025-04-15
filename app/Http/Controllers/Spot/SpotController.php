@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Spot;
 use App\Models\User;
 
-class IndexController extends Controller
+class SpotController extends Controller
 {
     private $spot;
     private $user;
@@ -83,3 +83,4 @@ class IndexController extends Controller
         return redirect()->route('spot.show', $spot->id);
     }
 }
+

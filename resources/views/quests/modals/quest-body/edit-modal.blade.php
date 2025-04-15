@@ -80,8 +80,8 @@
 
                     <div class="row pb-3 pe-0">
                         <label for="edit-image-{{ $questbody->id }}" class="form-label p-2">Photos</label>
-                        <div class="col-9">
-                            <input type="file" name="images[]" id="edit-image-{{ $questbody->id }}" class="custom-file-input form-control" multiple>
+                        <div class="col-12">
+                            <input type="file" name="images[]" id="edit-image-{{ $questbody->id }}" class="custom-file-input form-control w-100" multiple>
                             <p id="image-error-{{ $questbody->id }}" class="text-danger small d-none">Please upload at least one image</p>
                             <div class="hidden-image-inputs" id="hidden-inputs-{{ $questbody->id }}">
                             </div>
@@ -91,11 +91,11 @@
                             window.questBodyImages[{{ $questbody->id }}] = @json($existingImages);
                         </script>
                         
-                        <div class="col-3 pe-0">
+                        {{-- <div class="col-3 pe-0">
                             <button type="button" class="btn btn-green custom-file-label w-100" id="upload-btn-{{ $questbody->id }}">
                                 <i class="fa-solid fa-plus icon-xs d-inline"></i> Photo
                             </button>
-                        </div>
+                        </div> --}}
                         <div class="row">
                             <p class="mt-0 xsmall">
                                 Acceptable formats: jpeg, jpg, png, gif only.<br>Max size is 1048 KB
@@ -148,3 +148,4 @@
     </div>
 </div>
 @vite(['resources/js/quest/quest-body/edit-questbody-modal.js'])
+
