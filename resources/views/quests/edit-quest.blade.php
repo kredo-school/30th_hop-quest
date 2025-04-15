@@ -1,3 +1,4 @@
+{{-- Edit-quest.blade --}}
 @extends('layouts.app')
 
 @section('css')
@@ -72,45 +73,45 @@
 
                     {{-- 入力欄：role 2 の場合、縦並び --}}
                     @if ($isRole2)
-                    <div class="row">
-                        {{-- Business name --}}
-                        <div class="col-lg-5 position-relative mt-2">
-                            @php
-                                $firstBody = isset($questBodies) && $questBodies->isNotEmpty() ? $questBodies->first() : null;
-                                $isBusinessLocked = $firstBody && $firstBody->business;
-                            @endphp
-                    
-                            <input 
-                                type="text" 
-                                name="spot_name" 
-                                id="spot_name" 
-                                value="{{ old('spot_name', $firstBody?->business->name ?? '') }}" 
-                                class="input-box form-control w-100 mb-0"
-                                @if ($isBusinessLocked) disabled @endif
-                            >
-                    
-                            <input type="hidden" name="spot_business_type" id="spot_business_type" value="{{ old('spot_business_type', $firstBody?->business ? 'business' : 'spot') }}">
-                            <input type="hidden" name="spot_business_id" id="spot_business_id" value="{{ old('spot_business_id', $firstBody?->business->id ?? '') }}">
-                    
-                            @error('spot_name')
-                                <p class="text-danger small">{{ $message }}</p>
-                            @else
-                                <p id="spot-error" class="text-danger small d-none">Please choose a business.</p>
-                            @enderror
-                    
-                            <div id="searchResults" class="search-results mt-0"></div>
-                        </div>
-                    
-                        @if ($isBusinessLocked)
-                            <div class="col-lg-6 m-0 p-0">
-                                <p class="xsmall text-secondary m-0">
-                                    **You cannot include other businesses in this Quest.
-                                    If you want to create a model Quest for a different business, please start a new Quest.
-                                </p>
+                        <div class="row">
+                            {{-- Business name --}}
+                            <div class="col-lg-5 position-relative mt-2">
+                                @php
+                                    $firstBody = isset($questBodies) && $questBodies->isNotEmpty() ? $questBodies->first() : null;
+                                    $isBusinessLocked = $firstBody && $firstBody->business;
+                                @endphp
+                        
+                                <input 
+                                    type="text" 
+                                    name="spot_name" 
+                                    id="spot_name" 
+                                    value="{{ old('spot_name', $firstBody?->business->name ?? '') }}" 
+                                    class="input-box form-control w-100 mb-0"
+                                    @if ($isBusinessLocked) disabled @endif
+                                >
+                        
+                                <input type="hidden" name="spot_business_type" id="spot_business_type" value="{{ old('spot_business_type', $firstBody?->business ? 'business' : 'spot') }}">
+                                <input type="hidden" name="spot_business_id" id="spot_business_id" value="{{ old('spot_business_id', $firstBody?->business->id ?? '') }}">
+                        
+                                @error('spot_name')
+                                    <p class="text-danger small">{{ $message }}</p>
+                                @else
+                                    <p id="spot-error" class="text-danger small d-none">Please choose a business.</p>
+                                @enderror
+                        
+                                <div id="searchResults" class="search-results mt-0"></div>
                             </div>
-                        @endif
-                    </div>
-                    
+                        
+                            @if ($isBusinessLocked)
+                                <div class="col-lg-6 m-0 p-0">
+                                    <p class="xsmall text-secondary m-0">
+                                        **You cannot include other businesses in this Quest.
+                                        If you want to create a model Quest for a different business, please start a new Quest.
+                                    </p>
+                                </div>
+                            @endif
+                        </div>
+                        
 
                         <div class="row">
                             {{-- Place name --}}
@@ -170,47 +171,49 @@
                                     <i class="fa-solid fa-plus icon-xs d-inline"></i> ADD SPOT
                                 </a>
                             </div>
+                        </div>
                     @endif
 
-                    <div class="row">
-                        <div class="row pb-3 pe-0">
+                    <div class="row mx-0 px-0 text-center">
+                        <div class="text-start pb-3 px-0">
                             <label for="image" class="form-label p-2">Photos</label>
-                            <div class="col-9">
-                                <input type="file" id="image" class="custom-file-input form-control input-box" multiple>
-                                <p id="image-error" class="text-danger small d-none">Please upload at leaset one imaage.</p>
+                            <div class="col-12 px-0">
+                                <input type="file" id="image" class="custom-file-input form-control input-box w-100" multiple>
+                                <p id="image-error" class="text-danger small d-none">Please upload at leaset one image.</p>
                             </div>
-                            <div class="col-3 pe-0">
-                                <button type="button" class="btn btn-green custom-file-label w-100 me-0" id="upload-btn">
+                            <div class="col-3">
+                                <button type="button" class="btn btn-green custom-file-label w-100 me-0 d-none" id="upload-btn">
                                     <i class="fa-solid fa-plus icon-xs d-inline"></i>Photo
                                 </button>
                             </div>
                         </div>
-                        <div class="row">
-                            <p class="mt-0 xsmall">
+                            <p class="mt-0 xsmall text-start">
                                 Acceptable formats: jpeg, jpg, png, gif only.<br>Max size is 1048 KB
                             </p>
-                        </div>
                     </div>
             
                     <div id="uploaded-file-names" class="row flex-nowrap overflow-auto mt-2"></div>
             
-                    <div class="row">
-                        <label for="introduction" class="form-label p-2">Description</label>
-                        <textarea id="introduction" name="introduction" class="text-area mx-2 input-box" rows="5" placeholder="How was your experience there!">{{ old('introduction') }}</textarea>
-                        @error('introduction')
-                            <p class="text-danger small">{{ $message }}</p>
-                        @else
-                            <p id="intro-error" class="text-danger small d-none">please enter a description.</p>
-                        @enderror
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label for="introduction" class="form-label">Description</label>
+                        </div>
+                        <div class="col-12">
+                            <textarea id="introduction" name="introduction" class="text-area input-box w-100" rows="7" placeholder="How was your experience there!">{{ old('introduction') }}</textarea>
+                            @error('introduction')
+                                <p class="text-danger small">{{ $message }}</p>
+                            @else
+                                <p id="intro-error" class="text-danger small d-none">please enter a description.</p>
+                            @enderror
+                        </div>
                     </div>
             
-                    <div class="row">
+                    <div class="row px-0">
                         <div class="form-check form-switch mx-2">
                             <input type="checkbox" name="agenda" id="agenda" class="form-check-input" {{ old('agenda', '1') ? 'checked' : '' }}>
                             <label for="agenda" class="form-check-label radio-inline raleway-semibold">Add to Agenda</label>
                             <p class="mt-0 xsmall">
-                                The Agenda will display a summary of your Quest. You can select up to three items per day. <br>
-                                You can later modify the content displayed in the Agenda on the Edit page.
+                                The Agenda shows a summary of your Quest by listing the place names you’ve selected. You can freely choose whether to display each item in the Agenda, and you can change this later anytime from the Edit page.
                             </p>
                         </div>
                     </div>
@@ -410,6 +413,7 @@
 {{-- 編集モーダルの JS --}}
 @vite(['resources/js/quest/edit-quest.js'])
 @endsection
+
 
 
 

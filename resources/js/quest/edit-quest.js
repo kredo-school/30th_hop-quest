@@ -22,17 +22,9 @@
         // **「追加」ボタンを無効化**
         uploadBtn.disabled = true;
     
-        // **ファイルが選択されたら「追加」ボタンを有効化**
+        // **ファイルが選択されたときの処理**
         fileInput.addEventListener("change", function () {
-            uploadBtn.disabled = fileInput.files.length === 0;
-        });
-    
-        // **「追加」ボタンが押されたときの処理**
-        uploadBtn.addEventListener("click", function (event) {
-            event.preventDefault(); // デフォルトのボタン動作を防ぐ
-    
             if (fileInput.files.length === 0) {
-                alert("ファイルを選択してください");
                 return;
             }
     
@@ -550,4 +542,5 @@ window.addEventListener("resize", adjustDescriptionHeight);
         });
     });
     
+
 
