@@ -38,7 +38,7 @@
                     <tr>
                         {{-- <td>{{$user->id}}</td> --}}
                         <td >
-                            <a href="{{route('profile.businesses', $comment['user_id'])}}" class="text-decoration-none text-dark fw-bold">
+                            <a href="{{route('profile.header', $comment['user_id'])}}" class="text-decoration-none text-dark fw-bold">
                             @if($comment['user_avatar'])
                                 <img src="{{ $comment['user_avatar'] }}" alt="" class="rounded-circle avatar-sm d-block mx-auto">
                             @else
@@ -50,7 +50,7 @@
                             <a href="#" class="text-decoration-none text-dark" >{{ $comment['user_name'] }}</a>
                         </td>
                         <td class="">
-                            <a href="{{route('profile.businesses', $comment['user_id'])}}" class="text-decoration-none text-dark">{{$comment['content']}}</a>
+                            <a href="{{route('profile.header', $comment['user_id'])}}" class="text-decoration-none text-dark">{{$comment['content']}}</a>
                         </td>
                         <td>
                             {{date('M d, Y H:i:s', strtotime($comment['created_at']))}}
