@@ -18,4 +18,8 @@ class SpotLike extends Model
     public function spot(){
         return $this->belongsTo(Spot::class);
     }
+
+    public function postRelation(){
+        return $this->morphTo(); // あるいは特定のPostモデルへのbelongsTo
+    }
 }

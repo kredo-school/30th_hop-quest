@@ -17,13 +17,15 @@ class SpotComment extends Model
         return $this->belongsTo(Spot::class);
     }    
  
-    public function likes()
-    {
+    public function spotCommentlikes(){
         return $this->hasMany(SpotCommentLike::class);
     }
 
-    public function user()
-    {
+    public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function isLiked(){
+        return $this->spotCommentLikes()->where('user_id', Auth::user()->id)->exists();
     }
 } 

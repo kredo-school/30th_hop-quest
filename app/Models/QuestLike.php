@@ -18,4 +18,8 @@ class QuestLike extends Model
     public function quest(){
         return $this->belongsTo(Quest::class);
     }
+
+    public function postRelation(){
+        return $this->morphTo(); // あるいは特定のPostモデルへのbelongsTo
+    }
 }

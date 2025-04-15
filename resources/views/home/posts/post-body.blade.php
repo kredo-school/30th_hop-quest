@@ -16,7 +16,7 @@
             </a>
         </div>
 
-        <div class="card-body post">  
+        <div class="card-body content-lg">  
             <div class="row mb-3">
                 @if (Request::is('home/posts/all*') || Request::is('home/posts/followings*'))
                 {{-- Category --}}

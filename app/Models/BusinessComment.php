@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -31,5 +32,9 @@ class BusinessComment extends Model
     // Review → Spot（対象スポット）
     public function businessRelation(){
         return $this->belongsTo(Business::class, 'business_id');
+    }
+
+    public function isLiked(){
+        return $this->businessCommentLikes()->where('user_id', Auth::user()->id)->exists();
     }
 }

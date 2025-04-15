@@ -44,32 +44,31 @@
         </div>
 
         @if($post['type'] == 'businesses')
-            <div class="card-body content-sm"> 
+            <div class="card-body content-md"> 
         @elseif($post['type'] == 'quests')
             <div class="card-body content-md"> 
         @elseif($post['type'] == 'promotions')
             <div class="card-body">  
+        @elseif($post['type'] == 'spots')
+            <div class="card-body content-md">  
         @endif
             <div class="row mb-3">
-                @if ($post['type']== 'businesses')
+                {{-- @if ($post['type']== 'businesses') --}}
                 <!-- Category -->
-                    <div class="col-md-auto col-sm-12 p-0">
-                        <h5 class="card-subtitle">Category: 
-                            @if($post['category_id']==1)
-                                <strong>Location</strong>
-                            @elseif($post['category_id']==2)
-                                <strong>Event</strong>
-                            @endif
-                        </h5>
+                    <div class="col-md-auto col-sm-12 p-0">                      
+                        @if($post['category_id']==1)
+                            <h5 class="card-subtitle">Category: <strong>Location</strong></h5>
+                        @elseif($post['category_id']==2)
+                            <h5 class="card-subtitle">Category: <strong>Event</strong></h5>
+                        @elseif($post['type']== "quests")
+                            <h5 class="card-subtitle">Category: <strong>Quest</strong></h5>
+                        @elseif($post['type']== "spots")
+                            <h5 class="card-subtitle">Category: <strong>Spot</strong></h5>
+                        @elseif($post['tab_id']==3)
+                            <h5 class="card-subtitle fw-bold">{{ $post['business_name']}}</h5>
+                        @endif                    
                     </div>
-                @endif
-                
-                <!-- Related business of promotion -->
-                @if($post['tab_id']==3)
-                <div class="col-md-auto col-sm-12 p-0">
-                    <h5 class="card-subtitle fw-bold">{{ $post['business_name']}}</h5>
-                </div>
-                @endif
+
                 <!-- Postdate -->
                 <div class="col-md-auto col-sm-12 pe-0 ms-auto">
                     @if($post['updated_at'])
@@ -111,7 +110,7 @@
             </div> 
             @endif
             
-            @if($post['type'] == 'businesses' || $post['type'] == 'quests')
+            @if($post['type'] == 'businesses' || $post['type'] == 'quests' || $post['type'] == 'spots')
             {{-- Heart icon & Like function --}}
             <div class="row align-items-center ">
                 <div class="col-1 ms-2 p-0 mt-3">

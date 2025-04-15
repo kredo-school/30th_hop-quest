@@ -14,9 +14,15 @@ class QuestCommentLike extends Model
         'quest_comment_id', // ← これを追加！
     ];
 
-    //Quest_omment_like belongs to user
+    public function questComment(){
+        return $this->belongsTo(QuestComment::class);
+    }
+
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    
+
 }
 

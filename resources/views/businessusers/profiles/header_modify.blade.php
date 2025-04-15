@@ -11,6 +11,7 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/post-body.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}"> 
+    <link rel="stylesheet" href="{{asset('css/profiles/profile.css')}}"> 
 @endsection
 
 @section('content')
@@ -46,7 +47,7 @@
                             <h3 class="mb-1 text-truncate fw-bold pb-2">{{ $user->name }}</h3>
                         </div>
                         <div class="col-md-1 col-sm-1 pb-2 p-1">
-                            @if($user->official_certification == 2)
+                            @if($user->official_certification == 3)
                                 <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0 avatar-xs" alt="official-personal"> 
                             @endif
                         </div>
@@ -109,8 +110,11 @@
                         @endif --}}
                     </div> 
                     <div class="row mb-3">
-                        @include('businessusers.profiles.partial.counter')
-                    </div>    
+                        @include('businessusers.profiles.partial.counter_post_follow')
+                    </div>  
+                    <div class="row mb-3">
+                        @include('businessusers.profiles.partial.counter_like_comment')
+                    </div>  
                 </div> 
             
             {{-- introduction --}}
@@ -128,14 +132,14 @@
     {{-- === コンテンツ表示（Switch） === --}}
     
         <div class="row justify-content-center mt-5">
+            @if ($section == 'followers')
                 <!--Follower-->    
-                <div class="col-6">
-                    <div class="row mb-3 align-items-center ">
-                        @if ($section == 'followers')
-                            <h3 class="text-center mb-3">Followers</h3>                            
+                <div class="col-8">
+                    <div class="row mb-3 align-items-center ">                     
+                        <h3 class="text-center mb-3">Followers</h3>                            
                             <ul class="list-group">
                                 @forelse($user->followers as $follower)  
-                                    <div class="row bg-white p-2 rounded-4 mb-3 d-flex align-items-center">                 
+                                    <div class="row bg-white p-2 mx-5 rounded-4 mb-3 d-flex align-items-center">                 
                                         <div class="col-auto">
                                             {{-- icon/avatar --}}
                                             {{-- <a href="{{route('profile.show', $follower->follower->id)}}"> --}}
@@ -173,17 +177,23 @@
                                                     </form>
                                                 @endif
                                             @endif
-                                        </div>
+                                        </div>                                      
                                     </div> 
                                 @empty
                                     <h4 class="h4 text-center text-secondary">No followers yet</h4>
                                 @endforelse   
                             </ul>
-                        @elseif ($section == 'follows')
-                            <h3 class="text-center mb-3">Following</h3>                            
+                             <div class="d-flex justify-content-end mb-5">
+                                {{ $followers->links() }}
+                            </div>
+            <!--Following-->
+            @elseif ($section == 'follows')
+                <div class="col-8">
+                    <div class="row mb-3 align-items-center ">
+                        <h3 class="text-center mb-3">Following</h3>                            
                             <ul class="list-group">
                                 @forelse($user->follows as $following)
-                                    <div class="row bg-white p-2 rounded-4 mb-3 d-flex align-items-center">
+                                    <div class="row bg-white p-2 mx-5 rounded-4 mb-3 d-flex align-items-center">
                                         <div class="col-auto">
                                             {{-- icon/avatar --}}
                                             <a href="{{route('profile.header', $following->followed->id)}}">
@@ -224,22 +234,116 @@
                                     <h4 class="h4 text-center text-secondary">No following yet</h4>
                                 @endforelse   
                             </ul>
+                            <div class="d-flex justify-content-end mb-5">
+                                {{ $follows->links() }}
+                            </div>
+                <!--Likes-->
+                @elseif ($section == 'likes')
+                    <div class="col-12">
+                        <div class="row mb-3 align-items-center ">
+                            <div class="row justify-content-center">
+                                {{-- Liked Posts --}}
+                                <div class="row mb-1 mt-4">
+                                    @forelse($likedPosts as $post)
+                                        <div class="col-lg-4 col-md-6 col-sm">
+                                            @include('businessusers.profiles.post-body-profile')
+                                        </div>         
+                                    @empty
+                                        <h4 class="h4 text-center text-secondary">No posts yet</h4>
+                                    @endforelse
+                                </div>
+                                <div class="d-flex justify-content-end mb-5">
+                                    {{ $likedPosts->links() }}
+                                </div>
+                            </div>
+                <!--Comment-->
+                @elseif ($section == 'comments')
+                    <div class="col-9">
+                        <div class="row mb-3 align-items-center ">
+                            <h3 class="text-center mb-3">Comments</h3>                            
+                            <ul class="list-group">
+                                @forelse($commentedPosts as $comment)
+                                    <div class="row bg-white p-2 rounded-2 mb-3 d-flex align-items-center">
+                                        <div class="row mb-2">
+                                            <div class="col-auto" rowspan="2">
+                                                <img src="{{$comment['main_image']}}" alt="" class="img-sm">
+                                            </div>
+                                            <div class="col">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <span class="fw-light text-dark">To: </span>
+                                                        <a href="#" class="text-decoration-none text-dark fw-bold my-auto">
+                                                            {{$comment['title']}} 
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                                                      
+                                                {{-- <div class="row">
+                                                    <div class="col text-dark">(<span class="fw-light"> posted by </span> {{$business_comments->user->name}} )
+                                                    </div>
+                                                </div> --}}
+                                                <hr class="color-navy">
+                                                <div class="row">
+                                                    <div class="col-auto">
+                                                        <a href="#" class="text-decoration-none text-dark profile-comment">
+                                                            {{$comment['comment']}}
+                                                        </a>  
+                                                    </div>  
+                                                    <div>
+                                                        <div class="col-auto text-end text-secondary">{{$comment['created_at']}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- <hr class="color-navy">
+                                        <div class="row">
+                                            <div class="col ms-5 text-truncate mt-0 mb-2">
+                                                <!-- name -->
+                                                <a href="#" class="text-decoration-none text-dark">
+                                                    {{$comment['comment']}}
+                                                </a>                                               
+                                            </div>
+                                            <div class="col-4 text-end text-secondary">{{$comment['created_at']}}
+                                            </div>
+                                        </div>   --}}
+                                    </div>
+
+                                @empty
+                                    <h4 class="h4 text-center text-secondary">No comments yet</h4>
+                                @endforelse
                         @else
                     </div>
                 </div>
-                @switch($tab)
-                    @case('businesses')
-                        @include('businessusers.posts.businesses.show_body', ['businesses' => $businesses])
-                        @break
-                    @case('promotions')
-                        @include('businessusers.posts.promotions.show_body', ['promotions' => $business_promotions])
-                        @break
-                    @case('quests')
-                        @include('businessusers.profiles.quests', ['quests' => $quests])
-                        @break
-                    @default
-                        @include('businessusers.posts.businesses.show_body', ['businesses' => $businesses])
-                @endswitch
+                @if($user->role_id == 1)
+                    @switch($tab)
+                        @case('quests')
+                            @include('businessusers.profiles.quests', ['quests' => $quests])
+                            @break
+                        @case('spots')
+                            @include('businessusers.profiles.spots', ['spots' => $spots])
+                            @break
+                        @case('likedPosts')
+                            @include('businessusers.profiles.liked_posts', ['likedPosts' => $likedPosts])
+                            @break
+                        @default
+                            @include('businessusers.profiles.quests', ['quests' => $quests])
+                    @endswitch
+                @elseif($user->role_id == 2)
+                    @switch($tab)
+                        @case('businesses')
+                            @include('businessusers.posts.businesses.show_body', ['businesses' => $businesses])
+                            @break
+                        @case('promotions')
+                            @include('businessusers.posts.promotions.show_body', ['promotions' => $business_promotions])
+                            @break
+                        @case('quests')
+                            @include('businessusers.profiles.quests', ['quests' => $quests])
+                            @break
+                        @default
+                            @include('businessusers.posts.businesses.show_body', ['businesses' => $businesses])
+                    @endswitch
+                @endif
             @endif
         </div>
     </div>   

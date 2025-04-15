@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,8 +19,11 @@ class QuestComment extends Model{
         return $this->belongsTo(User::class);
     }
 
-    //Quest_Comment has many Quest_Comment_likes
     public function questCommentlikes(){
-        return $this->hasMany(QuestCommentLike::class, 'quest_comment_id');
-     }
+        return $this->hasMany(QuestCommentLike::class);
+    }
+
+    public function isLiked(){
+        return $this->questCommentLikes()->where('user_id', Auth::user()->id)->exists();
+    }
 }

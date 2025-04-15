@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class BusinessCommentLike extends Model
 {
@@ -18,4 +19,6 @@ class BusinessCommentLike extends Model
     public function businessComment(){
         return $this->belongsTo(BusinessComment::class);
     }
+
+
 }
