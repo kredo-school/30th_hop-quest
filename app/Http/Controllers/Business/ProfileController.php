@@ -375,5 +375,4 @@ protected function getPaginatedPromotions(Request $request, $id){
     //     $this->business->destroy($id);
     //     return view('register.tourist');
     // }
-    
 }

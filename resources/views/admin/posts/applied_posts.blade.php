@@ -1,5 +1,5 @@
 <div class="bg-blue">
-@extends('layouts.app')
+@extends('admin.admin_main')
 
 @section('title', 'Admin: Applied Posts')
 
@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 @endsection
 
-@section('content')
+@section('sub_content')
 <div class="">
     <table class="table border bg-white table-hover align-middle text-secondary ">
         <thead class="table-primary text-secondary text-uppercase small">
