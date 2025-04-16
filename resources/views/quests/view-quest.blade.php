@@ -16,10 +16,16 @@
         @endphp
 
         <section class="position-relative my-5" id="header">
-            <img 
+            @if(Str::startsWith($quest_a->main_image, 'http') || Str::startsWith($quest_a->main_image, 'data:'))
+                <img src="{{ $quest_a->main_image }}" alt="header-img" class="img-fluid w-100 rounded-3 {{ $hasCertifiedBusiness ? 'border-quest-red' : '' }}">
+            @else
+                <img src="{{ asset('storage/' . $quest_a->main_image) }}" alt="header-img" 
+                class="img-fluid w-100 rounded-3 {{ $hasCertifiedBusiness ? 'border-quest-red' : '' }}">
+            @endif
+            {{-- <img 
                 src="{{ asset('storage/' . $quest_a->main_image) }}" 
                 alt="header-img" 
-                class="img-fluid w-100 rounded-3 {{ $hasCertifiedBusiness ? 'border-quest-red' : '' }}">
+                class="img-fluid w-100 rounded-3 {{ $hasCertifiedBusiness ? 'border-quest-red' : '' }}"> --}}
 
             @if($hasCertifiedBusiness)
                 <img src="{{ asset('images/logo/OfficialBadge.png') }}" alt="Certified Badge" class="official-badge avatar-xxl d-none d-md-block">

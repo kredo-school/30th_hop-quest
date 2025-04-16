@@ -219,6 +219,8 @@ protected function getPaginatedQuests(Request $request, $id){
                 'category_id' => null,
                 'tab_id' => 4,
                 'duration' => $item->duration,
+                'start_date' => $item->start_date,
+                'end_date' => $item->end_date,
                 'official_certification' => null,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
@@ -533,6 +535,7 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'title' => optional($item->business)->name,
                 'main_image' => optional($item->business)->main_image,
                 'comment' => $item->content,
+                'rating' => $item->rating,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, // ← 追加
@@ -558,7 +561,8 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'comment' => $item->content,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
-                'likes_count' => $item->likes_count, // ← 追加
+                'likes_count' => $item->likes_count, 
+                'rating' => null,
                 'is_liked' => $item->isLiked(),
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
                 'type' => 'spots', 
@@ -580,7 +584,8 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'comment' => $item->content,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
-                'likes_count' => $item->likes_count, // ← 追加
+                'likes_count' => $item->likes_count, 
+                'rating' => null,
                 'is_liked' => $item->isLiked(),
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
                 'type' => 'quests', 

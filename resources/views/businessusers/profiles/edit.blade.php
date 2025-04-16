@@ -1,4 +1,9 @@
-<div class="bg-blue">
+@if(Auth::user()->role_id == 1)
+    <div class="bg-navy text-white">
+@else
+    <div class="bg-blue text-dark">
+@endif
+
 @extends('layouts.app')
 
 @section('title', 'Edit Profiles')
@@ -177,7 +182,7 @@
 
         <div class="row mb-5">
             <div class="col">
-                <div class="row">
+                <div class="row mb-2">
                     <div class="col">
                         <label for="sns" class="form-label">Social media</label>
                     </div>
@@ -187,7 +192,7 @@
                 <div class="col-6">   
                     <div class="row">
                         <div class="col-1">
-                            <label for="instagram" class="form-label"><i class="fa-brands fa-instagram text-dark icon-md pe-2"></i></label>
+                            <label for="instagram" class="form-label"><i class="fa-brands fa-instagram icon-md pe-2"></i></label>
                         </div>
                         <div class="col">
                             <input type="text" name="instagram" id="instagram" value="{{old('instagram', Auth::user()->instagram)}}" class="form-control" placeholder="Instagram account name">
@@ -197,7 +202,7 @@
                 <div class="col-6">
                     <div class="row">
                         <div class="col-1">
-                            <label for="facebook" class="form-label"><i class="fa-brands fa-facebook text-dark icon-md pe-2"></i></label>
+                            <label for="facebook" class="form-label"><i class="fa-brands fa-facebook icon-md pe-2"></i></label>
                         </div>
                         <div class="col">
                             <input type="text" name="facebook" id="facebook" value="{{old('instagram', Auth::user()->facebook)}}" class="form-control" placeholder="facebook account name">
@@ -209,7 +214,7 @@
                 <div class="col-6">   
                     <div class="row">
                         <div class="col-1">
-                            <label for="x" class="form-label"><i class="fa-brands fa-x-twitter text-dark icon-md pe-2"></i></label>
+                            <label for="x" class="form-label"><i class="fa-brands fa-x-twitter icon-md pe-2"></i></label>
                         </div>
                         <div class="col">
                             <input type="text" name="x" id="x" value="{{old('x', Auth::user()->x)}}" class="form-control" placeholder="X account name">
@@ -219,7 +224,7 @@
                 <div class="col-6">
                     <div class="row">
                         <div class="col-1">
-                            <label for="tiktok" class="form-label"><i class="fa-brands fa-tiktok text-dark icon-md pe-2"></i></label>
+                            <label for="tiktok" class="form-label"><i class="fa-brands fa-tiktok icon-md pe-2"></i></label>
                         </div>
                         <div class="col">
                             <input type="text" name="tiktok" id="tiktok" value="{{old('tiktok', Auth::user()->tiktok)}}" class="form-control" placeholder="tiktok account name">
@@ -232,6 +237,7 @@
         <div class="row mt-3 justify-content-center">
             <div class="col-4 ">                        
                 <button type="submit" class="btn btn-green w-100 mb-2">SAVE</button>
+                @if(Auth::user()->role_id == 2)
                 <input type="checkbox" class="form-check-input mb-2" name="official_certification" id="official_certification" value="2" 
                 {{ old('official_badge', Auth::user()->official_certification == 2) ? 'unchecked' : '' }}
                 > Apply for Official certification badge

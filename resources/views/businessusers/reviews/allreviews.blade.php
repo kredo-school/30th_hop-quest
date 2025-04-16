@@ -1,10 +1,12 @@
 <div class="bg-blue">
     @extends('layouts.app')
-    
-    @section('title', 'All Reviews')
+
+    @section('title', 'Posts')
     
     @section('css')
-        <link rel="stylesheet" href="{{ asset('css/review.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/review.css')}}">
+        {{-- <link rel="stylesheet" href="{{asset('css/style.css')}}"> 
+        <link rel="stylesheet" href="{{asset('css/profiles/profile.css')}}">  --}}
     @endsection
     
     @section('content')

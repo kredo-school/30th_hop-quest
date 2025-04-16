@@ -34,7 +34,7 @@ class BusinessPromotionController extends Controller
             'title' => 'required',
             'business_id' => 'required',
             'introduction' => 'required|max:2000',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:1024',
         ]);
 
         $this->business_promotion->title = $request->title;
@@ -47,12 +47,11 @@ class BusinessPromotionController extends Controller
         $this->business_promotion->user_id = Auth::user()->id;
         $this->business_promotion->image = "data:photo/".$request->image->extension().";base64,".base64_encode (file_get_contents($request->image)); 
 
-
         $this->business_promotion->save();
 
         $all_business_promotions = $this->business_promotion->where('user_id', Auth::user()->id)->latest()->get();
         $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return redirect()->route('profile.promotions', $this->business_promotion->business->user->id)->with('all_business_promotions', $all_business_promotions)->with('all_businesses', $all_businesses);
+        return redirect()->route('profile.header', $this->business_promotion->business->user->id)->with('all_business_promotions', $all_business_promotions)->with('all_businesses', $all_businesses);
     }
 
     public function edit($id){

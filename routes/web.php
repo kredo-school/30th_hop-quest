@@ -9,6 +9,11 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\TouristProfileController;
 
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\BusinessesController;
+use App\Http\Controllers\Admin\PostsController;
+use App\Http\Controllers\Admin\CommentsController;
+
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Business\BusinessController;
 use App\Http\Controllers\Business\BusinessLikeController;

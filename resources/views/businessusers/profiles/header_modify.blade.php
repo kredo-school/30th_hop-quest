@@ -6,7 +6,7 @@
 
 @extends('layouts.app')
 
-@section('title', 'Posts')
+@section('title', 'Profile')
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/post-body.css')}}">
@@ -265,8 +265,32 @@
                                 @forelse($commentedPosts as $comment)
                                     <div class="row bg-white p-2 rounded-2 mb-3 d-flex align-items-center">
                                         <div class="row mb-2">
-                                            <div class="col-auto" rowspan="2">
-                                                <img src="{{$comment['main_image']}}" alt="" class="img-sm">
+                                            <div class="col-auto my-auto" rowspan="2">
+                                                @if($comment['type'] == 'businesses')
+                                                    <a href="{{route('quest.show', $comment['id'])}}" >
+                                                        @if(Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
+                                                            <img src="{{ $comment['main_image'] }}" alt="{{ $comment['title'] }}" class="img-sm">
+                                                        @else
+                                                            <img src="{{ asset('storage/' . $comment['main_image']) }}" alt="{{ $comment['title'] }}" class="img-sm">
+                                                        @endif
+                                                    </a>
+                                                @elseif($comment['type'] == 'quests')
+                                                    <a href="{{route('quest.show', $comment['id'])}}" >
+                                                        @if(Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
+                                                            <img src="{{ $comment['main_image'] }}" alt="{{ $comment['title'] }}" class=" img-sm">
+                                                        @else
+                                                            <img src="{{ asset('storage/' . $comment['main_image']) }}" alt="{{ $comment['title'] }}" class="img-sm">
+                                                        @endif
+                                                    </a>
+                                                @elseif($comment['type'] == 'spots')
+                                                    <a href="{{route('quest.show', $comment['id'])}}" >
+                                                        @if(Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
+                                                            <img src="{{ $comment['main_image'] }}" alt="{{ $comment['title'] }}" class=" img-sm">
+                                                        @else
+                                                            <img src="{{ asset('storage/' . $comment['main_image']) }}" alt="{{ $comment['title'] }}" class="img-sm">
+                                                        @endif
+                                                    </a>
+                                                @endif
                                             </div>
                                             <div class="col">
                                                 <div class="row">
@@ -277,36 +301,31 @@
                                                         </a>
                                                     </div>
                                                 </div>
-                                                                                      
-                                                {{-- <div class="row">
-                                                    <div class="col text-dark">(<span class="fw-light"> posted by </span> {{$business_comments->user->name}} )
-                                                    </div>
-                                                </div> --}}
+
                                                 <hr class="color-navy">
-                                                <div class="row">
+                                                <div class="row text-center">
                                                     <div class="col-auto">
+                                                        @if($comment['rating'])
+                                                            @for($i=1; $i <= $comment['rating']; $i++)
+                                                                <i class="fa-solid fa-star color-yellow "></i>
+                                                            @endfor
+                                                            @for($i=1; $i <= 5 - $comment['rating']; $i++)
+                                                                <i class="fa-regular fa-star color-navy"></i>
+                                                            @endfor
+                                                        @endif
+                                                    </div>    
+                                                     <div class="col-auto">
                                                         <a href="#" class="text-decoration-none text-dark profile-comment">
                                                             {{$comment['comment']}}
                                                         </a>  
-                                                    </div>  
+                                                    </div> 
                                                     <div>
                                                         <div class="col-auto text-end text-secondary">{{$comment['created_at']}}
                                                         </div>
-                                                    </div>
+                                                    </div>                                                   
                                                 </div>
                                             </div>
                                         </div>
-                                        {{-- <hr class="color-navy">
-                                        <div class="row">
-                                            <div class="col ms-5 text-truncate mt-0 mb-2">
-                                                <!-- name -->
-                                                <a href="#" class="text-decoration-none text-dark">
-                                                    {{$comment['comment']}}
-                                                </a>                                               
-                                            </div>
-                                            <div class="col-4 text-end text-secondary">{{$comment['created_at']}}
-                                            </div>
-                                        </div>   --}}
                                     </div>
 
                                 @empty
