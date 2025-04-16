@@ -3,29 +3,30 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\FollowController;
 use App\Http\Middleware\PageViewMiddleware;
+use App\Http\Controllers\Spot\SpotController;
+use App\Http\Controllers\Quest\QuestController;
+
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Spot\SpotLikeController;
+use App\Http\Controllers\Business\PhotoController;
 use App\Http\Controllers\TouristProfileController;
+use App\Http\Controllers\Quest\QuestBodyController;
+use App\Http\Controllers\Quest\QuestLikeController;
 
 use App\Http\Controllers\Business\ProfileController;
+use App\Http\Controllers\Spot\SpotCommentController;
 use App\Http\Controllers\Business\BusinessController;
+use App\Http\Controllers\Quest\QuestCommentController;
+
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Spot\SpotCommentLikeController;
 use App\Http\Controllers\Business\BusinessLikeController;
+use App\Http\Controllers\Quest\QuestCommentLikeController;
 use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\BusinessPromotionController;
-use App\Http\Controllers\Business\PhotoController;
-
-use App\Http\Controllers\Spot\SpotController;
-use App\Http\Controllers\Spot\SpotLikeController;
-use App\Http\Controllers\Spot\SpotCommentController;
-use App\Http\Controllers\Spot\SpotCommentLikeController;
-
-use App\Http\Controllers\Quest\QuestController;
-use App\Http\Controllers\Quest\QuestLikeController;
-use App\Http\Controllers\Quest\QuestCommentController;
-use App\Http\Controllers\Quest\QuestCommentLikeController;
-use App\Http\Controllers\Quest\QuestBodyController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,9 +34,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/search', [HomeController::class, 'search'])->name('search');
-Route::post('/sort', [HomeController::class, 'sort'])->name('sort');
+Route::get('/home', [HomeController::class, 'index'])->name('home'); // for showing a home page
+Route::get('/search', [HomeController::class, 'search'])->name('search'); // for showing a search page
+Route::post('/sort', [HomeController::class, 'sort'])->name('sort'); //for using on search page
 
 
 //PROFILES
@@ -239,3 +240,14 @@ Route::prefix('/questcomment')->name('questcomment.')->controller(QuestCommentCo
 
     Route::get('/{quest_id}/stats', 'getQuestCommentStats')->name('stats');
 });
+
+
+//Like to each post without page refresh (AJAX)
+Route::prefix('like')->group(function(){
+    Route::post('{type}/{id}/store', [LikeController::class, 'store'])->name('like.store');
+    Route::delete('{type}/{id}/delete', [LikeController::class, 'destroy'])->name('like.delete');
+});
+
+// Follow to other user without page refresh
+Route::post('/follow/{user_id}/store', [FollowController::class, 'follow'])->name('follow.store');
+Route::delete('/follow/{user_id}/delete', [FollowController::class, 'unfollow'])->name('follow.delete');

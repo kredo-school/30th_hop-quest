@@ -29,4 +29,34 @@ class FollowController extends Controller
                     ->delete();
         return redirect()->back();
     }
+
+
+    
+    // For AJAX
+    public function follow($user_id){
+
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+      
+        Follow::create([
+            'follower_id' => Auth::id(),
+            'followed_id' => $user_id,
+        ]);
+
+        return response()->json(['message' => 'Followed']);
+    }
+
+    public function unfollow($user_id){
+
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+        
+        Follow::where('follower_id', Auth::id())
+                ->where('followed_id', $user_id)
+                ->delete();
+        
+        return response()->json(['message' => 'Unfollowed']);
+    }
 }

@@ -117,6 +117,10 @@ class User extends Authenticatable
 
     //return true if $this user is followed by Auth user
     public function isFollowed(){
+        if (!auth()->check()) {
+            return false;
+        }
+        
         return $this->followers()->where('follower_id', Auth::user()->id)->exists();
     }
 

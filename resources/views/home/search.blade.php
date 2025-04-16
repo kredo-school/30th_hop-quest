@@ -5,6 +5,10 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/search.css')}}">
 
+@section('js')
+    <script src="{{ asset('js/like.js')}}"></script>
+    <script src="{{ asset('js/follow.js')}}"></script>
+
 @section('content')
 
 
