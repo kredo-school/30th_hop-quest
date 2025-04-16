@@ -295,9 +295,9 @@
                                             </div>
                                             <div class="col">
                                                 <div class="row">
-                                                    <div class="col-8">
+                                                    <div class="col-8 mt-2">
                                                         <span class="fw-light text-dark">To: </span>
-                                                        <a href="#" class="text-decoration-none text-dark fw-bold my-auto">
+                                                        <a href="#" class="text-decoration-none text-dark fw-bold">
                                                             {{$comment['title']}} 
                                                         </a>
                                                     </div>
@@ -321,7 +321,7 @@
                                                         </a>  
                                                     </div> 
                                                     <div>
-                                                        <div class="col-auto text-end text-secondary">{{$comment['created_at']}}
+                                                        <div class="col-auto text-end text-secondary">{{date('H:i, M d Y', strtotime($comment['created_at']))}}
                                                         </div>
                                                     </div>                                                   
                                                 </div>
@@ -332,6 +332,9 @@
                                 @empty
                                     <h4 class="h4 text-center text-secondary">No comments yet</h4>
                                 @endforelse
+                                <div class="d-flex justify-content-end mb-5">
+                                    {{ $commentedPosts->links() }}
+                                </div>
                         @else
                     </div>
                 </div>

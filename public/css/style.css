@@ -485,7 +485,7 @@ h6{
 /* ---------------PROFILE--------------- */
 .header-image{
     /* position: relative; */
-    height:250px;
+    height:300px;
     width: 100%;
     object-fit:cover;
 }

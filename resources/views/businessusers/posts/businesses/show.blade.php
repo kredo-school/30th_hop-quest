@@ -11,7 +11,7 @@
 
             <!-- Main Image Section -->
             <section class="main-image-section">
-                <div class="main-image-wrapper">
+                <div class="main-image-wrapper mt-3">
                     <img class="main-image" alt="Main picture" src="{{ $business->main_image }}" />
 
                     <div class="main-title">
@@ -74,12 +74,12 @@
                     <div class="profile-icons">
                         {{-- red heart/unlike --}}
                         <div class="mt-3">
-                            @if($business->is_liked)                            
+                            @if($business->isLiked())                            
                                 <form action="{{ route('businesses.like.delete', $business->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn p-0">
-                                        <i class="fa-solid fa-heart color-red {{ $business->is_liked ? 'text-danger' : 'text-secondary' }}" ></i>
+                                        <i class="fa-solid fa-heart color-red {{ $business->isLiked() ? '' : 'text-secondary' }}" ></i>
                                     </button>
                                 </form>
                             @else
