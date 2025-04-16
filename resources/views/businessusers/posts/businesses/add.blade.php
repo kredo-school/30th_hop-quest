@@ -48,43 +48,8 @@
                 <!-- social-media -->
                 @include('businessusers.posts.businesses.partials.social-media')
 
-                <!-- Business Status -->
-                <div class="row mb-3">
-                    <div class="col">
-                        <label class="form-label">Business Status<span class="text-danger">*</span></label>
-                        <div class="d-flex flex-wrap gap-4 py-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status-open" value="Open" {{ old('status', $business->status ?? '') == 'Open' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="status-open">
-                                    Open
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status-coming-soon" value="Coming Soon" {{ old('status', $business->status ?? '') == 'Coming Soon' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="status-coming-soon">
-                                    Coming Soon
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status-unknown" value="Unknown" {{ old('status', $business->status ?? '') == 'Unknown' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="status-unknown">
-                                    Unknown
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status-closed" value="Closed" {{ old('status', $business->status ?? '') == 'Closed' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="status-closed">
-                                    Closed
-                                </label>
-                            </div>
-                        </div>
-                        @error('status')
-                            <div class="text-danger mt-1">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
 
-                {{-- Introduction --}}
+                <!-- Introduction -->
                 <div class="row">
                     <div class="col mb-3">
                         <label for="introduction" class="form-label">Introduction</label>
@@ -106,16 +71,16 @@
                     </div>                
                 </div>
 
-                <!-- Business Term Info and S.P.Notes -->
-                @include('businessusers.posts.businesses.partials.business-hours')
+                <h3 class="text-xl font-bold mb-3">Business Hours & Event Time Periods</h3>
+
+                <!-- Business Status & period & special notes -->
+                @include('businessusers.posts.businesses.partials.business-status')
 
                 <!-- Weekly Business Schedule' -->
                 @include('businessusers.posts.businesses.partials.weekly-schedule')
 
-                <!-- Facility information -->
-                {{-- @include('businessusers.posts.businesses.partials.business-details-facility', ['businessDetail' => $businessDetail ?? null, 'oldValues' => old('details')]) --}}
-
-
+                <!-- Business details -->
+                @include('businessusers.posts.businesses.partials.business-details', ['businessDetail' => $businessDetail ?? null, 'oldValues' => old('details')])
 
                 <!-- Identification Information -->
                 @include('businessusers.posts.businesses.partials.identification-information', ['business' => $business ?? null])

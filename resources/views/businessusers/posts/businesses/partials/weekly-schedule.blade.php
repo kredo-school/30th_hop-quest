@@ -1,3 +1,4 @@
+<label class="form-label">Weekly Schedule</label>
 <div class="accordion mb-3" id="weekdayAccordion">
     @foreach(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $index => $day)
         <div class="accordion-item">
