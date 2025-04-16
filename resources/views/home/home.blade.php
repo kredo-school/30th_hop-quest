@@ -80,7 +80,7 @@
             </div>
 
             <div class="col-auto ms-5">
-                <a href="#" class="text-decoration-none text-dark" data-category="event">
+                <a href="#}" class="text-decoration-none text-dark" data-category="event">
                     <h1 class="poppins-semibold">
                         <i class="fa-solid fa-calendar"></i> Event
                     </h1>
@@ -99,7 +99,7 @@
                 </div>
 
                 <div class="col-auto all-posts">
-                    <a href="#" class="text-decoration-none text-dark">
+                    <a href="{{ route('posts.all') }}" class="text-decoration-none text-dark">
                         <h1 class="poppins-semibold">
                             All
                         </h1>

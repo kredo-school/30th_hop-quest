@@ -113,7 +113,6 @@ Route::get('/home/posts/quests', [HomeController::class, 'showQuests'])->name('p
 Route::get('/home/posts/spots', [HomeController::class, 'showSpots'])->name('posts.spots');
 Route::get('/home/posts/locations', [HomeController::class, 'showLocations'])->name('posts.locations');
 Route::get('/home/posts/events', [HomeController::class, 'showEvents'])->name('posts.events');
-Route::get('/home/posts/followings', [HomeController::class, 'showFollowings'])->name('posts.followings');
 
 // Spot 
 Route::group(['prefix' => '/spot', 'as' => 'spot.'], function(){

@@ -106,12 +106,12 @@
                                 <a href="#" class="nav-link" href="">FAQ</a>
                             </li>
                         <li class="nav-item my-auto">
-                        @if(Auth::user()->role_id == 1)
+                        {{-- @if(Auth::user()->role_id == 1)
                             <li class="nav-item my-auto">
                                 <a href="" class="nav-link d-xl-block d-none" href="">For Business</a>
                                 <a class="nav-link d-block d-xl-none text-center business"><img src="{{asset('images/navbar/icomoon-free--office.svg')}}" alt="For business"><br>business</a>
                             </li>
-                        @endif
+                        @endif --}}
                         <li class="nav-item dropdown my-auto">
                             <!-- ICON -->
                             <a id="navbarDropdown" class="nav-link btn " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -128,7 +128,7 @@
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 {{-- PROFILE --}}
                                 @if(Auth::user()->role_id == 1)
-                                    <a href="#" class="dropdown-item">
+                                    <a href="{{route('profile.businesses', Auth::user()->id)}}" class="dropdown-item">
                                         <i class="fa-solid fa-circle-user"></i> Profile
                                     </a>
                                 @elseif(Auth::user()->role_id == 2)
