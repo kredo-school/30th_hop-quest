@@ -57,7 +57,8 @@
                                 <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                             </div>
                             <div class="col-md-2 col-sm-3">
-                                <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile">DELETE</button>
+                                <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile{{ $user->id }}">DELETE</button>
+                                @include('businessusers.profiles.modals.delete')
                             </div>
                         @elseif(Auth::user()->role_id == 1)
                             <div class="col-md-2 col-sm-2 ms-auto">
