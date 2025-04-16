@@ -167,7 +167,7 @@
                                 {{-- <button type="button" class="btn btn-blue w-100 px-0" data-bs-toggle="modal" data-bs-target="#addSpotModal-{{ $quest->id }}">
                                     <i class="fa-solid fa-plus icon-xs d-inline"></i> ADD SPOT
                                 </button> --}}
-                                <a href="{{ route('spot.create') }}" target="_blank" class="btn btn-blue w-100 px-0">
+                                <a href="{{ route('spots.create') }}" target="_blank" class="btn btn-blue w-100 px-0">
                                     <i class="fa-solid fa-plus icon-xs d-inline"></i> ADD SPOT
                                 </a>
                             </div>

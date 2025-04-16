@@ -28,6 +28,8 @@ use App\Http\Controllers\Quest\QuestCommentLikeController;
 use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\BusinessPromotionController;
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -204,7 +206,7 @@ Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->gro
     //SHOW - CONFIRM QUEST
     Route::get('/confirm/{quest_id}', 'showConfirmQuest')->name('confirm');
     //VIEW QUEST
-    Route::get('/{quest_id}', 'showViewQuest')->name('show');
+    Route::get('/{quest_id}', 'showViewQuest')->middleware(PageViewMiddleware::class)->name('show');
     //RESTORE - UNHIEDE
     Route::post('/{quest_id}/restore', 'restore')->name('restore');
     //SOFT DELETE - HIHE (back to Confirm--> change later redirect to MyPage)
