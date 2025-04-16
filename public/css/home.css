@@ -1,6 +1,6 @@
     /* Header video */
     .wrapper-header{
-        height: 54rem;
+        height: 55rem;
         width: 100%;
         border: none;
     }
@@ -380,13 +380,13 @@
 
     .slick-arrow{
         z-index: 2 !important;
-        margin-left: 18.3%;
-        margin-right: 20.7%;        
+        margin-left: 18.8%;
+        margin-right: 21.2%;        
     }
 
     .slick-dots li button:before{
         margin-top: 1rem;
-        font-size: 2rem !important;
+        font-size: 1rem !important;
     }
 
 
@@ -616,13 +616,14 @@
     }
 
     .slider{
-        display: none; /**/
-        /* visibility: hidden; */
+        /* display: none; */
+        visibility: hidden;
         opacity: 0;
     }
 
     .slider.active{
-        display: block !important;
+        /* display: block !important; */
+        visibility: visible;
         animation: appearance 2.5s forwards;
     }
 

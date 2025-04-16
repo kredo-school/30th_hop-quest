@@ -9,8 +9,8 @@
 }
 
 .slick-slide {
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-left: 0;
+    margin-right: 0;
     padding: 0 10px;
     box-sizing: border-box;
 }
@@ -101,4 +101,13 @@
 
 button.btn.btn-sm.shadow-none{
     margin-top: 0.5rem;
+}
+
+
+.col-auto.d-flex.ms-3 img{
+    padding-bottom: 0.5rem;
+}
+
+.no-click {
+    pointer-events: none;
 }
