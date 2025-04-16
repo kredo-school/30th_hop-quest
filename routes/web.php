@@ -210,7 +210,7 @@ Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->gro
     //SHOW - CONFIRM QUEST
     Route::get('/confirm/{quest_id}', 'showConfirmQuest')->name('confirm');
     //VIEW QUEST
-    // Route::get('/{quest_id}', 'show')->middleware(PageViewMiddleware::class)->name('show');
+    Route::get('/{quest_id}', 'show')->middleware(PageViewMiddleware::class)->name('show');
     //RESTORE - UNHIEDE
     Route::post('/{quest_id}/restore', 'restore')->name('restore');
     //SOFT DELETE - HIHE (back to Confirm--> change later redirect to MyPage)
@@ -221,7 +221,7 @@ Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->gro
     Route::delete('/delete/{questId}', 'deleteQuest')->name('delete');
     Route::post('/follow/{userId}', [QuestController::class, 'toggleFollow'])->name('quest.toggleFollow');
 });
-Route::get('/quest/{id}', [QuestController::class, 'showViewQuest'])->middleware(PageViewMiddleware::class)->name('quest.show');
+
 
 
 // =============================== QuestBodyController
