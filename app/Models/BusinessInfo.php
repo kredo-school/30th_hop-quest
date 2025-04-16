@@ -19,4 +19,3 @@ class BusinessInfo extends Model
         return $this->hasMany(BusinessDetail::class, 'business_info_id');
     }
 }
-

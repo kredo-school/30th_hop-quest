@@ -36,27 +36,6 @@
     <!-- JS of slick -->
     <script src="{{ asset('js/home/slick.min.js') }}"></script>
 
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- Custom CSS -->
-    
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/navbar-style.css') }}">
-    @yield('css')
-
-    <!-- jQuery -->
-    <script src="{{ asset('js/home/jquery-3.6.0.min.js') }}"></script>
-
-    <!-- CSS of slick -->
-    <link rel="stylesheet" href="{{ asset('css/slick/slick.css')}}" />
-    <link rel="stylesheet" href="{{ asset('css/slick/slick-theme.css')}}" />
-
-    <!-- JS of slick -->
-    <script src="{{ asset('js/home/slick.min.js') }}"></script>
-    
 </head>
 <body>
     <div id="app">
@@ -122,7 +101,7 @@
                                         <a href="{{route('quest.add')}}" class="dropdown-item text-dark">
                                             <i class="fa-solid fa-circle-plus icon-sm"></i> Add Quest
                                         </a>                              
-                                        <a href="#" class="dropdown-item text-dark">
+                                        <a href="{{ route('spot.create')}}" class="dropdown-item text-dark">
                                             <i class="fa-solid fa-circle-plus icon-sm"></i> Add Spot
                                         </a>
                                     @elseif(Auth::user()->role_id == 2)

@@ -9,10 +9,9 @@ use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessDetail;
 use App\Models\BusinessInfoCategory;
-use App\Models\BusinessPromotion;
 use App\Models\BusinessHour;
-use App\Models\Detail;
 use App\Models\Photo;
+use App\Models\BusinessPromotion;
 use App\Http\Controllers\Business\PhotoController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -25,6 +24,8 @@ class BusinessController extends Controller
     private $business_hour;
     private $business_info_category;
     private $photo;
+    private $business_promotion;
+    private $business_hour;
 
     public function __construct(Photo $photo, Business $business, User $user, BusinessPromotion $business_promotion, BusinessHour $business_hour, BusinessInfoCategory $business_info_category){
         $this->photo = $photo;
@@ -33,11 +34,13 @@ class BusinessController extends Controller
         $this->business_hour = $business_hour;
         $this->business_info_category = $business_info_category;
         $this->user = $user;
+        $this->business_promotion = $business_promotion;
+        $this->business_hour = $business_hour;
     }
 
     public function create(){
         $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return view('businessusers.posts.businesses.add_n')->with('all_businesses',$all_businesses);
+        return view('businessusers.posts.businesses.add')->with('all_businesses',$all_businesses);
     }
 
     public function store(Request $request){
@@ -58,12 +61,25 @@ class BusinessController extends Controller
         $this->business->category_id = $request->category_id;
         $this->business->user_id = Auth::user()->id;
         $this->business->name = $request->name;
-        $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode (file_get_contents($request->main_image));
+        $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
         $this->business->email = $request->email;
-        $this->business->zip = $request->zip;
         $this->business->term_start = $request->term_start;
         $this->business->term_end = $request->term_end;
         $this->business->introduction = $request->introduction;
+        $this->business->status = $request->status;
+        $this->business->sp_notes = $request->sp_notes;
+        $this->business->address_1 = $request->address_1;
+        $this->business->address_2 = $request->address_2;
+        $this->business->zip = $request->zip;
+        $this->business->phonenumber = $request->phonenumber;
+        $this->business->website_url = $request->website_url;
+        $this->business->instagram = $request->instagram;
+        $this->business->facebook = $request->facebook;
+        $this->business->x = $request->x;
+        $this->business->tiktok = $request->tiktok;
+        $this->business->identification_number = $request->identification_number;
+        $this->business->display_start = $request->display_start;
+        $this->business->display_end = $request->display_end;
 
         $current_cert = $this->business->official_certification;
 
@@ -100,6 +116,21 @@ class BusinessController extends Controller
                 }
             }
         }
+
+        // 営業時間の保存
+        $businessHours = $request->input('business_hours', []);
+
+        foreach ($businessHours as $day => $data) {
+            $this->business->businessHours()->create([
+                'day_of_week' => $day,
+                'opening_time' => $data['opening_time'] ?? null,
+                'closing_time' => $data['closing_time'] ?? null,
+                'break_start' => $data['break_start'] ?? null,
+                'break_end' => $data['break_end'] ?? null,
+                'notice' => $data['notice'] ?? null,
+                'is_closed' => isset($data['is_closed']), // チェックが入っているかどうかで判定
+            ]);
+        }
     
         return redirect()->route('profile.header', Auth::id());
     }
@@ -107,9 +138,9 @@ class BusinessController extends Controller
     public function edit($id){
         $business_a = $this->business->findOrFail($id);
         $businessHours = $business_a->businessHours->keyBy('day_of_week');
-        $businessDetail = $business_a->businessDetails()->first();
-        $checkedDetailItems = $businessDetail?->details->pluck('name')->toArray() ?? [];
-        return view('businessusers.posts.businesses.edit_n', compact('businessHours','checkedDetailItems'))->with('business', $business_a);
+        // $businessDetail = $business_a->businessDetails()->first();
+        // $checkedDetailItems = $businessDetail?->details->pluck('name')->toArray() ?? [];
+        return view('businessusers.posts.businesses.edit', compact('businessHours'))->with('business', $business_a);
     }
 
     public function update(Request $request, $id){
@@ -169,10 +200,9 @@ class BusinessController extends Controller
             $photoController = app(PhotoController::class);
             $photoController->update($request, $business_a);
         }
-         
+        
         return redirect()->route('profile.header',Auth::user()->id);
     }
-
 
     public function show($id)
     {
@@ -195,6 +225,7 @@ class BusinessController extends Controller
             return redirect()->route('businesses.show', $id)->with('error', 'ビジネス情報が見つかりませんでした。');
         }
     }
+
     public function deactivate($id){
         $this->business->destroy($id);
         return redirect()->back();

@@ -10,11 +10,13 @@ class BusinessDetail extends Model
     protected $table = 'business_details';
     use SoftDeletes;
 
-    public function details(){
-        return $this->hasMany(Detail::class);
+    public function businessInfo()
+    {
+        return $this->belongsTo(BusinessInfo::class, 'business_info_id');
     }
 
-    public function business(){
+    public function business()
+    {
         return $this->belongsTo(Business::class);
     }
 }

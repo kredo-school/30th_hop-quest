@@ -35,41 +35,32 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             // ファイル選択
-            if (!fileInput.dataset.bound) {
-                fileInput.addEventListener("change", () => {
-                    uploadBtn.disabled = fileInput.files.length === 0;
+            fileInput.addEventListener("change", () => {
+                const files = Array.from(fileInput.files);
+            
+                if (files.length === 0) return;
+            
+                // 上限チェック（例：10枚）
+                const existingCount = hiddenInputContainer.querySelectorAll(`input[name="existing_images[]"]`).length;
+                const total = uploadedImagesMap[questbodyId].length + files.length + existingCount;
+            
+                if (total > 10) {
+                    alert("一度にアップロードできるのは最大10枚までです。");
+                    fileInput.value = ""; // リセット
+                    return;
+                }
+            
+                // 画像追加
+                uploadedImagesMap[questbodyId].push(...files);
+            
+                // サムネイル表示
+                requestAnimationFrame(() => {
+                    renderNewImages(questbodyId, newImagesWrapper);
                 });
-                fileInput.dataset.bound = "true";
-            }
-
-            // アップロードボタン
-            if (!uploadBtn.dataset.bound) {
-                uploadBtn.addEventListener("click", (event) => {
-                    event.preventDefault();
-
-                    const files = Array.from(fileInput.files);
-                    if (files.length === 0) {
-                        alert("ファイルを選択してください");
-                        return;
-                    }
-
-                    // 上限チェック（例：10枚）
-                    const total = uploadedImagesMap[questbodyId].length + files.length + existingImages.length;
-                    if (total > 10) {
-                        alert("一度にアップロードできるのは最大10枚までです。");
-                        return;
-                    }
-
-                    uploadedImagesMap[questbodyId].push(...files);
-                    requestAnimationFrame(() => {
-                        renderNewImages(questbodyId, newImagesWrapper);
-                    });
-
-                    fileInput.value = "";
-                    uploadBtn.disabled = true;
-                });
-                uploadBtn.dataset.bound = "true";
-            }
+            
+                fileInput.value = ""; // 同じ画像を再選択できるようにクリア
+            });
+            
 
             // 削除済み既存画像の hidden input も削除
             modal.querySelectorAll('.remove-existing-image').forEach(button => {
@@ -202,3 +193,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
