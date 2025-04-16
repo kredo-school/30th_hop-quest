@@ -16,7 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('page_id');
             $table->string('page_type');
             $table->ipAddress('ip_address');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
             $table->unique(['page_id', 'page_type', 'ip_address']);
         });
