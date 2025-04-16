@@ -6,7 +6,7 @@
 @section('title', 'Business View')
 
 @section('content')
-    <div class="page-wrapper">
+    <div class="page-wrapper mt-5">
         <div class="page-container">
 
             <!-- Main Image Section -->
@@ -21,7 +21,10 @@
                         {{ $business->term_start }} - {{ $business->term_end }}
                     </div>
 
-                    <img class="official-badge" alt="Official badge" src="{{ asset('public/official-badge.png') }}" />
+                    @if($business->official_certification==3)
+                        <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official" alt="official">              
+                    @else
+                    @endif
                 </div>
             </section>
 
@@ -30,16 +33,43 @@
                 <div class="profile-container">
                     <div class="profile-left">
                         <div class="profile-main">
-                            <div class="profile-pic">
-                                <img src="{{ asset('public/image-4.png') }}" alt="User profile" />
+                            <div class="col-md-auto col-sm-2 my-auto p-0 profile-pic">                   
+                                <button class="btn">
+                                    @if($business->user->avatar)
+                                        <img src="{{ $business->user->avatar }}" alt="" class="rounded-circle avatar-sm">
+                                    @else
+                                        <i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i>
+                                    @endif
+                                </button>
                             </div>
 
-                            <div class="profile-name">Business_0719</div>
-
-                            <button class="follow-btn">
-                                <span>Follow</span>
-                            </button>
+                            <div class="profile-name">{{$business->user->name}}</div>
+                            <div class="col-md-1 col-sm-1 pb-1 p-1">
+                                @if($business->user->official_certification == 3)
+                                    <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0 avatar-xs" alt="official-personal"> 
+                                @endif
+                            </div>
                         </div>
+                        
+                        <!--Follow-->
+                        <div class="col-md-1 col-sm-1 ">
+                            @if($business->user->isFollowed())
+                            {{-- unfollow --}}
+                                <form action="{{route('follow.delete', $business->user->id)}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-following btn-sm mt-3 w-100">Following</button>
+                                </form>
+        
+                            @else
+                            {{-- follow --}}
+                            <form action="{{route('follow.store', $business->user->id )}}" method="post">
+                                @csrf
+                                <button type="submit" class="btn btn-follow btn-sm mt-3 w-100">Follow</button>
+                            </form>
+                            @endif 
+                        </div>
+
 
                         <div class="profile-icons">
                             @foreach(['heart', 'message-square', 'eye'] as $icon)
@@ -51,8 +81,12 @@
                         </div>
                     </div>
 
-                    <div class="profile-update">
-                        UPDATE : 2025/01/01
+                    <div class="col-md-auto col-sm-12 pe-0 ms-auto profile-update">
+                        @if($business->updated_at)
+                            <h5 class="card-subtitle">Updated: {{ $business->updated_at->format('M d Y')}}</h5>
+                        @else
+                            <h5 class="card-subtitle">Posted: {{ $business->created_at->format('M d Y')}}</h5>
+                        @endif
                     </div>
                 </div>
             </section>
@@ -165,14 +199,28 @@
                     <h5 class="official-site">
                         Official Web site : {{ $business->website_url }}
                     </h5>
-                    <div class="social-icons">
-                        @foreach(['instagram', 'facebook', 'twitter', 'tiktok'] as $social)
-                            <img
-                                class="social-icon"
-                                alt="{{ ucfirst($social) }}"
-                                src="{{ asset('public/ic-outline-' . $social . '.svg') }}"
-                            />
-                        @endforeach
+                    <h5>Social Media : </h5>
+                    <div class="col-auto ms-auto">
+                        @if($business->instagram)
+                            <a href="#" class="text-decoration-none">
+                            <i class="fa-brands fa-instagram text-dark icon-md px-4"></i>
+                            </a>
+                        @endif
+                        @if($business->facebook)
+                            <a href="#" class="text-decoration-none">
+                            <i class="fa-brands fa-facebook text-dark icon-md px-4"></i>
+                            </a>
+                        @endif
+                        @if($business->x)
+                            <a href="#" class="text-decoration-none">
+                            <i class="fa-brands fa-x-twitter text-dark icon-md px-4"></i>
+                            </a>
+                        @endif
+                        @if($business->tiktok)
+                            <a href="#" class="text-decoration-none">
+                            <i class="fa-brands fa-tiktok text-dark icon-md px-4"></i>
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>

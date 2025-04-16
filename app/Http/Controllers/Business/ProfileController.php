@@ -530,6 +530,7 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
+                'business_id' => optional($item->business)->id,
                 'posted_user_id' => optional($item->business)->user_id,
                 'user_name' => optional($item->user)->name,
                 'title' => optional($item->business)->name,

@@ -100,36 +100,6 @@ class BusinessController extends Controller
                 }
             }
         }
-
-        // // BusinessDetailを作成（business_idは自動で入る）
-        // $businessDetail = $this->business->businessDetails()->create([
-        // ]);
-
-        // // 各カテゴリごとに Details を保存
-        // foreach ($request->input('details', []) as $category => $items) {
-        //     foreach ($items as $itemName) {
-        //         $businessDetail->details()->create([
-        //             'category' => $category,
-        //             'name' => $itemName,
-        //         ]);
-        //     }
-        // }
-
-        // // 営業時間の保存
-        // $businessHours = $request->input('business_hours', []);
-
-        // foreach ($businessHours as $day => $data) {
-        //     $this->business->businessHours()->create([
-        //         'day_of_week' => $day,
-        //         'opening_time' => $data['opening_time'] ?? null,
-        //         'closing_time' => $data['closing_time'] ?? null,
-        //         'break_start' => $data['break_start'] ?? null,
-        //         'break_end' => $data['break_end'] ?? null,
-        //         'notice' => $data['notice'] ?? null,
-        //         'is_closed' => isset($data['is_closed']), // チェックが入っているかどうかで判定
-        //     ]);
-        // }
-        
     
         return redirect()->route('profile.header', Auth::id());
     }
@@ -222,7 +192,7 @@ class BusinessController extends Controller
                     ->with('business_info_category', $business_info_category)
                     ->with('business_promotion', $business_promotion);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->route('home')->with('error', 'ビジネス情報が見つかりませんでした。');
+            return redirect()->route('businesses.show', $id)->with('error', 'ビジネス情報が見つかりませんでした。');
         }
     }
     public function deactivate($id){

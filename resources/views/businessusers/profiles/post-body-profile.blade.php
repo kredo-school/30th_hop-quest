@@ -40,7 +40,7 @@
                 @endif
             @else
                 @if($post['type'] == 'businesses')
-                    <a href="{{route('quest.show', $post['id'])}}" >
+                    <a href="{{route('businesses.show', $post['id'])}}" >
                         @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
                             <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
                         @else

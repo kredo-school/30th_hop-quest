@@ -268,7 +268,7 @@
                                         <div class="row mb-2">
                                             <div class="col-auto my-auto" rowspan="2">
                                                 @if($comment['type'] == 'businesses')
-                                                    <a href="{{route('quest.show', $comment['id'])}}" >
+                                                    <a href="{{route('businesses.show', $comment['business_id'])}}" >
                                                         @if(Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
                                                             <img src="{{ $comment['main_image'] }}" alt="{{ $comment['title'] }}" class="img-sm">
                                                         @else
