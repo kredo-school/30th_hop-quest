@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessDetail;
+use App\Models\BusinessPromotion;
 use App\Models\BusinessHour;
 use App\Models\Detail;
 use App\Models\Photo;
@@ -19,11 +20,15 @@ class BusinessController extends Controller
 {
     private $user;
     private $business;
+    private $business_promotion;
+    private $business_hour;
     private $photo;
 
-    public function __construct(Photo $photo, Business $business, User $user){
+    public function __construct(Photo $photo, Business $business, User $user, BusinessPromotion $business_promotion, BusinessHour $business_hour){
         $this->photo = $photo;
         $this->business = $business;
+        $this->business_promotion = $business_promotion;
+        $this->business_hour = $business_hour;
         $this->user = $user;
     }
 
@@ -191,63 +196,32 @@ class BusinessController extends Controller
             $photoController = app(PhotoController::class);
             $photoController->update($request, $business_a);
         }
-
-        
-    //     // 1. Businessの基本情報を更新
-    //     $business_a->update([
-    //     'name' => $request->input('name'),
-    //     'description' => $request->input('description'),
-    //     ]);
-    //     $businessDetail = $business_a->businessDetails()->create([
-    //         // 内容
-    //     ]);
-    // // 2. BusinessHoursを一旦削除してから再作成（曜日単位のユニーク制約がなければこれが簡単）
-    // $business_a->businessHours()->delete();
-
-    // $businessHours = $request->input('business_hours', []);
-
-    // foreach ($businessHours as $day => $data) {
-    //     $business_a->businessHours()->create([
-    //         'day_of_week'   => $day,
-    //         'opening_time'  => $data['opening_time'] ?? null,
-    //         'closing_time'  => $data['closing_time'] ?? null,
-    //         'break_start'   => $data['break_start'] ?? null,
-    //         'break_end'     => $data['break_end'] ?? null,
-    //         'notice'        => $data['notice'] ?? null,
-    //         'is_closed'     => isset($data['is_closed']),
-    //     ]);
-    // }
-
-    // $businessDetail = $business_a->businessDetails()->first();
-    // if (!$businessDetail) {
-    //     $businessDetail = $business_a->businessDetails()->create();
-    // }
-    
-    // // 古い details を削除
-    // $businessDetail->details()->delete();
-    
-    // // 新しい details を保存
-    // foreach ($request->input('details', []) as $category => $items) {
-    //     foreach ($items as $itemName) {
-    //         $businessDetail->details()->create([
-    //             'category' => $category,
-    //             'name' => $itemName,
-    //         ]);
-    //     }
-    // }
-
-        
+         
         return redirect()->route('profile.header',Auth::user()->id);
     }
 
 
-    public function show($id){
-        //get the data of 1 post where ID = $id
-        $business_a = $this->business->findOrFail($id);
-        
-        return view('businessusers.posts.businesses.show')->with('business', $business_a);
-    }
+    public function show($id)
+    {
+        try {
+            $business = $this->business->findOrFail($id);
+            $business_promotion = $this->business_promotion->where('business_id', $id)->get();
+            $business_hour = $this->business_hour->where('business_id', $id)->get();
+            $business_info_category = BusinessInfoCategory::with(['businessInfos' => function($query) use ($id) {
+                $query->with(['businessDetails' => function($query) use ($id) {
+                    $query->where('business_id', $id);
+                }]);
+            }])->get();
 
+            return view('businessusers.posts.businesses.show')
+                    ->with('business', $business)
+                    ->with('business_hour', $business_hour)
+                    ->with('business_info_category', $business_info_category)
+                    ->with('business_promotion', $business_promotion);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->route('home')->with('error', 'ビジネス情報が見つかりませんでした。');
+        }
+    }
     public function deactivate($id){
         $this->business->destroy($id);
         return redirect()->back();
