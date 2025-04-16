@@ -42,7 +42,7 @@
                     @endif
                 @else
                     @if($post['type'] == 'businesses')
-                        <a href="{{route('businesses.show', $post['id'])}}" >
+                        <a href="{{route('business.show', $post['id'])}}" >
                             @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
                                 <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
                             @else
@@ -194,7 +194,7 @@
                 </div>
                 <div class="col-2 ms-1 px-0">
                     <button class="dropdown-item text-dark">
-                        0{{-- <span>{{ $post['views_count'] }}</span> --}}
+                        <span>{{ $post['views_sum'] ?? 0}}</span>
                     </button>
                 </div>
             </div>
@@ -210,7 +210,7 @@
             </div>
         </div>
 
-        @if($user->id == Auth::user()->id && $post['user_id'] == $user->id && $post['type'] == 'spot' )
+        @if($user->id == Auth::user()->id && $post['user_id'] == $user->id && $post['type'] !== 'spots' )
                 <div class="card-footer bg-white">
                     {{-- status --}}
                         <div class="row ">

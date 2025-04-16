@@ -9,7 +9,8 @@ class PageView extends Model
 {
     protected $fillable = ['page_id', 'page_type', 'views'];
 
-    public function page(): MorphTo{
+    public function page()
+    {
         return $this->morphTo();
     }
 }

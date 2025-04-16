@@ -45,9 +45,8 @@ class Business extends Model
     }
 
     public function pageViews(){
-        return $this->hasMany(PageView::class);
+        return $this->morphMany(PageView::class, 'page');
     }
-
 
     public function isLiked(){
         return $this->businessLikes()->where('user_id', Auth::user()->id)->exists();

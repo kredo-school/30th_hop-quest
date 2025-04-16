@@ -17,6 +17,7 @@
                     <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest</option>
                     <option value="likes" {{ request('sort') == 'likes' ? 'selected' : '' }}>Number of Likes</option>
                     <option value="comments" {{ request('sort') == 'comments' ? 'selected' : '' }}>Number of Comments</option>
+                    <option value="views" {{ request('sort') == 'views' ? 'selected' : '' }}>Number of Views</option>
                 </select>
             </form>
         </div>  

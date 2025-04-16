@@ -164,14 +164,14 @@
                                             {{-- button --}}
                                             @if($follower->follower->id != Auth::user()->id && Auth::user()->role_id == 1)
                                                 @if($follower->follower->isFollowed())
-                                                    {{-- unfollow --}}
+                                                    <!-- unfollow -->
                                                     <form action="{{route('follow.delete', $follower->follower->id)}}" method="post">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn-following ">Following</button>
                                                     </form>
                                                 @else  
-                                                    {{-- follow --}}
+                                                    <!-- follow -->
                                                     <form action="{{route('follow.store', $follower->follower->id)}}" method="post">
                                                         @csrf
                                                         <button type="submit" class="btn-follow ">Follow</button>
