@@ -15,7 +15,7 @@
         </div>
         <div class="col-2"></div>
         <div class="col-4">
-            <a href="{{ route('profile.businesses', Auth::user()->id) }}" class="btn btn-red w-100">CANCEL</a>
+            <a href="{{ route('profile.header', Auth::user()->id) }}" class="btn btn-red w-100">CANCEL</a>
         </div>
     </div>
 </div>
