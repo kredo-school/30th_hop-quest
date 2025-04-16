@@ -87,7 +87,7 @@
                         </a>
 
                         <a href="#comment-section" class="btn btn-sm p-0 text-center">
-                            <span>{{ $quest_a->questcomments->count() }}</span>
+                            <p class="py-0 my-0 ps-2">{{ $quest_a->questcomments->count() }}</p>
                         </a>
                     </div>
 
@@ -98,7 +98,9 @@
                         </div>
 
                         <button class="btn btn-sm p-0 text-center">
-                            <span>&nbsp;&nbsp;201</span>
+                            <p class="py-0 my-0 ps-2">
+                                {{ $quest_a->views->sum('views') ?? 0 }}
+                            </p>                           
                         </button>
                     </div>
                 </div>
@@ -160,13 +162,13 @@
                 {{-- Modal for displaying all users who liked owner of post--}}
                                                 
                 {{-- Comment icon & Number of comments --}}
-                <div class="col-auto d-flex ms-3">
+                <div class="col-auto d-flex align-items-center ms-3">
                     <a href="#comment-section" class="btn btn-sm p-0 text-center">
                         <i class="fa-regular fa-comment icon-sm"></i>
                     </a>
 
                     <a href="#comment-section" class="btn btn-sm p-0 text-center">
-                        <span>{{ $quest_a->questcomments->count() }}</span>
+                        <p class="py-0 my-0 ps-2">{{ $quest_a->questcomments->count() }}</p>
                     </a>
                 </div>
 
@@ -176,9 +178,9 @@
                         <i class="fa-solid fa-chart-simple icon-sm"></i>
                     </div>
 
-                    <button class="btn btn-sm p-0 text-center">
-                        <span>&nbsp;&nbsp;201</span>
-                    </button>
+                    <p class="py-0 my-0 ps-2">
+                        {{ $quest_a->views->sum('views') ?? 0 }}
+                    </p>
                 </div>
             </div>
         </div>  

@@ -101,7 +101,7 @@
                                         <a href="{{ route('quest.add')}}" class="dropdown-item text-dark">
                                             <i class="fa-solid fa-circle-plus icon-sm"></i> Add Quest
                                         </a>                              
-                                        <a href="{{ route('spot.create')}}" class="dropdown-item text-dark">
+                                        <a href="{{ route('spots.create')}}" class="dropdown-item text-dark">
                                             <i class="fa-solid fa-circle-plus icon-sm"></i> Add Spot
                                         </a>
                                     @elseif(Auth::user()->role_id == 2)
@@ -179,8 +179,8 @@
             </div>
         </nav>
 
-        <main class="pt-5">           
-            @yield('content') 
+        <main class="pt-5">
+            @yield('content')
         </main>
     </div>
     @yield('js')
