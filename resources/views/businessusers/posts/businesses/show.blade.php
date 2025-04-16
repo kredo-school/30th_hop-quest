@@ -71,14 +71,53 @@
                         </div>
 
 
-                        <div class="profile-icons">
-                            @foreach(['heart', 'message-square', 'eye'] as $icon)
-                                <div class="icon-wrapper">
-                                    <img src="{{ asset('public/' . $icon . '.svg') }}" alt="{{ $icon }}" />
-                                    <span>0</span>
-                                </div>
-                            @endforeach
+                    <div class="profile-icons">
+                        {{-- red heart/unlike --}}
+                        <div class="mt-3">
+                            @if($business->is_liked)                            
+                                <form action="{{ route('businesses.like.delete', $business->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn p-0">
+                                        <i class="fa-solid fa-heart color-red {{ $business->is_liked ? 'text-danger' : 'text-secondary' }}" ></i>
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{ route('businesses.like.store', $business->id) }}" method="post">
+                                    @csrf
+                                    <button type="sumbit" class="btn p-0">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                </form>
+                            @endif
                         </div>
+                    </div>
+                    <div>
+                        <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#">
+                            <span>{{ $business->likes->count() }}</span>
+                        </button>
+                    </div>
+
+                    <!--Comment-->
+                    <div class="ms-3 mt-2 p-0">
+                        <div>
+                            <i class="fa-regular fa-comment h5"></i>
+                        </div>
+                    </div>
+                    <div class="px-0">
+                        <span>{{ $business->comments->count()}}</span>
+                    </div>
+
+                    <!--Viewer-->
+                    <div class="ms-3 p-0">
+                        <div>
+                            <img src="{{ asset('images/chart.png') }}" alt="">
+                        </div>
+                    </div>
+                    <div class="px-0">
+                        <button class="dropdown-item text-dark">
+                            0{{-- <span>{{ $post['views_count'] }}</span> --}}
+                        </button>
                     </div>
 
                     <div class="col-md-auto col-sm-12 pe-0 ms-auto profile-update">
@@ -88,6 +127,9 @@
                             <h5 class="card-subtitle">Posted: {{ $business->created_at->format('M d Y')}}</h5>
                         @endif
                     </div>
+
+
+
                 </div>
             </section>
 
