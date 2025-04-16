@@ -19,21 +19,21 @@ class LikeController extends Controller
 
         switch($type){
             case 'quest':
-                \App\Models\QuestLike::create([
+                QuestLike::create([
                     'user_id'       => $user->id,
                     'quest_id'      => $id,
                 ]);
                 break;
 
             case 'spot':
-                \App\Models\SpotLike::create([
+                SpotLike::create([
                     'user_id'       => $user->id,
                     'spot_id'       => $id,
                 ]);
                 break;
 
             case 'business':
-                \App\Models\BusinessLike::create([
+                BusinessLike::create([
                     'user_id'       => $user->id,
                     'business_id'   => $id,
                 ]);
@@ -61,15 +61,15 @@ class LikeController extends Controller
 
         switch ($type) {
             case 'quest':
-                \App\Models\QuestLike::where('user_id', $user->id)->where('quest_id', $id)->delete();
+                QuestLike::where('user_id', $user->id)->where('quest_id', $id)->delete();
                 break;
 
             case 'spot':
-                \App\Models\SpotLike::where('user_id', $user->id)->where('spot_id', $id)->delete();
+                SpotLike::where('user_id', $user->id)->where('spot_id', $id)->delete();
                 break;
 
             case 'business':
-                \App\Models\BusinessLike::where('user_id', $user->id)->where('business_id', $id)->delete();
+                BusinessLike::where('user_id', $user->id)->where('business_id', $id)->delete();
                 break;
 
             default:
