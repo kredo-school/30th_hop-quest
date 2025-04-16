@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessDetail;
+use App\Models\BusinessInfoCategory;
 use App\Models\BusinessPromotion;
 use App\Models\BusinessHour;
 use App\Models\Detail;
@@ -22,13 +23,15 @@ class BusinessController extends Controller
     private $business;
     private $business_promotion;
     private $business_hour;
+    private $business_info_category;
     private $photo;
 
-    public function __construct(Photo $photo, Business $business, User $user, BusinessPromotion $business_promotion, BusinessHour $business_hour){
+    public function __construct(Photo $photo, Business $business, User $user, BusinessPromotion $business_promotion, BusinessHour $business_hour, BusinessInfoCategory $business_info_category){
         $this->photo = $photo;
         $this->business = $business;
         $this->business_promotion = $business_promotion;
         $this->business_hour = $business_hour;
+        $this->business_info_category = $business_info_category;
         $this->user = $user;
     }
 
