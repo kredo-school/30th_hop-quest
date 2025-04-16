@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use App\Models\Spot;
 use App\Models\User;
+use App\Models\Quest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Validated;
 
 class TouristProfileController extends Controller
@@ -22,9 +24,25 @@ class TouristProfileController extends Controller
     public function myProfileShow(Request $request)
     {
         $tab = $request->query('tab');
-        $user = Auth::user(); // Get the currently logged-in user
 
-        return view('tourists.profiles.myprofile', compact('user', 'tab'));
+        // Get the currently authenticated user with post relationships
+        $user = User::with([
+            'quests' => function ($query) {
+                $query->withCount(['questLikes', 'questComments'])->with('pageViews');
+            },
+            'spots' => function ($query) {
+                $query->withCount(['spotLikes', 'spotComments'])->with('pageViews');
+            }
+        ])->findOrFail(Auth::id());
+
+        // Flag indicating this is the user's own profile
+        $isOwnProfile = true;
+
+        // Set temporary aliases for frontend blade compatibility
+        $user->myQuests = $user->quests;
+        $user->mySpots = $user->spots;
+
+        return view('tourists.profiles.myprofile', compact('user', 'tab', 'isOwnProfile'));
     }
 
     // Show the edit profile form with the user's current data
@@ -95,17 +113,35 @@ class TouristProfileController extends Controller
     {
         $user = Auth::user();
 
-        Auth::logout();
-        $user->delete();
+        if ($user) {
+            $user->delete();
+            Auth::logout();
+            return redirect()->route('home')->with('status', 'Your account has been deleted.');
+        }
 
-        return redirect('/');
+        return redirect()->route('login')->with('error', 'User not found.');
     }
+
 
     public function showOtherProfile($id)
     {
+        // Retrieve user with quests and spots, including likes count and views relationship
         $user = User::findOrFail($id);
 
+        // Determine if this profile belongs to the authenticated user
         $isOwnProfile = Auth::check() && Auth::id() === $user->id;
+
+        // Temporary aliases for frontend compatibility
+        $user->myQuests = $user->quests;
+        $user->mySpots = $user->spots;
+
+        $quests = Quest::with('pageViews')
+            ->where('user_id', Auth::id())
+            ->get();
+
+        $spots = Spot::with('pageViews')
+            ->where('user_id', Auth::id())
+            ->get();
 
         return view('tourists.profiles.show', compact('user', 'isOwnProfile'));
     }

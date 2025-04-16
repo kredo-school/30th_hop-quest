@@ -13,6 +13,7 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -126,10 +127,14 @@ class User extends Authenticatable
         return $this->hasMany(Follow::class, 'followed_id');
     }
 
+
     //return true if $this user is followed by Auth user
     public function isFollowed()
     {
-        return $this->followers()->where('follower_id', Auth::user()->id)->exists();
+        if (!Auth::check()) {
+            return false;
+        }
+        return $this->followers()->where('follower_id', Auth::id())->exists();
     }
 
     public function following()

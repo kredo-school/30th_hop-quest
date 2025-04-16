@@ -46,7 +46,7 @@
                         <div class="row mt-3 text-white align-items-center px-3">
                             <div class="user-stats col-md-6 d-flex justify-content-center">
                                 <span
-                                    class="me-4"><strong>{{ count($user['likedQuests'] ?? []) + count($user['likedSpots'] ?? []) }}</strong>
+                                    class="me-4"><strong>{{ count($user['Quests'] ?? []) + count($user['Spots'] ?? []) }}</strong>
                                     Posts</span>
                                 <span class="me-4"><strong>{{ count($user['followers'] ?? []) }}</strong> Followers</span>
                                 <span><strong>{{ count($user['following'] ?? []) }}</strong> Following</span>

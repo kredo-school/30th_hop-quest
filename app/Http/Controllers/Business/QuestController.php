@@ -15,18 +15,21 @@ class QuestController extends Controller
     private $quest;
     private $business;
 
-    public function __construct(Quest $quest, User $user, Business $business){
+    public function __construct(Quest $quest, User $user, Business $business)
+    {
         $this->quest = $quest;
         $this->user = $user;
         $this->business = $business;
     }
 
-    public function create(){
+    public function create()
+    {
         $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return view('businessusers.posts.quests.add_n')->with('all_businesses',$all_businesses);
+        return view('businessusers.posts.quests.add_n')->with('all_businesses', $all_businesses);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         //validation
         $request->validate([
             'title' => 'required',
@@ -38,7 +41,7 @@ class QuestController extends Controller
         $this->quest->introduction = $request->introduction;
         $this->quest->duration = $request->duration;
         $this->quest->user_id = Auth::user()->id;
-        $this->quest->main_image = "data:photo/".$request->main_image->extension().";base64,".base64_encode (file_get_contents($request->main_image)); 
+        $this->quest->main_image = "data:photo/" . $request->main_image->extension() . ";base64," . base64_encode(file_get_contents($request->main_image));
 
         $this->quest->save();
 
@@ -46,13 +49,15 @@ class QuestController extends Controller
         return redirect()->route('profile.quests', $this->quest->user->id)->with('all_quests', $all_quests);
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $quest_a = $this->quest->findOrFail($id);
         $all_quests = $this->quest->where('user_id', Auth::user()->id)->latest()->get();
         return view('businessusers.posts.quests.edit_n')->with('quest', $quest_a);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'title' => 'required',
             'introduction' => 'max:2000',
@@ -60,15 +65,15 @@ class QuestController extends Controller
         ]);
 
         $all_quests = $this->quest->where('user_id', Auth::user()->id)->latest()->get();
-        
+
         $quest_a = $this->quest->findOrFail($id);
         $quest_a->title = $request->title;
         $quest_a->introduction = $request->introduction;
         $quest_a->duration = $request->duration;
         $quest_a->user_id = Auth::user()->id;
 
-        if($request->main_image){
-            $quest_a->main_image = "data:photo/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
+        if ($request->main_image) {
+            $quest_a->main_image = "data:photo/" . $request->main_image->extension() . ";base64," . base64_encode(file_get_contents($request->main_image));
         }
         $quest_a->save();
 
@@ -76,14 +81,28 @@ class QuestController extends Controller
         return redirect()->route('profile.quests', Auth::user()->id)->with('all_quests', $all_quests);
     }
 
-    public function deactivate($id){
+    public function deactivate($id)
+    {
         $this->quest->destroy($id);
         return redirect()->back();
     }
 
-    public function activate($id){
+    public function activate($id)
+    {
         $this->quest->onlyTrashed()->findOrFail($id)->restore();
         return redirect()->back();
     }
 
+    public function toggleVisibility(Quest $quest)
+    {
+        // Only allow the owner to toggle visibility
+        if (Auth::id() !== $quest->user_id) {
+            abort(403);
+        }
+
+        $quest->is_public = !$quest->is_public;
+        $quest->save();
+
+        return back()->with('status', 'Visibility updated.');
+    }
 }

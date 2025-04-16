@@ -1,5 +1,7 @@
+@php use Carbon\Carbon; @endphp
+
 @if (!empty($user['myQuests']) || !empty($user['mySpots']))
-    {{-- My Quests --}}
+    {{-- Quests Section --}}
     @if (!empty($user['myQuests']))
         <div class="posts-section p-4 bg-white rounded mb-5">
             <h4 class="fw-bold text-center mb-4">Quests (view tourism log)</h4>
@@ -15,17 +17,48 @@
                     @foreach ($quests as $quest)
                         <div class="col-md-4 mb-4 d-flex justify-content-center">
                             <div class="card shadow-sm" style="width: 18rem;">
-                                <img src="{{ $quest['image'] }}" class="card-img-top" alt="Quest Image">
+                                <img src="{{ $quest->main_image }}" class="card-img-top" alt="Quest Image"
+                                    style="height: 180px; object-fit: cover; border-top-left-radius: 8px; border-top-right-radius: 8px;">
                                 <div class="card-body text-center">
-                                    <h5 class="card-title">{{ $quest['title'] }}</h5>
-                                    <p class="card-text small">{{ $quest['description'] }}</p>
-                                    <p class="text-muted mb-1">Status: <strong>{{ $quest['status'] ?? 'N/A' }}</strong>
-                                    </p>
-                                    <small class="text-muted d-block">{{ $quest['date'] ?? 'N/A' }}</small>
-                                    <div class="mt-2">
-                                        <i class="fa-regular fa-heart"></i> {{ $quest['likes'] ?? 0 }}
-                                        <i class="fa-regular fa-comment ms-3"></i> {{ $quest['comments'] ?? 0 }}
+                                    <div class="d-flex justify-content-between mb-2 px-2">
+                                        <span class="fw-bold text-start">{{ Str::limit($quest->title, 18) }}</span>
+                                        <small
+                                            class="text-muted">{{ $quest->start_date ? Carbon::parse($quest->start_date)->format('Y/m/d') : 'N/A' }}</small>
                                     </div>
+                                    <div class="d-flex justify-content-between px-4 mt-2">
+                                        <div>
+                                            <i
+                                                class="fa-regular fa-heart me-1"></i>{{ $quest->questLikes->count() ?? 0 }}
+                                        </div>
+                                        <div>
+                                            <i
+                                                class="fa-regular fa-comment me-1"></i>{{ $quest->questComments->count() ?? 0 }}
+                                        </div>
+                                        <div><i
+                                                class="fa-solid fa-chart-column me-1"></i>{{ $quest->pageViews->count() ?? 0 }}
+                                        </div>
+                                    </div>
+
+
+                                    {{-- Buttons for AuthUser only --}}
+                                    @if (isset($isOwnProfile) && $isOwnProfile)
+                                        <div class="d-flex justify-content-center gap-2 mt-3">
+                                            <a href="{{ route('quests.edit', $quest->id) }}"
+                                                class="btn btn-sm btn-info text-white">EDIT</a>
+                                            <form method="POST"
+                                                action="{{ route('quests.toggleVisibility', $quest->id) }}">
+                                                @csrf
+                                                @method('PATCH')
+                                                @if ($quest->is_public)
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger">HIDE</button>
+                                                @else
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-success">UNHIDE</button>
+                                                @endif
+                                            </form>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -41,7 +74,7 @@
         </div>
     @endif
 
-    {{-- My Spots --}}
+    {{-- Spots Section --}}
     @if (!empty($user['mySpots']))
         <div class="posts-section p-4 bg-white rounded">
             <h4 class="fw-bold text-center mb-4">Spots (view tourism log)</h4>
@@ -57,14 +90,24 @@
                     @foreach ($spots as $spot)
                         <div class="col-md-4 mb-4 d-flex justify-content-center">
                             <div class="card shadow-sm" style="width: 18rem;">
-                                <img src="{{ $spot['image'] }}" class="card-img-top" alt="Spot Image">
+                                <img src="{{ $spot->main_image }}" class="card-img-top" alt="Spot Image"
+                                    style="height: 180px; object-fit: cover; border-top-left-radius: 8px; border-top-right-radius: 8px;">
                                 <div class="card-body text-center">
-                                    <h5 class="card-title">{{ $spot['title'] }}</h5>
-                                    <p class="card-text small">{{ $spot['description'] }}</p>
-                                    <small class="text-muted d-block">{{ $spot['date'] ?? 'N/A' }}</small>
-                                    <div class="mt-2">
-                                        <i class="fa-regular fa-heart"></i> {{ $spot['likes'] ?? 0 }}
-                                        <i class="fa-regular fa-comment ms-3"></i> {{ $spot['comments'] ?? 0 }}
+                                    <div class="d-flex justify-content-between mb-2 px-2">
+                                        <span class="fw-bold text-start">{{ Str::limit($spot->title, 18) }}</span>
+                                        <small
+                                            class="text-muted">{{ $spot->created_at ? Carbon::parse($spot->created_at)->format('Y/m/d') : 'N/A' }}</small>
+                                    </div>
+                                    <div class="d-flex justify-content-between px-4 mt-2">
+                                        <div><i
+                                                class="fa-regular fa-heart me-1"></i>{{ $spot->spotLikes->count() ?? 0 }}
+                                        </div>
+                                        <div><i
+                                                class="fa-regular fa-comment me-1"></i>{{ $spot->spotComments->count() ?? 0 }}
+                                        </div>
+                                        <div><i
+                                                class="fa-solid fa-chart-column me-1"></i>{{ $spot->views->count() ?? 0 }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

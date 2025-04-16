@@ -164,3 +164,11 @@ Route::patch('/password/update', [TouristProfileController::class, 'updatePasswo
 
 // Delete Modal
 Route::delete('/myprofile', [TouristProfileController::class, 'destroy'])->name('myprofile.destroy');
+
+// Quest visibility toggle
+Route::patch('/quests/{quest}/toggle-visibility', [QuestController::class, 'toggleVisibility'])
+    ->name('quests.toggleVisibility');
+
+// Spot visibility toggle
+Route::patch('/spots/{spot}/toggle-visibility', [SpotController::class, 'toggleVisibility'])
+    ->name('spots.toggleVisibility');

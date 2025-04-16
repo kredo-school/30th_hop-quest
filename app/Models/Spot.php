@@ -11,31 +11,36 @@ class Spot extends Model
 {
     use SoftDeletes;
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function spotLikes(){
+    public function spotLikes()
+    {
         return $this->hasMany(SpotLike::class);
     }
 
 
-    public function pageViews(){
-        return $this->hasMany(PageView::class);
+    public function pageViews()
+    {
+        return $this->hasMany(PageView::class, 'page_id')->where('page_type', 'spot');
     }
 
-    public function isLiked(){
+
+    public function isLiked()
+    {
         return $this->spotLikes()->where('user_id', Auth::user()->id)->exists();
     }
 
-    public function view(): MorphOne{
+    public function view(): MorphOne
+    {
         return $this->morphOne(PageView::class, 'page');
     }
 
 
-    public function spotComments(){
+    public function spotComments()
+    {
         return $this->hasMany(SpotComment::class);
     }
-
-    
 }
