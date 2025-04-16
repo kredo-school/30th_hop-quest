@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Business;
-use App\Models\Promotion;
+use App\Models\BusinessPromotion;
 use App\Models\Quest;
 use App\Models\Photo;
-use App\Models\Review;
+use App\Models\BusinessComment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -20,16 +20,16 @@ class ProfileController extends Controller
 {
     private $user;
     private $business;
-    private $promotion;
+    private $business_promotion;
     private $quest;
-    private $review;
+    private $business_comment;
 
-    public function __construct(User $user, Business $business, Promotion $promotion, Quest $quest, Review $review){
+    public function __construct(User $user, Business $business, BusinessPromotion $business_promotion, Quest $quest, BusinessComment $business_comment){
         $this->user = $user;
         $this->business = $business;
-        $this->promotion = $promotion;
+        $this->business_promotion = $business_promotion;
         $this->quest = $quest;
-        $this->review = $review;
+        $this->business_comment = $business_comment;
     }
 
     public function edit($id){
@@ -85,10 +85,10 @@ class ProfileController extends Controller
         $user_a->load(['businesses.photos' => function ($query) {
             $query->orderBy('priority', 'asc')->limit(1);
         }]);
-        $reviews = DB::table('reviews')
-            ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+        $business_comments = DB::table('business_comments')
+            ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
             ->where('businesses.user_id', $id)
-            ->select('reviews.*') 
+            ->select('business_comments.*') 
             ->get();
         $sort = $request->get('sort', 'latest');
         $perPage = 3;
@@ -186,7 +186,7 @@ class ProfileController extends Controller
                 'query' => $request->query(), // ← クエリを保持！（sort=likes など）
             ]
         );
-        return view('businessusers.profiles.businesses', compact('reviews'),['businesses' => $paginated])->with('user', $user_a);
+        return view('businessusers.profiles.businesses', compact('business_comments'),['businesses' => $paginated])->with('user', $user_a);
     }
 
     
@@ -194,17 +194,17 @@ class ProfileController extends Controller
         //get data of 1 user
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $all_promotions = $this->promotion->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $reviews = DB::table('reviews')
-        ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+        $all_business_promotions = $this->business_promotion->withTrashed()->where('user_id', $user_a->id)->latest()->get();
+        $business_comments = DB::table('business_comments')
+        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
         ->where('businesses.user_id', $id)
-        ->select('reviews.*') 
+        ->select('business_comments.*') 
         ->get();
         $sort = $request->get('sort', 'latest');
         $perPage = 3;
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         // Promotions        
-        $promotions = Promotion::with('user', 'business')
+        $business_promotions = BusinessPromotion::with('user', 'business')
         ->where('user_id', $user_a->id)
         ->withTrashed()
         ->get()
@@ -216,7 +216,7 @@ class ProfileController extends Controller
                 'business_name' => optional($item->business)->name,
                 'title' => $item->title,
                 'introduction' => $item->introduction,
-                'main_image' => $item->photo,
+                'main_image' => $item->image,
                 'category_id' => null,
                 'tab_id' => 3,
                 'duration' => null,
@@ -234,14 +234,14 @@ class ProfileController extends Controller
             ];
         });
 
-        $promotions = match($sort) {
-            default  => $promotions->sortByDesc('created_at'), 
+        $business_promotions = match($sort) {
+            default  => $business_promotions->sortByDesc('created_at'), 
         };
 
         // ページネーション
         $paginated = new LengthAwarePaginator(
-            $promotions->forPage($currentPage, $perPage),
-            $promotions->count(),
+            $business_promotions->forPage($currentPage, $perPage),
+            $business_promotions->count(),
             $perPage,
             $currentPage,
             [
@@ -250,17 +250,17 @@ class ProfileController extends Controller
             ]
         );
 
-        return view('businessusers.profiles.promotions', compact('all_promotions','all_businesses', 'reviews'),['promotions' => $paginated])->with('user', $user_a);
+        return view('businessusers.profiles.promotions', compact('all_business_promotions','all_businesses', 'business_comments'),['business_promotions' => $paginated])->with('user', $user_a);
     }
 
 
     public function showModelQuests(Request $request, $id){
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $reviews = DB::table('reviews')
-        ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+        $business_comments = DB::table('business_comments')
+        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
         ->where('businesses.user_id', $id)
-        ->select('reviews.*') 
+        ->select('business_comments.*') 
         ->latest()->paginate(3);
         $sort = $request->get('sort', 'latest');
         $perPage = 3;
@@ -312,25 +312,66 @@ class ProfileController extends Controller
             ]
         );
 
-        return view('businessusers.profiles.quests', compact('all_businesses', 'reviews'),['quests' => $paginated])->with('user', $user_a);
+        return view('businessusers.profiles.quests', compact('all_businesses', 'business_comments'),['quests' => $paginated])->with('user', $user_a);
     }
 
     public function followers($id){
         $user_a = $this->user->findOrFail($id);
         $all_businesses = $this->business->withTrashed()->where('user_id', $user_a->id)->latest()->get();
-        $reviews = DB::table('reviews')
-        ->join('businesses', 'reviews.business_id', '=', 'businesses.id')
+        $business_comments = DB::table('business_comments')
+        ->join('businesses', 'business_comments.business_id', '=', 'businesses.id')
         ->where('businesses.user_id', $id)
-        ->select('reviews.*') 
+        ->select('business_comments.*') 
         ->get();
-        return view('businessusers.profiles.followers',compact('all_businesses', 'reviews'))->with('user', $user_a);
+        return view('businessusers.profiles.followers',compact('all_businesses', 'business_comments'))->with('user', $user_a);
     }
 
-    public function allReviews($id){
-        $all_reviews = $this->review->latest()->paginate(10);
-        $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return view('businessusers.reviews.allreviews')->with('all_reviews', $all_reviews)->with('all_businesses',$all_businesses);
+    public function allReviews(Request $request){
+        $user = Auth::user();
+    
+        // ログインユーザーが登録しているBusiness一覧
+        // $all_businesses = Business::where('user_id', Auth::user()->id)->get();
+    
+        // 絞り込み（GETパラメータにbusiness_idがある場合）
+        $query = BusinessComment::with('userRelation', 'businessRelation');
+    
+        if ($request->filled('business_id')) {
+            $query->where('business_id', $request->business_id);
+        }  
+        
+        if ($request->filled('user_id')) {
+            $query->where('user_id', $request->user_id);
+        }
+    
+        if ($request->filled('min_rating')) {
+            $query->where('rating', '>=', $request->min_rating);
+        }
+    
+        if ($request->filled('sort_date')) {
+            if ($request->sort_date === 'latest') {
+                $query->orderBy('created_at', 'desc');
+            } elseif ($request->sort_date === 'oldest') {
+                $query->orderBy('created_at', 'asc');
+            }
+        } else {
+            // デフォルトは新しい順
+            $query->orderBy('created_at', 'desc');
+        }
+    
+        $business_comments = $query->latest()->paginate(11);
+        // 表示されているレビューに登場するユーザー一覧（重複なし）
+        $from_users = BusinessComment::whereIn('id', $business_comments->pluck('id'))
+            ->with('userRelation')
+            ->get()
+            ->pluck('userRelation')
+            ->unique('id');
+        $from_businesses = BusinessComment::whereIn('id', $business_comments->pluck('id'))
+            ->with('businessRelation')
+            ->get()
+            ->pluck('businessRelation')
+            ->unique('id');
+    
+        return view('businessusers.reviews.allreviews', compact('business_comments', 'from_businesses', 'from_users'));
     }
-
-
+    
 }
