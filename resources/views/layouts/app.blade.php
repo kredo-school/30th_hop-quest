@@ -150,7 +150,7 @@
                                             <i class="fa-solid fa-circle-user"></i> Profile
                                         </a>
                                     @elseif(Auth::user()->role_id == 2)
-                                        <a href="{{ route('profile.businesses', Auth::user()->id) }}"
+                                        <a href="{{ route('profile.header', Auth::user()->id) }}"
                                             class="dropdown-item">
                                             <i class="fa-solid fa-circle-user"></i> Profile
                                         </a>
