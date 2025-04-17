@@ -39,6 +39,9 @@ class Quest extends Model
     }
 
     public function isLiked(){
+        if (!Auth::check()) {
+            return false;
+        }
         return $this->questLikes()->where('user_id', Auth::user()->id)->exists();
     }
 

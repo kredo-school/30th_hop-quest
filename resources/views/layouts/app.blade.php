@@ -179,8 +179,8 @@
             </div>
         </nav>
 
-        <main class="pt-5">           
-            @yield('content') 
+        <main class="pt-5">
+            @yield('content')
         </main>
     </div>
     @yield('js')

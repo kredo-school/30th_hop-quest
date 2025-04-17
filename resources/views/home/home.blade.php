@@ -12,7 +12,7 @@
     {{-- Header video --}}
     <div class="wrapper-header position-relative overflow-hidden d-flex align-items-center justify-content-center">
         <video autoplay muted loop playsinline class="header_video">
-            <source src="{{ asset('videos/header_sample10.mp4') }}" type="video/mp4">
+            <source src="{{ asset('videos/header-video-1.mp4') }}" type="video/mp4">
         </video>
     
         {{-- Header video's title --}}
@@ -91,24 +91,13 @@
         </div>
 
         <div class="view-all">
-            <div class="row">
-                <div class="col-auto all-posts-img">
-                    <a href="#" class="text-decoration-none text-dark">
-                        <h1 class="poppins-semibold">
-                            <img src="{{ asset('images/home/オリジナル（透過背景） black.png') }}" alt="">
-                        </h1>
-                    </a>
-                </div>
-
-                <div class="col-auto all-posts">
-                    <a href="#" class="text-decoration-none text-dark">
-                        <h1 class="poppins-semibold">
-                            All
-                        </h1>
-                    </a>
-                </div>
-            </div>
-            
+            <div class="col-auto all-posts">
+                <a href="#" class="text-decoration-none text-dark">
+                    <h1 class="poppins-semibold">
+                        <i class="fa-solid fa-globe"></i> All
+                    </h1>
+                </a>
+            </div>            
             {{-- <div class="line-2"></div> --}}
         </div>
 
@@ -128,17 +117,23 @@
                 <div class="container-fluid wrapper-body tab-content" id="tab-fol">
                     <div class="row" id="post-list-follow">
                         <div class="slider mt-5">
-                            @forelse ($popular_follwings as $post)
-                                @if ($post->user->isFollowed())
-                                    <div class="slide">
-                                        @include('home.home-body')
+                            @if (Auth::check())
+                                @forelse($popular_follwings as $post)
+                                    @if ($post->user->isFollowed())
+                                        <div class="slide">
+                                            @include('home.home-body')         
+                                        </div>                               
+                                    @endif
+                                @empty    
+                                    <div class="empty d-flex justify-content-center not-found">
+                                        No posts yet.
                                     </div>
-                                @endif
-                            @empty
+                                @endforelse
+                            @else
                                 <div class="empty d-flex justify-content-center not-found">
-                                    Your following users have no posts.
+                                    You need to log-in.
                                 </div>
-                            @endforelse
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -220,12 +215,12 @@
                     document.querySelector('.all-posts')?.classList.add('active');
                     document.querySelector('.all-posts-img')?.classList.add('active');
 
-                    const line2 = document.querySelector('.line-2');
-                    if(line2){
-                        setTimeout(() => {
-                            line2.classList.add('active');
-                        }, 100);
-                    }
+                    // const line2 = document.querySelector('.line-2');
+                    // if(line2){
+                    //     setTimeout(() => {
+                    //         line2.classList.add('active');
+                    //     }, 100);
+                    // }
                 }
             
                 const target = document.querySelector('.line');
@@ -237,6 +232,13 @@
 
                             entry.target.addEventListener('transitionend', () => {
                                 animationOthers();
+
+                                const initialSlider = document.querySelector(`#${defaultTab} .slider`);
+                                if (initialSlider) {
+                                    initialSlider.classList.add('active'); 
+                                    initSlick(initialSlider);
+                                }
+                                
                             }, { once:true });
 
                             observer.unobserve(entry.target);
@@ -265,7 +267,7 @@
 
                 {{-- HopQuest Logo --}}
                 <div class="col-5 sharing-img">
-                    {{-- <img src="{{ asset('images/オリジナル（透過背景） (1) 1.png')}}" alt="HopQuest-logo" class="hop-quest"> --}}
+                    {{-- <img src="{{ asset('images/home/オリジナル（透過背景） (1) 1.png')}}" alt="HopQuest-logo" class="hop-quest"> --}}
                 </div>
 
                         {{-- For sharing-img's animation --}}

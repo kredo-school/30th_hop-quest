@@ -123,7 +123,7 @@
                 </form>
 
                 <button class="btn btn-sm p-0 text-center">
-                    <span>10</span>
+                    <span>{{ $post->likes->count() }}</span>
                 </button>
                 {{-- Modal for displaying all users who liked owner of post--}}
                                         
@@ -132,22 +132,23 @@
                 {{-- Comment icon & Number of comments --}}
                 <div class="col-auto d-flex ms-3">
                     <div>
-                        <i class="fa-regular fa-comment"></i>
+                        <i class="fa-regular fa-comment h5"></i>
                     </div>
 
-                    <button class="btn btn-sm p-0 text-center">
-                        <span>&nbsp;&nbsp;52</span>
+                    <button class="btn btn-sm p-0 text-center no-click">
+                        <span>&nbsp;&nbsp;{{ $post->comments->count() }}</span>
                     </button>
                 </div>
 
                 {{--  --}}
                 <div class="col-auto d-flex ms-3">
                     <div>
-                        <i class="fa-solid fa-chart-simple"></i>
+                        <img src="{{ asset('images/chart.png')}}" alt="">
+                        {{-- <i class="fa-solid fa-chart-simple"></i> --}}
                     </div>
 
-                    <button class="btn btn-sm p-0 text-center">
-                        <span>&nbsp;&nbsp;{{ $post->view->views ?? 0}}</span>
+                    <button class="btn btn-sm p-0 text-center no-click">
+                        <span>&nbsp;&nbsp;{{ $post->views->sum('views') ?? 0}}</span>
                     </button>
                 </div>
             </div>

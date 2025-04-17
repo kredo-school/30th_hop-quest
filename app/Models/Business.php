@@ -49,6 +49,9 @@ class Business extends Model
     }
 
     public function isLiked(){
+        if (!Auth::check()) {
+            return false;
+        }
         return $this->businessLikes()->where('user_id', Auth::user()->id)->exists();
     }
 

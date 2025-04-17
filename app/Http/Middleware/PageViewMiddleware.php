@@ -55,6 +55,9 @@ class PageViewMiddleware
                     'page_id'       => $id,
                     'page_type'     => $modelClass,
                     'ip_address'    => $ip
+                ], [
+                    'created_at'    => Carbon::now(),
+                    'updated_at'    => Carbon::now(),
                 ]);
             }
         }

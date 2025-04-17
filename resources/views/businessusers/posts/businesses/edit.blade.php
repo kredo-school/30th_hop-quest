@@ -13,7 +13,7 @@
                             <h4 class=" d-inline me-3">Edit Business</h4>
                             <p class="form-label d-inline ">(<span class="color-red fw-bold">*</span> Required items)<p>
                         </div>
-                        <button type="button" class="btn btn-red col-2 ms-auto" data-bs-toggle="modal" data-bs-target="#delete-category-modal">
+                        <button type="button" class="btn btn-red col-2 ms-auto" data-bs-toggle="modal" data-bs-target="#deleteBusinessModal">
                             DELETE
                         </button>
                     </div>
@@ -42,7 +42,6 @@
                             <input type="text" name="name" id="name" value="{{ old('name', $business->name ?? '') }}" class="form-control">
                         </div>
 
-                        <!-- インラインスクリプトで確実に実行 -->
                         <script src="{{ asset('js/business.js') }}"></script>
 
                         <!-- Contact Information Form -->
@@ -60,22 +59,24 @@
                         <!-- social-media -->
                         @include('businessusers.posts.businesses.partials.social-media')
 
-                        <!-- Welcome message -->
+                        <!-- Introduction -->
                         <div class="mb-3">
                             <label for="introduction" class="form-label d-inline">
-                                Welcome message<span style="color: #D24848;">*</span>
+                                Introduction<span style="color: #D24848;">*</span>
                             </label>
                             <textarea name="introduction" class="form-control">{{ old('introduction', $business->introduction ?? '') }}</textarea>
                         </div>
 
+                        <h3 class="text-xl font-bold mb-3">Business Hours & Event Time Periods</h3>
+
                         <!-- Business Location or Event Term Info and S.P.Notes -->
-                        @include('businessusers.posts.businesses.partials.business-hours')
+                        @include('businessusers.posts.businesses.partials.business-status')
 
                         <!-- Weekly Business Schedule' -->
                         @include('businessusers.posts.businesses.partials.weekly-schedule')
 
                         <!-- Facility information -->
-                        {{-- @include('businessusers.posts.businesses.partials.business-details-facility', ['businessDetail' => $businessDetail ?? null, 'oldValues' => old('details')]) --}}
+                        @include('businessusers.posts.businesses.partials.business-details', ['businessDetail' => $businessDetail ?? null, 'oldValues' => old('details')])
 
                         <!-- Identification Information -->
                         @include('businessusers.posts.businesses.partials.identification-information', ['business' => $business ?? null])

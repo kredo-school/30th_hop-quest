@@ -38,7 +38,10 @@ class BusinessController extends Controller
 
     public function create(){
         $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return view('businessusers.posts.businesses.add')->with('all_businesses',$all_businesses);
+        $business_info_category = BusinessInfoCategory::with('businessInfos')->get();
+        return view('businessusers.posts.businesses.add')
+            ->with('all_businesses', $all_businesses)
+            ->with('business_info_category', $business_info_category);
     }
 
     public function store(Request $request){
@@ -59,7 +62,15 @@ class BusinessController extends Controller
         $this->business->category_id = $request->category_id;
         $this->business->user_id = Auth::user()->id;
         $this->business->name = $request->name;
-        $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
+        
+        // main_imageがある場合のみ処理
+        if ($request->hasFile('main_image')) {
+            $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
+        } else {
+            // デフォルト画像を設定するか、nullのままにする
+            $this->business->main_image = null;
+        }
+        
         $this->business->email = $request->email;
         $this->business->term_start = $request->term_start;
         $this->business->term_end = $request->term_end;
@@ -129,6 +140,17 @@ class BusinessController extends Controller
                 'is_closed' => isset($data['is_closed']), // チェックが入っているかどうかで判定
             ]);
         }
+
+        // Business details の保存
+        if ($request->has('business_info')) {
+            foreach ($request->business_info as $infoId) {
+                BusinessDetail::create([
+                    'business_id' => $this->business->id,
+                    'business_info_id' => $infoId,
+                    'is_valid' => true
+                ]);
+            }
+        }
     
         return redirect()->route('profile.header', Auth::id());
     }
@@ -136,9 +158,13 @@ class BusinessController extends Controller
     public function edit($id){
         $business_a = $this->business->findOrFail($id);
         $businessHours = $business_a->businessHours->keyBy('day_of_week');
-        // $businessDetail = $business_a->businessDetails()->first();
-        // $checkedDetailItems = $businessDetail?->details->pluck('name')->toArray() ?? [];
-        return view('businessusers.posts.businesses.edit', compact('businessHours'))->with('business', $business_a);
+        $businessDetail = $business_a->businessDetails;
+        $business_info_category = BusinessInfoCategory::with('businessInfos')->get();
+        
+        return view('businessusers.posts.businesses.edit')
+            ->with('business', $business_a)
+            ->with('businessHours', $businessHours)
+            ->with('business_info_category', $business_info_category);
     }
 
     public function update(Request $request, $id){
@@ -161,6 +187,15 @@ class BusinessController extends Controller
         $business_a->category_id = $request->category_id;
         $business_a->user_id = Auth::user()->id;
         $business_a->name = $request->name;
+        
+        // main_imageがある場合のみ処理
+        if ($request->hasFile('main_image')) {
+            $business_a->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
+        } else {
+            // デフォルト画像を設定するか、nullのままにする
+            $business_a->main_image = null;
+        }
+        
         $business_a->email = $request->email;
         $business_a->zip = $request->zip;
         $business_a->phonenumber = $request->phonenumber;
@@ -168,11 +203,6 @@ class BusinessController extends Controller
         $business_a->term_start = $request->term_start;
         $business_a->term_end = $request->term_end;
         $business_a->introduction = $request->introduction;
-
-
-        if($request->main_image){
-            $business_a->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
-        }
 
         $current_cert = $business_a->official_certification;
 
@@ -197,6 +227,20 @@ class BusinessController extends Controller
         if ($request->hasFile('photos')) {
             $photoController = app(PhotoController::class);
             $photoController->update($request, $business_a);
+        }
+        
+        // 既存のBusinessDetailsを削除
+        BusinessDetail::where('business_id', $id)->delete();
+        
+        // 新しいBusinessDetailsを保存
+        if ($request->has('business_info')) {
+            foreach ($request->business_info as $infoId) {
+                BusinessDetail::create([
+                    'business_id' => $id,
+                    'business_info_id' => $infoId,
+                    'is_valid' => true
+                ]);
+            }
         }
         
         return redirect()->route('profile.header',Auth::user()->id);

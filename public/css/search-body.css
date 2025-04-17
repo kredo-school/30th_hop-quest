@@ -72,6 +72,11 @@
     margin: 0;
 } */
 
+.personal_space{
+    height: 3.2rem;
+
+}
+
 .card-icon{
     border-radius: 50%;
     width: 2rem;
@@ -99,3 +104,26 @@
 button.btn.btn-sm.shadow-none{
     margin-top: 0.5rem;
 }
+
+.no-click{
+    pointer-events: none; 
+}
+
+.col-auto.d-flex.ms-3 img{
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.chart-img{
+    margin-bottom: 5px;
+}
+
+.like-button{
+    padding-bottom: 1rem;
+}
+
+.comment{
+    margin-top: 0.2rem;
+}
+
+
