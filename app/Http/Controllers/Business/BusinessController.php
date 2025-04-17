@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessDetail;
+use App\Models\BusinessComment;
 use App\Models\BusinessInfoCategory;
 use App\Models\BusinessHour;
 use App\Models\Photo;
@@ -24,8 +25,9 @@ class BusinessController extends Controller
     private $business_hour;
     private $business_info_category;
     private $photo;
+    private $business_comment;
 
-    public function __construct(Photo $photo, Business $business, User $user, BusinessPromotion $business_promotion, BusinessHour $business_hour, BusinessInfoCategory $business_info_category){
+    public function __construct(Photo $photo, Business $business, User $user, BusinessPromotion $business_promotion, BusinessHour $business_hour, BusinessInfoCategory $business_info_category, BusinessComment $business_comment){
         $this->photo = $photo;
         $this->business = $business;
         $this->business_promotion = $business_promotion;
@@ -34,6 +36,7 @@ class BusinessController extends Controller
         $this->user = $user;
         $this->business_promotion = $business_promotion;
         $this->business_hour = $business_hour;
+        $this->business_comment = $business_comment;
     }
 
     public function create(){
@@ -257,10 +260,15 @@ class BusinessController extends Controller
                     $query->where('business_id', $id);
                 }]);
             }])->get();
+            $business_comments = BusinessComment::with(['user', 'BusinessCommentlikes'])
+            ->where('business_id', $id)
+            ->latest() // created_at の新しい順
+            ->paginate(5); // 5件ずつ
 
             return view('businessusers.posts.businesses.show')
                     ->with('business', $business)
                     ->with('business_hour', $business_hour)
+                    ->with('business_comments', $business_comments)
                     ->with('business_info_category', $business_info_category)
                     ->with('business_promotion', $business_promotion);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {

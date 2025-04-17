@@ -9,7 +9,7 @@
         
         {{-- add comment section --}}
         @auth
-            <form action="{{ route('spot.comment.store', $spot->id) }}" method="post">
+            <form action="{{ route('spots.comment.store', $spot->id) }}" method="post">
                 @csrf
                 <input type="hidden" name="spot_id" value="{{ $spot->id }}">
                 <textarea name="content" class="comment-textarea" placeholder="your comment" required></textarea>
@@ -46,7 +46,11 @@
                     {{-- User Icon --}}
                     <div class="comment-user-icon" id="usericon">
                         <a href="{{ route('spot.show', $comment->user->id) }}" class="spot-user-link">
-                            <img src="{{ asset($comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="spot-user-avatar">
+                            @if($comment->user->avatar)
+                                <img src="{{ $comment->user->avatar }}" alt="" class="rounded-circle avatar-sm">
+                            @else
+                                <i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i>
+                            @endif
                         </a>
                     </div>
                     {{-- User Name --}}
@@ -55,7 +59,7 @@
                             {{ $comment->user->name }}
                         </a>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto ms-auto">
                         <p class="spot-date">{{ date('M d, Y', strtotime($comment->created_at)) }}</p>
                     </div>
                 </div>
@@ -72,15 +76,15 @@
                     <div class="comment-action-item">
                         @auth
                             @if($comment->likes->contains('user_id', Auth::user()->id))
-                                <form action="{{ route('spot.comment.unlike', ['spot_id' => $spot->id, 'comment_id' => $comment->id]) }}" method="post">
+                                <form action="{{ route('spots.comment.like.delete', ['spot_id' => $spot->id, 'comment_id' => $comment->id]) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="comment-like-button">
-                                        <i class="fa-solid fa-heart"></i>
+                                    <button type="submit" class="btn p-0">
+                                        <i class="fa-solid fa-heart color-red {{ $comment->isLiked() ? '' : 'text-secondary' }}" ></i>
                                     </button>
                                 </form>
                             @else
-                                <form action="{{ route('spot.comment.like', ['spot_id' => $spot->id, 'comment_id' => $comment->id]) }}" method="post">
+                                <form action="{{ route('spots.comment.like.store', ['spot_id' => $spot->id, 'comment_id' => $comment->id]) }}" method="post">
                                     @csrf
                                     <button type="submit" class="comment-like-button">
                                         <i class="fa-regular fa-heart"></i>

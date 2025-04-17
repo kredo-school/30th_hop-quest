@@ -148,6 +148,23 @@ class BusinessCommentController extends Controller
         return redirect()->back();
     }
 
+    public function store(Request $request, $business_id)
+    {
+        $request->validate([
+            'content' => 'required|string|max:255',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        BusinessComment::create([
+            'business_id' => $business_id,
+            'user_id' => auth()->id(),
+            'content' => $request->content,
+            'rating' => $request->rating,
+        ]);
+
+        return redirect()->back();
+    }
+
 
 }
 

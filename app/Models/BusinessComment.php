@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BusinessComment extends Model
 {
     protected $table = 'business_comments';
+    protected $fillable = ['user_id', 'business_id', 'rating', 'content'];
 
     use SoftDeletes;
 

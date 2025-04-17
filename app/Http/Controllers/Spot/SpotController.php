@@ -28,7 +28,7 @@ class SpotController extends Controller
         $user = $this->user->findOrFail($spot->user_id);
 
         // Convert storage path to URL
-        $spot->main_image = Storage::url($spot->main_image);
+        // $spot->main_image = Storage::url($spot->main_image);
 
         return view('spots.show')
             ->with('spot', $spot)

@@ -9,16 +9,19 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Models\Spot;
 use App\Models\User;
+use App\Models\SpotLike;
 
-class SpotController extends Controller
+class SpotLikeController extends Controller
 {
     private $spot;
     private $user;
+    private $spot_like;
 
-    public function __construct(Spot $spot, User $user)
+    public function __construct(Spot $spot, User $user, SpotLike $spot_like)
     {
         $this->spot = $spot;
         $this->user = $user;
+        $this->spot_like = $spot_like;
     }
 
     public function show($id)
@@ -81,6 +84,24 @@ class SpotController extends Controller
         $spot = $this->spot->findOrFail($this->spot->id);
 
         return redirect()->route('spot.show', $spot->id);
+    }
+
+    public function storeSpotLike($spot_id){
+        $this->spot_like->user_id = Auth::user()->id;
+        $this->spot_like->spot_id = $spot_id; //post we are liking
+        $this->spot_like->save();
+
+        //go to previous page
+        return redirect()->back();
+    }
+
+    public function deleteSpotLike($spot_id){
+        //delete()
+        $this->spot_like->where('user_id', Auth::user()->id)
+                    ->where('spot_id', $spot_id)
+                    ->delete();
+
+        return redirect()->back();
     }
 }
 

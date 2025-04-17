@@ -91,6 +91,9 @@ Route::group(['prefix' => '/business/business', 'as' => 'businesses.'], function
     Route::patch('photos/{business}/update', [PhotoController::class, 'update'])->name('photos.update');
     Route::delete('/{id}/deactivate', [BusinessController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [BusinessController::class, 'activate'])->name('activate');
+    // Business Comments
+    Route::post('/{spot_id}/comment/store', [BusinessCommentController::class, 'store'])->name('comment.store');
+    Route::delete('/{spot_id}/comment/{comment_id}/destroy', [BusinessCommentController::class, 'destroy'])->name('comment.destroy');
 });
 Route::get('/business/show/business/{id}', [BusinessController::class, 'show'])->middleware(PageViewMiddleware::class)->name('business.show');
 
@@ -130,14 +133,14 @@ Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
     Route::post('/store', [SpotController::class, 'store'])->name('store');
     
     // Spot Likes
-    Route::post('/{spot_id}/like', [SpotLikeController::class, 'store'])->name('like.store');
-    Route::delete('/{spot_id}/unlike', [SpotLikeController::class, 'destroy'])->name('like.delete');
+    Route::post('/{spot_id}/like', [SpotLikeController::class, 'storeSpotLike'])->name('like.store');
+    Route::delete('/{spot_id}/unlike', [SpotLikeController::class, 'deleteSpotLike'])->name('like.delete');
     // Spot Comments
     Route::post('/{spot_id}/comment/store', [SpotCommentController::class, 'store'])->name('comment.store');
     Route::delete('/{spot_id}/comment/{comment_id}/destroy', [SpotCommentController::class, 'destroy'])->name('comment.destroy');
     // Spot Comment Likes
-    Route::post('/comment/{comment_id}/like', [SpotCommentLikeController::class, 'like'])->name('comment.like');
-    Route::delete('/comment/{comment_id}/unlike', [SpotCommentLikeController::class, 'unlike'])->name('comment.unlike');
+    Route::post('/comment/{comment_id}/like', [SpotCommentLikeController::class, 'like'])->name('comment.like.store');
+    Route::delete('/comment/{comment_id}/unlike', [SpotCommentLikeController::class, 'unlike'])->name('comment.like.delete');
 });
 Route::get('/spot/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('spot.show');
 
