@@ -55,44 +55,12 @@ class BusinessController extends Controller
         $this->business->category_id = $request->category_id;
         $this->business->user_id = Auth::user()->id;
         $this->business->name = $request->name;
-        $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
+        $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode (file_get_contents($request->main_image));
         $this->business->email = $request->email;
         $this->business->term_start = $request->term_start;
         $this->business->term_end = $request->term_end;
         $this->business->introduction = $request->introduction;
-        $this->business->status = $request->status;
-        $this->business->sp_notes = $request->sp_notes;
-        $this->business->address_1 = $request->address_1;
-        $this->business->address_2 = $request->address_2;
-        $this->business->zip = $request->zip;
-        $this->business->phonenumber = $request->phonenumber;
-        $this->business->website_url = $request->website_url;
-        $this->business->instagram = $request->instagram;
-        $this->business->facebook = $request->facebook;
-        $this->business->x = $request->x;
-        $this->business->tiktok = $request->tiktok;
-        $this->business->identification_number = $request->identification_number;
-        $this->business->display_start = $request->display_start;
-        $this->business->display_end = $request->display_end;
-
-        $current_cert = $this->business->official_certification;
-
-        if ($current_cert == 3) {
-            if ($request->has('official_certification')) {
-                // チェックあり → 特別な認定を外して普通の認定に戻す
-                $this->business->official_certification = 2;
-            } else {
-                // チェックなし → 認定全部外す
-                $this->business->official_certification = 1;
-            }
-        } else {
-            if ($request->has('official_certification')) {
-                $this->business->official_certification = 2;
-            } else {
-                $this->business->official_certification = 1;
-            }
-        }
-
+        $this->business->official_certification = 1;
         $this->business->save();
 
         // PhotoController の store を呼び出して写真を保存
@@ -153,7 +121,6 @@ class BusinessController extends Controller
         ]);
 
         $business_a = $this->business->findOrFail($id);
-
         $business_a->category_id = $request->category_id;
         $business_a->user_id = Auth::user()->id;
         $business_a->name = $request->name;
@@ -164,6 +131,7 @@ class BusinessController extends Controller
         $business_a->term_start = $request->term_start;
         $business_a->term_end = $request->term_end;
         $business_a->introduction = $request->introduction;
+        $business_a->official_certification = 1;
 
 
         if($request->main_image){

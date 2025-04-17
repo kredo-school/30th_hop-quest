@@ -98,8 +98,8 @@ Route::group(['prefix' => '/home/modelquest', 'as' => 'quests.'], function () {
     Route::post('/store', [QuestController::class, 'store'])->name('store');
     Route::delete('/{id}/deactivate', [QuestController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [QuestController::class, 'activate'])->name('activate');
-    Route::post('/like/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('like.store');
-    Route::delete('/like/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('like.delete');
+    //Route::post('/like/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('like.store');
+    //Route::delete('/like/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('like.delete');
 });
 
 //LIKE QUEST
