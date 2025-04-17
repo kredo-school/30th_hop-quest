@@ -92,16 +92,6 @@ thead{
     width:1300px;
 }
 
-
-.dropdown {
-    display: none;
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 10px;
-    z-index: 100;
-}
-
 .bg-navy-thead{
     background-color: #3B3B6B;
     color:white;

@@ -20,13 +20,17 @@ class BusinessController extends Controller
 {
     private $user;
     private $business;
-    private $photo;
     private $business_promotion;
     private $business_hour;
+    private $business_info_category;
+    private $photo;
 
-    public function __construct(Photo $photo, Business $business, User $user, BusinessPromotion $business_promotion, BusinessHour $business_hour){
+    public function __construct(Photo $photo, Business $business, User $user, BusinessPromotion $business_promotion, BusinessHour $business_hour, BusinessInfoCategory $business_info_category){
         $this->photo = $photo;
         $this->business = $business;
+        $this->business_promotion = $business_promotion;
+        $this->business_hour = $business_hour;
+        $this->business_info_category = $business_info_category;
         $this->user = $user;
         $this->business_promotion = $business_promotion;
         $this->business_hour = $business_hour;
@@ -260,10 +264,9 @@ class BusinessController extends Controller
                     ->with('business_info_category', $business_info_category)
                     ->with('business_promotion', $business_promotion);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->route('home')->with('error', 'ビジネス情報が見つかりませんでした。');
+            return redirect()->route('businesses.show', $id)->with('error', 'ビジネス情報が見つかりませんでした。');
         }
     }
-
 
     public function deactivate($id){
         $this->business->destroy($id);
