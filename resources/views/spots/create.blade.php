@@ -21,7 +21,7 @@
         <div class="row row-cols-1 row-cols-md-2">
             {{-- left side --}}
             <div class="col-12 col-md-6 add-spot-container">
-                <form action="{{ route('spot.store') }}" method="POST" class="add-spot-form" id="spot-form" enctype="multipart/form-data">
+                <form action="{{ route('spots.store') }}" method="POST" class="add-spot-form" id="spot-form" enctype="multipart/form-data">
                     @csrf
 
                     {{-- title --}}
