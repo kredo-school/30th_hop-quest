@@ -39,22 +39,36 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-     public function index(){
+    public function index(){
 
         $popular_quests     = Quest::with('views')->whereHas('views')->get()
-                        ->sortByDesc(fn($quest) => $quest->view->views ?? 0)->take(9)->values();
+                        ->sortByDesc(fn($quest) => $quest->views->sum('views') ?? 0)->take(9)->values();
 
         $popular_spots      = Spot::with('views')->whereHas('views')->get()
-                        ->sortByDesc(fn($spot) => $spot->view->views ?? 0)->take(9)->values();
+                        ->sortByDesc(fn($spot) => $spot->views->sum('views') ?? 0)->take(9)->values();
 
         $popular_locations  = Business::with('views')->whereHas('views')->where('category_id' ,'1')->get()
-                        ->sortByDesc(fn($location) => $location->view->views ?? 0)->take(9)->values();
+                        ->sortByDesc(fn($location) => $location->views->sum('views') ?? 0)->take(9)->values();
         
         $popular_events     = Business::with('views')->whereHas('views')->where('category_id' ,'2')->get()
-                        ->sortByDesc(fn($event) => $event->view->views ?? 0)->take(9)->values();
+                        ->sortByDesc(fn($event) => $event->views->sum('views') ?? 0)->take(9)->values();
         
-        $popular_follwings  = $popular_quests->concat($popular_spots)->concat($popular_locations)->concat($popular_events)
-                        ->sortByDesc(fn($post) => $post->view->views ?? 0)->take(9)->values();
+        // $popular_follwings  = $popular_quests->concat($popular_spots)->concat($popular_locations)->concat($popular_events)
+        //                 ->sortByDesc(fn($post) => $post->views->sum('views') ?? 0)->take(9)->values();
+        
+        $followedUserIds = Auth::check()
+                ? Auth::user()->followings->pluck('id')->toArray()
+                : [];
+    
+        $popular_follwings = collect()
+            ->concat($popular_quests)
+            ->concat($popular_spots)
+            ->concat($popular_locations)
+            ->concat($popular_events)
+            ->filter(fn($post) => $post->user && in_array($post->user->id, $followedUserIds))
+            ->sortByDesc(fn($post) => $post->views->sum('views') ?? 0)
+            ->take(9)
+            ->values();
 
         return view('home.home')
                 ->with('popular_quests', $popular_quests)
@@ -749,197 +763,204 @@ public function showQuests(Request $request){
     }
 
     public function showFollowings(Request $request){
-        $sort = $request->get('sort', 'likes_count');
-        $perPage = 6;
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-        $followedUserIds = Auth::user()->following->pluck('id')->toArray();
-        // Spots
-        $spots = Spot::with('user')
-        ->withCount(['spotLikes as likes_count'])
-        ->withCount(['spotComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
-        ->whereIn('user_id', $followedUserIds)
-        ->get()
-        ->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'user' => $item->user,
-                'user_id' => $item->user_id,
-                'user_name' => optional($item->user)->name,
-                'user_official_certification' => optional($item->user)->official_certification,
-                'avatar' => optional($item->user)->avatar,
-                'title' => $item->title,
-                'introduction' => $item->introduction,
-                'main_image' => $item->main_image,
-                'category_id' => null,
-                'tab_id' => 1,
-                'official_certification' => null,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
-                'likes_count' => $item->likes_count, 
-                'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
-                'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'spots',                  
-            ];
-        });
-    
-        // Quests
-        $quests = Quest::with('user')
-        ->withCount(['questLikes as likes_count'])
-        ->withCount(['questComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
-        ->whereIn('user_id', $followedUserIds)
-        ->get()
-        ->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'user' => $item->user,
-                'user_id' => $item->user_id,
-                'user_name' => optional($item->user)->name,
-                'user_official_certification' => optional($item->user)->official_certification,
-                'avatar' => optional($item->user)->avatar,
-                'title' => $item->title,
-                'introduction' => $item->introduction,
-                'main_image' => $item->main_image,
-                'category_id' => null,
-                'tab_id' => 2,
-                'official_certification' => null,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
-                'likes_count' => $item->likes_count,
-                'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
-                'is_liked' => $item->isLiked(),
-                'type' => 'quests',  
-            ];
-        });
-    
-    
-        // Businesses -> Location
-        $locations = Business::where('category_id', 1)
-        ->withCount(['businessLikes as likes_count'])
-        ->withCount(['businessComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
-        ->with([
-            'photos' => function ($q) {
-                $q->orderBy('priority')->limit(1);
-            },
-            'user' // ← ユーザー情報も一緒に取得
-        ])
-        ->whereIn('user_id', $followedUserIds)
-        ->get()
-        ->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'user' => $item->user,
-                'user_id' => $item->user_id,
-                'user_name' => optional($item->user)->name,
-                'user_official_certification' => optional($item->user)->official_certification,
-                'avatar' => optional($item->user)->avatar,
-                'title' => $item->name,
-                'introduction' => $item->introduction,
-                'main_image' => $item->main_image,
-                'category_id' => $item->category_id,
-                'tab_id' => 3,
-                'official_certification' => $item->official_certification,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
-                'likes_count' => $item->likes_count, // ← 追加
-                'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
-                'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'businesses', 
-            ];
-        });
-    
-        // Businesses -> Event
-        $events = Business::where('category_id', 2)
-        ->withCount(['businessLikes as likes_count'])
-        ->withCount(['businessComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
-        ->with([
-            'photos' => function ($q) {
-                $q->orderBy('priority')->limit(1);
-            },
-            'user' // ← ユーザー情報も一緒に取得
-        ])
-        ->whereIn('user_id', $followedUserIds)
-        ->get()
-        ->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'user' => $item->user,
-                'user_id' => $item->user_id,
-                'user_name' => optional($item->user)->name,
-                'user_official_certification' => optional($item->user)->official_certification,
-                'avatar' => optional($item->user)->avatar,
-                'title' => $item->name,
-                'introduction' => $item->introduction,
-                'main_image' => $item->main_image,
-                'category_id' => $item->category_id,
-                'tab_id' => 4,
-                'official_certification' => $item->official_certification,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at,
-                'likes_count' => $item->likes_count, // ← 追加
-                'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
-                'is_liked' => $item->isLiked(),     // ← 追加
-                'type' => 'businesses', 
-            ];
-        });
+        if(Auth::check()){
 
-        $all_followings = $quests->concat($spots)->concat($locations)->concat($events);
-    
-        // 並び替え
-        $all_followings = match($sort) {
-            'latest' => $all_followings->sortByDesc('created_at'),
-            'oldest' => $all_followings->sortBy('created_at'),
-            'comments'  => $all_followings->sortByDesc('comments_count'),
-            // 'views'  => $all_followings->sortByDesc('views_count'),
-            default  => $all_followings->sortByDesc('likes_count'), 
-        };
-    
-        $all_followings = $all_followings->values(); // キーをリセット（重要）
-    
-        // ページネーション
-        $paginated = new LengthAwarePaginator(
-            $all_followings->forPage($currentPage, $perPage),
-            $all_followings->count(),
-            $perPage,
-            $currentPage,
-            [
-                'path' => $request->url(),
-                'query' => $request->query(), // ← クエリを保持！（sort=likes など）
-            ]
-        );
-    
-        switch ($sort) {
-            case 'oldest':
-                $all_followings = $all_followings->sortBy('created_at')->values();
-                break;
-            case 'latest':
-                $all_followings = $all_followings->sortByDesc('created_at')->values();
-                break;                           
-            case 'comments':
-                $all_followings = $all_followings->sortByDesc('comments_count')->values();
-                break;
-            // case 'views':
-            //     $all_followings = $all_followings->sortByDesc('views_count')->values();
-            //     break;
-            case 'likes':
-            default:                
-                $all_followings = $all_followings->sortByDesc('likes_count')->values();
-                break; 
+            $sort = $request->get('sort', 'likes_count');
+            $perPage = 6;
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+            $followedUserIds = Auth::user()->followings->pluck('id')->toArray();
+            // Spots
+            $spots = Spot::with('user')
+            ->withCount(['spotLikes as likes_count'])
+            ->withCount(['spotComments as comments_count'])
+            // ->withCount(['pageViews as views_count'])
+            ->whereIn('user_id', $followedUserIds)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'user' => $item->user,
+                    'user_id' => $item->user_id,
+                    'user_name' => optional($item->user)->name,
+                    'user_official_certification' => optional($item->user)->official_certification,
+                    'avatar' => optional($item->user)->avatar,
+                    'title' => $item->title,
+                    'introduction' => $item->introduction,
+                    'main_image' => $item->main_image,
+                    'category_id' => null,
+                    'tab_id' => 1,
+                    'official_certification' => null,
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
+                    'likes_count' => $item->likes_count, 
+                    'comments_count' => $item->comments_count,
+                    // 'views_count' => $item->views_count,
+                    'is_liked' => $item->isLiked(),     // ← 追加
+                    'type' => 'spots',                  
+                ];
+            });
+        
+            // Quests
+            $quests = Quest::with('user')
+            ->withCount(['questLikes as likes_count'])
+            ->withCount(['questComments as comments_count'])
+            // ->withCount(['pageViews as views_count'])
+            ->whereIn('user_id', $followedUserIds)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'user' => $item->user,
+                    'user_id' => $item->user_id,
+                    'user_name' => optional($item->user)->name,
+                    'user_official_certification' => optional($item->user)->official_certification,
+                    'avatar' => optional($item->user)->avatar,
+                    'title' => $item->title,
+                    'introduction' => $item->introduction,
+                    'main_image' => $item->main_image,
+                    'category_id' => null,
+                    'tab_id' => 2,
+                    'official_certification' => null,
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
+                    'likes_count' => $item->likes_count,
+                    'comments_count' => $item->comments_count,
+                    // 'views_count' => $item->views_count,
+                    'is_liked' => $item->isLiked(),
+                    'type' => 'quests',  
+                ];
+            });
+        
+        
+            // Businesses -> Location
+            $locations = Business::where('category_id', 1)
+            ->withCount(['businessLikes as likes_count'])
+            ->withCount(['businessComments as comments_count'])
+            // ->withCount(['pageViews as views_count'])
+            ->with([
+                'photos' => function ($q) {
+                    $q->orderBy('priority')->limit(1);
+                },
+                'user' // ← ユーザー情報も一緒に取得
+            ])
+            ->whereIn('user_id', $followedUserIds)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'user' => $item->user,
+                    'user_id' => $item->user_id,
+                    'user_name' => optional($item->user)->name,
+                    'user_official_certification' => optional($item->user)->official_certification,
+                    'avatar' => optional($item->user)->avatar,
+                    'title' => $item->name,
+                    'introduction' => $item->introduction,
+                    'main_image' => $item->main_image,
+                    'category_id' => $item->category_id,
+                    'tab_id' => 3,
+                    'official_certification' => $item->official_certification,
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
+                    'likes_count' => $item->likes_count, // ← 追加
+                    'comments_count' => $item->comments_count,
+                    // 'views_count' => $item->views_count,
+                    'is_liked' => $item->isLiked(),     // ← 追加
+                    'type' => 'businesses', 
+                ];
+            });
+        
+            // Businesses -> Event
+            $events = Business::where('category_id', 2)
+            ->withCount(['businessLikes as likes_count'])
+            ->withCount(['businessComments as comments_count'])
+            // ->withCount(['pageViews as views_count'])
+            ->with([
+                'photos' => function ($q) {
+                    $q->orderBy('priority')->limit(1);
+                },
+                'user' // ← ユーザー情報も一緒に取得
+            ])
+            ->whereIn('user_id', $followedUserIds)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'user' => $item->user,
+                    'user_id' => $item->user_id,
+                    'user_name' => optional($item->user)->name,
+                    'user_official_certification' => optional($item->user)->official_certification,
+                    'avatar' => optional($item->user)->avatar,
+                    'title' => $item->name,
+                    'introduction' => $item->introduction,
+                    'main_image' => $item->main_image,
+                    'category_id' => $item->category_id,
+                    'tab_id' => 4,
+                    'official_certification' => $item->official_certification,
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
+                    'likes_count' => $item->likes_count, // ← 追加
+                    'comments_count' => $item->comments_count,
+                    // 'views_count' => $item->views_count,
+                    'is_liked' => $item->isLiked(),     // ← 追加
+                    'type' => 'businesses', 
+                ];
+            });
+
+            $all_followings = $quests->concat($spots)->concat($locations)->concat($events);
+        
+            // 並び替え
+            $all_followings = match($sort) {
+                'latest' => $all_followings->sortByDesc('created_at'),
+                'oldest' => $all_followings->sortBy('created_at'),
+                'comments'  => $all_followings->sortByDesc('comments_count'),
+                // 'views'  => $all_followings->sortByDesc('views_count'),
+                default  => $all_followings->sortByDesc('likes_count'), 
+            };
+        
+            $all_followings = $all_followings->values(); // キーをリセット（重要）
+        
+            // ページネーション
+            $paginated = new LengthAwarePaginator(
+                $all_followings->forPage($currentPage, $perPage),
+                $all_followings->count(),
+                $perPage,
+                $currentPage,
+                [
+                    'path' => $request->url(),
+                    'query' => $request->query(), // ← クエリを保持！（sort=likes など）
+                ]
+            );
+        
+            switch ($sort) {
+                case 'oldest':
+                    $all_followings = $all_followings->sortBy('created_at')->values();
+                    break;
+                case 'latest':
+                    $all_followings = $all_followings->sortByDesc('created_at')->values();
+                    break;                           
+                case 'comments':
+                    $all_followings = $all_followings->sortByDesc('comments_count')->values();
+                    break;
+                // case 'views':
+                //     $all_followings = $all_followings->sortByDesc('views_count')->values();
+                //     break;
+                case 'likes':
+                default:                
+                    $all_followings = $all_followings->sortByDesc('likes_count')->values();
+                    break; 
+            }
+
+            return view('home.posts.followings', [
+                'all_followings' => $paginated,
+                'sort' => $sort, // Blade側で現在の並び順を表示するため
+            ]);
+
+        }else{
+            return view('home.posts.followings');
         }
 
-        return view('home.posts.followings', [
-            'all_followings' => $paginated,
-            'sort' => $sort, // Blade側で現在の並び順を表示するため
-        ]);
 
-    }
-
+    } 
 }

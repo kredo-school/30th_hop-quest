@@ -88,22 +88,29 @@
                 </div>
 
                 {{-- Follow Button --}}
-                @if($post['user_id'] != Auth::user()->id)
-                    <div class="col-md-auto col-sm ms-auto p-0 mt-3">
-                        @if ($post['user']->isFollowed())
-                            <form method="POST" action="{{ route('follow.delete', $post['user']->id) }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn-following mb-2 w-100">Following</button>
-                            </form>
-                        @else
-                            <form method="POST" action="{{ route('follow.store', $post['user']->id) }}">
-                                @csrf
-                                <button type="submit" class="btn-follow mb-2 w-100">Follow</button>
-                            </form>
-                        @endif
-                    </div> 
-                @endif
+                @auth
+                    @if($post['user_id'] != Auth::user()->id)
+                        <div class="col-md-auto col-sm ms-auto p-0 mt-3">
+                            @if ($post['user']->isFollowed())
+                                <form method="POST" action="{{ route('follow.delete', $post['user']->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-following mb-2 w-100">Following</button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('follow.store', $post['user']->id) }}">
+                                    @csrf
+                                    <button type="submit" class="btn-follow mb-2 w-100">Follow</button>
+                                </form>
+                            @endif
+                        </div> 
+                    @endif
+                @endauth
+                
+                @guest
+                    
+                @endguest
+
             </div>
             
             {{-- Heart icon & Like function --}}
