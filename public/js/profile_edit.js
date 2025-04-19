@@ -1,5 +1,5 @@
 // Header image preview
-document.getElementById('headerInput').addEventListener('change', function(event) {
+document.getElementById('header').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
         const url = URL.createObjectURL(file);
@@ -9,7 +9,7 @@ document.getElementById('headerInput').addEventListener('change', function(event
 });
 
 // Avatar image preview
-document.getElementById('avatarInput').addEventListener('change', function(event) {
+document.getElementById('avatar').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
         const url = URL.createObjectURL(file);
