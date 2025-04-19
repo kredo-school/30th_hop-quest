@@ -7,6 +7,7 @@ use App\Models\PageView;
 use App\Models\PageViewLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class PageViewMiddleware
@@ -31,6 +32,8 @@ class PageViewMiddleware
         $id     = $request->route('id');
         $type   = explode('/', trim($request->path(), '/'))[0] ?? null;
         $ip     = $request->ip();
+
+        // Log::info('Client IP:', [$ip]);
 
 
         $modelClass = 'App\\Models\\' . ucfirst($type);

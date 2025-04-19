@@ -193,6 +193,10 @@
         
     }
 
+    .tab-button.active h1{
+        color: #D24848;
+    }
+
     .tab-content {
         display: none;
     }
@@ -387,6 +391,14 @@
     .slick-dots li button:before{
         margin-top: 1rem;
         font-size: 1rem !important;
+    }
+
+    .no-dots .slick-dots {
+        display: none !important;
+    }
+
+    .not-found img{
+        width: 15rem;
     }
 
 
@@ -646,6 +658,8 @@
         animation: appearance 2.5s forwards;
         visibility: visible;
     }
+
+    
 
     @keyframes appearance {
         0%{

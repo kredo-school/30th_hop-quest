@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ asset('css/home-cards.css')}}">
 @endsection
 
+@section('js')
+    <script src="{{ asset('js/like.js')}}"></script>
+    <script src="{{ asset('js/follow.js')}}"></script>
+
 @section('content')
     {{-- @guest --}}
     {{-- Header video --}}
@@ -92,7 +96,7 @@
 
         <div class="view-all">
             <div class="col-auto all-posts">
-                <a href="#" class="text-decoration-none text-dark">
+                <a href="{{ route('posts.all') }}" class="text-decoration-none text-dark">
                     <h1 class="poppins-semibold">
                         <i class="fa-solid fa-globe"></i> All
                     </h1>
@@ -111,18 +115,22 @@
 
         {{-- Slider Carousel --}}
         <div class="sliderdiv">
-                {{-- @include('home-body') --}}
-                
+                            
                 {{-- Tab content --}}
                 <div class="container-fluid wrapper-body tab-content" id="tab-fol">
                     <div class="row" id="post-list-follow">
-                        <div class="slider mt-5">
+                        <div class="slider mt-5 {{ Auth::guest() ? 'no-dots' : '' }}">
                             @if (Auth::check())
                                 @forelse($popular_follwings as $post)
-                                    @if ($post->user->isFollowed())
+                                    {{-- @if ($post->user && $post->user->isFollowed())
                                         <div class="slide">
                                             @include('home.home-body')         
                                         </div>                               
+                                    @endif --}}
+                                    @if ($post->user)
+                                        <div class="slide">
+                                            @include('home.home-body')         
+                                        </div>
                                     @endif
                                 @empty    
                                     <div class="empty d-flex justify-content-center not-found">
@@ -130,9 +138,14 @@
                                     </div>
                                 @endforelse
                             @else
-                                <div class="empty d-flex justify-content-center not-found">
-                                    You need to log-in.
+                            <div class="empty d-flex flex-column justify-content-center align-items-center not-found p-4">
+                                <img src="{{ asset('images/home/login-required.png') }}" alt="Login required" class="mb-3">
+                                <h5 class="text-secondary mb-3">You need to log in to see posts from users you follow.</h5>
+                                <div>
+                                    <a href="{{ route('login') }}" class="btn btn-primary me-2">Log In</a>
+                                    <a href="{{ route('register') }}" class="btn btn-outline-secondary">Sign Up</a>
                                 </div>
+                            </div>
                             @endif
                         </div>
                     </div>
