@@ -29,12 +29,14 @@ class SpotLikeController extends Controller
                 'user_id' => Auth::user()->id, 
                 'spot_id' => $spot_id
             ]);
-            \Log::info('Direct DB insert result: ' . ($result ? 'success' : 'failure'));
+            // \Log::info('Direct DB insert result: ' . ($result ? 'success' : 'failure'));
         } catch (\Exception $e) {
-            \Log::error('Error direct insert: ' . $e->getMessage());
+            // \Log::error('Error direct insert: ' . $e->getMessage());
         }
 
-        return redirect()->back();
+        // return redirect()->back();
+        return response()->json(['status' => 'success']);
+
     }
 
     // destroy() - delete the like / unlike a spot
@@ -47,6 +49,33 @@ class SpotLikeController extends Controller
             ->where('spot_id', $spot_id)
             ->delete();
 
-        return redirect()->back();
+        // return redirect()->back();
+        return response()->json(['status' => 'success']);
+
     }
+
+    public function getLikesJson($spotId){
+        $spot = Spot::with('likes.user')->findOrFail($spotId);
+        $authUser = auth()->user();
+
+        $likes = $spot->likes->map(function ($like) use ($authUser) {
+            $user = $like->user;
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'avatar' => $user->avatar,
+                'is_own' => $authUser && $authUser->id === $user->id,
+                'is_followed' => $authUser && $authUser->follows->contains('followed_id', $user->id),
+            ];
+        });
+
+        return response()->json($likes);
+    }
+
+    public function getModalHtml($spot_id){
+        $spot = Spot::with('likes.user')->findOrFail($spot_id);
+        return view('spots.likes-modal', compact('spot'))->render();
+    }
+
+
 }
