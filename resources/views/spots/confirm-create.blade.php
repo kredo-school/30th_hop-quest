@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="bg-green pb-5">
-    <p class="attention color-navy poppins-semibold text-center mt-3 py-3 fs-3">
+    <p class="attention color-navy poppins-semibold text-center mt-4 py-3 fs-3">
         Not yet published. This page is for confirmation only.
     </p>
 

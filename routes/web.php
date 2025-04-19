@@ -228,10 +228,12 @@ Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->gro
     //SOFT DELETE - HIHE (back to Confirm--> change later redirect to MyPage)
     Route::delete('/{quest_id}/hide', 'softDelete')->name('softDelete');
 
+    Route::get('/{id}/likes/html', 'getModalHtml')->name('likes.modal');
     Route::post('/{id}/toggle-like', 'toggleLike')->name('toggle-like');
     Route::get('/{id}/likes', 'getLikes')->name('likes');
     Route::delete('/delete/{questId}', 'deleteQuest')->name('delete');
     Route::post('/follow/{userId}', [QuestController::class, 'toggleFollow'])->name('quest.toggleFollow');
+    
 });
 
 
