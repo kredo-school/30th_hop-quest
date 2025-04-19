@@ -2,51 +2,85 @@
 
 namespace App\Http\Controllers\Spot;
 
-use App\Models\Spot;
-use App\Models\SpotLike;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class SpotLikeController extends Controller
+use App\Models\Spot;
+use App\Models\User;
+
+class SpotController extends Controller
 {
-    private $like;
+    private $spot;
+    private $user;
 
-    public function __construct(SpotLike $like)
+    public function __construct(Spot $spot, User $user)
     {
-        $this->like = $like;
-        $this->middleware('auth');
+        $this->spot = $spot;
+        $this->user = $user;
     }
 
-
-    // store() - save the like / like a spot
-    public function store($spot_id)
+    public function show($id)
     {
-        $spot = Spot::findOrFail($spot_id);
+        // $spot = Spot::findOrFail($id);
+        $spot = $this->spot->findOrFail($id);
+        $user = $this->user->findOrFail($spot->user_id);
+
+        // Convert storage path to URL
+        $spot->main_image = Storage::url($spot->main_image);
+
+        return view('spots.show')
+            ->with('spot', $spot)
+            ->with('user', $user);
+    }
+
+    public function create()
+    {
+        return view('spots.create');
+    }
+
+    public function store(Request $request)
+    {
+        // validation
+        $request->validate([
+            'title' => 'required',
+            'introduction' => 'required',
+            'main_image' => 'required|image|mimes:jpeg,jpg,png,gif|max:1048',
+            'images.*' => 'image|mimes:jpeg,jpg,png,gif|max:1048',
+            'images' => 'array|max:6'
+        ]);
+
+        // Save image to storage/app/public
+        $dir = 'images/spots';
         
-        try {
-            $result = DB::table('spot_likes')->insert([
-                'user_id' => Auth::user()->id, 
-                'spot_id' => $spot_id
-            ]);
-            \Log::info('Direct DB insert result: ' . ($result ? 'success' : 'failure'));
-        } catch (\Exception $e) {
-            \Log::error('Error direct insert: ' . $e->getMessage());
+        // save main image
+        $main_image_name = time() . '_main_' . $request->file('main_image')->getClientOriginalName();
+        $main_image_path = $request->file('main_image')->storeAs($dir, $main_image_name, 'public');
+        
+        // save additional images
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $file_name = time() . '_' . $image->getClientOriginalName();
+                $path = $image->storeAs($dir, $file_name, 'public');
+                $imagePaths[] = Storage::url($path);
+            }
         }
 
-        return redirect()->back();
-    }
+        $this->spot->user_id      = Auth::user()->id;
+        $this->spot->title        = $request->title;
+        $this->spot->introduction = $request->introduction;
+        $this->spot->main_image   = $main_image_path;
+        $this->spot->geo_location = $request->geo_location;
+        $this->spot->geo_lat      = $request->geo_lat;
+        $this->spot->geo_lng      = $request->geo_lng;
+        $this->spot->images       = json_encode($imagePaths);
+        $this->spot->save();
 
-    // destroy() - delete the like / unlike a spot
-    public function destroy($spot_id)
-    {
-        $spot = Spot::findOrFail($spot_id);
-        
-        $this->like
-            ->where('user_id', Auth::user()->id)
-            ->where('spot_id', $spot_id)
-            ->delete();
+        $spot = $this->spot->findOrFail($this->spot->id);
 
-        return redirect()->back();
+        return redirect()->route('spot.show', $spot->id);
     }
 }
+

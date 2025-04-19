@@ -16,6 +16,11 @@ use App\Http\Controllers\TouristProfileController;
 use App\Http\Controllers\Quest\QuestBodyController;
 use App\Http\Controllers\Quest\QuestLikeController;
 
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\BusinessesController;
+use App\Http\Controllers\Admin\PostsController;
+use App\Http\Controllers\Admin\CommentsController;
+
 use App\Http\Controllers\Business\ProfileController;
 use App\Http\Controllers\Spot\SpotCommentController;
 use App\Http\Controllers\Business\BusinessController;
@@ -80,7 +85,6 @@ Route::group(['prefix' => '/business/business', 'as' => 'businesses.'], function
     Route::get('/{id}/edit', [BusinessController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [BusinessController::class, 'update'])->name('update');
     Route::post('/store', [BusinessController::class, 'store'])->name('store');
-    Route::get('/show/{id}', [BusinessController::class, 'show'])->name('show');
     Route::resource('businesses', BusinessController::class);
     Route::post('photos/{business}/store', [PhotoController::class, 'store'])->name('photos.store');
     Route::get('photos/edit/{business}', [PhotoController::class, 'edit'])->name('photos.edit');
@@ -88,6 +92,8 @@ Route::group(['prefix' => '/business/business', 'as' => 'businesses.'], function
     Route::delete('/{id}/deactivate', [BusinessController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [BusinessController::class, 'activate'])->name('activate');
 });
+Route::get('/business/show/business/{id}', [BusinessController::class, 'show'])->middleware(PageViewMiddleware::class)->name('business.show');
+
 
 //LIKES BUSINESS
 Route::post('/home/like/business/{business_id}/store', [BusinessLikeController::class, 'storeBusinessLike'])->name('businesses.like.store');
@@ -122,7 +128,7 @@ Route::get('/home/posts/followings', [HomeController::class, 'showFollowings'])-
 Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
     Route::get('/create', [SpotController::class, 'create'])->name('create');
     Route::post('/store', [SpotController::class, 'store'])->name('store');
-    Route::get('/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('show');
+    
     // Spot Likes
     Route::post('/{spot_id}/like', [SpotLikeController::class, 'store'])->name('like.store');
     Route::delete('/{spot_id}/unlike', [SpotLikeController::class, 'destroy'])->name('like.delete');
@@ -133,6 +139,7 @@ Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
     Route::post('/comment/{comment_id}/like', [SpotCommentLikeController::class, 'like'])->name('comment.like');
     Route::delete('/comment/{comment_id}/unlike', [SpotCommentLikeController::class, 'unlike'])->name('comment.unlike');
 });
+Route::get('/spot/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('spot.show');
 
 
 
@@ -217,6 +224,7 @@ Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->gro
     Route::delete('/delete/{questId}', 'deleteQuest')->name('delete');
     Route::post('/follow/{userId}', [QuestController::class, 'toggleFollow'])->name('quest.toggleFollow');
 });
+
 
 
 // =============================== QuestBodyController

@@ -23,6 +23,7 @@
     /* height: 12rem;
     width: 18rem; */
     border-radius: 5px;
+    overflow: hidden;
 }
 
 .official{
@@ -42,7 +43,7 @@
 
 .card-header{
     display: flow-root;
-    height:260px;
+    height:280px;
     overflow: hidden;
 }
 

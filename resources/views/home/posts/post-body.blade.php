@@ -11,9 +11,31 @@
                 <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official" alt="official">              
             @else
             @endif
-            <a href="#" >
-                <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
-            </a>
+            @if($post['type'] == 'businesses')
+                <a href="{{route('business.show', $post['id'])}}" >
+                    @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
+                    @else
+                        <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
+                    @endif
+                </a>
+            @elseif($post['type'] == 'spots')
+                <a href="{{ route('spot.show', $post['id']) }}" >
+                    @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
+                    @else
+                        <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
+                    @endif
+                </a>
+            @elseif($post['type'] == 'quests')
+                <a href="{{route('quest.show', $post['id'])}}" >
+                    @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class=" post-image">
+                    @else
+                        <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
+                    @endif
+                </a>
+            @endif
         </div>
 
         <div class="card-body content-lg">  
@@ -167,7 +189,7 @@
                 </div>
                 <div class="col-2 ms-1 px-0">
                     <button class="dropdown-item text-dark">
-                        {{-- <span>{{ $post['views_count'] }}</span> --}}
+                        <span>{{ $post['views_sum'] ?? 0 }}</span>
                     </button>
                 </div>
             </div>
