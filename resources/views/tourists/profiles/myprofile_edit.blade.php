@@ -130,6 +130,8 @@
     </div>
 
 
-@section('scripts')
-    <script src="{{ asset('js/profile_edit.js') }}"></script>
+    {{-- @section('scripts')
+    <script src="{{ asset('js/profile_edit.js') }}"></script> --}}
 @endsection
+
+@vite('resources/js/profile_edit.js')
