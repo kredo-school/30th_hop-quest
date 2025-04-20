@@ -77,6 +77,7 @@ Route::group(['prefix' => '/business/promotion', 'as' => 'promotions.'], functio
     Route::get('/confirm', [BusinessPromotionController::class, 'confirm'])->name('confirm');
     Route::delete('/{id}/deactivate', [BusinessPromotionController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [BusinessPromotionController::class, 'activate'])->name('activate');
+    Route::delete('/{id}/delete', [BusinessPromotionController::class, 'delete'])->name('delete');
 });
 
 //MANAGEMENT BUSINESS

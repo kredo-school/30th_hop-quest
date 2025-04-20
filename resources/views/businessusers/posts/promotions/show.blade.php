@@ -69,7 +69,7 @@
         </div>
         <div class="row justify-content-center mb-5">
             <div class="col-4">
-                <a href="{{route('profile.promotions', $business_promotion->user_id)}}">
+                <a href="{{ route('profile.header', ['id' => $business_promotion->user_id, 'tab' => 'promotions']) }}">
                     <button class="btn btn-red w-100 ">BACK</button>
                 </a>
             </div>

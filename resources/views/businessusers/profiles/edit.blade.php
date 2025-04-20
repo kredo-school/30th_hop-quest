@@ -13,12 +13,13 @@
 <div class="row justify-content-center pt-5">
     <div class="col-8">
         <div class="row">
-            <div class="col">
-                <h4 class=" d-inline me-3">Edit Profile</h4>
+            <div class="col">               
                 @if(Auth::user()->role_id == 1)
-                    <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items)<p>
+                    <h3 class="color-white poppins-semibold text-center">Edit Your Profile</h3>
+                    <p class="text-center">(<span class="color-red fw-bold">*</span> Required items)<p>
                 @elseif(Auth::user()->role_id == 2)
-                    <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items for official certification badge)<p>
+                    <h3 class="color-navy poppins-semibold text-center">Edit Your Profile</h3>
+                    <p class="text-center">(<span class="color-red fw-bold">*</span> Required items for official certification badge application)<p>
                 @endif
             </div>
         </div>
@@ -109,11 +110,17 @@
         {{-- User information --}}
         <div class="row mb-3">
             <div class="col">
-                <label for="name" class="form-label">Business user name<span class="color-red">*</span></label>
+                <label for="name" class="form-label">User name<span class="color-red">*</span></label>
                 <input type="text" name="name" id="name" value="{{old('name', Auth::user()->name)}}" class="form-control">
             </div>
         </div>
         <div class="row mb-3">
+            @if(Auth::user()->role_id == 1)
+            <div class="col">
+                <label for="email" class="form-label">E-mail address<span class="color-red">*</span></label>
+                <input type="email" name="email" id="email" value="{{old('email', Auth::user()->email)}}" class="form-control">
+            </div>
+            @else
             <div class="col-6">
                 <label for="email" class="form-label">E-mail address<span class="color-red">*</span></label>
                 <input type="email" name="email" id="email" value="{{old('email', Auth::user()->email)}}" class="form-control">
@@ -122,13 +129,11 @@
                 <label for="website_url" class="form-label">Website URL</label>
                 <input type="text" name="website_url" id="website_url" value="{{old('email', Auth::user()->website_url)}}" class="form-control">
             </div>
+            @endif
         </div>
         <div class="row mb-3">
             <div class="col-6">
-                @if(Auth::user()->role_id == 1)
-                    <label for="zip" class="form-label">ZIP code</label>
-                    <input type="text" name="zip" id="zip" value="{{old('zip', Auth::user()->zip)}}" class="form-control">
-                @elseif(Auth::user()->role_id == 2)
+                @if(Auth::user()->role_id == 2)
                     <label for="zip" class="form-label">ZIP code<span class="color-red">*</span></label>
                     <input type="text" name="zip" id="zip" value="{{old('zip', Auth::user()->zip)}}" class="form-control">
                 @endif
@@ -137,10 +142,7 @@
                 @enderror
             </div>
             <div class="col-6">
-                @if(Auth::user()->role_id == 1)
-                    <label for="phonenumber" class="form-label">Phone number</label>
-                    <input type="text" name="phonenumber" id="phonenumber" value="{{old('phonenumber', Auth::user()->phonenumber)}}" class="form-control">
-                @elseif(Auth::user()->role_id == 2)
+                @if(Auth::user()->role_id == 2)
                     <label for="phonenumber" class="form-label">Phone number<span class="color-red">*</span></label>
                     <input type="text" name="phonenumber" id="phonenumber" value="{{old('phonenumber', Auth::user()->phonenumber)}}" class="form-control">
                 @endif
@@ -151,10 +153,7 @@
         </div>
         <div class="row mb-3">
             <div class="col">
-                @if(Auth::user()->role_id == 1)
-                    <label for="address" class="form-label">Address</label>
-                    <input type="text" name="address" id="address" value="{{old('address', Auth::user()->address)}}" class="form-control">
-                @elseif(Auth::user()->role_id == 2)
+                @if(Auth::user()->role_id == 2)
                     <label for="address" class="form-label">Address<span class="color-red">*</span></label>
                     <input type="text" name="address" id="address" value="{{old('address', Auth::user()->address)}}" class="form-control">
                 @endif
