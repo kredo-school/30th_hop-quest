@@ -23,7 +23,7 @@
                                 <i class="fa-solid fa-users"></i> Tourists
                             </a>
                             <a href="{{ route('admin.users.applied') }}" class="list-group-item d-flex justify-content-between align-items-center {{ request()->is('admin/users/applied*') ? 'active' : '' }}">
-                                <i class="fa-solid fa-certificate"></i> Badge Applied Business Users
+                                <i class="fa-solid fa-certificate"></i> Badge Applied Users
                                 @php
                                     $pending_count = \App\Models\User::where('official_certification', 2)->count();
                                 @endphp
@@ -44,7 +44,7 @@
                                 <i class="fa-solid fa-images"></i> Other Posts
                             </a>
                             <a href="{{ route('admin.posts.applied') }}" class="list-group-item d-flex justify-content-between align-items-center {{ request()->is('admin/posts/applied*') ? 'active' : '' }}">
-                                <i class="fa-solid fa-certificate"></i> Badge Applied Business Posts
+                                <i class="fa-solid fa-certificate"></i> Badge Applied Posts
                                 @php
                                     $pending_count = \App\Models\Business::where('official_certification', 2)->count();
                                 @endphp

@@ -113,15 +113,15 @@
                 </script>
 
                 {{-- User official mark --}}
-                <div class="col-md-auto col-sm-1 pb-2 p-1">
-                    @if($post['user_official_certification'] == 2)
+                <div class="col-md-auto col-sm-1 mt-1 p-1">
+                    @if($post['user_official_certification'] == 3)
                         <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0" alt="official-personal">
-                    @elseif($post['user_official_certification'] == 1)
+                    @else
                     @endif
                 </div>
 
                 {{-- Follow Button --}}
-                @if($post['user_id'] != Auth::user()->id)
+                @if($post['user_id'] != Auth::user()->id && Auth::user()->role_id == 1)
                     <div class="col-md-auto col-sm ms-auto p-0 mt-3">
                         @if ($post['user']->isFollowed())
                             <form method="POST" action="{{ route('follow.delete', $post['user']->id) }}">
