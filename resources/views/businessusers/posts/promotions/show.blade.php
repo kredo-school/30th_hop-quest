@@ -24,11 +24,11 @@
                         {{ $business_promotion->business->name }}
                     </div>
                     <div class="event-dates">
-                        {{date('M d, Y', strtotime($business_promotion->promotion_start))}}~{{date('M d, Y', strtotime($business_promotion->promotion_end))}}
+                        {{date('M d Y', strtotime($business_promotion->promotion_start))}}~{{date('M d Y', strtotime($business_promotion->promotion_end))}}
                     </div>
                     <div class="post-dates">
                         @if($business_promotion->updated_at)
-                            <h5 >Updated: {{ $business_promotion->updated_at->format('M d Y')}}</h5>
+                            <h5 >Posted: {{ $business_promotion->updated_at->format('M d Y')}}</h5>
                         @else
                             <h5 >Posted: {{ $business_promotion->created_at->format('M d Y')}}</h5>
                         @endif
