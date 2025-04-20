@@ -92,7 +92,7 @@
 
         <div class="view-all">
             <div class="col-auto all-posts">
-                <a href="#" class="text-decoration-none text-dark">
+                <a href="{{ route('posts.all') }}" class="text-decoration-none text-dark">
                     <h1 class="poppins-semibold">
                         <i class="fa-solid fa-globe"></i> All
                     </h1>

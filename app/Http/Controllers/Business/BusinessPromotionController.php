@@ -49,9 +49,9 @@ class BusinessPromotionController extends Controller
 
         $this->business_promotion->save();
 
-        $all_business_promotions = $this->business_promotion->where('user_id', Auth::user()->id)->latest()->get();
-        $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return redirect()->route('profile.header', $this->business_promotion->business->user->id)->with('all_business_promotions', $all_business_promotions)->with('all_businesses', $all_businesses);
+        // $all_business_promotions = $this->business_promotion->where('user_id', Auth::user()->id)->latest()->get();
+        // $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
+        return redirect()->route('profile.header', $this->business_promotion->business->user->id);
     }
 
     public function edit($id){
