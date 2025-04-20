@@ -355,7 +355,7 @@
 
             <!-- Comments Section -->
             <hr>
-            @include('businessusers.posts.businesses.partials.comment_body')
+            {{-- @include('businessusers.posts.businesses.partials.comment_body') --}}
             <div class="d-flex justify-content-center mt-3">
                 {{ $business_comments->links() }}
             </div>

@@ -52,10 +52,16 @@
                             @endif
                         </div>
                         @if($user->id == Auth::user()->id)
+                            @if($user->official_certification == 1 || $user->official_certification == 3)
                             {{-- edit profile --}}
                             <div class="col-md-2 col-sm-3 ms-auto">
                                 <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                             </div>
+                            @else
+                            <div class="col-md-2 col-sm-3 ms-auto">
+                                <a href="#" class="btn btn-sm btn-navy mb-2 w-100">REVIWING</a>
+                            </div>
+                            @endif
                             <div class="col-md-2 col-sm-3">
                                 <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile{{ $user->id }}">DELETE</button>
                                 @include('businessusers.profiles.modals.delete')
