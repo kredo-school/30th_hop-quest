@@ -27,8 +27,16 @@
         </div>
     </div> 
 {{-- User information --}}
+@if($user->role_id == 1)
+<div class="row justify-content-center mt-2 mb-0">
+    <div class="col-2 sidebar ps-5 poppins-bold">
+        @include('businessusers.profiles.partial.sidebar')
+    </div>
+    <div class="col-8 ms-5 ps-5">
+@else
 <div class="row justify-content-center mt-2 mb-0">        
     <div class="col-8">
+@endif          
         <div class="profile-header position-relative"> 
             <div class="row">
                 <!-- Avatar image -->
@@ -114,7 +122,7 @@
                         @include('businessusers.profiles.partial.counter_post_follow')
                     </div>  
                     <div class="row mb-3">
-                        @include('businessusers.profiles.partial.counter_like_comment')
+                        {{-- @include('businessusers.profiles.partial.counter_like_comment') --}}
                     </div>  
                 </div> 
             
@@ -239,13 +247,48 @@
                                 {{ $follows->links() }}
                             </div>
                 <!--Likes-->
-                @elseif ($section == 'likes')
+                @elseif ($section == 'liked_quests')
+                    <div class="col-12">
+                        <div class="row mb-3 align-items-center ">
+                            <div class="row justify-content-center">
+                                <div class="row mb-1 mt-4">
+                                    @forelse($likedPosts->where('type', 'quests') as $post)
+                                        <div class="col-lg-4 col-md-6 col-sm">
+                                            @include('businessusers.profiles.post-body-profile')
+                                        </div>         
+                                    @empty
+                                        <h4 class="h4 text-center text-secondary">No posts yet</h4>
+                                    @endforelse
+                                </div>
+                                <div class="d-flex justify-content-end mb-5">
+                                    {{ $likedPosts->links() }}
+                                </div>
+                            </div>
+                @elseif ($section == 'liked_spots')
                     <div class="col-12">
                         <div class="row mb-3 align-items-center ">
                             <div class="row justify-content-center">
                                 {{-- Liked Posts --}}
                                 <div class="row mb-1 mt-4">
-                                    @forelse($likedPosts as $post)
+                                    @forelse($likedPosts->where('type', 'spots') as $post)
+                                        <div class="col-lg-4 col-md-6 col-sm">
+                                            @include('businessusers.profiles.post-body-profile')
+                                        </div>         
+                                    @empty
+                                        <h4 class="h4 text-center text-secondary">No posts yet</h4>
+                                    @endforelse
+                                </div>
+                                <div class="d-flex justify-content-end mb-5">
+                                    {{ $likedPosts->links() }}
+                                </div>
+                            </div>
+                @elseif ($section == 'liked_businesses')
+                    <div class="col-12">
+                        <div class="row mb-3 align-items-center ">
+                            <div class="row justify-content-center">
+                                {{-- Liked Posts --}}
+                                <div class="row mb-1 mt-4">
+                                    @forelse($likedPosts->where('type', 'businesses') as $post)
                                         <div class="col-lg-4 col-md-6 col-sm">
                                             @include('businessusers.profiles.post-body-profile')
                                         </div>         
