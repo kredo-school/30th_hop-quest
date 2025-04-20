@@ -390,6 +390,16 @@ h6{
     color: #D24848;
 }
 
+.delete-avatar{
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    /* position: absolute;
+    bottom: 10px;
+    left: 30px; */
+}
+
 /* navy */
 .btn-navy{
     background-color: #3B3B6B;
