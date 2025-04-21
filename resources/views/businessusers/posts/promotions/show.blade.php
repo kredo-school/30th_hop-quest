@@ -1,4 +1,4 @@
-<div class="bg-blue">
+delete<div class="bg-blue">
 @extends('layouts.app')
 
 @section('title', 'Promotion View')
