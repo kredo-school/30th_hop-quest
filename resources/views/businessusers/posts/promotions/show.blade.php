@@ -60,6 +60,7 @@
                         </div>
                         
                         <!--Follow-->
+                        @if(Auth::user()->role_id == 1)
                         <div class="col-md-1 col-sm-1 ms-auto">
                             @if($business_promotion->user->isFollowed())
                             {{-- unfollow --}}
@@ -77,13 +78,14 @@
                             </form>
                             @endif 
                         </div>
+                        @endif
                     </div>
                 </div>
             </section>
 
             <!-- Business Introduction -->
             <section class="business-introduction">
-                <h3>Promotion Introduction</h3>
+                <h3>Introduction</h3>
                 <div class="introduction-box">                   
                     <p>{{ $business_promotion->introduction }}</p>
                 </div>
