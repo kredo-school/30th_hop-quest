@@ -13,22 +13,7 @@ delete<div class="bg-blue">
 
 
 @section('content')
-    <div class="page-wrapper mt-5 pb-5">
-        <div class="page-container">
 
-            <!-- Main Image Section -->
-            <section class="main-image-section">
-                <div class="main-image-wrapper mt-3">
-                    <img class="main-image" alt="Main picture" src="{{ $business_promotion->image }}" />
-
-                    <div class="main-title">
-                        {{ $business_promotion->title }}
-                    </div>
-                    <div class="sub-title">
-                        {{ $business_promotion->business->name }}
-                    </div>
-                    <div class="event-dates">
-                        {{date('M d Y', strtotime($business_promotion->promotion_start))}}~{{date('M d Y', strtotime($business_promotion->promotion_end))}}
     <div class="page-wrapper mt-5 pb-5">
         <div class="page-container">
 
