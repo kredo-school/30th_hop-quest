@@ -47,7 +47,7 @@ Route::post('/sort', [HomeController::class, 'sort'])->name('sort'); //for using
 
 
 //PROFILES
-Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function () {
+Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
     Route::get('/{id}', [ProfileController::class, 'showProfile'])->name('header');
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
@@ -165,7 +165,7 @@ Route::middleware('auth')->group(
 
 // tourists profile
 Route::get('/myprofile', [TouristProfileController::class, 'myProfileShow'])->name('myprofile.show');
-Route::get('/profile/{id}', [TouristProfileController::class, 'showOtherProfile'])->name('profile.show');
+// Route::get('/profile/{id}', [TouristProfileController::class, 'showOtherProfile'])->name('profile.show');
 
 // Password Update
 Route::patch('/password/update', [TouristProfileController::class, 'updatePassword'])->name('password.update');
