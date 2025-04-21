@@ -60,43 +60,45 @@
             <!-- Avatar image -->
             <div class="col-auto profile-image">
                 @if(Auth::user()->avatar)
-                    <img src="{{Auth::user()->avatar}}" alt="" class="rounded-circle avatar-xl d-block mx-auto">
-
-                {{-- <button id="delete-avatar" data-image="{{ Auth::user()->avatar }}">画像を削除</button>
-
-                <script>
-                document.getElementById('delete-avatar').addEventListener('click', function() {
-                    if (!confirm('画像を削除しますか？')) return;
-
-                    let imageName = this.getAttribute('data-image'); // 画像のファイル名を取得
-                
-                    fetch("{{ route('profile.avatar.delete') }}", {
-                        method: "DELETE",
-                        headers: {
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ image: imageName }) // 画像名をリクエストに含める
-                    }).then(response => {
-                        if (response.ok) {
-                            alert('画像を削除しました');
-                            location.reload();
-                        } else {
-                            alert('削除に失敗しました');
-                        }
-                    });
-                });
-                </script> --}}
+                    <img src="{{Auth::user()->avatar}}" alt="" class="rounded-circle avatar-xl d-block mx-auto">                          
                 @else
                     <i class="fa-solid fa-circle-user text-secondary profile-xl d-block text-center"></i>
                 @endif
+                <!--delete-->
+                {{-- <button type="button" id="delete-avatar" data-image="{{ Auth::user()->avatar }}"><i class="delete-avatar fa-solid fa-trash text-danger"></i></button>      
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const deleteBtn = document.getElementById('delete-avatar');
+                        if (!deleteBtn) return;
+                    
+                        deleteBtn.addEventListener('click', function () {
+                            if (!confirm('画像を削除しますか？')) return;
+                    
+                            fetch("{{ route('profile.avatar.delete') }}", {
+                                method: "DELETE",
+                                headers: {
+                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                                }
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    alert('画像を削除しました');
+                                    location.reload();
+                                } else {
+                                    alert('削除に失敗しました');
+                                }
+                            });
+                        });
+                    });
+                    </script> --}}
             </div>
             <div class="col">
 
                 
-
+                
                 <label for="avatar" class="form-label mb-2">Avatar photo</label>
                 <input type="file" name="avatar" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
+                
                 <p class="mb-0 form-text text-danger">
                     Acceptable formats: jpeg, jpg, png, gif only <br>
                     Max file size is 1048 KB
