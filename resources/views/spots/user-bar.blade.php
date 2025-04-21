@@ -5,38 +5,40 @@
     
             {{-- Update Date - 右寄せ --}}
             <p class="fs-6 text-secondary text-end mb-0">
-                UPDATE: {{ optional($ques_a->updated_at ?? $quest_a->created_at)->format('Y/m/d') }}
+                UPDATE: {{ optional($spot->updated_at ?? $spot->created_at)->format('Y/m/d') }}
             </p>
     
             {{-- Like / Comment / Views - 横並び＋幅いっぱい --}}
             <div class="d-flex justify-content-center align-items-center w-100 fs-3">
                 {{-- Like --}}
                 <div class="d-flex align-items-center mx-3 mx-md-1 mx-lg-3">
-                    {{-- Like Button --}}
                     <button 
-                    class="btn-like-toggle border-0 bg-transparent p-0"
-                    data-quest-id="{{ $quest_a->id }}"
-                    data-liked="{{ $quest_a->isLiked() ? '1' : '0' }}">
-                    <i class="fa{{ $quest_a->isLiked() ? 's' : 'r' }} fa-heart fs-3 like-icon {{ $quest_a->isLiked() ? 'text-danger' : '' }}"></i>
+                        class="btn-like-toggle border-0 bg-transparent p-0"
+                        data-spot-id="{{ $spot->id }}"
+                        data-liked="{{ $spot->isLiked() ? '1' : '0' }}">
+                        <i class="fa{{ $spot->isLiked() ? 's' : 'r' }} fa-heart fs-3 like-icon {{ $spot->isLiked() ? 'text-danger' : '' }}"></i>
                     </button>
-
-                    {{-- Like Count --}}
-                    <span class="like-count ms-2 poppins-semibold" data-bs-toggle="modal" data-bs-target="#likes-modal-{{ $quest_a->id }}">
-                    {{ $quest_a->likes->count() }}
+                    <span
+                        class="fw-semibold ms-2 like-count"
+                        role="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#likes-modal-{{ $spot->id }}"
+                        onclick="refreshSpotLikesModal({{ $spot->id }})"
+                    >
+                        {{ $spot->spotLikes->count() }}
                     </span>
-
                 </div>
     
                 {{-- Comment --}}
-                <a href="#comment-section" class="d-flex align-items-center mx-3 mx-md-1 mx-lg-3 text-decoration-none text-dark">
-                    <i class="far fa-comment icon-sm"></i>
-                    <span class="fw-semibold ms-2">{{ $quest_a->questcomments->count() }}</span>
+                <a href="#spot-comment-section" class="d-flex align-items-center mx-3 mx-md-1 mx-lg-3 text-decoration-none text-dark">
+                    <i class="far fa-comment icon-mmd"></i>
+                    <span class="fw-semibold ms-2">{{ $spot->spotcomments->count() }}</span>
                 </a>
     
                 {{-- Views --}}
                 <div class="d-flex align-items-center mx-3 mx-md-1 mx-lg-3">
-                    <i class="fas fa-chart-simple icon-sm"></i>
-                    <span class="fw-semibold ms-2">{{ $quest_a->views->sum('views') ?? 0 }}</span>
+                    <i class="fas fa-chart-simple icon-mmd"></i>
+                    <span class="fw-semibold ms-2">{{ $spot->views->sum('views') ?? 0 }}</span>
                 </div>
             </div>
         </div>
@@ -47,9 +49,9 @@
         <div class="row d-flex flex-wrap align-items-center bg-white rounded-3  h-100">
             {{-- User Icon --}}
             <div class="col-auto m-2 align-items-center">
-                <a href="{{ route('profile.header', $quest_a->user->id) }}" class="text-decoration-none h5 d-flex my-0">
-                    @if($quest_a->user->avatar)
-                        <img src="{{ $quest_a->user->avatar }}" class="avatar-md rounded-circle ms-0 ms-md-2" alt="icon">
+                <a href="{{ route('profile.header', $spot->user->id) }}" class="text-decoration-none h5 d-flex my-0">
+                    @if($spot->user->avatar)
+                        <img src="{{ $spot->user->avatar }}" class="avatar-md rounded-circle ms-0 ms-md-2" alt="icon">
                     @else
                         <i class="fa-solid fa-circle-user text-secondary icon-md text-center"></i>
                     @endif
@@ -60,14 +62,14 @@
             <div class="col-auto align-items-center">
                 <div class="d-flex align-items-center">
                     {{-- Username --}}
-                    <a href="{{ route('profile.header', $quest_a->user->id) }}" class="text-decoration-none h5 d-flex my-0 me-3">
-                        <h1 class="username h5 poppins-semibold mb-0" id="username">{{ $quest_a->user->name }}</h1>
+                    <a href="{{ route('profile.header', $spot->user->id) }}" class="text-decoration-none h5 d-flex my-0 me-3">
+                        <h1 class="username h5 poppins-semibold mb-0" id="username">{{ $spot->user->name }}</h1>
                     </a>
 
                     {{-- Follow Button --}}
                     @php
                         $authUser = Auth::user();
-                        $owner = $quest_a->user;
+                        $owner = $spot->user;
                         $isFollowing = $authUser && $authUser->follows->contains('followed_id', $owner->id);
                     @endphp
                     @auth
@@ -88,23 +90,23 @@
             {{-- SNS Icons --}}
             <div class="col text-end">
                 <div class="d-flex justify-content-end p-2">
-                    @if(!empty($quest_a->user->instagram))
-                        <a href="https://instagram.com/{{ $quest_a->user->instagram }}" class="text-decoration-none" target="_blank" rel="noopener">
+                    @if(!empty($spot->user->instagram))
+                        <a href="https://instagram.com/{{ $spot->user->instagram }}" class="text-decoration-none" target="_blank" rel="noopener">
                             <i class="fa-brands fa-instagram text-dark icon-md mx-1"></i>
                         </a>
                     @endif
-                    @if(!empty($quest_a->user->facebook))
-                        <a href="https://facebook.com/{{ $quest_a->user->facebook }}" class="text-decoration-none" target="_blank" rel="noopener">
+                    @if(!empty($spot->user->facebook))
+                        <a href="https://facebook.com/{{ $spot->user->facebook }}" class="text-decoration-none" target="_blank" rel="noopener">
                             <i class="fa-brands fa-facebook text-dark icon-md mx-1"></i>
                         </a>
                     @endif
-                    @if(!empty($quest_a->user->x))
-                        <a href="https://x.com/{{ $quest_a->user->x }}" class="text-decoration-none" target="_blank" rel="noopener">
+                    @if(!empty($spot->user->x))
+                        <a href="https://x.com/{{ $spot->user->x }}" class="text-decoration-none" target="_blank" rel="noopener">
                             <i class="fa-brands fa-x-twitter text-dark icon-md mx-1"></i>
                         </a>
                     @endif
-                    @if(!empty($quest_a->user->tiktok))
-                        <a href="https://www.tiktok.com/@{{ $quest_a->user->tiktok }}" class="text-decoration-none" target="_blank" rel="noopener">
+                    @if(!empty($spot->user->tiktok))
+                        <a href="https://www.tiktok.com/@{{ $spot->user->tiktok }}" class="text-decoration-none" target="_blank" rel="noopener">
                             <i class="fa-brands fa-tiktok text-dark icon-md mx-1"></i>
                         </a>
                     @endif
@@ -114,4 +116,4 @@
     </div> 
 </div>
 
-@include('quests.modals.quest.likes-modal')
+@include('spots.likes-modal')

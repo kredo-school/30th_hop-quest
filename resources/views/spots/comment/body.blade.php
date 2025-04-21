@@ -9,7 +9,7 @@
         
         {{-- add comment section --}}
         @auth
-            <form action="{{ route('spot.comment.store', $spot->id) }}" method="post">
+            <form action="{{ route('spots.comment.store', $spot->id) }}" method="post">
                 @csrf
                 <input type="hidden" name="spot_id" value="{{ $spot->id }}">
                 <textarea name="content" class="comment-textarea" placeholder="your comment" required></textarea>
@@ -45,18 +45,18 @@
                 <div class="comment-header">
                     {{-- User Icon --}}
                     <div class="comment-user-icon" id="usericon">
-                        <a href="{{ route('spot.show', $comment->user->id) }}" class="spot-user-link">
+                        <a href="{{ route('spots.show', $comment->user->id) }}" class="spot-user-link">
                             <img src="{{ asset($comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="spot-user-avatar">
                         </a>
                     </div>
                     {{-- User Name --}}
                     <div class="comment-username" id="touristname">
-                        <a href="{{ route('spot.show', $comment->user->id) }}" class="spot-user-link">
+                        <a href="{{ route('spots.show', $comment->user->id) }}" class="spot-user-link text-decoration-none poppins-semibold text-dark fs-5">
                             {{ $comment->user->name }}
                         </a>
                     </div>
                     <div class="col-auto">
-                        <p class="spot-date">{{ date('M d, Y', strtotime($comment->created_at)) }}</p>
+                        <p class="spot-date m-0 ms-3 text-secondary">{{ date('M d, Y', strtotime($comment->created_at)) }}</p>
                     </div>
                 </div>
 
@@ -68,31 +68,34 @@
                 </div>
 
                 {{-- heart button + no. likes --}}
-                <div class="comment-actions">
+                <div class="comment-actions d-flex justify-content-end align-items-center gap-2">
                     <div class="comment-action-item">
                         @auth
-                            @if($comment->likes->contains('user_id', Auth::user()->id))
-                                <form action="{{ route('spot.comment.unlike', ['spot_id' => $spot->id, 'comment_id' => $comment->id]) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="comment-like-button">
-                                        <i class="fa-solid fa-heart"></i>
-                                    </button>
-                                </form>
-                            @else
-                                <form action="{{ route('spot.comment.like', ['spot_id' => $spot->id, 'comment_id' => $comment->id]) }}" method="post">
-                                    @csrf
-                                    <button type="submit" class="comment-like-button">
-                                        <i class="fa-regular fa-heart"></i>
-                                    </button>
-                                </form>
-                            @endif  
+                            <button type="button"
+                                class="comment-like-button border-0 bg-transparent"
+                                data-comment-id="{{ $comment->id }}"
+                                data-spot-id="{{ $spot->id }}"
+                                data-liked="{{ $comment->isLiked() ? '1' : '0' }}">
+                                <i class="fa{{ $comment->isLiked() ? 's' : 'r' }} fa-heart like-icon {{ $comment->isLiked() ? 'text-danger' : '' }}"></i>
+                            </button>
                         @else
                             <i class="fa-regular fa-heart"></i>
                         @endauth
                     </div>
-                    <span class="count">{{ $comment->likes->count() }}</span>
+
+                    <span
+                        class="count"
+                        id="like-count-{{ $comment->id }}"
+                        role="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#comment-likes-modal-{{ $comment->id }}"
+                        onclick="refreshSpotCommentLikesModal({{ $comment->id }})"
+                    >
+                        {{ $comment->spotCommentLikes->count() }}
+                    </span>
+
                 </div>
+
             </div>
         </div>
         @endforeach
@@ -102,7 +105,12 @@
                 <p>There is no comment yet.</p>
             </div>
         @endif
-       
-
     </div>
 </div>
+@foreach($spot->comments as $comment)
+        <!-- コメント表示部分 -->
+        @include('spots.comment.modals.spot-comment-likes', ['comment' => $comment])
+@endforeach
+{{-- view images --}}
+<script src="{{ asset('js/spot/view/comment.js') }}"></script>
+
