@@ -124,7 +124,9 @@ class ProfileController extends Controller
     $locations = Business::where('category_id', 1)
         ->where('user_id', $id)
         ->withCount(['businessLikes as likes_count', 'businessComments as comments_count'])
-        ->with(['photos' => fn($q) => $q->orderBy('priority')->limit(1), 'user'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Business');
+        }], 'views')
         ->withTrashed()
         ->get()
         ->map(fn($item) => [
@@ -142,7 +144,7 @@ class ProfileController extends Controller
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, // ← 追加
                 'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
+                'views_sum' => $item->views_sum,
                 'is_liked' => $item->isLiked(),
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
                 'type' => 'businesses', 
@@ -151,7 +153,9 @@ class ProfileController extends Controller
     $events = Business::where('category_id', 2)
         ->where('user_id', $id)
         ->withCount(['businessLikes as likes_count', 'businessComments as comments_count'])
-        ->with(['photos' => fn($q) => $q->orderBy('priority')->limit(1), 'user'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Business');
+        }], 'views')
         ->withTrashed()
         ->get()
         ->map(fn($item) => [
@@ -169,7 +173,7 @@ class ProfileController extends Controller
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count, // ← 追加
             'comments_count' => $item->comments_count,
-            // 'views_count' => $item->views_count,
+            'views_sum' => $item->views_sum,
             'is_liked' => $item->isLiked(),
             'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
             'type' => 'businesses', 
@@ -206,7 +210,9 @@ protected function getPaginatedQuests(Request $request, $id){
         ->where('user_id', $id)
         ->withCount(['questLikes as likes_count'])
         ->withCount(['questComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Quest');
+        }], 'views')
         ->withTrashed()
         ->get()
         ->map(fn($item) => [
@@ -219,12 +225,14 @@ protected function getPaginatedQuests(Request $request, $id){
                 'category_id' => null,
                 'tab_id' => 4,
                 'duration' => $item->duration,
+                'start_date' => $item->start_date,
+                'end_date' => $item->end_date,
                 'official_certification' => null,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, // ← 追加
                 'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
+                'views_sum' => $item->views_sum,
                 'is_liked' => $item->isLiked(),
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
                 'type' => 'quests', 
@@ -316,6 +324,9 @@ protected function getPaginatedSpots(Request $request, $id){
     $spots = Spot::with('user')
         ->withCount(['spotLikes as likes_count'])
         ->withCount(['spotComments as comments_count'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Spot');
+        }], 'views')
         ->where('user_id', $id)
         ->withTrashed()
         ->get()
@@ -337,7 +348,7 @@ protected function getPaginatedSpots(Request $request, $id){
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count,
             'comments_count' => $item->comments_count,
-            // 'views_count' => $item->views_count,
+            'views_sum' => $item->views_sum,
             'is_liked' => $item->isLiked(),
             'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
             'type' => 'spots', 
@@ -373,7 +384,9 @@ protected function getPaginatedLikedPosts(Request $request, $id){
     $locations = Business::where('category_id', 1)
         ->whereIn('id', $likedBusinessIds)
         ->withCount(['businessLikes as likes_count', 'businessComments as comments_count'])
-        ->with(['photos' => fn($q) => $q->orderBy('priority')->limit(1), 'user'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Business');
+        }], 'views')
         ->withTrashed()
         ->get()
         ->map(fn($item) => [
@@ -391,7 +404,7 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, // ← 追加
                 'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
+                'views_sum' => $item->views_sum,
                 'is_liked' => $item->isLiked(),
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
                 'type' => 'businesses', 
@@ -400,7 +413,9 @@ protected function getPaginatedLikedPosts(Request $request, $id){
     $events = Business::where('category_id', 2)
         ->whereIn('id', $likedBusinessIds)
         ->withCount(['businessLikes as likes_count', 'businessComments as comments_count'])
-        ->with(['photos' => fn($q) => $q->orderBy('priority')->limit(1), 'user'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Business');
+        }], 'views')
         ->withTrashed()
         ->get()
         ->map(fn($item) => [
@@ -418,7 +433,7 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, // ← 追加
                 'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
+                'views_sum' => $item->views_sum,
                 'is_liked' => $item->isLiked(),
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
                 'type' => 'businesses', 
@@ -429,6 +444,9 @@ protected function getPaginatedLikedPosts(Request $request, $id){
         ->whereIn('id', $likedSpotIds)
         ->withCount(['spotLikes as likes_count'])
         ->withCount(['spotComments as comments_count'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Spot');
+        }], 'views')
         ->withTrashed()
         ->get()
         ->map(fn($item) => [
@@ -449,7 +467,7 @@ protected function getPaginatedLikedPosts(Request $request, $id){
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count,
             'comments_count' => $item->comments_count,
-            // 'views_count' => $item->views_count,
+            'views_sum' => $item->views_sum,
             'is_liked' => $item->isLiked(),
             'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
             'type' => 'spots', 
@@ -460,7 +478,9 @@ protected function getPaginatedLikedPosts(Request $request, $id){
         ->whereIn('id', $likedQuestIds)
         ->withCount(['questLikes as likes_count'])
         ->withCount(['questComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Quest');
+        }], 'views')
         ->withTrashed()
         ->get()
         ->map(fn($item) => [
@@ -478,7 +498,7 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, // ← 追加
                 'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
+                'views_sum' => $item->views_sum,
                 'is_liked' => $item->isLiked(),
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
                 'type' => 'quests', 
@@ -528,11 +548,13 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
+                'business_id' => optional($item->business)->id,
                 'posted_user_id' => optional($item->business)->user_id,
                 'user_name' => optional($item->user)->name,
                 'title' => optional($item->business)->name,
                 'main_image' => optional($item->business)->main_image,
                 'comment' => $item->content,
+                'rating' => $item->rating,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, // ← 追加
@@ -558,7 +580,8 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'comment' => $item->content,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
-                'likes_count' => $item->likes_count, // ← 追加
+                'likes_count' => $item->likes_count, 
+                'rating' => null,
                 'is_liked' => $item->isLiked(),
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
                 'type' => 'spots', 
@@ -580,7 +603,8 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'comment' => $item->content,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
-                'likes_count' => $item->likes_count, // ← 追加
+                'likes_count' => $item->likes_count, 
+                'rating' => null,
                 'is_liked' => $item->isLiked(),
                 'is_trashed' => method_exists($item, 'trashed') ? $item->trashed() : false,
                 'type' => 'quests', 

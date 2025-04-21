@@ -234,7 +234,9 @@ class HomeController extends Controller
     $spots = Spot::with('user')
     ->withCount(['spotLikes as likes_count'])
     ->withCount(['spotComments as comments_count'])
-    // ->withCount(['pageViews as views_count'])
+    ->withSum(['pageViews as views_sum' => function ($query) {
+        $query->where('page_type', 'App\\Models\\Spot');
+    }], 'views')
     ->get()
     ->map(function ($item) {
         return [
@@ -254,7 +256,7 @@ class HomeController extends Controller
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count, 
             'comments_count' => $item->comments_count,
-            // 'views_count' => $item->views_count,
+            'views_sum' => $item->views_sum,
             'is_liked' => $item->isLiked(),  
             'type' => 'spots',                  
         ];
@@ -264,7 +266,9 @@ class HomeController extends Controller
     $quests = Quest::with('user')
     ->withCount(['questLikes as likes_count'])
     ->withCount(['questComments as comments_count'])
-    // ->withCount(['pageViews as views_count'])
+    ->withSum(['pageViews as views_sum' => function ($query) {
+        $query->where('page_type', 'App\\Models\\Quest');
+    }], 'views')
     ->get()
     ->map(function ($item) {
         return [
@@ -284,7 +288,7 @@ class HomeController extends Controller
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count,
             'comments_count' => $item->comments_count,
-            // 'views_count' => $item->views_count,
+            'views_sum' => $item->views_sum,
             'is_liked' => $item->isLiked(),
             'type' => 'quests',  
         ];
@@ -295,7 +299,9 @@ class HomeController extends Controller
     $locations = Business::where('category_id', 1)
     ->withCount(['businessLikes as likes_count'])
     ->withCount(['businessComments as comments_count'])
-    // ->withCount(['pageViews as views_count'])
+    ->withSum(['pageViews as views_sum' => function ($query) {
+        $query->where('page_type', 'App\\Models\\Business');
+    }], 'views')
     ->with([
         'photos' => function ($q) {
             $q->orderBy('priority')->limit(1);
@@ -321,7 +327,7 @@ class HomeController extends Controller
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count, // ← 追加
             'comments_count' => $item->comments_count,
-            // 'views_count' => $item->views_count,
+            'views_sum' => $item->views_sum,
             'is_liked' => $item->isLiked(),     // ← 追加
             'type' => 'businesses', 
         ];
@@ -331,7 +337,9 @@ class HomeController extends Controller
     $events = Business::where('category_id', 2)
     ->withCount(['businessLikes as likes_count'])
     ->withCount(['businessComments as comments_count'])
-    // ->withCount(['pageViews as views_count'])
+    ->withSum(['pageViews as views_sum' => function ($query) {
+        $query->where('page_type', 'App\\Models\\Business');
+    }], 'views')
     ->with([
         'photos' => function ($q) {
             $q->orderBy('priority')->limit(1);
@@ -357,7 +365,7 @@ class HomeController extends Controller
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count, // ← 追加
             'comments_count' => $item->comments_count,
-            // 'views_count' => $item->views_count,
+            'views_sum' => $item->views_sum,
             'is_liked' => $item->isLiked(),     // ← 追加
             'type' => 'businesses', 
         ];
@@ -371,7 +379,7 @@ class HomeController extends Controller
             'latest' => $all->sortByDesc('created_at'),
             'oldest' => $all->sortBy('created_at'),
             'comments'  => $all->sortByDesc('comments_count'),
-            // 'views'  => $all->sortByDesc('views_count'),
+            'views'  => $all->sortByDesc('views_sum'),
             default  => $all->sortByDesc('likes_count'), 
         };
     
@@ -399,9 +407,9 @@ class HomeController extends Controller
             case 'comments':
                 $all = $all->sortByDesc('comments_count')->values();
                 break;
-            // case 'views':
-            //     $all = $all->sortByDesc('views_count')->values();
-            //     break;
+            case 'views':
+                $all = $all->sortByDesc('views_sum')->values();
+                break;
             case 'likes':
             default:                
                 $all = $all->sortByDesc('likes_count')->values();
@@ -423,7 +431,9 @@ public function showQuests(Request $request){
     $quests = Quest::with('user')
     ->withCount(['questLikes as likes_count'])
     ->withCount(['questComments as comments_count'])
-    // ->withCount(['pageViews as views_count'])
+    ->withSum(['pageViews as views_sum' => function ($query) {
+        $query->where('page_type', 'App\\Models\\Quest');
+    }], 'views')
     ->get()
     ->map(function ($item) {
         return [
@@ -443,7 +453,7 @@ public function showQuests(Request $request){
             'updated_at' => $item->updated_at,
             'likes_count' => $item->likes_count, // ← 追加
             'comments_count' => $item->comments_count,
-            // 'views_count' => $item->views_count,
+            'views_sum' => $item->views_sum,
             'is_liked' => $item->isLiked(),     // ← 追加
             'type' => 'quests', 
         ];
@@ -453,7 +463,7 @@ public function showQuests(Request $request){
         'latest' => $quests->sortByDesc('created_at'),
         'oldest' => $quests->sortBy('created_at'),
         'comments'  => $quests->sortByDesc('comments_count'),
-        // 'views'  => $all->sortByDesc('views_count'),
+        'views'  => $quests->sortByDesc('views_sum'),
         default  => $quests->sortByDesc('likes_count'), 
     };
 
@@ -481,9 +491,9 @@ public function showQuests(Request $request){
         case 'comments':
             $quests = $quests->sortByDesc('comments_count')->values();
             break;
-        // case 'views':
-        //     $quests = $quests->sortByDesc('views_count')->values();
-        //     break;
+        case 'views':
+            $quests = $quests->sortByDesc('views_sum')->values();
+            break;
         case 'likes':
         default:                
             $quests = $quests->sortByDesc('likes_count')->values();
@@ -504,7 +514,9 @@ public function showQuests(Request $request){
         $spots = Spot::with('user')
         ->withCount(['spotLikes as likes_count'])
         ->withCount(['spotComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Spot');
+        }], 'views')
         ->get()
         ->map(function ($item) {
             return [
@@ -524,7 +536,7 @@ public function showQuests(Request $request){
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, 
                 'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
+                'views_sum' => $item->views_sum,
                 'is_liked' => $item->isLiked(), 
                 'type' => 'spots', 
             ];
@@ -534,7 +546,7 @@ public function showQuests(Request $request){
             'latest' => $spots->sortByDesc('created_at'),
             'oldest' => $spots->sortBy('created_at'),
             'comments'  => $spots->sortByDesc('comments_count'),
-            // 'views'  => $spots->sortByDesc('views_count'),
+            'views'  => $spots->sortByDesc('views_sum'),
             default  => $spots->sortByDesc('likes_count'), 
         };
     
@@ -562,9 +574,9 @@ public function showQuests(Request $request){
             case 'comments':
                 $spots = $spots->sortByDesc('comments_count')->values();
                 break;
-            // case 'views':
-            //     $spots = $spots->sortByDesc('views_count')->values();
-            //     break;
+            case 'views':
+                $spots = $spots->sortByDesc('views_sum')->values();
+                break;
             case 'likes':
             default:                
                 $spots = $spots->sortByDesc('likes_count')->values();
@@ -585,7 +597,9 @@ public function showQuests(Request $request){
         $locations = Business::where('category_id', 1)
         ->withCount(['businessLikes as likes_count'])
         ->withCount(['businessComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Business');
+        }], 'views')
         ->with([
             'photos' => function ($q) {
                 $q->orderBy('priority')->limit(1);
@@ -611,7 +625,7 @@ public function showQuests(Request $request){
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, // ← 追加
                 'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
+                'views_sum' => $item->views_sum,
                 'is_liked' => $item->isLiked(),     // ← 追加
                 'type' => 'businesses', 
             ];
@@ -621,7 +635,7 @@ public function showQuests(Request $request){
             'latest' => $locations->sortByDesc('created_at'),
             'oldest' => $locations->sortBy('created_at'),
             'comments'  => $locations->sortByDesc('comments_count'),
-            // 'views'  => $locations->sortByDesc('views_count'),
+            'views'  => $locations->sortByDesc('views_sum'),
             default  => $locations->sortByDesc('likes_count'), 
         };
     
@@ -649,9 +663,9 @@ public function showQuests(Request $request){
             case 'comments':
                 $locations = $locations->sortByDesc('comments_count')->values();
                 break;
-            // case 'views':
-            //     $locations = $locations->sortByDesc('views_count')->values();
-            //     break;
+            case 'views':
+                $locations = $locations->sortByDesc('views_sum')->values();
+                break;
             case 'likes':
             default:                
                 $locations = $locations->sortByDesc('likes_count')->values();
@@ -672,7 +686,9 @@ public function showQuests(Request $request){
         $events = Business::where('category_id', 2)
         ->withCount(['businessLikes as likes_count'])
         ->withCount(['businessComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Business');
+        }], 'views')
         ->with([
             'photos' => function ($q) {
                 $q->orderBy('priority')->limit(1);
@@ -698,7 +714,7 @@ public function showQuests(Request $request){
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, // ← 追加
                 'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
+                'views_sum' => $item->views_sum,
                 'is_liked' => $item->isLiked(),     // ← 追加
                 'type' => 'businesses', 
             ];
@@ -708,7 +724,7 @@ public function showQuests(Request $request){
             'latest' => $events->sortByDesc('created_at'),
             'oldest' => $events->sortBy('created_at'),
             'comments'  => $events->sortByDesc('comments_count'),
-            // 'views'  => $events->sortByDesc('views_count'),
+            'views'  => $events->sortByDesc('views_sum'),
             default  => $events->sortByDesc('likes_count'), 
         };
     
@@ -736,9 +752,9 @@ public function showQuests(Request $request){
             case 'comments':
                 $events = $events->sortByDesc('comments_count')->values();
                 break;
-            // case 'views':
-            //     $events = $events->sortByDesc('views_count')->values();
-            //     break;
+            case 'views':
+                $events = $events->sortByDesc('views_sum')->values();
+                break;
             case 'likes':
             default:                
                 $events = $events->sortByDesc('likes_count')->values();
@@ -758,7 +774,9 @@ public function showQuests(Request $request){
         $spots = Spot::with('user')
         ->withCount(['spotLikes as likes_count'])
         ->withCount(['spotComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Spot');
+        }], 'views')
         ->whereIn('user_id', $followedUserIds)
         ->get()
         ->map(function ($item) {
@@ -779,7 +797,7 @@ public function showQuests(Request $request){
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, 
                 'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
+                'views_sum' => $item->views_sum,
                 'is_liked' => $item->isLiked(),     // ← 追加
                 'type' => 'spots',                  
             ];
@@ -789,7 +807,9 @@ public function showQuests(Request $request){
         $quests = Quest::with('user')
         ->withCount(['questLikes as likes_count'])
         ->withCount(['questComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Quest');
+        }], 'views')
         ->whereIn('user_id', $followedUserIds)
         ->get()
         ->map(function ($item) {
@@ -810,7 +830,7 @@ public function showQuests(Request $request){
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count,
                 'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
+                'views_sum' => $item->views_sum,
                 'is_liked' => $item->isLiked(),
                 'type' => 'quests',  
             ];
@@ -821,7 +841,9 @@ public function showQuests(Request $request){
         $locations = Business::where('category_id', 1)
         ->withCount(['businessLikes as likes_count'])
         ->withCount(['businessComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Business');
+        }], 'views')
         ->with([
             'photos' => function ($q) {
                 $q->orderBy('priority')->limit(1);
@@ -848,7 +870,7 @@ public function showQuests(Request $request){
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, // ← 追加
                 'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
+                'views_sum' => $item->views_sum,
                 'is_liked' => $item->isLiked(),     // ← 追加
                 'type' => 'businesses', 
             ];
@@ -858,7 +880,9 @@ public function showQuests(Request $request){
         $events = Business::where('category_id', 2)
         ->withCount(['businessLikes as likes_count'])
         ->withCount(['businessComments as comments_count'])
-        // ->withCount(['pageViews as views_count'])
+        ->withSum(['pageViews as views_sum' => function ($query) {
+            $query->where('page_type', 'App\\Models\\Business');
+        }], 'views')
         ->with([
             'photos' => function ($q) {
                 $q->orderBy('priority')->limit(1);
@@ -885,7 +909,7 @@ public function showQuests(Request $request){
                 'updated_at' => $item->updated_at,
                 'likes_count' => $item->likes_count, // ← 追加
                 'comments_count' => $item->comments_count,
-                // 'views_count' => $item->views_count,
+                'views_sum' => $item->views_sum,
                 'is_liked' => $item->isLiked(),     // ← 追加
                 'type' => 'businesses', 
             ];
@@ -898,7 +922,7 @@ public function showQuests(Request $request){
             'latest' => $all_followings->sortByDesc('created_at'),
             'oldest' => $all_followings->sortBy('created_at'),
             'comments'  => $all_followings->sortByDesc('comments_count'),
-            // 'views'  => $all_followings->sortByDesc('views_count'),
+            'views'  => $all_followings->sortByDesc('views_sum'),
             default  => $all_followings->sortByDesc('likes_count'), 
         };
     

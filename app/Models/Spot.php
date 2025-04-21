@@ -20,11 +20,10 @@ class Spot extends Model
         return $this->hasMany(SpotLike::class);
     }
 
-
     public function pageViews(){
-        return $this->hasMany(PageView::class);
+        return $this->morphMany(PageView::class, 'page');
     }
-
+    
     public function isLiked(){
         if (!Auth::check()) {
             return false;

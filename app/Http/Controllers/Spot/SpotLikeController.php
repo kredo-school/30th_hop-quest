@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers\Spot;
 
-use App\Models\Spot;
-use App\Models\SpotLike;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class SpotLikeController extends Controller
+use App\Models\Spot;
+use App\Models\User;
+
+class SpotController extends Controller
 {
-    private $like;
+    private $spot;
+    private $user;
 
-    public function __construct(SpotLike $like)
+    public function __construct(Spot $spot, User $user)
     {
-        $this->like = $like;
-        $this->middleware('auth');
+        $this->spot = $spot;
+        $this->user = $user;
     }
 
-
-    // store() - save the like / like a spot
-    public function store($spot_id)
+    public function show($id)
     {
         $spot = Spot::findOrFail($spot_id);
         
@@ -79,3 +80,4 @@ class SpotLikeController extends Controller
 
 
 }
+

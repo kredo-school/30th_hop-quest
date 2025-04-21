@@ -235,7 +235,12 @@
                         });
                     @endphp
                     <!-- メイン画像 -->
-                    <img src="{{ asset('storage/' . $quest->main_image) }}" alt="header-img" class="img-fluid w-100 rounded-3 {{ $hasCertifiedBusiness ? 'border-quest-red' : '' }}">
+                    @if(Str::startsWith($quest->main_image, 'http') || Str::startsWith($quest->main_image, 'data:'))
+                        <img src="{{ $quest->main_image }}" alt="header-img" class="img-fluid w-100 rounded-3 {{ $hasCertifiedBusiness ? 'border-quest-red' : '' }}">
+                    @else
+                        <img src="{{ asset('storage/' . $quest->main_image) }}" alt="header-img" 
+                        class="img-fluid w-100 rounded-3 {{ $hasCertifiedBusiness ? 'border-quest-red' : '' }}">
+                    @endif
 
                     @if($hasCertifiedBusiness)
                         <img 
