@@ -3,8 +3,12 @@ delete<div class="bg-blue">
 
 @section('title', 'Promotion View')
 
+@section('title', 'Promotion View')
+
 
     <link rel="stylesheet" href="{{ asset('css/promotion-body.css')}}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/viewbusiness.css') }}"> --}}
+
     {{-- <link rel="stylesheet" href="{{ asset('css/viewbusiness.css') }}"> --}}
 
 
@@ -25,6 +29,22 @@ delete<div class="bg-blue">
                     </div>
                     <div class="event-dates">
                         {{date('M d Y', strtotime($business_promotion->promotion_start))}}~{{date('M d Y', strtotime($business_promotion->promotion_end))}}
+    <div class="page-wrapper mt-5 pb-5">
+        <div class="page-container">
+
+            <!-- Main Image Section -->
+            <section class="main-image-section">
+                <div class="main-image-wrapper mt-3">
+                    <img class="main-image" alt="Main picture" src="{{ $business_promotion->image }}" />
+
+                    <div class="main-title">
+                        {{ $business_promotion->title }}
+                    </div>
+                    <div class="sub-title">
+                        {{ $business_promotion->business->name }}
+                    </div>
+                    <div class="event-dates">
+                        {{date('M d, Y', strtotime($business_promotion->promotion_start))}}~{{date('M d, Y', strtotime($business_promotion->promotion_end))}}
                     </div>
                     <div class="post-dates">
                         @if($business_promotion->updated_at)
@@ -60,6 +80,7 @@ delete<div class="bg-blue">
                         </div>
                         
                         <!--Follow-->
+                        @if(Auth::user()->role_id == 1)
                         <div class="col-md-1 col-sm-1 ms-auto">
                             @if($business_promotion->user->isFollowed())
                             {{-- unfollow --}}
@@ -77,6 +98,7 @@ delete<div class="bg-blue">
                             </form>
                             @endif 
                         </div>
+                        @endif
                     </div>
                 </div>
             </section>
@@ -99,5 +121,10 @@ delete<div class="bg-blue">
 
             
             
+            </div>
+
+            
+            
 @endsection
+
     

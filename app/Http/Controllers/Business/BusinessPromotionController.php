@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessPromotion;
@@ -58,27 +59,28 @@ class BusinessPromotionController extends Controller
         return view('businessusers.posts.promotions.edit')->with('business_promotion', $business_promotion_a)->with('all_businesses', $all_businesses);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $business_promotion_id){
         $request->validate([
             'title' => 'required',
-            'business_id' => 'required',
+            // 'business_id' => 'required',
             'introduction' => 'required|max:2000',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'max:1048|mimes:jpeg,jpg,png,gif',
         ]);
 
 
-        $business_promotion_a = $this->business_promotion->findOrFail($id);
+        $business_promotion_a = $this->business_promotion->findOrFail($business_promotion_id);
         $business_promotion_a->title = $request->title;
         $business_promotion_a->introduction = $request->introduction;
         $business_promotion_a->promotion_start = $request->promotion_start;
         $business_promotion_a->promotion_end = $request->promotion_end;
         $business_promotion_a->display_start = $request->display_start;
         $business_promotion_a->display_end = $request->display_end;
-        $business_promotion_a->business_id = $request->business_id;
-        $business_promotion_a->user_id = Auth::user()->id;
+        // $business_promotion_a->business_id = $request->business_id;
+        // $business_promotion_a->user_id = Auth::user()->id;
 
         if($request->image){
-            $business_promotion_a->image = "data:photo/".$request->image->extension().";base64,".base64_encode(file_get_contents($request->image));
+            $business_promotion_a->image= "data:photo/".$request->image->extension().";base64,".base64_encode(file_get_contents($request->image));
+ 
         }
         $business_promotion_a->save();
 

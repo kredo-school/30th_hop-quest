@@ -437,6 +437,14 @@ class QuestController extends Controller{
         ]);
     }
 
+    public function getModalHtml($questId){
+        $quest = Quest::with('likes.user')->findOrFail($questId);
+        return view('quests.modals.quest.likes-modal', [
+            'quest_a' => $quest  // ← ここで quest_a として渡す！
+        ])->render();
+    }
+
+
 //===============================================================LatLng
     private static function getLatLngFromAddress($address){
         $apiKey = env('GOOGLE_MAPS_API_KEY');
