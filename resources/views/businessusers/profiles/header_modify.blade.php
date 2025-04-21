@@ -334,7 +334,7 @@
                                                                                         rowspan="2">
                                                                                         @if ($comment['type'] == 'businesses')
                                                                                             <a
-                                                                                                href="{{ route('businesses.show', $comment['business_id']) }}">
+                                                                                                href="{{ route('business.show', $comment['business_id']) }}">
                                                                                                 @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
                                                                                                     <img src="{{ $comment['main_image'] }}"
                                                                                                         alt="{{ $comment['title'] }}"
