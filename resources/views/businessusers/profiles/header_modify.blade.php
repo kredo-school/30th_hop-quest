@@ -102,8 +102,8 @@
                     {{-- url --}}
                     <div class="row mb-3">
                         <div class="col">
-                            @if($user->website_url)
-                                <a href="#" class="text-decoration-none text-dark ">{{ $user->website_url }}</a>
+                            @if($user->role_id==2 && $user->website_url)
+                                <a href="{{ strpos($user->website_url, 'http') === 0 ? $user->website_url : 'https://' . $user->website_url }}" class="text-decoration-none text-dark ">{{ $user->website_url }}</a>
                             @endif
                         </div>
                         {{-- @if(Auth::user()->role_id == 1)

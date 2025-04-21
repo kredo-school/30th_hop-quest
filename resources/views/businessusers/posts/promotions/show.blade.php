@@ -83,7 +83,7 @@
 
             <!-- Business Introduction -->
             <section class="business-introduction">
-                <h3>Promotion Introduction</h3>
+                <h3>Introduction</h3>
                 <div class="introduction-box">                   
                     <p>{{ $business_promotion->introduction }}</p>
                 </div>

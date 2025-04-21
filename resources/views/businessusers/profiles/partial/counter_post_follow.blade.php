@@ -40,8 +40,8 @@
     {{-- SNS icons --}}
     <div class="col-auto ms-auto">
         @if($user->instagram)
-            <a href="#" class="text-decoration-none">
-            <i class="fa-brands fa-instagram text-white icon-md px-4"></i>
+        <a href="#" class="text-decoration-none">
+            <i class="fa-brands fa-instagram text-white icon-md px-4"></i>        
             </a>
         @endif
         @if($user->facebook)
@@ -64,7 +64,7 @@
     <div class="col-auto ms-auto">
         @if($user->instagram)
             <a href="#" class="text-decoration-none">
-            <i class="fa-brands fa-instagram text-dark icon-md px-4"></i>
+            <i class="fa-brands fa-instagram text-dark icon-md px-4"></i>        
             </a>
         @endif
         @if($user->facebook)
@@ -73,9 +73,10 @@
             </a>
         @endif
         @if($user->x)
-            <a href="#" class="text-decoration-none">
+        <a href="#" class="text-decoration-none">
             <i class="fa-brands fa-x-twitter text-dark icon-md px-4"></i>
             </a>
+ 
         @endif
         @if($user->tiktok)
             <a href="#" class="text-decoration-none">
