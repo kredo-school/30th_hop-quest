@@ -9,18 +9,22 @@
 
 @section('content')
     <div class="container mb-5 profile-edit-spacing">
-        <form action="{{ route('myprofile.update', $user['id']) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('myprofile.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
 
             <div class="profile-container">
                 <label class="header d-block mb-3">
                     <input type="file" id="header" name="header" accept="image/*" class="d-none">
-                    <img id="headerPreview" src="{{ asset('images/profiles/header.jpg') }}" alt="Header Image">
+                    <img id="headerPreview"
+                        src="{{ Str::startsWith($user->header, 'data:image') ? $user->header : asset('images/profiles/header.jpg') }}"
+                        alt="Header Image">
                 </label>
                 <label class="avatar">
                     <input type="file" id="avatar" name="avatar" accept="image/*">
-                    <img id="avatarPreview" src="{{ asset('images/profiles/avatar.jpg') }}" alt="Avatar Image">
+                    <img id="avatarPreview"
+                        src="{{ Str::startsWith($user->avatar, 'data:image') ? $user->avatar : asset('images/profiles/avatar.jpg') }}"
+                        alt="Avatar Image">
                 </label>
             </div>
 

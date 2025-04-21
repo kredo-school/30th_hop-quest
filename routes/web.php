@@ -159,6 +159,7 @@ Route::middleware('auth')->group(
 // Route::get('/profile/{id}', [TouristProfileController::class, 'show'])->name('profile.show');
 
 // tourists profile
+// web.php
 Route::get('/myprofile', [TouristProfileController::class, 'myProfileShow'])->name('myprofile.show');
 Route::get('/profile/{id}', [TouristProfileController::class, 'showOtherProfile'])->name('profile.show');
 
@@ -169,7 +170,7 @@ Route::patch('/password/update', [TouristProfileController::class, 'updatePasswo
 Route::delete('/myprofile', [TouristProfileController::class, 'destroy'])->name('myprofile.destroy');
 
 //ADMIN
-Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], function(){
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function () {
     // Route::get('/main', [UsersController::class, 'showLists'])->name('main');
     Route::get('/users/business', [UsersController::class, 'indexBusiness'])->name('users.business');
     Route::get('/users/applied', [UsersController::class, 'indexApplied'])->name('users.applied');
@@ -228,7 +229,7 @@ Route::prefix('/questbody')->name('questbody.')->controller(QuestBodyController:
     Route::delete('/delete/{id}', 'deleteQuestBody')->name('delete');
     Route::post('/image/delete', 'deleteImage')->name('image.delete');
     Route::post('/agenda/{id}', 'toggleAgenda')->name('toggleAgenda');
-    Route::get('/getAllQuestBodies/{questId}','getAllQuestBodies')->name('getAllQuestBody');
+    Route::get('/getAllQuestBodies/{questId}', 'getAllQuestBodies')->name('getAllQuestBody');
 
     // ✅補助機能（QuestBody関連）
     Route::get('/user/searchbusinesses', 'getMyBusinesses')->name('mybusinesses');

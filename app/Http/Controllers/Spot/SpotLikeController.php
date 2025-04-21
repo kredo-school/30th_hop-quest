@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Spot;
 use App\Models\User;
 
-class SpotController extends Controller
+class SpotLikeController extends Controller
 {
     private $spot;
     private $user;
@@ -53,11 +53,11 @@ class SpotController extends Controller
 
         // Save image to storage/app/public
         $dir = 'images/spots';
-        
+
         // save main image
         $main_image_name = time() . '_main_' . $request->file('main_image')->getClientOriginalName();
         $main_image_path = $request->file('main_image')->storeAs($dir, $main_image_name, 'public');
-        
+
         // save additional images
         $imagePaths = [];
         if ($request->hasFile('images')) {
@@ -83,4 +83,3 @@ class SpotController extends Controller
         return redirect()->route('spot.show', $spot->id);
     }
 }
-

@@ -52,12 +52,23 @@
                                         class="official-personal d-inline ms-0 avatar-xs" alt="official-personal">
                                 @endif
                             </div>
+
+
+                            {{-- edit profile --}}
+                            @php
+                                $userId = Auth::user()->id;
+                                $roleId = Auth::user()->role_id;
+                                $editRoute = match ($roleId) {
+                                    1 => route('myprofile.edit', $userId),
+                                    2 => route('profile.edit', $userId),
+                                    default => '#',
+                                };
+                            @endphp
                             @if ($user->id == Auth::user()->id)
-                                {{-- edit profile --}}
                                 <div class="col-md-2 col-sm-3 ms-auto">
-                                    <a href="{{ route('profile.edit', Auth::user()->id) }}"
-                                        class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
+                                    <a href="{{ $editRoute }}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                                 </div>
+
                                 <div class="col-md-2 col-sm-3">
                                     <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal"
                                         data-bs-target="#delete-profile{{ $user->id }}">DELETE</button>
