@@ -35,6 +35,8 @@ use App\Http\Controllers\Business\BusinessPromotionController;
 
 
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -128,14 +130,26 @@ Route::get('/home/posts/followings', [HomeController::class, 'showFollowings'])-
 Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
     Route::get('/create', [SpotController::class, 'create'])->name('create');
     Route::post('/store', [SpotController::class, 'store'])->name('store');
+    Route::get('/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('show');
+    Route::post('/confirm/{spot_id?}', [SpotController::class, 'showConfirm'])->name('confirm');
+    Route::get('/confirm/{spot_id?}', [SpotController::class, 'showConfirm'])->name('confirm.get'); 
+
+    Route::get('/edit/{spot_id}', [SpotController::class, 'showEdit'])->name('edit');
+    Route::patch('/update/{spot_id}', [SpotController::class, 'update'])->name('update');
     
     // Spot Likes
+    Route::get('/{spot}/likes/json', [SpotLikeController::class, 'getLikesJson']);
     Route::post('/{spot_id}/like', [SpotLikeController::class, 'store'])->name('like.store');
     Route::delete('/{spot_id}/unlike', [SpotLikeController::class, 'destroy'])->name('like.delete');
+    Route::get('/{spot}/likes/modal', [SpotLikeController::class, 'getModalHtml']);
+
     // Spot Comments
     Route::post('/{spot_id}/comment/store', [SpotCommentController::class, 'store'])->name('comment.store');
     Route::delete('/{spot_id}/comment/{comment_id}/destroy', [SpotCommentController::class, 'destroy'])->name('comment.destroy');
+    Route::get('/comment/{comment}/likes/modal', [SpotCommentLikeController::class, 'getCommentModalHtml']);
+
     // Spot Comment Likes
+    Route::get('/comment/{comment_id}/likes/json', [SpotCommentLikeController::class, 'getLikesJson']);
     Route::post('/comment/{comment_id}/like', [SpotCommentLikeController::class, 'like'])->name('comment.like');
     Route::delete('/comment/{comment_id}/unlike', [SpotCommentLikeController::class, 'unlike'])->name('comment.unlike');
 });
@@ -219,10 +233,12 @@ Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->gro
     //SOFT DELETE - HIHE (back to Confirm--> change later redirect to MyPage)
     Route::delete('/{quest_id}/hide', 'softDelete')->name('softDelete');
 
+    Route::get('/{id}/likes/html', 'getModalHtml')->name('likes.modal');
     Route::post('/{id}/toggle-like', 'toggleLike')->name('toggle-like');
     Route::get('/{id}/likes', 'getLikes')->name('likes');
     Route::delete('/delete/{questId}', 'deleteQuest')->name('delete');
     Route::post('/follow/{userId}', [QuestController::class, 'toggleFollow'])->name('quest.toggleFollow');
+    
 });
 
 

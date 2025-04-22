@@ -1,4 +1,4 @@
-Quest/view-quest.css
+/* Quest/view-quest.css */
 /* ぼわん表示 */
 .reveal-section {
     opacity: 0;
@@ -204,6 +204,17 @@ body.modal-open {
   overflow: hidden; /* 背景スクロール防止 */
 }
 
+.fa-heart{
+    font-size: 2rem;
+}
+
+.bg-quest-blue{
+    background-color: #B4D5F4;
+}
+
+.bg-quest-green{
+    background-color: #C2E5E5;
+}
 
 
 

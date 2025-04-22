@@ -6,38 +6,46 @@
 
     <div class="card p-3">
 
+                    {{-- what model is the post in? --}}
+                    @php
+                        $class = class_basename(get_class($post));
+                    @endphp
+
         {{-- Card Image with official mark --}}
-        <img src="{{ asset('images/home/Official Badge.png') }}" class="official" alt="official">
-        <a href="#" class="">
-            {{-- @php
-                $business_image_path = null;
-
-                if($post->photo){
-                    $priority_one = $post->photos->where('priority', '1')->first();
-                    $business_image_path = $priority_one->image;
-                }
-                $image_path = $post->main_image ?? $business_image_path;
-            @endphp --}}
-
-            @if ($post->main_image)
-                <img src="{{ asset('storage/' . $post->main_image) }}" class="card-img-top body-image" alt="image">
-            @else
-                <img src="{{ asset('images/home/noImage.jpg')}}" class="card-img-top body-image" alt="image">
-            @endif
-
-        </a>
+        @if ($class === 'Business' && $post->official_certification === 3)
+            <img src="{{ asset('images/home/Official Badge.png') }}" class="official" alt="official">
+        @endif
 
 
+        {{-- Image & Routing to each show page --}}
+        @if($class === 'Quest')
+            <a href="{{ route('quest.show', $post->id )}}" class="">
+
+        @elseif($class === 'Spot')
+            <a href="{{ route('spot.show', $post->id )}}" class="">
+
+        @elseif($class === 'Business' && $post->category_id === 1)
+            <a href="{{ route('business.show', $post->id )}}" class="">
+
+        @elseif($class === 'Business' && $post->category_id === 2)
+            <a href="{{ route('business.show', $post->id )}}" class="">
+
+        @endif
+
+                @if ($post->main_image)
+                    <img src="{{ asset('storage/' . $post->main_image) }}" class="card-img-top body-image" alt="image">
+                @else
+                    <img src="{{ asset('storage/app/public/images/home/noImage.jpg')}}" class="card-img-top body-image" alt="image">
+                @endif
+            </a>
+
+        {{-- Card Body --}}
         <div class="row align-items-center card-body ps-1">  
             <div class="row justify-content-between ms-1">
                 {{-- Category --}}
                 <div class="col-auto p-0">
                     <h5 class="card-subtitle">Category: 
                         <strong>
-                            @php
-                                $class = class_basename(get_class($post))
-                            @endphp
-
                             @if ($class == 'Quest')
                                 Quest
                             @elseif ($class == 'Spot')
@@ -60,9 +68,21 @@
             
             {{-- Title --}}
             <div class="mt-2">
-                <a href="#" class="text-decoration-none">
-                    <h4 class="card-title text-dark"><strong>{{ $post->name ?? $post->title }}</strong></h4>
-                </a>
+                @if($class === 'Quest')
+                    <a href="{{ route('quest.show', $post->id )}}" class="text-decoration-none">
+
+                @elseif($class === 'Spot')
+                    {{-- <a href="{{ route('spot.show', $post->id )}}" class="text-decoration-none"> --}}
+
+                @elseif($class === 'Business' && $post->category_id === 1)
+                    {{-- <a href="{{ route('business.show', $post->id )}}" class="text-decoration-none"> --}}
+
+                @elseif($class === 'Business' && $post->category_id === 2)
+                    {{-- <a href="{{ route('business.show', $post->id )}}" class="text-decoration-none"> --}}
+
+                @endif
+                        <h4 class="card-title text-dark"><strong>{{ $post->title ?? $post->name }}</strong></h4>
+                    </a>
             </div>
 
             {{-- Icon & Name & Official mark --}}
@@ -70,20 +90,55 @@
 
                 {{-- User Icon --}}
                 <div class="col-auto ms-1">
-                    <a href="#" class="text-decoration-none h5 d-flex align-items-center">
-                        @if ($post->user->avatar)
-                            <img src="{{ $post->user->avatar }}" class="card-icon" alt="card-icon">
-                        @else    
-                            <img src="{{ asset('storage/images/home/free-user.png') }}" class="card-icon" alt="card-icon">
+                    @auth
+                        @if ($post->user->id === Auth::user()->id)
+                            <a href="{{ route('myprofile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                                <img src="{{ $post->user->avatar ? $post->user->avatar : asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
+                            </a>
+                        @else
+                            <a href="{{ route('profile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                                <img src="{{ $post->user->avatar ? $post->user->avatar : asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
+                            </a>
                         @endif
-                    </a>
+                    @endauth
+
+                    @guest
+                        <a href="{{ route('profile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                            <img src="{{ $post->user->avatar ? $post->user->avatar : asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
+                        </a>
+                    @endguest
+
                 </div>
 
                 {{-- User Name --}}
                 <div class="col-auto ms-1 pt-2">
-                    <a href="#" class="text-decoration-none h5 d-flex align-items-center">
-                        <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
-                    </a>
+                    @auth
+                        @if ($post->user->id === Auth::user()->id && Auth::user()->role_id === 1)
+                            <a href="{{ route('myprofile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                                <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
+                            </a>
+                        @elseif ($post->user->role_id === 2)
+                            <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                                <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
+                            </a>
+                            @elseif ($post->user->id !== Auth::user()->id && Auth::user()->role_id === 1)
+                            <a href="{{ route('profile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                                <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
+                            </a>
+                        @endif
+                    @endauth
+
+                    @guest
+                        @if ($post->user->role_id === 1)
+                            <a href="{{ route('profile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                                <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
+                            </a>
+                        @elseif ($post->user->role_id === 2)
+                            <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                                <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
+                            </a>
+                        @endif
+                    @endguest
                 </div>
 
                 {{-- Javascript for character limit --}}
@@ -99,32 +154,37 @@
 
                 {{-- User official mark --}}
                 <div class="col-auto pb-2">
-                    <img src="{{ asset('images/home/名称未設定のデザイン (8) 1.png')}}" class="official-personal ms-2" alt="official-personal">
+                    @if ($post->user->official_certification === 3)
+                        <img src="{{ asset('images/home/名称未設定のデザイン (8) 1.png')}}" class="official-personal ms-2" alt="official-personal">
+                    @endif
                 </div>
 
                 {{-- Follow Button --}}
-                <div class="col-auto pb-2 ms-auto">
-                    <form action="#" method="post" class="">
-                        @csrf
-                        
-                        <button type="submit" class="btn btn-sm btn-follow-body">Follow</button>
-                    </form>
+                <div class="col-auto pb-2 ms-auto">                        
+                    <button type="button"
+                        class="btn follow-button {{ $post->user->isFollowed() ? 'btn-following' : 'btn-follow' }}"
+                        data-id="{{ $post->user->id }}"
+                        data-followed="{{ $post->user->isFollowed() ? '1' : '0' }}">
+                        {{ $post->user->isFollowed() ? 'Following' : 'Follow' }}
+                    </button>
                 </div>
             </div>
             
             {{-- Heart icon & Like function --}}
-            <div class="d-flex align-items-center">
-                <form action="#" method="post">
-                    @csrf
-
-                    <button type="submit" class="btn btn-sm shadow-none">
-                        <i class="fa-regular fa-heart"></i>
+            <div class="d-flex align-items-center hcv-icon">
+                <div class="col-auto d-flex">
+                    <button type="button"
+                        class="btn btn-sm mb-3 shadow-none like-button"
+                        data-id = "{{ $post->id }}"
+                        data-type = "{{ $class }}"
+                        data-liked = "{{ $post->isLiked() ? '1' : '0' }}">
+                        <i class="{{ $post->isLiked() ? 'fa-solid fa-heart text-danger' : 'fa-regular fa-heart' }}"></i>
                     </button>
-                </form>
-
-                <button class="btn btn-sm p-0 text-center">
-                    <span>{{ $post->likes->count() }}</span>
-                </button>
+                    
+                    <button class="btn btn-sm p-0 text-center like-count" data-id="{{ $post->id }}">
+                        <span>{{ $post->likes_count ?? $post->likes->count() }}</span>
+                    </button>
+                </div>
                 {{-- Modal for displaying all users who liked owner of post--}}
                                         
 
@@ -140,7 +200,7 @@
                     </button>
                 </div>
 
-                {{--  --}}
+                {{-- Number of views --}}
                 <div class="col-auto d-flex ms-3">
                     <div>
                         <img src="{{ asset('images/chart.png')}}" alt="">

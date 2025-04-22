@@ -21,3 +21,4 @@ function initMap() {
 
 // Google Maps API のコールバック関数として登録
 window.initMap = initMap; 
+

@@ -20,24 +20,54 @@ class SpotCommentLikeController extends Controller
         $this->middleware('auth');
     }
 
+    // SpotCommentLikeController.php
     public function like($comment_id)
     {
-        $comment = $this->comment->findOrFail($comment_id);
-        
-        $comment->likes()->create([
-            'user_id' => Auth::user()->id,
+        SpotCommentLike::create([
+            'user_id' => Auth::id(),
             'spot_comment_id' => $comment_id
         ]);
 
-        return redirect()->back();
+        $count = SpotCommentLike::where('spot_comment_id', $comment_id)->count();
+
+        return response()->json(['count' => $count]);
     }
-    
+
     public function unlike($comment_id)
     {
-        $comment = $this->comment->findOrFail($comment_id);
+        SpotCommentLike::where('user_id', Auth::id())
+            ->where('spot_comment_id', $comment_id)
+            ->delete();
 
-        $comment->likes()->where('user_id', Auth::user()->id)->delete();
+        $count = SpotCommentLike::where('spot_comment_id', $comment_id)->count();
 
-        return redirect()->back();
+        return response()->json(['count' => $count]);
     }
+
+    public function getLikesJson($comment_id){
+        $comment = SpotComment::with('spotcommentlikes.user')->findOrFail($comment_id);
+
+        $authUser = Auth::user();
+
+        $users = $comment->spotcommentlikes->map(function ($like) use ($authUser) {
+            $user = $like->user;
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'avatar' => $user->avatar,
+                'is_own' => $authUser && $authUser->id === $user->id,
+                'is_followed' => $authUser && $authUser->follows->contains('followed_id', $user->id),
+            ];
+        });
+
+        return response()->json($users);
+    }
+
+    public function getCommentModalHtml($comment_id){
+    $comment = SpotComment::with('spotcommentlikes.user')->findOrFail($comment_id);
+    return view('spots.comment.modals.spot-comment-likes', compact('comment'))->render();
+    }
+
+
+
 }

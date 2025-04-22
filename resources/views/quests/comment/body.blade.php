@@ -104,12 +104,6 @@
                             </button>
 
                         </div>
-                        <div class="comment-action-item">
-                            <i class="fa-solid fa-chart-simple"></i>
-                            <button class="btn btn-sm p-0 text-center">
-                                <span class="count">0</span> {{-- 閲覧数機能が必要なら別途追加 --}}
-                            </button>
-                        </div>
                     </div>
                 </div>
                 @include('quests.comment.modals.like')

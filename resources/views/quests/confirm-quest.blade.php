@@ -9,6 +9,9 @@
 
 @section('content')
 <div class="{{ Auth::user()->role_id === 1 ? 'bg-green' : 'bg-blue' }}">
+    <p class="attention color-navy poppins-semibold text-center pt-5 pb-3 fs-4 {{ Auth::user()->id == 1 ? 'bg-quest-blue' : 'bg-quest-green' }}">
+        Not yet published. This page is for confirmation only.
+    </p>
     <div class="container py-5 col-9 px-0">
         <h3 class="color-navy poppins-semibold text-center">Check Your Quest</h3>
         {{-- <pre>{{ var_dump($questBodies) }}</pre> --}}
@@ -108,10 +111,8 @@
                         {{-- 地図用位置データ --}}
                        
                         <script>
-                            
                             window.questMapLocations = @json($locations);
-                            console.log($locations);
-                            console.log(window.questMapLocations); 
+                            console.log(window.questMapLocations); // ← こっちだけで十分！
                         </script>
 
                         <div id="map" style="height: 500px; width: 100%;"></div>
