@@ -35,10 +35,18 @@
 <div class="row">
     <div class="pt-2 px-0">
         @if(Auth::user()->header)
-            <img src="{{Auth::user()->header}}" class="header-image"  alt="">
-        @else
-            <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
-        @endif
+        <img id="header-preview"
+            src="{{ Auth::user()->header }}"
+            alt="Header Image"
+            class="header-image img-fluid mx-auto d-block">
+    @else
+        <img id="header-preview"
+            src=""
+            alt="No Header"
+            class="header-image img-fluid mx-auto d-block"
+            style="display:none;">
+        <i id="header-icon" class="fa-solid fa-image text-secondary icon-xxl d-block text-center"></i>
+    @endif
     </div>
 </div>
 
@@ -47,26 +55,49 @@
     <div class="col-8"> 
           {{-- Header image upload --}}
         <div class="row mb-3">
-            <label for="header" class="form-label mb-2">Header photo</label>
-            <input type="file" name="header" id="header" class="form-control form-control-sm w-100 p-2" >
-            <p class="mb-0 form-text text-danger">
+            <div class="col">
+                <label for="header" class="form-label mb-2">Header photo</label>
+                <input type="file" name="header" id="header" class="form-control form-control-sm w-100 p-2">
+                <p class="mb-0 form-text text-danger">
                 Acceptable formats: jpeg, jpg, png, gif only <br>
                 Max file size is 1048 KB
-            </p>
+                </p>
+            </div>
+            
+            <script>
+                document.getElementById('header').addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (!file) return;
+            
+                    const reader = new FileReader();
+            
+                    reader.onload = function(e) {
+                        const preview = document.getElementById('header-preview');
+                        const icon = document.getElementById('header-icon');
+            
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                        if (icon) icon.style.display = 'none';
+                    }
+            
+                    reader.readAsDataURL(file);
+                });
+            </script>
+
             @error('header')
             <p class="mb-0 text-danger small">{{ $message }}</p>
             @enderror
         </div>     
         <div class="row mb-3">
             <!-- Avatar image -->
-            <div class="col-auto profile-image">
+            {{-- <div class="col-auto profile-image">
                 @if(Auth::user()->avatar)
                     <img src="{{Auth::user()->avatar}}" alt="" class="rounded-circle avatar-xl d-block mx-auto">                          
                 @else
                     <i class="fa-solid fa-circle-user text-secondary profile-xl d-block text-center"></i>
                 @endif
                 <!--delete-->
-                {{-- <button type="button" id="delete-avatar" data-image="{{ Auth::user()->avatar }}"><i class="delete-avatar fa-solid fa-trash text-danger"></i></button>      
+                <button type="button" id="delete-avatar" data-image="{{ Auth::user()->avatar }}"><i class="delete-avatar fa-solid fa-trash text-danger"></i></button>      
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
                         const deleteBtn = document.getElementById('delete-avatar');
@@ -91,19 +122,89 @@
                             });
                         });
                     });
-                    </script> --}}
+                    </script>
+            </div> --}}
+            <div class="col-auto profile-image">
+                <img id="avatar-preview"
+                    src="{{ Auth::user()->avatar ?? '' }}"
+                    alt=""
+                    class="rounded-circle avatar-xl d-block mx-auto"
+                    style="{{ Auth::user()->avatar ? '' : 'display:none;' }}">
+            
+                <i id="default-icon"
+                    class="fa-solid fa-circle-user text-secondary profile-xl rounded-circle d-block mx-auto"
+                    style="{{ Auth::user()->avatar ? 'display:none;' : '' }}"></i>
+            
+                <button type="button" id="delete-avatar" data-image="{{ Auth::user()->avatar }}">
+                    <i class="delete-avatar fa-solid fa-trash text-danger" style="z-index: 10;"></i>
+                </button>
             </div>
-            <div class="col">
+            
 
-                
-                
+            
+            <div class="col">
                 <label for="avatar" class="form-label mb-2">Avatar photo</label>
-                <input type="file" name="avatar" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
-                
+                <input type="file" name="avatar" id="avatar" class="form-control form-control-sm w-100 mb-auto p-2">
                 <p class="mb-0 form-text text-danger">
                     Acceptable formats: jpeg, jpg, png, gif only <br>
                     Max file size is 1048 KB
                 </p>
+            </div>
+                            
+
+            
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const avatarInput = document.getElementById('avatar');
+                    const preview = document.getElementById('avatar-preview');
+                    const icon = document.getElementById('default-icon');
+                    const deleteBtn = document.getElementById('delete-avatar');
+            
+                    // アップロード時にプレビュー表示
+                    avatarInput.addEventListener('change', function(event) {
+                        const file = event.target.files[0];
+                        if (!file) return;
+            
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            preview.src = e.target.result;
+                            preview.style.display = 'block';
+                            if (icon) icon.style.display = 'none';
+                        };
+                        reader.readAsDataURL(file);
+                    });
+            
+                    // 削除ボタンクリックで画像削除処理
+                    deleteBtn.addEventListener('click', function () {
+                        if (!confirm('画像を削除しますか？')) return;
+            
+                        fetch("{{ route('profile.avatar.delete') }}", {
+                            method: "DELETE",
+                            headers: {
+                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                                "Accept": "application/json"
+                            }
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                preview.src = '';
+                                preview.style.display = 'none';
+                                if (icon) icon.style.display = 'block';
+                                alert('画像を削除しました');
+                            } else {
+                                alert('削除に失敗しました');
+                            }
+                        })
+                        .catch(() => {
+                            alert('エラーが発生しました');
+                        });
+                    });
+                });
+            </script>
+        
+            <div class="col">
+
+
                 @error('avatar')
                 <p class="mb-0 text-danger small">{{ $message }}</p>
                 @enderror
