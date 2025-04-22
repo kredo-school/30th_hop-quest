@@ -43,7 +43,7 @@
                         {{-- check if the spot is liked by the user --}}
                         @if($spot->likes->where('user_id', Auth::user()->id)->where('spot_id', $spot->id)->count() > 0)
                             {{-- unlike spot --}}
-                            <form action="{{ route('spot.unlike', $spot->id) }}" method="post">
+                            <form action="{{ route('spots.like.delete', $spot->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="like-button">
@@ -52,7 +52,7 @@
                             </form>
                         @else
                             {{-- like spot --}}
-                            <form action="{{ route('spot.like', $spot->id) }}" method="post">
+                            <form action="{{ route('spots.like.store', $spot->id) }}" method="post">
                                 @csrf
                                 <button type="submit" class="like-button">
                                     <i class="fa-solid fa-heart"></i>
@@ -116,7 +116,7 @@
     <hr>
     <div class="row row-cols-1 row-cols-md-4">
         <div class="col-12 col-md-12 spot-comments">
-            @include('spots.comment.body', ['spot' => $spot])
+            {{-- @include('spots.comment.body', ['spot' => $spot]) --}}
         </div>
     </div>
 

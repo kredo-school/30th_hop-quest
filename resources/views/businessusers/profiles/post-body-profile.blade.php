@@ -18,15 +18,15 @@
                         @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
                             <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
                         @else
-                            <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
+                            <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
                         @endif
                     </a>
                 @elseif($post['type'] == 'quests')
-                    <a href="#" >
+                    <a href="{{route('quest.show', $post['id'])}}" >
                         @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
                             <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
                         @else
-                            <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
+                            <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
                         @endif
                     </a>
                 @endif

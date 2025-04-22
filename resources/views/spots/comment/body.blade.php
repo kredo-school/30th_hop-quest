@@ -9,7 +9,7 @@
         
         {{-- add comment section --}}
         @auth
-            <form action="{{ route('spot.comment.store', $spot->id) }}" method="post">
+            <form action="{{ route('spots.comment.store', $spot->id) }}" method="post">
                 @csrf
                 <input type="hidden" name="spot_id" value="{{ $spot->id }}">
                 <textarea name="content" class="comment-textarea" placeholder="your comment" required></textarea>
