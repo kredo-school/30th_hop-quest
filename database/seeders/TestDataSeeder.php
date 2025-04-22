@@ -34,7 +34,7 @@ class TestDataSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'id' => 1, 'name' => 'Alice', 'email' => 'alice@example.com',
-                'avatar' => null, 'header' => null, 'password' => Hash::make('password'),
+                'avatar' => '/images/profile/alice.jpg', 'header' => '/images/profile/1.jpg', 'password' => Hash::make('password'),
                 'role_id' => 1, 'introduction' => 'I love traveling.', 'website_url' => 'https://alice.com',
                 'zip' => '100-0001', 'address' => 'Tokyo, Japan', 'phonenumber' => '090-1111-1111',
                 'instagram' => '@alice', 'facebook' => 'alice.fb', 'x' => '@alice_x', 'tiktok' => '@alice_tok',
@@ -42,7 +42,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 2, 'name' => 'Bob', 'email' => 'bob@example.com',
-                'avatar' => null, 'header' => null, 'password' => Hash::make('password'),
+                'avatar' => '/images/profile/bob.jpg', 'header' => '/images/profile/2.jpg', 'password' => Hash::make('password'),
                 'role_id' => 1, 'introduction' => 'Food lover.', 'website_url' => null,
                 'zip' => '150-0001', 'address' => 'Osaka, Japan', 'phonenumber' => '090-2222-2222',
                 'instagram' => null, 'facebook' => null, 'x' => null, 'tiktok' => null,
@@ -50,7 +50,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 3, 'name' => 'Charlie', 'email' => 'charlie@example.com',
-                'avatar' => null, 'header' => null, 'password' => Hash::make('password'),
+                'avatar' => '/images/profile/charlie.jpg', 'header' => '/images/profile/3.jpg', 'password' => Hash::make('password'),
                 'role_id' => 1, 'introduction' => null, 'website_url' => null,
                 'zip' => '530-0001', 'address' => 'Kyoto, Japan', 'phonenumber' => '090-3333-3333',
                 'instagram' => '@charlie_insta', 'facebook' => null, 'x' => '@charlie_x', 'tiktok' => null,
@@ -58,7 +58,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 4, 'name' => 'David', 'email' => 'david@example.com',
-                'avatar' => null, 'header' => null, 'password' => Hash::make('password'),
+                'avatar' => '/images/profile/david.jpg', 'header' => '/images/profile/4.jpg', 'password' => Hash::make('password'),
                 'role_id' => 1, 'introduction' => 'Explorer.', 'website_url' => 'https://david.net',
                 'zip' => '160-0001', 'address' => 'Nagoya, Japan', 'phonenumber' => '090-4444-4444',
                 'instagram' => null, 'facebook' => 'david.fb', 'x' => null, 'tiktok' => null,
@@ -66,7 +66,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 5, 'name' => 'Eve', 'email' => 'eve@example.com',
-                'avatar' => null, 'header' => null, 'password' => Hash::make('password'),
+                'avatar' => '/images/profile/eve.jpg', 'header' => '/images/profile/5.jpg', 'password' => Hash::make('password'),
                 'role_id' => 1, 'introduction' => 'Nature photographer.', 'website_url' => 'https://eve.jp',
                 'zip' => '460-0001', 'address' => 'Fukuoka, Japan', 'phonenumber' => '090-5555-5555',
                 'instagram' => '@eve_photo', 'facebook' => null, 'x' => null, 'tiktok' => '@eve_tok',
@@ -74,7 +74,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 6, 'name' => 'Frank', 'email' => 'frank@example.com',
-                'avatar' => null, 'header' => null, 'password' => Hash::make('password'),
+                'avatar' => '/images/profile/frank.jpg', 'header' => '/images/profile/6.jpg', 'password' => Hash::make('password'),
                 'role_id' => 1, 'introduction' => null, 'website_url' => null,
                 'zip' => '220-0001', 'address' => 'Sapporo, Japan', 'phonenumber' => '090-6666-6666',
                 'instagram' => null, 'facebook' => null, 'x' => '@frankx', 'tiktok' => null,
@@ -84,7 +84,7 @@ class TestDataSeeder extends Seeder
             // role_id = 2 (business)
             [
                 'id' => 7, 'name' => 'Grace', 'email' => 'grace@example.com',
-                'avatar' => null, 'header' => null, 'password' => Hash::make('password'),
+                'avatar' => '/images/profile/grace.jpg', 'header' => '/images/profile/7.jpg', 'password' => Hash::make('password'),
                 'role_id' => 2, 'introduction' => 'Coffee shop owner.', 'website_url' => 'https://grace-cafe.com',
                 'zip' => '102-0071', 'address' => 'Shibuya, Tokyo', 'phonenumber' => '080-7777-7777',
                 'instagram' => '@grace_cafe', 'facebook' => 'grace.fb', 'x' => '@grace_x', 'tiktok' => null,
@@ -92,7 +92,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 8, 'name' => 'Heidi', 'email' => 'heidi@example.com',
-                'avatar' => null, 'header' => null, 'password' => Hash::make('password'),
+                'avatar' => '/images/profile/heidi.jpg', 'header' => '/images/profile/8.jpg', 'password' => Hash::make('password'),
                 'role_id' => 2, 'introduction' => 'Tour guide in Kyoto.', 'website_url' => 'https://kyoto-heidi.jp',
                 'zip' => '600-0000', 'address' => 'Kyoto, Japan', 'phonenumber' => '080-8888-8888',
                 'instagram' => '@heidi_tours', 'facebook' => null, 'x' => null, 'tiktok' => '@heidi_tok',
@@ -100,7 +100,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 9, 'name' => 'Ivan', 'email' => 'ivan@example.com',
-                'avatar' => null, 'header' => null, 'password' => Hash::make('password'),
+                'avatar' => '/images/profile/ivan.jpg', 'header' => '/images/profile/9.jpg', 'password' => Hash::make('password'),
                 'role_id' => 2, 'introduction' => 'Hotel manager.', 'website_url' => 'https://ivanhotel.com',
                 'zip' => '980-0001', 'address' => 'Sendai, Japan', 'phonenumber' => '080-9999-9999',
                 'instagram' => null, 'facebook' => 'ivan.fb', 'x' => '@iv_x', 'tiktok' => null,
@@ -108,7 +108,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 10, 'name' => 'Judy', 'email' => 'judy@example.com',
-                'avatar' => null, 'header' => null, 'password' => Hash::make('password'),
+                'avatar' => '/images/profile/judy.jpg', 'header' => '/images/profile/10.jpg', 'password' => Hash::make('password'),
                 'role_id' => 2, 'introduction' => 'Handmade crafts.', 'website_url' => 'https://judycrafts.com',
                 'zip' => '370-0000', 'address' => 'Gunma, Japan', 'phonenumber' => '080-1234-0000',
                 'instagram' => '@judy_handmade', 'facebook' => null, 'x' => null, 'tiktok' => '@judytok',
@@ -116,7 +116,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 11, 'name' => 'Mallory', 'email' => 'mallory@example.com',
-                'avatar' => null, 'header' => null, 'password' => Hash::make('password'),
+                'avatar' => '/images/profile/mallory.jpg', 'header' => '/images/profile/11.jpg', 'password' => Hash::make('password'),
                 'role_id' => 2, 'introduction' => 'Digital marketer.', 'website_url' => 'https://mallorymarketing.jp',
                 'zip' => '810-0001', 'address' => 'Fukuoka, Japan', 'phonenumber' => '080-4567-1234',
                 'instagram' => '@mallory_marketing', 'facebook' => 'mallory.fb', 'x' => null, 'tiktok' => null,
@@ -124,7 +124,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 12, 'name' => 'Niaj', 'email' => 'niaj@example.com',
-                'avatar' => null, 'header' => null, 'password' => Hash::make('password'),
+                'avatar' => '/images/profile/niaj.jpg', 'header' => '/images/profile/12.jpg', 'password' => Hash::make('password'),
                 'role_id' => 2, 'introduction' => null, 'website_url' => null,
                 'zip' => '920-0001', 'address' => 'Kanazawa, Japan', 'phonenumber' => '080-3210-9999',
                 'instagram' => null, 'facebook' => null, 'x' => '@niaj', 'tiktok' => null,
@@ -173,7 +173,7 @@ class TestDataSeeder extends Seeder
                 'category_id' => 1, 'address_1' => 'Gunma', 'address_2' => 'Takasaki', 'zip' => '370-0000',
                 'phonenumber' => '080-4444-4444', 'email' => 'info@gunmacrafts.jp',
                 'website_url' => 'https://gunmacrafts.jp', 'instagram' => '@gunma_shop', 'facebook' => null, 'x' => null,
-                'tiktok' => null, 'official_certification' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+                'tiktok' => null, 'official_certification' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
             ],
             [
                 'id' => 5, 'user_id' => 11, 'name' => 'Fukuoka Marketing',
@@ -181,7 +181,7 @@ class TestDataSeeder extends Seeder
                 'category_id' => 1, 'address_1' => 'Fukuoka', 'address_2' => 'Chuo-ku', 'zip' => '810-0001',
                 'phonenumber' => '080-5555-5555', 'email' => 'marketing@fukuoka.jp',
                 'website_url' => null, 'instagram' => null, 'facebook' => 'fukuoka.biz', 'x' => null,
-                'tiktok' => null, 'official_certification' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+                'tiktok' => null, 'official_certification' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
             ],
             [
                 'id' => 6, 'user_id' => 12, 'name' => 'Kanazawa Design Studio',
@@ -189,7 +189,7 @@ class TestDataSeeder extends Seeder
                 'category_id' => 1, 'address_1' => 'Kanazawa', 'address_2' => 'Higashi', 'zip' => '920-0001',
                 'phonenumber' => '080-6666-6666', 'email' => 'hello@kanazawa.jp',
                 'website_url' => 'https://kanazawastudio.jp', 'instagram' => '@kzstudio', 'facebook' => 'kanazawa.fb', 'x' => '@kzstudio',
-                'tiktok' => null, 'official_certification' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+                'tiktok' => null, 'official_certification' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
             ],
             [
                 'id' => 7, 'user_id' => 7, 'name' => 'Shibuya Summer Fest',
@@ -197,7 +197,7 @@ class TestDataSeeder extends Seeder
                 'category_id' => 2, 'address_1' => 'Tokyo', 'address_2' => 'Shibuya', 'zip' => '150-0001',
                 'phonenumber' => '080-7777-1111', 'email' => 'event@shibuya.jp',
                 'website_url' => 'https://shibufest.jp', 'instagram' => '@shibufest', 'facebook' => null, 'x' => '@shibufest',
-                'tiktok' => '@shibufesttok', 'official_certification' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+                'tiktok' => '@shibufesttok', 'official_certification' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
             ],
             [
                 'id' => 8, 'user_id' => 8, 'name' => 'Kyoto Cultural Night',
@@ -205,7 +205,7 @@ class TestDataSeeder extends Seeder
                 'category_id' => 2, 'address_1' => 'Kyoto', 'address_2' => 'Higashiyama', 'zip' => '605-0001',
                 'phonenumber' => '080-8888-4444', 'email' => 'night@kyoto.jp',
                 'website_url' => null, 'instagram' => '@kyotonight', 'facebook' => null, 'x' => '@kyotonight', 'tiktok' => null,
-                'official_certification' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+                'official_certification' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
             ],
             [
                 'id' => 9, 'user_id' => 9, 'name' => 'Sendai Lights Festival',
@@ -213,7 +213,7 @@ class TestDataSeeder extends Seeder
                 'category_id' => 2, 'address_1' => 'Sendai', 'address_2' => 'Aoba', 'zip' => '980-0021',
                 'phonenumber' => '080-9999-5555', 'email' => 'light@sendai.jp',
                 'website_url' => 'https://sendailights.jp', 'instagram' => '@sendailights', 'facebook' => 'sendai.fb',
-                'x' => null, 'tiktok' => null, 'official_certification' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+                'x' => null, 'tiktok' => null, 'official_certification' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
             ],
             [
                 'id' => 10, 'user_id' => 10, 'name' => 'Gunma Autumn Market',
@@ -221,7 +221,7 @@ class TestDataSeeder extends Seeder
                 'category_id' => 2, 'address_1' => 'Gunma', 'address_2' => 'Maebashi', 'zip' => '370-1234',
                 'phonenumber' => '080-1234-5678', 'email' => 'market@gunma.jp',
                 'website_url' => null, 'instagram' => '@gunmamarket', 'facebook' => null, 'x' => null,
-                'tiktok' => null, 'official_certification' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+                'tiktok' => null, 'official_certification' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
             ],
             [
                 'id' => 11, 'user_id' => 11, 'name' => 'Fukuoka Tech Expo',
@@ -229,7 +229,7 @@ class TestDataSeeder extends Seeder
                 'category_id' => 2, 'address_1' => 'Fukuoka', 'address_2' => 'Hakata', 'zip' => '812-0001',
                 'phonenumber' => '080-5432-1234', 'email' => 'expo@fukuoka.jp',
                 'website_url' => 'https://fukuokatech.jp', 'instagram' => '@fukuokatech', 'facebook' => null, 'x' => null,
-                'tiktok' => '@fukuokatok', 'official_certification' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+                'tiktok' => '@fukuokatok', 'official_certification' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
             ],
             [
                 'id' => 12, 'user_id' => 12, 'name' => 'Kanazawa Art Week',
@@ -237,7 +237,7 @@ class TestDataSeeder extends Seeder
                 'category_id' => 2, 'address_1' => 'Kanazawa', 'address_2' => 'Central', 'zip' => '920-0031',
                 'phonenumber' => '080-9876-4321', 'email' => 'art@kanazawa.jp',
                 'website_url' => null, 'instagram' => '@kzartweek', 'facebook' => 'kanazawa.fb', 'x' => null,
-                'tiktok' => null, 'official_certification' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+                'tiktok' => null, 'official_certification' => 3, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
             ],
         ]);
 
