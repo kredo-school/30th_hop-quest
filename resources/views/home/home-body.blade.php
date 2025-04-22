@@ -92,10 +92,6 @@
                 <div class="col-auto ms-1">
                     @auth
                         @if ($post->user->id === Auth::user()->id)
-                            <a href="{{ route('myprofile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
-                                <img src="{{ $post->user->avatar ? $post->user->avatar : asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
-                            </a>
-                        @else
                             <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
                                 <img src="{{ $post->user->avatar ? $post->user->avatar : asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
                             </a>
