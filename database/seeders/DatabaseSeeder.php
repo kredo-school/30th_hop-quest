@@ -19,5 +19,21 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // 必要なシーダークラスを呼び出し
+        $this->call([
+            // 基本カテゴリとマスターデータのシーディング
+            BusinessInfoCategorySeeder::class,
+            BusinessInfoSeeder::class,
+            
+            // ロケーションとイベントのシーディング（Business シーディング後に実行する必要あり）
+            LocationSeeder::class,
+            EventSeeder::class,
+            
+            // ビジネス詳細情報のシーディング（Business シーディング後に実行する必要あり）
+            BusinessDetailSeeder::class,
+            
+            // 他のシーダーがあれば追加
+        ]);
     }
 }
