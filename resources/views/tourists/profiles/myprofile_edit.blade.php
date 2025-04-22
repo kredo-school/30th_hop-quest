@@ -1,71 +1,30 @@
 @extends('layouts.app')
-
 @section('title', 'Edit Profile')
-
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/profiles/profile_edit.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 @endsection
-
 @section('content')
-    <div class="container mb-5" style="margin-top: 100px;">
-        <div class="profile-container">
-            <label class="header d-block mb-3" style="cursor: pointer;">
-                <input type="file" id="headerInput" accept="image/*" class="d-none">
-                <img id="headerPreview" src="{{ asset('images/profiles/header.jpg') }}" alt="Header Image">
-            </label>
-            <label class="avatar">
-                <input type="file" id="avatarInput" accept="image/*">
-                <img id="avatarPreview" src="{{ asset('images/profiles/avatar.jpg') }}" alt="Avatar Image">
-            </label>
-        </div>
-
-        <!-- Header Image -->
-        {{-- <div class="mb-4" style="margin-top: 100px;">
-            @if ($user['header'])
-                <div class="header-container mb-2">
-                    <label>
-                        <span class="header">&#128100;</span>
-                        <span class="camera">&#128247;</span>
-                        <input type="file" name="header">
-                    </label>
-
-                </div>
-            @endif
-           
-            <div class="form-text">Supported: jpeg, jpg, png, gif (max 1048Kb)</div>
-            @error('header')
-                <div class="text-danger small">{{ $message }}</div>
-            @enderror
-        </div> --}}
-
-        <!-- Avatar Image -->
-        {{-- <div class="mb-4">
-            @if ($user['avatar'])
-                <div class="avatar-container mb-2">
-                    <label>
-                        <span class="user">&#128100;</span>
-                        <span class="camera">&#128247;</span>
-                        <input type="file" name="avatar">
-                    </label>
-                  
-                </div>
-            @endif
-          
-            <div class="form-text">Supported: jpeg, jpg, png, gif (max 1048Kb)</div>
-            @error('avatar')
-                <div class="text-danger small">{{ $message }}</div>
-            @enderror
-        </div> --}}
-
-        <!-- Profile Form -->
-        <div class="card rounded bg-white px-5 py-3 mt-5">
-            <h3 class="text-center mb-4 fw-bold">Edit Profile</h3>
-
-            <form action="{{ route('myprofile.update', $user['id']) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PATCH')
-
+    <div class="container mb-5 profile-edit-spacing">
+        <form action="{{ route('myprofile.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PATCH')
+            <div class="profile-container">
+                <label class="header d-block mb-3">
+                    <input type="file" id="header" name="header" accept="image/*" class="d-none">
+                    <img id="headerPreview"
+                        src="{{ Str::startsWith($user->header, 'data:image') ? $user->header : asset('images/profiles/header.jpg') }}"
+                        alt="Header Image">
+                </label>
+                <label class="avatar">
+                    <input type="file" id="avatar" name="avatar" accept="image/*">
+                    <img id="avatarPreview"
+                        src="{{ Str::startsWith($user->avatar, 'data:image') ? $user->avatar : asset('images/profiles/avatar.jpg') }}"
+                        alt="Avatar Image">
+                </label>
+            </div>
+            <div class="card rounded bg-white px-5 py-3 mt-5">
+                <h3 class="text-center mb-4 fw-bold">Edit Profile</h3>
                 <!-- Username -->
                 <div class="mb-3">
                     <label for="name" class="form-label fw-bold">Username</label>
@@ -75,7 +34,6 @@
                         <div class="text-danger small">{{ $message }}</div>
                     @enderror
                 </div>
-
                 <!-- Email -->
                 <div class="mb-3">
                     <label for="email" class="form-label fw-bold">Email</label>
@@ -85,7 +43,6 @@
                         <div class="text-danger small">{{ $message }}</div>
                     @enderror
                 </div>
-
                 <!-- Introduction -->
                 <div class="mb-5">
                     <label for="introduction" class="form-label fw-bold">Introduction</label>
@@ -94,7 +51,6 @@
                         <div class="text-danger small">{{ $message }}</div>
                     @enderror
                 </div>
-
                 <!-- Social Media Section -->
                 <div class="mb-4 text-dark">
                     @php
@@ -120,23 +76,19 @@
                             </div>
                         </div>
                     @endforeach
-
                     <!-- Save Button -->
                     <div class="text-center">
                         <button type="submit" class="btn btn-success px-5">SAVE</button>
                     </div>
-            </form>
-        </div>
+        </form>
     </div>
-
+    </div>
     <!-- Password Change -->
     <div class="mt-5 p-4 px-5 bg-white rounded shadow-sm">
         <h4 class="fw-bold text-center mb-4">Change Password</h4>
-
         <form action="{{ route('password.update') }}" method="POST">
             @csrf
             @method('PATCH')
-
             <!-- Current Password -->
             <div class="mb-3">
                 <label for="current_password" class="form-label fw-bold">Old Password</label>
@@ -145,7 +97,6 @@
                     <div class="text-danger small">{{ $message }}</div>
                 @enderror
             </div>
-
             <!-- New Password -->
             <div class="mb-3">
                 <label for="new_password" class="form-label fw-bold">New Password</label>
@@ -154,21 +105,18 @@
                     <div class="text-danger small">{{ $message }}</div>
                 @enderror
             </div>
-
             <!-- Confirm New Password -->
             <div class="mb-4">
                 <label for="new_password_confirmation" class="form-label fw-bold">Confirm New Password</label>
                 <input type="password" name="new_password_confirmation" id="new_password_confirmation" class="form-control"
                     required>
             </div>
-
             <div class="text-center">
                 <button type="submit" class="btn btn-success w-50">UPDATE PASSWORD</button>
             </div>
         </form>
     </div>
-
-
-@section('scripts')
-    <script src="{{ asset('js/profile_edit.js') }}"></script>
+    {{-- @section('scripts')
+    <script src="{{ asset('js/profile_edit.js') }}"></script> --}}
 @endsection
+@vite('resources/js/profile_edit.js')

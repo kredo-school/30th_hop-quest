@@ -128,7 +128,7 @@ Route::get('/home/posts/followings', [HomeController::class, 'showFollowings'])-
 Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
     Route::get('/create', [SpotController::class, 'create'])->name('create');
     Route::post('/store', [SpotController::class, 'store'])->name('store');
-    
+
     // Spot Likes
     Route::post('/{spot_id}/like', [SpotLikeController::class, 'store'])->name('like.store');
     Route::delete('/{spot_id}/unlike', [SpotLikeController::class, 'destroy'])->name('like.delete');
@@ -174,7 +174,7 @@ Route::patch('/password/update', [TouristProfileController::class, 'updatePasswo
 Route::delete('/myprofile', [TouristProfileController::class, 'destroy'])->name('myprofile.destroy');
 
 //ADMIN
-Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], function(){
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function () {
     // Route::get('/main', [UsersController::class, 'showLists'])->name('main');
     Route::get('/users/business', [UsersController::class, 'indexBusiness'])->name('users.business');
     Route::get('/users/applied', [UsersController::class, 'indexApplied'])->name('users.applied');
@@ -234,7 +234,7 @@ Route::prefix('/questbody')->name('questbody.')->controller(QuestBodyController:
     Route::delete('/delete/{id}', 'deleteQuestBody')->name('delete');
     Route::post('/image/delete', 'deleteImage')->name('image.delete');
     Route::post('/agenda/{id}', 'toggleAgenda')->name('toggleAgenda');
-    Route::get('/getAllQuestBodies/{questId}','getAllQuestBodies')->name('getAllQuestBody');
+    Route::get('/getAllQuestBodies/{questId}', 'getAllQuestBodies')->name('getAllQuestBody');
 
     // ✅補助機能（QuestBody関連）
     Route::get('/user/searchbusinesses', 'getMyBusinesses')->name('mybusinesses');
@@ -253,7 +253,7 @@ Route::prefix('/questcomment')->name('questcomment.')->controller(QuestCommentCo
 
 
 //Like to each post without page refresh (AJAX)
-Route::prefix('like')->group(function(){
+Route::prefix('like')->group(function () {
     Route::post('{type}/{id}/store', [LikeController::class, 'store'])->name('like.store');
     Route::delete('{type}/{id}/delete', [LikeController::class, 'destroy'])->name('like.delete');
 });
