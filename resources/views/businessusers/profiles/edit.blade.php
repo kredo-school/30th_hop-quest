@@ -35,18 +35,18 @@
 <div class="row">
     <div class="pt-2 px-0">
         @if(Auth::user()->header)
-        <img id="header-preview"
-            src="{{ Auth::user()->header }}"
-            alt="Header Image"
-            class="header-image img-fluid mx-auto d-block">
-    @else
-        <img id="header-preview"
-            src=""
-            alt="No Header"
-            class="header-image img-fluid mx-auto d-block"
-            style="display:none;">
-        <i id="header-icon" class="fa-solid fa-image text-secondary icon-xxl d-block text-center"></i>
-    @endif
+            <img id="header-preview"
+                src="{{ Auth::user()->header }}"
+                alt="Header Image"
+                class="header-image img-fluid mx-auto d-block">
+        @else
+            <img id="header-preview"
+                src=""
+                alt="No Header"
+                class="header-image img-fluid mx-auto d-block"
+                style="display:none;">
+            <i id="header-icon" class="fa-solid fa-image text-secondary icon-xxl d-block text-center"></i>
+        @endif
     </div>
 </div>
 
@@ -63,7 +63,8 @@
                 Max file size is 1048 KB
                 </p>
             </div>
-            
+
+                
             <script>
                 document.getElementById('header').addEventListener('change', function(event) {
                     const file = event.target.files[0];
@@ -90,53 +91,19 @@
         </div>     
         <div class="row mb-3">
             <!-- Avatar image -->
-            {{-- <div class="col-auto profile-image">
-                @if(Auth::user()->avatar)
-                    <img src="{{Auth::user()->avatar}}" alt="" class="rounded-circle avatar-xl d-block mx-auto">                          
-                @else
-                    <i class="fa-solid fa-circle-user text-secondary profile-xl d-block text-center"></i>
-                @endif
-                <!--delete-->
-                <button type="button" id="delete-avatar" data-image="{{ Auth::user()->avatar }}"><i class="delete-avatar fa-solid fa-trash text-danger"></i></button>      
-                <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        const deleteBtn = document.getElementById('delete-avatar');
-                        if (!deleteBtn) return;
-                    
-                        deleteBtn.addEventListener('click', function () {
-                            if (!confirm('画像を削除しますか？')) return;
-                    
-                            fetch("{{ route('profile.avatar.delete') }}", {
-                                method: "DELETE",
-                                headers: {
-                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-                                }
-                            })
-                            .then(response => {
-                                if (response.ok) {
-                                    alert('画像を削除しました');
-                                    location.reload();
-                                } else {
-                                    alert('削除に失敗しました');
-                                }
-                            });
-                        });
-                    });
-                    </script>
-            </div> --}}
+
             <div class="col-auto profile-image">
                 <img id="avatar-preview"
-                    src="{{ Auth::user()->avatar ?? '' }}"
-                    alt=""
-                    class="rounded-circle avatar-xl d-block mx-auto"
-                    style="{{ Auth::user()->avatar ? '' : 'display:none;' }}">
+                src="{{ Auth::user()->avatar ?? asset('images/profiles/profile-circle-user.jpg') }}"
+                alt=""
+                class="rounded-circle avatar-xl d-block mx-auto">
             
-                <i id="default-icon"
+                {{-- <i id="default-icon"
                     class="fa-solid fa-circle-user text-secondary profile-xl rounded-circle d-block mx-auto"
-                    style="{{ Auth::user()->avatar ? 'display:none;' : '' }}"></i>
+                    style="{{ Auth::user()->avatar ? 'display:none;' : '' }}"></i> --}}
             
-                <button type="button" id="delete-avatar" data-image="{{ Auth::user()->avatar }}">
-                    <i class="delete-avatar fa-solid fa-trash text-danger" style="z-index: 10;"></i>
+                <button type="button" class="btn-red" id="delete-avatar" data-image="{{ Auth::user()->avatar }}">
+                    <i class="delete-avatar fa-solid fa-trash" style="z-index: 10;"></i>
                 </button>
             </div>
             
@@ -150,9 +117,7 @@
                     Max file size is 1048 KB
                 </p>
             </div>
-                            
-
-            
+                                   
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                     const avatarInput = document.getElementById('avatar');
@@ -203,8 +168,6 @@
             </script>
         
             <div class="col">
-
-
                 @error('avatar')
                 <p class="mb-0 text-danger small">{{ $message }}</p>
                 @enderror
