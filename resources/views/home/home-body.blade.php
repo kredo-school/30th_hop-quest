@@ -96,14 +96,14 @@
                                 <img src="{{ $post->user->avatar ? $post->user->avatar : asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
                             </a>
                         @else
-                            <a href="{{ route('profile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                            <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
                                 <img src="{{ $post->user->avatar ? $post->user->avatar : asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
                             </a>
                         @endif
                     @endauth
 
                     @guest
-                        <a href="{{ route('profile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                        <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
                             <img src="{{ $post->user->avatar ? $post->user->avatar : asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
                         </a>
                     @endguest

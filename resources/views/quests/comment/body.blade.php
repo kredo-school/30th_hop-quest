@@ -49,7 +49,7 @@
                             $isOwnComment = Auth::check() && Auth::id() === $comment->user_id;
                             $profileRoute = $isOwnComment
                                 ? route('myprofile.show')
-                                : route('profile.show', ['id' => $comment->user_id]);
+                                : route('profile.header', ['id' => $comment->user_id]);
                         @endphp
 
                         {{-- アバターリンク --}}
