@@ -102,8 +102,8 @@
                     class="fa-solid fa-circle-user text-secondary profile-xl rounded-circle d-block mx-auto"
                     style="{{ Auth::user()->avatar ? 'display:none;' : '' }}"></i> --}}
             
-                <button type="button" class="btn-red" id="delete-avatar" data-image="{{ Auth::user()->avatar }}">
-                    <i class="delete-avatar fa-solid fa-trash" style="z-index: 10;"></i>
+                <button type="button" class="btn btn-outline-red delete-avatar" id="delete-avatar" >
+                    <i class=" fa-solid fa-trash" ></i>
                 </button>
             </div>
             
