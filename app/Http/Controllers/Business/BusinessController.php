@@ -36,7 +36,6 @@ class BusinessController extends Controller
         $this->user = $user;
         $this->business_promotion = $business_promotion;
         $this->business_hour = $business_hour;
-        $this->business_comment = $business_comment;
     }
 
     public function create(){
