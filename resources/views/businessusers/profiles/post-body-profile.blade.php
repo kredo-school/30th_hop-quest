@@ -29,6 +29,14 @@
                             <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
                         @endif
                     </a>
+                @elseif($post['type'] == 'businesses')
+                <a href="{{route('business.show', $post['id'])}}" >
+                    @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
+                    @else
+                        <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
+                    @endif
+                </a>
                 @endif
             @elseif($post['user']->role_id == 2)
                 @if($post['official_certification']==2)

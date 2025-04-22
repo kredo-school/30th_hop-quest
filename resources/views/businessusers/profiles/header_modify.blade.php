@@ -252,7 +252,7 @@
                         <div class="row mb-3 align-items-center ">
                             <div class="row justify-content-center">
                                 <div class="row mb-1 mt-4">
-                                    @forelse($likedPosts->where('type', 'quests') as $post)
+                                    @forelse($likedQuests as $post)
                                         <div class="col-lg-4 col-md-6 col-sm">
                                             @include('businessusers.profiles.post-body-profile')
                                         </div>         
@@ -261,7 +261,7 @@
                                     @endforelse
                                 </div>
                                 <div class="d-flex justify-content-end mb-5">
-                                    {{ $likedPosts->links() }}
+                                    {{ $likedQuests->links() }}
                                 </div>
                             </div>
                 @elseif ($section == 'liked_spots')
@@ -270,7 +270,7 @@
                             <div class="row justify-content-center">
                                 {{-- Liked Posts --}}
                                 <div class="row mb-1 mt-4">
-                                    @forelse($likedPosts->where('type', 'spots') as $post)
+                                    @forelse($likedSpots as $post)
                                         <div class="col-lg-4 col-md-6 col-sm">
                                             @include('businessusers.profiles.post-body-profile')
                                         </div>         
@@ -279,7 +279,7 @@
                                     @endforelse
                                 </div>
                                 <div class="d-flex justify-content-end mb-5">
-                                    {{ $likedPosts->links() }}
+                                    {{ $likedSpots->links() }}
                                 </div>
                             </div>
                 @elseif ($section == 'liked_businesses')
@@ -288,7 +288,7 @@
                             <div class="row justify-content-center">
                                 {{-- Liked Posts --}}
                                 <div class="row mb-1 mt-4">
-                                    @forelse($likedPosts->where('type', 'businesses') as $post)
+                                    @forelse($likedBusinesses as $post)
                                         <div class="col-lg-4 col-md-6 col-sm">
                                             @include('businessusers.profiles.post-body-profile')
                                         </div>         
@@ -297,7 +297,7 @@
                                     @endforelse
                                 </div>
                                 <div class="d-flex justify-content-end mb-5">
-                                    {{ $likedPosts->links() }}
+                                    {{ $likedBusinesses->links() }}
                                 </div>
                             </div>
                 <!--Comment-->
