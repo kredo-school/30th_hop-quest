@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessPromotion;
+use Illuminate\Support\Str;
 
 class BusinessPromotionController extends Controller
 {
@@ -45,7 +46,10 @@ class BusinessPromotionController extends Controller
         $this->business_promotion->display_end = $request->display_end;
         $this->business_promotion->business_id = $request->business_id;
         $this->business_promotion->user_id = Auth::user()->id;
-        $this->business_promotion->image = "data:photo/".$request->image->extension().";base64,".base64_encode (file_get_contents($request->image)); 
+        
+        // 画像をストレージに保存
+        $imagePath = $request->file('image')->store('images/promotions', 'public');
+        $this->business_promotion->image = '/' . $imagePath;
 
         $this->business_promotion->save();
 
@@ -81,8 +85,16 @@ class BusinessPromotionController extends Controller
         $business_promotion_a->business_id = $request->business_id;
         $business_promotion_a->user_id = Auth::user()->id;
 
-        if($request->image){
-            $business_promotion_a->image = "data:photo/".$request->image->extension().";base64,".base64_encode(file_get_contents($request->image));
+        if($request->hasFile('image')){
+            // 既存の画像があれば削除
+            if ($business_promotion_a->image && !Str::startsWith($business_promotion_a->image, 'data:')) {
+                $oldPath = ltrim($business_promotion_a->image, '/');
+                Storage::disk('public')->delete($oldPath);
+            }
+            
+            // 新しい画像を保存
+            $imagePath = $request->file('image')->store('images/promotions', 'public');
+            $business_promotion_a->image = '/' . $imagePath;
         }
         $business_promotion_a->save();
 

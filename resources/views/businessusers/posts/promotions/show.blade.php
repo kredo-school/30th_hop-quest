@@ -46,7 +46,7 @@
                 </div>
                 <div class="card-body promotion">  
                     <div class="row mb-0">
-                        <img src="{{ $business_promotion->image }}" class="card-img-top post-image" alt="image">
+                        <img src="{{ asset('storage'.$business_promotion->image) }}" class="card-img-top post-image" alt="image">
                         {{-- Postdate --}}
                         {{-- <div class="col-auto pe-0 ms-auto">
                             <h5 class="card-subtitle">2025/2/25</h5>
@@ -69,9 +69,7 @@
         </div>
         <div class="row justify-content-center mb-5">
             <div class="col-4">
-                <a href="{{route('profile.promotions', $business_promotion->user_id)}}">
-                    <button class="btn btn-red w-100 ">BACK</button>
-                </a>
+                <button onclick="window.history.back()" class="btn btn-red w-100">BACK</button>
             </div>
         </div>
     </div>   
