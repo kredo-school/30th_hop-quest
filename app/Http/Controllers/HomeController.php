@@ -127,6 +127,7 @@ class HomeController extends Controller
     }
 
     public function sort(Request $request){
+
         $category = $request->input('data-category');
         $sort = $request->input('sort');
         $page = $request->input('page', 1);
@@ -134,27 +135,50 @@ class HomeController extends Controller
 
         switch ($category) {
             case 'spot':
-                $query = Spot::where('title', 'like', "%{$request->search}%")
-                            ->orWhere('introduction', 'like', "%{$request->search}%");
+                $query = Spot::select('spots.*')
+                    ->selectSub(function ($subquery) {
+                        $subquery->select('views')
+                            ->from('page_views')
+                            ->whereColumn('page_views.page_id', 'spots.id')
+                            ->where('page_views.page_type', Spot::class);
+                    }, 'views_count')
+                    ->where(function ($q) use ($request) {
+                        $q->where('title', 'like', "%{$request->search}%")
+                        ->orWhere('introduction', 'like', "%{$request->search}%");
+                    });
                 break;
+
             case 'quest':
-                $query = Quest::where('title', 'like', "%{$request->search}%")
-                            ->orWhere('introduction', 'like', "%{$request->search}%");
+                $query = Quest::select('quests.*')
+                    ->selectSub(function ($subquery) {
+                        $subquery->select('views')
+                            ->from('page_views')
+                            ->whereColumn('page_views.page_id', 'quests.id')
+                            ->where('page_views.page_type', Quest::class);
+                    }, 'views_count')
+                    ->where(function ($q) use ($request) {
+                        $q->where('title', 'like', "%{$request->search}%")
+                        ->orWhere('introduction', 'like', "%{$request->search}%");
+                    });
                 break;
+
             case 'location':
-                $query = Business::where('category_id', '1')
-                                ->where(function ($q) use ($request) {
-                                    $q->where('name', 'like', "%{$request->search}%")
-                                      ->orWhere('introduction', 'like', "%{$request->search}%");
-                                });
-                break;
             case 'event':
-                $query = Business::where('category_id', '2')
-                                ->where(function ($q) use ($request) {
-                                    $q->where('name', 'like', "%{$request->search}%")
-                                      ->orWhere('introduction', 'like', "%{$request->search}%");
-                                });
+                $category_id = $category === 'location' ? 1 : 2;
+                $query = Business::select('businesses.*')
+                    ->selectSub(function ($subquery) {
+                        $subquery->select('views')
+                            ->from('page_views')
+                            ->whereColumn('page_views.page_id', 'businesses.id')
+                            ->where('page_views.page_type', Business::class);
+                    }, 'views_count')
+                    ->where('category_id', $category_id)
+                    ->where(function ($q) use ($request) {
+                        $q->where('name', 'like', "%{$request->search}%")
+                        ->orWhere('introduction', 'like', "%{$request->search}%");
+                    });
                 break;
+
             default:
                 return response()->json([
                     'html' => $this->renderAllSorted($sort, $request)
@@ -164,7 +188,7 @@ class HomeController extends Controller
         if ($sort === 'likes') {
             $query = $query->withCount('likes')->orderByDesc('likes_count');
         } elseif ($sort === 'views') {
-            $query = $query->withCount('views')->orderByDesc('views_count');
+            $query = $query->orderByDesc('views_count');
         } elseif ($sort === 'comments') {
             $query = $query->withCount('comments')->orderByDesc('comments_count');
         } elseif ($sort === 'oldest') {
@@ -174,40 +198,72 @@ class HomeController extends Controller
         }
 
         $posts = $query->paginate(9, ['*'], $pageName, $page)
-                       ->appends($request->query());
+                    ->appends($request->query());
 
         return response()->json([
             'html' => view('home.search-result-body-list', compact('posts'))->render()
         ]);
     }
 
-    private function renderAllSorted($sort, Request $request)
-    {
-        $spots = Spot::where('title', 'like', "%{$request->search}%")
-                        ->orWhere('introduction', 'like', "%{$request->search}%")
-                        ->withCount(['likes', 'views', 'comments'])
-                        ->get();
+    private function renderAllSorted($sort, Request $request){
+        
+        $spots = Spot::select('spots.*')
+            ->selectSub(function ($subquery) {
+                $subquery->select('views')
+                    ->from('page_views')
+                    ->whereColumn('page_views.page_id', 'spots.id')
+                    ->where('page_views.page_type', Spot::class);
+            }, 'views_count')
+            ->withCount(['likes', 'comments'])
+            ->where(function ($q) use ($request) {
+                $q->where('title', 'like', "%{$request->search}%")
+                ->orWhere('introduction', 'like', "%{$request->search}%");
+            })
+            ->get();
 
-        $quests = Quest::where('title', 'like', "%{$request->search}%")
-                        ->orWhere('introduction', 'like', "%{$request->search}%")
-                        ->withCount(['likes', 'views', 'comments'])
-                        ->get();
+        $quests = Quest::select('quests.*')
+            ->selectSub(function ($subquery) {
+                $subquery->select('views')
+                    ->from('page_views')
+                    ->whereColumn('page_views.page_id', 'quests.id')
+                    ->where('page_views.page_type', Quest::class);
+            }, 'views_count')
+            ->withCount(['likes', 'comments'])
+            ->where(function ($q) use ($request) {
+                $q->where('title', 'like', "%{$request->search}%")
+                ->orWhere('introduction', 'like', "%{$request->search}%");
+            })
+            ->get();
 
-        $locations = Business::where('category_id', '1')
-                        ->where(function ($query) use ($request) {
-                            $query->where('name', 'like', "%{$request->search}%")
-                                  ->orWhere('introduction', 'like', "%{$request->search}%");
-                        })
-                        ->withCount(['likes', 'views', 'comments'])
-                        ->get();
+        $locations = Business::select('businesses.*')
+            ->selectSub(function ($subquery) {
+                $subquery->select('views')
+                    ->from('page_views')
+                    ->whereColumn('page_views.page_id', 'businesses.id')
+                    ->where('page_views.page_type', Business::class);
+            }, 'views_count')
+            ->withCount(['likes', 'comments'])
+            ->where('category_id', 1)
+            ->where(function ($q) use ($request) {
+                $q->where('name', 'like', "%{$request->search}%")
+                ->orWhere('introduction', 'like', "%{$request->search}%");
+            })
+            ->get();
 
-        $events = Business::where('category_id', '2')
-                        ->where(function ($query) use ($request) {
-                            $query->where('name', 'like', "%{$request->search}%")
-                                  ->orWhere('introduction', 'like', "%{$request->search}%");
-                        })
-                        ->withCount(['likes', 'views', 'comments'])
-                        ->get();
+        $events = Business::select('businesses.*')
+            ->selectSub(function ($subquery) {
+                $subquery->select('views')
+                    ->from('page_views')
+                    ->whereColumn('page_views.page_id', 'businesses.id')
+                    ->where('page_views.page_type', Business::class);
+            }, 'views_count')
+            ->withCount(['likes', 'comments'])
+            ->where('category_id', 2)
+            ->where(function ($q) use ($request) {
+                $q->where('name', 'like', "%{$request->search}%")
+                ->orWhere('introduction', 'like', "%{$request->search}%");
+            })
+            ->get();
 
         $all = $spots->concat($quests)->concat($locations)->concat($events);
 
@@ -227,7 +283,7 @@ class HomeController extends Controller
         $perPage = 9;
         $currentItems = $sorted->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
-        $posts = new LengthAwarePaginator(
+        $posts = new \Illuminate\Pagination\LengthAwarePaginator(
             $currentItems,
             $sorted->count(),
             $perPage,

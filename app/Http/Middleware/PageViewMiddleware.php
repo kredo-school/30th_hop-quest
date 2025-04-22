@@ -29,44 +29,49 @@ class PageViewMiddleware
     
     public function handle(Request $request, Closure $next): Response
     {
-        $id     = $request->route('id');
-        $type   = explode('/', trim($request->path(), '/'))[0] ?? null;
-        $ip     = $request->ip();
-
-        // Log::info('Client IP:', [$ip]);
-
+        $type = explode('/', trim($request->path(), '/'))[0] ?? null;
+        $ip   = $request->ip();
 
         $modelClass = 'App\\Models\\' . ucfirst($type);
-        
-        if(class_exists($modelClass) && $id && $ip){
-            $alreadyCount = $this->page_view_log->newQuery()
-            ->where('page_id', $id)
-            ->where('page_type', $modelClass)
-            ->where('ip_address', $ip)
-            ->where('created_at', '>=', Carbon::now()->subDay())
-            ->exists();
 
-            if(!$alreadyCount){
+        if ($modelClass === 'App\\Models\\Quest') {
+            $id = $request->route('quest_id');
+        } else {
+            $id = $request->route('id');
+        }
+
+        // Log::info('type: ' . $type . ' | model: ' . $modelClass . ' | id: ' . $id);
+
+        if (class_exists($modelClass) && $id && $ip) {
+            $alreadyCount = $this->page_view_log->newQuery()
+                ->where('page_id', $id)
+                ->where('page_type', $modelClass)
+                ->where('ip_address', $ip)
+                ->where('created_at', '>=', Carbon::now()->subDay())
+                ->exists();
+
+            if (!$alreadyCount) {
                 $pageViews = $this->page_view->updateOrCreate([
-                    'page_id'       => $id,
-                    'page_type'     => $modelClass
+                    'page_id'   => $id,
+                    'page_type' => $modelClass
                 ]);
-                
+
                 $pageViews->increment('views');
 
                 $this->page_view_log->newQuery()->firstOrCreate([
-                    'page_id'       => $id,
-                    'page_type'     => $modelClass,
-                    'ip_address'    => $ip
+                    'page_id'    => $id,
+                    'page_type'  => $modelClass,
+                    'ip_address' => $ip
                 ], [
-                    'created_at'    => Carbon::now(),
-                    'updated_at'    => Carbon::now(),
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ]);
             }
         }
 
         return $next($request);
     }
+
 
 
 
