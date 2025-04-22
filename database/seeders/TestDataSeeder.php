@@ -153,7 +153,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 2, 'user_id' => 8, 'name' => 'Kyoto Tour Desk',
-                'main_image' => 'images/businesses/kyoto-tour.jpg', 'introduction' => 'Guided tours in Kyoto.Guided tours in Kyoto.Guided tours in Kyoto.Guided tours in Kyoto.Guided tours in Kyoto.Guided tours in Kyoto.',
+                'main_image' => '/images/businesses/kyoto-tour.jpg', 'introduction' => 'Guided tours in Kyoto.Guided tours in Kyoto.Guided tours in Kyoto.Guided tours in Kyoto.Guided tours in Kyoto.Guided tours in Kyoto.',
                 'category_id' => 1, 'address_1' => 'Kyoto', 'address_2' => 'Nakagyo-ku', 'zip' => '604-0000',
                 'phonenumber' => '080-2222-2222', 'email' => 'kyoto@tour.jp',
                 'website_url' => null, 'instagram' => '@kyototours', 'facebook' => null, 'x' => null,
@@ -161,7 +161,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 3, 'user_id' => 9, 'name' => 'Sendai Guesthouse',
-                'main_image' => 'images/businesses/sendai-guesthouse.jpg', 'introduction' => 'Affordable stay in Sendai.Affordable stay in Sendai.Affordable stay in Sendai.Affordable stay in Sendai.Affordable stay in Sendai.Affordable stay in Sendai.',
+                'main_image' => '/images/businesses/sendai-guesthouse.jpg', 'introduction' => 'Affordable stay in Sendai.Affordable stay in Sendai.Affordable stay in Sendai.Affordable stay in Sendai.Affordable stay in Sendai.Affordable stay in Sendai.',
                 'category_id' => 1, 'address_1' => 'Sendai', 'address_2' => 'Aoba-ku', 'zip' => '980-0001',
                 'phonenumber' => '080-3333-3333', 'email' => 'stay@sendai.jp',
                 'website_url' => 'https://sendai-guest.com', 'instagram' => null, 'facebook' => null, 'x' => null,
@@ -169,7 +169,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 4, 'user_id' => 10, 'name' => 'Gunma Craft Shop',
-                'main_image' => 'images/businesses/gunma-craft.jpg', 'introduction' => 'Handmade goods from Gunma.Handmade goods from Gunma.Handmade goods from Gunma.Handmade goods from Gunma.Handmade goods from Gunma.Handmade goods from Gunma.',
+                'main_image' => '/images/businesses/gunma-craft.jpg', 'introduction' => 'Handmade goods from Gunma.Handmade goods from Gunma.Handmade goods from Gunma.Handmade goods from Gunma.Handmade goods from Gunma.Handmade goods from Gunma.',
                 'category_id' => 1, 'address_1' => 'Gunma', 'address_2' => 'Takasaki', 'zip' => '370-0000',
                 'phonenumber' => '080-4444-4444', 'email' => 'info@gunmacrafts.jp',
                 'website_url' => 'https://gunmacrafts.jp', 'instagram' => '@gunma_shop', 'facebook' => null, 'x' => null,
@@ -177,7 +177,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 5, 'user_id' => 11, 'name' => 'Fukuoka Marketing',
-                'main_image' => 'images/businesses/fukuoka-marketing.jpg', 'introduction' => 'Local business marketing service.Local business marketing service.Local business marketing service.Local business marketing service.Local business marketing service.Local business marketing service.',
+                'main_image' => '/images/businesses/fukuoka-marketing.jpg', 'introduction' => 'Local business marketing service.Local business marketing service.Local business marketing service.Local business marketing service.Local business marketing service.Local business marketing service.',
                 'category_id' => 1, 'address_1' => 'Fukuoka', 'address_2' => 'Chuo-ku', 'zip' => '810-0001',
                 'phonenumber' => '080-5555-5555', 'email' => 'marketing@fukuoka.jp',
                 'website_url' => null, 'instagram' => null, 'facebook' => 'fukuoka.biz', 'x' => null,
@@ -185,7 +185,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 6, 'user_id' => 12, 'name' => 'Kanazawa Design Studio',
-                'main_image' => 'images/businesses/kanazawa-design.jpg', 'introduction' => 'Modern design from Hokuriku.Modern design from Hokuriku.Modern design from Hokuriku.Modern design from Hokuriku.Modern design from Hokuriku.Modern design from Hokuriku.',
+                'main_image' => '/images/businesses/kanazawa-design.jpg', 'introduction' => 'Modern design from Hokuriku.Modern design from Hokuriku.Modern design from Hokuriku.Modern design from Hokuriku.Modern design from Hokuriku.Modern design from Hokuriku.',
                 'category_id' => 1, 'address_1' => 'Kanazawa', 'address_2' => 'Higashi', 'zip' => '920-0001',
                 'phonenumber' => '080-6666-6666', 'email' => 'hello@kanazawa.jp',
                 'website_url' => 'https://kanazawastudio.jp', 'instagram' => '@kzstudio', 'facebook' => 'kanazawa.fb', 'x' => '@kzstudio',
@@ -193,7 +193,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 7, 'user_id' => 7, 'name' => 'Shibuya Summer Fest',
-                'main_image' => 'images/businesses/shibuya-summer-fest.jpg', 'introduction' => 'Annual summer event in Shibuya.Annual summer event in Shibuya.Annual summer event in Shibuya.Annual summer event in Shibuya.Annual summer event in Shibuya.Annual summer event in Shibuya.',
+                'main_image' => '/images/businesses/shibuya-summer-fest.jpg', 'introduction' => 'Annual summer event in Shibuya.Annual summer event in Shibuya.Annual summer event in Shibuya.Annual summer event in Shibuya.Annual summer event in Shibuya.Annual summer event in Shibuya.',
                 'category_id' => 2, 'address_1' => 'Tokyo', 'address_2' => 'Shibuya', 'zip' => '150-0001',
                 'phonenumber' => '080-7777-1111', 'email' => 'event@shibuya.jp',
                 'website_url' => 'https://shibufest.jp', 'instagram' => '@shibufest', 'facebook' => null, 'x' => '@shibufest',
@@ -201,7 +201,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 8, 'user_id' => 8, 'name' => 'Kyoto Cultural Night',
-                'main_image' => 'images/businesses/kyoto-cultural-night.jpg', 'introduction' => 'Experience traditional Kyoto art.Experience traditional Kyoto art.Experience traditional Kyoto art.Experience traditional Kyoto art.Experience traditional Kyoto art.Experience traditional Kyoto art.',
+                'main_image' => '/images/businesses/kyoto-cultural-night.jpg', 'introduction' => 'Experience traditional Kyoto art.Experience traditional Kyoto art.Experience traditional Kyoto art.Experience traditional Kyoto art.Experience traditional Kyoto art.Experience traditional Kyoto art.',
                 'category_id' => 2, 'address_1' => 'Kyoto', 'address_2' => 'Higashiyama', 'zip' => '605-0001',
                 'phonenumber' => '080-8888-4444', 'email' => 'night@kyoto.jp',
                 'website_url' => null, 'instagram' => '@kyotonight', 'facebook' => null, 'x' => '@kyotonight', 'tiktok' => null,
@@ -209,7 +209,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 9, 'user_id' => 9, 'name' => 'Sendai Lights Festival',
-                'main_image' => 'images/businesses/sendai-lights.jpg', 'introduction' => 'Beautiful winter lights in Sendai.Beautiful winter lights in Sendai.Beautiful winter lights in Sendai.Beautiful winter lights in Sendai.Beautiful winter lights in Sendai.Beautiful winter lights in Sendai.',
+                'main_image' => '/images/businesses/sendai-lights.jpg', 'introduction' => 'Beautiful winter lights in Sendai.Beautiful winter lights in Sendai.Beautiful winter lights in Sendai.Beautiful winter lights in Sendai.Beautiful winter lights in Sendai.Beautiful winter lights in Sendai.',
                 'category_id' => 2, 'address_1' => 'Sendai', 'address_2' => 'Aoba', 'zip' => '980-0021',
                 'phonenumber' => '080-9999-5555', 'email' => 'light@sendai.jp',
                 'website_url' => 'https://sendailights.jp', 'instagram' => '@sendailights', 'facebook' => 'sendai.fb',
@@ -217,7 +217,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 10, 'user_id' => 10, 'name' => 'Gunma Autumn Market',
-                'main_image' => 'images/businesses/gunma-market.jpg', 'introduction' => 'Local food & crafts in Gunma.Local food & crafts in Gunma.Local food & crafts in Gunma.Local food & crafts in Gunma.Local food & crafts in Gunma.Local food & crafts in Gunma.',
+                'main_image' => '/images/businesses/gunma-market.jpg', 'introduction' => 'Local food & crafts in Gunma.Local food & crafts in Gunma.Local food & crafts in Gunma.Local food & crafts in Gunma.Local food & crafts in Gunma.Local food & crafts in Gunma.',
                 'category_id' => 2, 'address_1' => 'Gunma', 'address_2' => 'Maebashi', 'zip' => '370-1234',
                 'phonenumber' => '080-1234-5678', 'email' => 'market@gunma.jp',
                 'website_url' => null, 'instagram' => '@gunmamarket', 'facebook' => null, 'x' => null,
@@ -225,7 +225,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 11, 'user_id' => 11, 'name' => 'Fukuoka Tech Expo',
-                'main_image' => 'images/businesses/fukuoka-tech.jpg', 'introduction' => 'Latest in local tech innovation.Latest in local tech innovation.Latest in local tech innovation.Latest in local tech innovation.Latest in local tech innovation.Latest in local tech innovation.',
+                'main_image' => '/images/businesses/fukuoka-tech.jpg', 'introduction' => 'Latest in local tech innovation.Latest in local tech innovation.Latest in local tech innovation.Latest in local tech innovation.Latest in local tech innovation.Latest in local tech innovation.',
                 'category_id' => 2, 'address_1' => 'Fukuoka', 'address_2' => 'Hakata', 'zip' => '812-0001',
                 'phonenumber' => '080-5432-1234', 'email' => 'expo@fukuoka.jp',
                 'website_url' => 'https://fukuokatech.jp', 'instagram' => '@fukuokatech', 'facebook' => null, 'x' => null,
@@ -233,7 +233,7 @@ class TestDataSeeder extends Seeder
             ],
             [
                 'id' => 12, 'user_id' => 12, 'name' => 'Kanazawa Art Week',
-                'main_image' => 'images/businesses/kanazawa-art.jpg', 'introduction' => 'Modern and traditional art exhibitions.Modern and traditional art exhibitions.Modern and traditional art exhibitions.Modern and traditional art exhibitions.Modern and traditional art exhibitions.Modern and traditional art exhibitions.',
+                'main_image' => '/images/businesses/kanazawa-art.jpg', 'introduction' => 'Modern and traditional art exhibitions.Modern and traditional art exhibitions.Modern and traditional art exhibitions.Modern and traditional art exhibitions.Modern and traditional art exhibitions.Modern and traditional art exhibitions.',
                 'category_id' => 2, 'address_1' => 'Kanazawa', 'address_2' => 'Central', 'zip' => '920-0031',
                 'phonenumber' => '080-9876-4321', 'email' => 'art@kanazawa.jp',
                 'website_url' => null, 'instagram' => '@kzartweek', 'facebook' => 'kanazawa.fb', 'x' => null,
