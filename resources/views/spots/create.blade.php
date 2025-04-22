@@ -26,7 +26,7 @@
         <div class="row row-cols-1 row-cols-md-2">
             {{-- left side --}}
             <div class="col-12 col-md-6 add-spot-container">
-                <form action="{{ route('spots.confirm') }}" method="POST" class="add-spot-form px-0" id="spot-form" enctype="multipart/form-data">
+                <form action="{{ route('spots.store') }}" method="POST" class="add-spot-form px-0" id="spot-form" enctype="multipart/form-data">
                     @csrf
 
                     {{-- title --}}
@@ -124,8 +124,8 @@
 
         {{-- submit button --}}
         <div class="row mt-2">
-            <div class="col-12 d-flex justify-content-center">
-                <button type="submit" class="btn btn-navy w-50" form="spot-form">Confirm</button>
+            <div class="col-12 d-flex justify-content-center pb-5">
+                <button type="submit" class="btn btn-navy w-50" form="spot-form">register spot</button>
             </div>
         </div>
     </div>

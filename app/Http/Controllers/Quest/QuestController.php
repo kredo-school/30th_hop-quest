@@ -78,7 +78,7 @@ class QuestController extends Controller{
 
         // 画像処理
         $fileName = time() . '_' . $request->main_image->getClientOriginalName();
-        $filePath = $request->main_image->storeAs('images/quest', $fileName, 'public');
+        $filePath = $request->main_image->storeAs('images/quests', $fileName, 'public');
         $quest->main_image = $filePath;
 
         $quest->save();
@@ -211,7 +211,7 @@ class QuestController extends Controller{
 
         if ($request->hasFile('main_image')) {
             $fileName = time() . '_' . $request->main_image->getClientOriginalName();
-            $filePath = $request->main_image->storeAs('images/quest', $fileName, 'public');
+            $filePath = $request->main_image->storeAs('images/quests', $fileName, 'public');
             $quest->main_image = $filePath;
         }
 
@@ -290,8 +290,8 @@ class QuestController extends Controller{
                     'title' => $body->spot->title ?? 'Spot'
                     
                 ];
-            } elseif ($body->business && $body->business->address_2) {
-                $coords = self::getLatLngFromAddress($body->business->address_2);
+            } elseif ($body->business && $body->business->address_1) {
+                $coords = self::getLatLngFromAddress($body->business->address_1);
                 if ($coords) {
                     $locations[] = [
                         'lat' => $coords['lat'],
@@ -346,8 +346,11 @@ class QuestController extends Controller{
     //Like Button
     public function toggleLike($id){
         $user = Auth::user();
-        $quest = Quest::findOrFail($id);
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
     
+        $quest = Quest::findOrFail($id);
         $like = $quest->questLikes()->where('user_id', $user->id)->first();
     
         if ($like) {
@@ -366,6 +369,7 @@ class QuestController extends Controller{
             'like_count' => $quest->questLikes()->count(),
         ]);
     }
+    
 
     //Like Modal
     public function getLikes($id){
@@ -411,7 +415,7 @@ class QuestController extends Controller{
         // 地図用ロケーション作成
         $locations = [];
         foreach ($questBodies as $body) {
-            if ($body->spot && $body->spot->geo_lati && $body->spot->geo_lng) {
+            if ($body->spot && $body->spot->geo_lat && $body->spot->geo_lng) {
                 $locations[] = [
                     'lat' => $body->spot->geo_lat,
                     'lng' => $body->spot->geo_lng,

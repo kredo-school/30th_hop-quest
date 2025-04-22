@@ -86,17 +86,17 @@
                 {{-- メイン画像 --}}
                 <div class="row pb-3">
                     <label for="main_image" class="form-label">Header photo</label>
-                    <div class="col-9 ps-0">
+                    <div class="col-12 px-0">
                         <input type="file" name="main_image" id="main_image" class="custom-file-input form-control">
                         @error('main_image')
                             <p class="mb-0 text-danger small">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="col-3 ms-auto pe-0">
+                    {{-- <div class="col-3 ms-auto pe-0">
                         <label for="main_image" class="btn btn-green custom-file-label w-100">
                             <i class="fa-solid fa-plus icon-xs d-inline"></i> Photo
                         </label>
-                    </div>
+                    </div> --}}
                     <p class="mt-0 ps-0 pb-0 xsmall">
                         Acceptable formats: jpeg, jpg, png, gif only.<br>Max size is 1048 KB
                     </p>

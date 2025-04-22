@@ -26,15 +26,17 @@
                             <span class="fw-bold text-dark">{{ $user->name }}</span>
                         </a>
 
-                        {{-- フォローボタン（自分以外のときだけ） --}}
+                        {{-- フォローボタン（ログインかつ自分以外のときだけ） --}}
                         @auth
-                            @if ($authUser->id == 2)
-                                <form class="follow-toggle-form mb-0" data-user-id="{{ $owner->id }}">
-                                    @csrf
-                                    <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">
-                                        {{ $isFollowing ? 'Following' : 'Follow' }}
-                                    </button>
-                                </form>
+                            @if(!$isOwn)
+                                <div class="col-3 text-end">
+                                    <form class="follow-toggle-form" data-user-id="{{ $user->id }}">
+                                        @csrf
+                                        <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">
+                                            {{ $isFollowing ? 'Following' : 'Follow' }}
+                                        </button>
+                                    </form>
+                                </div>
                             @endif
                         @endauth
                     </div>

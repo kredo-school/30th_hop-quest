@@ -86,25 +86,40 @@
 
                     {{-- いいねなどのアクション --}}
                     <div class="comment-actions d-flex justify-content-end gap-3">
-                        <div class="comment-action-item">
-                            <form action="{{ route('questcomment.toggleLike', $comment->id) }}" method="POST" data-comment-id="{{ $comment->id }}" class="like-comment-form">
-                                
-                                @csrf
-                                <button type="submit" class="btn btn-sm shadow-none comment-like-btn">
-                                    <i class="{{ $comment->QuestCommentlikes->where('user_id', Auth::id())->isNotEmpty() ? 'fa-solid text-danger' : 'fa-regular' }} fa-heart"></i>
+                        <div class="comment-actions d-flex justify-content-end gap-3">
+                            <div class="comment-action-item d-flex align-items-center position-relative like-button-wrapper">
+                                <form 
+                                    action="{{ route('questcomment.toggleLike', $comment->id) }}" 
+                                    method="POST" 
+                                    data-comment-id="{{ $comment->id }}" 
+                                    class="like-comment-form me-1"
+                                >
+                                    @csrf
+                                    <button 
+                                        type="submit" 
+                                        class="btn btn-sm shadow-none comment-like-btn @guest like-disabled @endguest"
+                                    >
+                                        <i class="{{ $comment->QuestCommentlikes->where('user_id', Auth::id())->isNotEmpty() ? 'fa-solid text-danger' : 'fa-regular' }} fa-heart"></i>
+                                    </button>
+                                </form>
+                        
+                                @guest
+                                    <div class="login-tooltip d-none">
+                                        Please login to like comments
+                                    </div>
+                                @endguest
+                        
+                                <button class="btn btn-sm p-0 text-center open-comment-likes-modal"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#comment-likes-modal-{{ $comment->id }}"
+                                    data-comment-id="{{ $comment->id }}">
+                                    <span class="count comment-like-count" data-comment-id="{{ $comment->id }}">
+                                        {{ $comment->QuestCommentlikes->count() }}
+                                    </span>
                                 </button>
-                            </form>
-                            <button class="btn btn-sm p-0 text-center open-comment-likes-modal"
-                                data-bs-toggle="modal"
-                                data-bs-target="#comment-likes-modal-{{ $comment->id }}"
-                                data-comment-id="{{ $comment->id }}">
-                                <span class="count comment-like-count" data-comment-id="{{ $comment->id }}">
-                                    {{ $comment->QuestCommentlikes->count() }}
-                                </span>
-                            </button>
-
-                        </div>
-                    </div>
+                            </div>
+                        </div>                        
+                    </div>                    
                 </div>
                 @include('quests.comment.modals.like')
                 @endforeach

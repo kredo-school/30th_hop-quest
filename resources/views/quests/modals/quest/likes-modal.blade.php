@@ -32,17 +32,19 @@
                             </a>
                         </div>
 
-                        {{-- フォローボタン（自分以外のときだけ） --}}
-                        @if(!$isOwn)
-                            <div class="col-3 text-end">
-                                <form class="follow-toggle-form" data-user-id="{{ $user->id }}">
-                                    @csrf
-                                    <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">
-                                        {{ $isFollowing ? 'Following' : 'Follow' }}
-                                    </button>
-                                </form>
-                            </div>
-                        @endif
+                        {{-- フォローボタン（ログインかつ自分以外のときだけ） --}}
+                        @auth
+                            @if(!$isOwn)
+                                <div class="col-3 text-end">
+                                    <form class="follow-toggle-form" data-user-id="{{ $user->id }}">
+                                        @csrf
+                                        <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">
+                                            {{ $isFollowing ? 'Following' : 'Follow' }}
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endauth
                     </div>
                 @empty
                     <p class="text-center text-muted">No likes yet.</p>

@@ -10,7 +10,7 @@
 <div class="{{ $quest_a->user->role_id === 1 ? 'bg-green' : 'bg-blue' }}">
     <div class="container py-5 col-9 px-0">
         @php
-            $hasCertifiedBusiness = $quest_a->user_id === 2 && $quest_a->questBodies->contains(function($body) {
+            $hasCertifiedBusiness = $quest_a->user->role_id === 2 && $quest_a->questBodies->contains(function($body) {
                 return $body->business && $body->business->official_certification == 3;
             });
         @endphp
@@ -75,7 +75,7 @@
                                                     @if ($body->spot)
                                                         {{ $body->spot->title }}
                                                     @elseif ($body->business)
-                                                        @if ($quest_a->user_id === 2)
+                                                        @if ($quest_a->user->role_id === 2)
                                                             {{ $body->business_title }}
                                                         @else
                                                             {{ $body->business->name }}
@@ -119,7 +119,7 @@
                             <div class="spot-entry">
                                 <div class="row pb-3 justify-content-between align-items-center">
                                     <h4 class="spot-name poppins-bold col-md-10 text-start">
-                                        @if ($quest_a->user_id == 2 && $questbody->business_title)
+                                        @if ($quest_a->user->role_id == 2 && $questbody->business_title)
                                             {{ $questbody->business_title }} {{-- カスタム入力なのでリンクなし --}}
                                         @else
                                             @if ($questbody->spot)

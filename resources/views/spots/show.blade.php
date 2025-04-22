@@ -42,7 +42,7 @@
             <h5 class="poppins-semibold fs-4 text-center pt-3">Photos</h5>
             <div class="row spot-photos-grid px-0 justify-content-center">
                 @php
-                    $images = json_decode($spot->images) ?? [];
+                    $images = $spot->images ?? [];
                 @endphp
                 @foreach($images as $image)
                     <div class="col-6 col-sm-4 col-md-3 mb-4">

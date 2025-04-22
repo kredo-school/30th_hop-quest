@@ -33,8 +33,6 @@ use App\Http\Controllers\Quest\QuestCommentLikeController;
 use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\BusinessPromotionController;
 
-use App\Http\Controllers\Admin\UsersController;
-
 
 
 
@@ -155,7 +153,7 @@ Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
     Route::post('/comment/{comment_id}/like', [SpotCommentLikeController::class, 'like'])->name('comment.like');
     Route::delete('/comment/{comment_id}/unlike', [SpotCommentLikeController::class, 'unlike'])->name('comment.unlike');
 });
-Route::get('/spot/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('spot.show');
+
 
 
 
