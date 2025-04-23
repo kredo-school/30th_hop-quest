@@ -12,7 +12,7 @@
             </div>
 
             <div class="modal-footer border-0">
-                <form action="{{ route('spot.comment.destroy', ['spot_id' => $spot->id, 'comment_id' => $comment->id]) }}" method="post">
+                <form action="{{ route('spots.comment.destroy', ['spot_id' => $spot->id, 'comment_id' => $comment->id]) }}" method="post">
                     @csrf
                     @method('DELETE')
 
