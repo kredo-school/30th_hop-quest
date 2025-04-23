@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     deleteBtn.addEventListener('click', function () {
         if (!confirm('画像を削除しますか？')) return;
 
-        fetch("{{ route('profile.avatar.delete') }}", {
+        fetch("http://127.0.0.1:8000/profile/image", {
             method: "DELETE",
             headers: {
                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),

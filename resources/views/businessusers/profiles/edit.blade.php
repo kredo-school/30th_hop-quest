@@ -87,6 +87,7 @@
                 <button type="button" class="btn btn-outline-red delete-avatar" id="delete-avatar" >
                     <i class=" fa-solid fa-trash-can" ></i>
                 </button>
+
             </div>
             
 
