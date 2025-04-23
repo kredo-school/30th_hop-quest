@@ -179,10 +179,10 @@ Route::middleware('auth')->group(
         Route::patch('/myprofile/update', [TouristProfileController::class, 'update'])->name('myprofile.update');
     }
 );
-Route::get('/profile/{id}', [TouristProfileController::class, 'show'])->name('profile.show');
+// Route::get('/profile/{id}', [TouristProfileController::class, 'show'])->name('profile.show');
 
 // tourists profile
-Route::get('/myprofile', [TouristProfileController::class, 'myProfileShow'])->name('myprofile.show');
+// Route::get('/myprofile', [TouristProfileController::class, 'myProfileShow'])->name('myprofile.show');
 // Route::get('/profile/{id}', [TouristProfileController::class, 'showOtherProfile'])->name('profile.show');
 
 // Password Update

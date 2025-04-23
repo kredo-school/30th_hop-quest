@@ -13,13 +13,6 @@ class BusinessComment extends Model
 
     use SoftDeletes;
 
-    protected $fillable = [
-        'user_id',
-        'business_id',
-        'content',
-        'rating'
-    ];
-
     public function business(){
         return $this->belongsTo(Business::class)->withTrashed();
     }
