@@ -154,11 +154,6 @@ Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
 });
 Route::get('spot/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('spot.show');
 
-
-
-
-
-
 // password reset
 Route::get('/password/reset', [ForgotPasswordController::class, 'show'])->name('password.request');
 
