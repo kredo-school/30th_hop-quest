@@ -31,7 +31,7 @@
     @if($user->id == Auth::user()->id && $user->role_id == 2)
         <div class="col-auto">
             @if($user->id == Auth::user()->id)                             
-                <a href="{{ route('profile.allreviews', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$business_comments->count()}}</span> {{$business_comments->count()==1 ? 'review' : 'reviews'}}</a>
+                <a href="{{ route('business.reviews.all', $user->id)}}" class="text-decoration-none text-dark"><span class="fw-bold">{{$business_comments->count()}}</span> {{$business_comments->count()==1 ? 'review' : 'reviews'}}</a>
             @endif
         </div>
     @endif

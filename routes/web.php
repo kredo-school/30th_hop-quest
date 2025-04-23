@@ -32,7 +32,7 @@ use App\Http\Controllers\Business\BusinessLikeController;
 use App\Http\Controllers\Quest\QuestCommentLikeController;
 use App\Http\Controllers\Business\BusinessCommentController;
 use App\Http\Controllers\Business\BusinessPromotionController;
-
+use App\Http\Controllers\Business\BusinessCommentLikeController;
 
 
 
@@ -46,6 +46,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home'); // for showing a home page
 Route::get('/search', [HomeController::class, 'search'])->name('search'); // for showing a search page
 Route::post('/sort', [HomeController::class, 'sort'])->name('sort'); //for using on search page
+Route::get('/faq', [Homecontroller::class, 'showFAQ'])->name('faq'); // for showing FAQ page
 
 
 //PROFILES
@@ -57,20 +58,14 @@ Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
     Route::delete('/{id}/deactivate', [ProfileController::class, 'deactivate'])->name('deactivate');
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
     Route::get('/{id}/followers', [ProfileController::class, 'followers'])->name('followers');
-    Route::get('/{id}/allreviews', [BusinessCommentController::class, 'showAllReviews'])->name('allreviews');
-    Route::get('/{id}/review', [BusinessCommentController::class, 'showReview'])->name('review');
-    Route::get('/{id}/review/index', [BusinessCommentController::class, 'showIndex'])->name('indexreview');
 });
 
 //FOLLOWS
 Route::post('/follow/{user_id}/store', [FollowController::class, 'store'])->name('follow.store');
 Route::delete('/follow/{user_id}/delete', [FollowController::class, 'delete'])->name('follow.delete');
 
-//BUSINESS
-Route::get('/business/business', [BusinessController::class, 'index'])->name('business.index');
-
 //PROMOTION
-Route::group(['prefix' => '/business/promotion', 'as' => 'promotions.'], function () {
+Route::group(['prefix' => '/promotion', 'as' => 'promotions.'], function () {
     Route::get('/create', [BusinessPromotionController::class, 'create'])->name('create');
     Route::get('/{id}/edit', [BusinessPromotionController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [BusinessPromotionController::class, 'update'])->name('update');
@@ -82,8 +77,8 @@ Route::group(['prefix' => '/business/promotion', 'as' => 'promotions.'], functio
     Route::delete('/{id}/delete', [BusinessPromotionController::class, 'delete'])->name('delete');
 });
 
-//MANAGEMENT BUSINESS
-Route::group(['prefix' => '/business/business', 'as' => 'businesses.'], function () {
+//BUSINESS
+Route::group(['prefix' => '/business', 'as' => 'businesses.'], function () {
     Route::get('/create', [BusinessController::class, 'create'])->name('create');
     Route::get('/{id}/edit', [BusinessController::class, 'edit'])->name('edit');
     Route::patch('/{id}/update', [BusinessController::class, 'update'])->name('update');
@@ -98,24 +93,28 @@ Route::group(['prefix' => '/business/business', 'as' => 'businesses.'], function
     Route::post('/{spot_id}/comment/store', [BusinessCommentController::class, 'store'])->name('comment.store');
     Route::delete('/{spot_id}/comment/{comment_id}/destroy', [BusinessCommentController::class, 'destroy'])->name('comment.destroy');
 });
-Route::get('/business/show/business/{id}', [BusinessController::class, 'show'])->middleware(PageViewMiddleware::class)->name('business.show');
+Route::get('/business/{id}', [BusinessController::class, 'show'])->middleware(PageViewMiddleware::class)->name('business.show');
 
+
+// BUSINESS REVIEW(from business side)
+Route::group(['prefix' => '/business/reviews', 'as' => 'business.reviews.'], function () {
+    Route::get('/all/{id}', [BusinessCommentController::class, 'showAllReviews'])->name('all');
+    Route::get('/{id}', [BusinessCommentController::class, 'showReview'])->name('show');
+    Route::get('/{id}/review/index', [BusinessCommentController::class, 'showIndex'])->name('indexreview');
+});
+
+// BUSINESS COMMENT(from tourist side)
+Route::group(['prefix' => '/business/comments', 'as' => 'business.comments.'], function () {
+    Route::get('/all/{id}', [BusinessCommentController::class, 'showAllComments'])->name('showcomments');
+    Route::post('/store/{id}', [BusinessCommentController::class, 'addComment'])->name('addcomment');
+    Route::post('/{comment_id}/like', [BusinessCommentLikeController::class, 'store'])->name('like.store');
+    Route::delete('/{comment_id}/unlike', [BusinessCommentLikeController::class, 'destroy'])->name('like.delete');
+});
 
 //LIKES BUSINESS
 Route::post('/home/like/business/{business_id}/store', [BusinessLikeController::class, 'storeBusinessLike'])->name('businesses.like.store');
 Route::delete('/home/like/business/{business_id}/delete', [BusinessLikeController::class, 'deleteBusinessLike'])->name('businesses.like.delete');
 
-//QUESTS simple
-Route::group(['prefix' => '/home/modelquest', 'as' => 'quests.'], function () {
-    Route::get('/create', [QuestController::class, 'create'])->name('create');
-    Route::get('/{id}/edit', [QuestController::class, 'edit'])->name('edit');
-    Route::patch('/{id}/update', [QuestController::class, 'update'])->name('update');
-    Route::post('/store', [QuestController::class, 'store'])->name('store');
-    Route::delete('/{id}/deactivate', [QuestController::class, 'deactivate'])->name('deactivate');
-    Route::patch('/{id}/activate', [QuestController::class, 'activate'])->name('activate');
-    Route::post('/like/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('like.store');
-    Route::delete('/like/{quest_id}/delete', [QuestLikeController::class, 'deleteQuestLike'])->name('like.delete');
-});
 
 //LIKE QUEST
 Route::post('/home/like/quest/{quest_id}/store', [QuestLikeController::class, 'storeQuestLike'])->name('quests.like.store');
@@ -157,7 +156,8 @@ Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
     Route::delete('/comment/{comment_id}/unlike', [SpotCommentLikeController::class, 'unlike'])->name('comment.like.delete');
     Route::get('/comment/{comment_id}/likes/json', [SpotCommentLikeController::class, 'getLikesJson']);
 });
-Route::get('/spot/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('spot.show');
+Route::get('spot/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('spot.show');
+
 
 
 
@@ -179,7 +179,7 @@ Route::middleware('auth')->group(
         Route::patch('/myprofile/update', [TouristProfileController::class, 'update'])->name('myprofile.update');
     }
 );
-// Route::get('/profile/{id}', [TouristProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile/{id}', [TouristProfileController::class, 'show'])->name('profile.show');
 
 // tourists profile
 Route::get('/myprofile', [TouristProfileController::class, 'myProfileShow'])->name('myprofile.show');
@@ -281,3 +281,5 @@ Route::prefix('like')->group(function(){
 // Follow to other user without page refresh
 Route::post('/follow/{user_id}/store', [FollowController::class, 'follow'])->name('follow.store');
 Route::delete('/follow/{user_id}/delete', [FollowController::class, 'unfollow'])->name('follow.delete');
+
+

@@ -10,7 +10,7 @@
 <div class="bg-green">
     <meta name="auth-user-id" content="{{ Auth::check() ? Auth::id() : '' }}">
 
-    <div class="containerfluid pt-5 d-flex justify-content-center">
+    <div class="container-fluid pt-5 d-flex justify-content-center">
         <div class="col-11 col-md-9">
             <div class="py-4 position-relative w-100">
                 <div class="spot-main-image text-center px-0 rounded-3">
@@ -43,7 +43,8 @@
             <h5 class="poppins-semibold fs-4 text-center pt-3">Photos</h5>
             <div class="row spot-photos-grid px-0 justify-content-center">
                 @php
-                    $images = json_decode($spot->images) ?? [];
+                    // もし$spot->imagesがすでに配列なら、直接使う
+                    $images = is_array($spot->images) ? $spot->images : json_decode($spot->images, true) ?? [];
                 @endphp
                 @foreach($images as $image)
                     <div class="col-6 col-sm-4 col-md-3 mb-4">
@@ -53,7 +54,7 @@
                     </div>
                 @endforeach
             </div>
-
+            
             <hr>
             <section id="spot-comment-section">
                 <div class="row row-cols-1 row-cols-md-4 py-4 text-center">

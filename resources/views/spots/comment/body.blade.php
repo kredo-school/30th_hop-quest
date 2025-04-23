@@ -45,13 +45,13 @@
                 <div class="comment-header">
                     {{-- User Icon --}}
                     <div class="comment-user-icon" id="usericon">
-                        <a href="{{ route('spots.show', $comment->user->id) }}" class="spot-user-link">
+                        <a href="{{ route('profile.header', $comment->user->id) }}" class="spot-user-link">
                             <img src="{{ asset($comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="spot-user-avatar">
                         </a>
                     </div>
                     {{-- User Name --}}
                     <div class="comment-username" id="touristname">
-                        <a href="{{ route('spots.show', $comment->user->id) }}" class="spot-user-link text-decoration-none poppins-semibold text-dark fs-5">
+                        <a href="{{ route('profile.header', $comment->user->id) }}" class="spot-user-link text-decoration-none poppins-semibold text-dark fs-5">
                             {{ $comment->user->name }}
                         </a>
                     </div>
@@ -68,33 +68,39 @@
                 </div>
 
                 {{-- heart button + no. likes --}}
-                <div class="comment-actions d-flex justify-content-end align-items-center gap-2">
-                    <div class="comment-action-item">
-                        @auth
-                            <button type="button"
-                                class="comment-like-button border-0 bg-transparent"
+                <div class="comment-actions d-flex justify-content-end gap-3">
+                    <div class="comment-actions d-flex justify-content-end gap-3">
+                        <div class="comment-action-item d-flex align-items-center position-relative like-button-wrapper">
+                            {{-- コメントLikeボタン --}}
+                            @php
+                                $liked = $comment->SpotCommentlikes->where('user_id', Auth::id())->isNotEmpty();
+                            @endphp
+                            <button 
+                                type="button"
+                                class="btn btn-sm shadow-none comment-like-button @guest like-disabled @endguest"
                                 data-comment-id="{{ $comment->id }}"
-                                data-spot-id="{{ $spot->id }}"
-                                data-liked="{{ $comment->isLiked() ? '1' : '0' }}">
-                                <i class="fa{{ $comment->isLiked() ? 's' : 'r' }} fa-heart like-icon {{ $comment->isLiked() ? 'text-danger' : '' }}"></i>
+                                data-liked="{{ $liked ? '1' : '0' }}"
+                            >
+                                <i class="fa-heart like-icon {{ $liked ? 'fas text-danger' : 'far' }}"></i>
                             </button>
-                        @else
-                            <i class="fa-regular fa-heart"></i>
-                        @endauth
-                    </div>
-
-                    <span
-                        class="count"
-                        id="like-count-{{ $comment->id }}"
-                        role="button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#comment-likes-modal-{{ $comment->id }}"
-                        onclick="refreshSpotCommentLikesModal({{ $comment->id }})"
-                    >
-                        {{ $comment->spotCommentLikes->count() }}
-                    </span>
-
-                </div>
+                        
+                            @guest
+                                <div class="login-tooltip d-none">Please login to like comments</div>
+                            @endguest
+                        
+                            {{-- Like数（モーダル開くトリガー） --}}
+                            <button class="btn btn-sm p-0 text-center open-comment-likes-modal"
+                                data-bs-toggle="modal"
+                                data-bs-target="#comment-likes-modal-{{ $comment->id }}"
+                                data-comment-id="{{ $comment->id }}">
+                                <span class="count comment-like-count" id="like-count-{{ $comment->id }}">
+                                    {{ $comment->SpotCommentlikes->count() }}
+                                </span>
+                            </button>
+                        </div>
+                        
+                    </div>                        
+                </div>       
 
             </div>
         </div>
@@ -109,7 +115,7 @@
 </div>
 @foreach($spot->comments as $comment)
         <!-- コメント表示部分 -->
-        @include('spots.comment.modals.spot-comment-likes', ['comment' => $comment])
+        @include('spots.comment.modals.spot-comment-likes', ['id' => $comment->id])
 @endforeach
 {{-- view images --}}
 <script src="{{ asset('js/spot/view/comment.js') }}"></script>
