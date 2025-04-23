@@ -1040,5 +1040,10 @@ public function showQuests(Request $request){
         }else{
             return view('home.posts.followings');
         }
-    } 
+    }
+
+    public function showFAQ(){
+
+        return view('home.faq');
+    }
 }

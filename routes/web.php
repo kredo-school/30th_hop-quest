@@ -46,6 +46,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home'); // for showing a home page
 Route::get('/search', [HomeController::class, 'search'])->name('search'); // for showing a search page
 Route::post('/sort', [HomeController::class, 'sort'])->name('sort'); //for using on search page
+Route::get('/faq', [Homecontroller::class, 'showFAQ'])->name('faq'); // for showing FAQ page
 
 
 //PROFILES
