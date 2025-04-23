@@ -110,7 +110,7 @@
                 <div class="col-auto ms-1 pt-2">
                     @auth
                         @if ($post->user->id === Auth::user()->id && Auth::user()->role_id === 1)
-                            <a href="{{ route('myprofile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                            <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
                                 <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
                             </a>
                         @elseif ($post->user->role_id === 2)
@@ -118,7 +118,7 @@
                                 <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
                             </a>
                             @elseif ($post->user->id !== Auth::user()->id && Auth::user()->role_id === 1)
-                            <a href="{{ route('profile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                            <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
                                 <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
                             </a>
                         @endif
@@ -126,7 +126,7 @@
 
                     @guest
                         @if ($post->user->role_id === 1)
-                            <a href="{{ route('profile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                            <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
                                 <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
                             </a>
                         @elseif ($post->user->role_id === 2)
