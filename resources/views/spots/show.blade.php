@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 <link rel="stylesheet" href="{{ asset('css/viewspot.css') }}">
+<link rel="stylesheet" href="{{ asset('css/viewbusiness.css') }}">
 
 @section('title', 'Edit_Spot')
 

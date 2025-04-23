@@ -47,6 +47,7 @@
                     @endauth
 
                     {{-- コメント投稿者の情報 --}}
+                    {{-- コメント投稿者の情報 --}}
                     <div class="comment-header my-2 d-flex align-items-center">
                         {{-- アバターリンク --}}
                         <a href="{{ route('profile.header', $comment->user->id) }}"

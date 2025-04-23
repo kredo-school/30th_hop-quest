@@ -564,7 +564,6 @@ class ProfileController extends Controller
         $businesses = BusinessComment::with('user', 'business')
             ->where('user_id', $id)
             ->withCount(['businessCommentLikes as likes_count'])
-            ->withTrashed()
             ->get()
             ->map(fn($item) => [
                 'id' => $item->id,
@@ -589,7 +588,6 @@ class ProfileController extends Controller
         $spots = SpotComment::with('user', 'spot')
             ->where('user_id', $id)
             ->withCount(['spotCommentLikes as likes_count'])
-            ->withTrashed()
             ->get()
             ->map(fn($item) => [
                 'id' => $item->id,
@@ -612,7 +610,6 @@ class ProfileController extends Controller
         $quests = QuestComment::with('user', 'quest')
             ->where('user_id', $id)
             ->withCount(['questCommentLikes as likes_count'])
-            ->withTrashed()
             ->get()
             ->map(fn($item) => [
                 'id' => $item->id,

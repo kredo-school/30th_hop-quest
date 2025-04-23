@@ -54,9 +54,7 @@ class BusinessPromotionController extends Controller
 
         $this->business_promotion->save();
 
-        $all_business_promotions = $this->business_promotion->where('user_id', Auth::user()->id)->latest()->get();
-        $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
-        return redirect()->route('profile.header', $this->business_promotion->business->user->id)->with('all_business_promotions', $all_business_promotions)->with('all_businesses', $all_businesses);
+        return redirect()->route('profile.header', ['id' => $this->business_promotion->user_id, 'tab' => 'promotions']);
     }
 
     public function edit($id){
@@ -73,7 +71,6 @@ class BusinessPromotionController extends Controller
             'image' => 'max:1048|mimes:jpeg,jpg,png,gif',
         ]);
 
-        $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
 
         $business_promotion_a = $this->business_promotion->findOrFail($business_promotion_id);
         $business_promotion_a->title = $request->title;
@@ -99,7 +96,7 @@ class BusinessPromotionController extends Controller
         $business_promotion_a->save();
 
         //redirect to Show Post
-        return redirect()->route('profile.header', ['id' => $business_promotion_a->user_id, 'tab' => 'promotions'])->with('all_businesses', $all_businesses);
+        return redirect()->route('profile.header', ['id' => $business_promotion_a->user_id, 'tab' => 'promotions']);
     }
 
     public function show($id){
@@ -117,5 +114,12 @@ class BusinessPromotionController extends Controller
     public function activate($id){
         $this->business_promotion->onlyTrashed()->findOrFail($id)->restore();
         return redirect()->back();
+    }
+
+    public function delete($id){
+        // $this->post->destroy($id);
+        $this->business_promotion->findOrFail($id)->forceDelete();
+
+        return redirect()->route('profile.header',Auth::user()->id);
     }
 }

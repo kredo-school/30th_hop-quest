@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessDetail;
+use App\Models\BusinessComment;
 use App\Models\BusinessInfoCategory;
 use App\Models\BusinessHour;
 use App\Models\Photo;
@@ -272,17 +273,15 @@ class BusinessController extends Controller
                     $query->where('business_id', $id);
                 }]);
             }])->get();
-            
-            // ビジネスコメントを取得
-            $business->load(['businessComments' => function($query) {
-                $query->with(['user', 'BusinessCommentLikes'])
-                      ->latest()
-                      ->take(3);
-            }]);
+            $business_comments = BusinessComment::with(['user', 'BusinessCommentlikes'])
+            ->where('business_id', $id)
+            ->latest() // created_at の新しい順
+            ->paginate(5); // 5件ずつ
 
             return view('businessusers.posts.businesses.show')
                     ->with('business', $business)
                     ->with('business_hour', $business_hour)
+                    ->with('business_comments', $business_comments)
                     ->with('business_info_category', $business_info_category)
                     ->with('business_promotion', $business_promotion);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
