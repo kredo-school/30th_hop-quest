@@ -61,7 +61,7 @@
 
 .card-body.content-md{
     display: flow-root;
-    height:260px;
+    height:auto;
 }
 
 .card-body.content-lg{

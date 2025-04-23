@@ -318,7 +318,7 @@
                                 <div class="spot-entry">
                                     <div class="row pb-3 justify-content-between align-items-center">
                                         <h4 class="spot-name poppins-bold col-md-10 text-start">
-                                            @if ($quest->user_id == 2 && $questbody->business_title)
+                                            @if ($quest->user->role_id == 2 && $questbody->business_title)
                                                 {{ $questbody->business_title }} {{-- カスタム入力なのでリンクなし --}}
                                             @else
                                                 @if ($questbody->spot)
@@ -326,8 +326,8 @@
                                                         {{ $questbody->spot->title }}
                                                     </a>
                                                 @elseif ($questbody->business)
-                                                    <a href="}}" class="text-decoration-none text-dark">
-                                                        {{-- {{ route('business.show', ['id' => $questbody->business->id])  --}}
+                                                    <a href="" class="text-decoration-none text-dark">
+                                                        {{-- route('business.show', ['id' => $questbody->business->id])  --}}
                                                         {{ $questbody->business->name }}
                                                     </a>
                                                 @else
@@ -393,7 +393,7 @@
                         </div>
                     @endforeach
                 @else
-                        <h4>No Entry. Please add Spots or businesses on your Quest!</h4>
+                        <h4>No Entry. </h4>
                 @endif
             </div>
             {{-- CONFIRM + BACK BUTTONS --}}

@@ -194,6 +194,19 @@
         <main class="pt-5">
             @yield('content')
         </main>
+
+        {{-- フッターの追加 --}}
+        <footer class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <div class="container">
+                <small class="text-dark">&copy; 2025 Kredo 30th batch All Rights Reserved.</small>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item my-auto"><a href="" class="nav-link">About us</a></li>
+                    <li class="nav-item my-auto"><a href="" class="nav-link">Sitemap</a></li>
+                    <li class="nav-item my-auto"><a href="" class="nav-link">Terms of service</a></li>
+                    <li class="nav-item my-auto"><a href="" class="nav-link">FAQ</a></li>
+                </ul>
+            </div>
+        </footer>
     </div>
     @yield('js')
 </body>

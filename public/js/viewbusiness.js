@@ -28,7 +28,7 @@ function initPromotionCarousel() {
     if (totalItems <= 3) {
         // 3つ以下の場合は全て表示
         items.forEach(item => {
-            item.style.display = 'block';
+            item.classList.add('active'); // displayではなくclassで制御
         });
         // ナビゲーションを非表示
         const controls = carousel.querySelector('.carousel-controls');
@@ -63,14 +63,20 @@ function initPromotionCarousel() {
         items.forEach((item, index) => {
             // 現在のインデックスから3つまでを表示
             const isVisible = index >= currentIndex && index < currentIndex + itemsPerSlide;
-            item.style.display = isVisible ? 'block' : 'none';
+            if (isVisible) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
         });
 
         // 次へボタンの無効化（オプション）
         nextBtn.disabled = currentIndex >= maxIndex;
+        nextBtn.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
 
         // 前へボタンの無効化（オプション）
         prevBtn.disabled = currentIndex <= 0;
+        prevBtn.style.opacity = currentIndex <= 0 ? '0.5' : '1';
 
         // インジケーターの更新
         if (indicators.length > 0) {
@@ -137,11 +143,6 @@ function initPromotionCarousel() {
             });
         });
     }
-
-    // デバッグ用にボタンのクリックイベントを確認
-    nextBtn.addEventListener('mousedown', function() {
-        console.log('Next button mousedown event triggered');
-    });
 
     // 自動スライド（オプション）
     let autoSlide = setInterval(handleNextClick, 5000); // 5秒ごとに切り替え

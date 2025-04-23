@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@php
+use Illuminate\Support\Str;
+@endphp
 
 <link rel="stylesheet" href="{{ asset('css/viewbusiness.css') }}">
 
@@ -12,7 +15,7 @@
             <!-- Main Image Section -->
             <section class="main-image-section">
                 <div class="main-image-wrapper mt-3">
-                    <img class="main-image" alt="Main picture" src="{{ $business->main_image }}" />
+                    <img class="main-image" alt="Main picture" src="{{ asset('storage'.$business->main_image) }}" />
 
                     <div class="main-title">
                         {{ $business->name }}
@@ -22,7 +25,7 @@
                     </div>
 
                     @if($business->official_certification==3)
-                        <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official" alt="official">              
+                        <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official-badge" alt="official">              
                     @else
                     @endif
                 </div>
@@ -134,7 +137,7 @@
             </section>
 
             <!-- Business Promotion -->
-            <!-- <section class="business-promotion">
+            <section class="business-promotion">
                 <h3>Business Promotion</h3>
                 <div class="promotion-container">
                     @if(count($business_promotion) > 0)
@@ -146,8 +149,39 @@
 
                             <div class="carousel-items-container">
                                 @foreach($business_promotion as $index => $promotion)
-                                    <div class="promotion-item {{ $index < 5 ? 'active' : '' }}">
-                                        
+                                    <div class="promotion-item {{ $index < 3 ? 'active' : '' }}">
+                                        <div class="card promotion-card">
+                                            <div class="card-header border-0 bg-light p-3">
+                                                <!-- Promotion Title -->
+                                                <h4 class="fw-bold">{{ $promotion->title }}</h4>
+                                                
+                                                <!-- Promotion Period -->
+                                                @if((!$promotion->promotion_start || !$promotion->promotion_end))
+                                                    <!-- No date specified -->
+                                                @elseif($promotion->promotion_start == $promotion->promotion_end)
+                                                    <h6 class="fw-bold">{{ date('M d Y', strtotime($promotion->promotion_start)) }}</h6>
+                                                @elseif($promotion->promotion_start && $promotion->promotion_end)
+                                                    @if(($promotion->promotion_start < $promotion->promotion_end))
+                                                        <h6 class="fw-bold">{{ date('M d Y', strtotime($promotion->promotion_start)) }} ~ {{ date('M d Y', strtotime($promotion->promotion_end)) }}</h6>     
+                                                    @else
+                                                        <h6 class="fw-bold">{{ date('M d Y', strtotime($promotion->promotion_end)) }} ~ {{ date('M d Y', strtotime($promotion->promotion_start)) }}</h6> 
+                                                    @endif                              
+                                                @endif
+                                            </div>
+                                            
+                                            <!-- Promotion Image -->
+                                            <div class="position-relative">
+                                                <a href="{{ route('promotions.show', $promotion->id) }}">
+                                                    <img src="{{ asset('storage'.$promotion->image) }}" class="card-img-top promotion-img" alt="{{ $promotion->title }}">
+                                                </a>
+                                            </div>
+                                            
+                                            <!-- Promotion Description -->
+                                            <div class="card-body">
+                                                <p class="card-text promotion-description">{{ Str::limit($promotion->introduction, 100) }}</p>
+                                                <a href="{{ route('promotions.show', $promotion->id) }}" class="btn btn-sm btn-outline-primary mt-2">check details</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
@@ -165,8 +199,8 @@
                         <div class="text-center">No promotions available</div>
                     @endif
                 </div>
-            </section> -->
-
+            </section>
+        
             <!-- Business Introduction -->
             <section class="business-introduction">
                 <h3>Business Introduction</h3>
@@ -294,17 +328,16 @@
                 </div>
             </section>
 
-            <!-- Details -->
+            <!-- Business Details -->
             <section class="details-section">
                 <h2 class="details-title">
-                    Details
+                    Business Details
                 </h2>
-
                 <div class="details-container">
                     @foreach($business_info_category as $index => $category)
                         <div class="amenity-group">
                             <div class="amenity-group-title">
-                                {{ $category->name }} :
+                                {{ $category->name }} 
                             </div>
                             <div class="amenity-items-container">
                                 <div class="amenity-grid">
@@ -338,24 +371,105 @@
                 </div>
             </section>
 
-            <!-- Quest Section -->
-            <section class="quest-section">
-                <h2 class="quest-title">
-                    Model Quest
+            <!-- Business Reviews -->
+            <section class="business-reviews">
+                <h2 class="business-reviews-title">
+                    Business Reviews
                 </h2>
-
-
+                <div class="reviews-container">
+                    @if(isset($business->businessComments) && $business->businessComments->count() > 0)
+                        <div class="card mb-4">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Latest Reviews</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                @foreach($business->businessComments->take(3) as $comment)
+                                    <div class="border-bottom p-4">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                                @if($comment->user->avatar)
+                                                    <img src="{{ asset('storage'.$comment->user->avatar) }}" alt="User Avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                                @else
+                                                    <i class="fa-solid fa-circle-user text-secondary" style="font-size: 40px;"></i>
+                                                @endif
+                                                <div class="ms-3">
+                                                    <h5 class="mb-0">{{ $comment->user->name }}</h5>
+                                                    <small class="text-muted">{{ $comment->created_at->format('Y-m-d H:i') }}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <p class="mb-2">{{ Str::limit($comment->content, 150) }}</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    @if(Auth::check())
+                                                        @if($comment->isLiked())
+                                                            <form action="{{ route('business.comments.like.delete', $comment->id) }}" method="post" class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-sm text-danger">
+                                                                    <i class="fa-solid fa-heart"></i>
+                                                                    <span>{{ $comment->BusinessCommentLikes->count() }}</span>
+                                                                </button>
+                                                            </form>
+                                                        @else
+                                                            <form action="{{ route('business.comments.like.store', $comment->id) }}" method="post" class="d-inline">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-sm text-secondary">
+                                                                    <i class="fa-regular fa-heart"></i>
+                                                                    <span>{{ $comment->BusinessCommentLikes->count() }}</span>
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @else
+                                                        <button class="btn btn-sm {{ $comment->isLiked() ? 'text-danger' : 'text-secondary' }}" disabled>
+                                                            <i class="fa-{{ $comment->isLiked() ? 'solid' : 'regular' }} fa-heart"></i>
+                                                            <span>{{ $comment->BusinessCommentLikes->count() }}</span>
+                                                        </button>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <div class="alert alert-info">
+                            No reviews yet.
+                        </div>
+                    @endif
+                    
+                    <div class="text-end mb-4">
+                        <a href="{{ route('business.comments.showcomments', $business->id) }}" class="btn btn-outline-primary btn-sm">
+                            See All Reviews
+                        </a>
+                    </div>
+                    
+                    @if(Auth::check())
+                        <div class="card mt-4">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">Post Review</h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('business.comments.addcomment', $business->id) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="business_id" value="{{ $business->id }}">
+                                    <div class="mb-3">
+                                        <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="3" placeholder="Please write your review..." required>{{ old('content') }}</textarea>
+                                        @error('content')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-primary">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+                </div>
             </section>
-
-            <!-- Hotel Images -->
-            <div class="hotel-images">
-                <img class="hotel-image" alt="Hotel Room" src="{{ asset('public/rectangle-287.png') }}" />
-                <img class="hotel-image" alt="Hotel Facilities" src="{{ asset('public/rectangle-288.png') }}" />
-            </div>
-
-            <!-- Comments Section -->
-            <hr>
-            @include('comment.body')
 
             <!-- Go to Top Button -->
             <div class="top-button-container">

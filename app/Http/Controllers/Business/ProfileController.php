@@ -111,6 +111,20 @@ class ProfileController extends Controller
         return redirect()->route('profile.header', Auth::user()->id);
     }
 
+    public function deleteAvatar(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($user->avatar) {
+            $user->avatar = null;
+            $user->save();
+
+            return response()->json(['message' => 'Avatar deleted'], 200);
+        }
+
+        return response()->json(['message' => 'No avatar found'], 404);
+    }
+
     public function followers($id)
     {
         $user_a = $this->user->findOrFail($id);

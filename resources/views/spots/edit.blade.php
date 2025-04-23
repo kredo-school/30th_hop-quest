@@ -1,59 +1,140 @@
 @extends('layouts.app')
 
-@section('title', 'Add_Spot')
+@section('title', 'Edit_Spot')
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/map.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/spot/addspot.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/addspot.css')}}">
 @endsection
 
 @section('content')
-    <h2 class="container">Add Spot</h2>
-    <div class="container justify-content-center align-items-center text-center">
-        <div class="row row-cols-1 row-cols-md-4">
-          <div class="col-12 col-md-4 add-spot-container">
-            <form action="" name="add-spot" class="add-spot-form">
-            <div class="form-group">
-                <label for="title" class="form-label">Spot title</label>
-                <input type="text" id="title" placeholder="What unique spot did you find?" class="form-input">
-            </div>
-            <div class="form-group">
-                <label for="image" class="form-label">Spot image</label>
-                <input type="file" id="file-input" class="custom-file-input">
-                <label for="file-input" class="custom-file-label">Select your header image</label>
-                <span id="file-name" class="file-name">No Selected</span>
-            </div>
-            <div class="form-group">
-                <label for="detail" class="form-label">Spot detail</label>
-                <textarea id="detail" placeholder="This photo viewing header on spot page" class="form-textarea"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="photo" class="form-label">Upload photo</label>
-                <input type="file" id="photo" accept="image/*" class="form-input">
-            </div>
-            </form>
-          </div>
-          <div class="col-12 col-md-8 map-container">
-            <label for="title" class="form-label">Search Symbol</label>
-            <div class="search-container">
-                <input type="text" id="address" placeholder="住所を入力" class="search-input">
-                <button onclick="geocodeAddress(); return false;" class="search-button">Search</button>
-            </div>
-            <div id="map" class="spot-map-container"></div>
-            <div id="place-photo" class="place-photo"></div>
-          </div>
-          <div class="col-12 col-md-4">
-            <input type="submit" value="CHECK" class="submit-button">
-          </div>
+<div class="bg-green pt-5 w-100 d-flex justify-content-center">
+    @if(session('error'))
+    <div class="container">
+        <div class="alert alert-danger">
+            {{ session('error') }}
         </div>
     </div>
+    @endif
+        <div class="col-9">
+            <h3 class="color-navy poppins-semibold text-center pb-5 pt-2">Edit Spot</h3>
+                {{-- <div class="justify-content-center align-items-center text-center"> --}}
+                    {{-- first row: form content --}}
+                    <div class="row row-cols-1 row-cols-md-2">
+                        {{-- left side --}}
+                        <div class="col-12 col-md-6 add-spot-container">
+                            <form action="{{ route('spots.update', $spot->id) }}" method="POST" class="add-spot-form px-0" id="spot-form" enctype="multipart/form-data">
+                                @csrf
+                                @method('PATCH')
+                                {{-- title --}}
+                                <div class="form-group mb-2">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="text" id="title" name="title" placeholder="What unique spot did you find?" class="input-box form-input" value="{{ old('title', $spot->title) }}">
+                                    @error('title')
+                                        <p class="mb-0 text-danger small">{{ $message }}</p>
+                                    @enderror
+                                </div>
 
-    {{-- public/map.js を直接読み込む --}}
-    <script src="{{ asset('map.js') }}"></script>
+                                {{-- main image --}}
+                                <div class="form-group mb-2">
+                                    <label for="main_image" class="form-label fw-bold">Cover Image</label>
+                                    <input type="file" id="main_image" name="main_image"  class="form-control input-box" aria-describedby="main_image-info">
+                                    @php
+                                        $mainImageName = basename($spot->main_image); // ファイル名だけ取り出す
+                                    @endphp
 
-    {{-- Google Maps API のスクリプト（callback=initMap） --}}
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&libraries=places&callback=initMap">
-    </script>
+                                    <div class="xsmall" id="main_image-info">
+                                        Current file: <strong>{{ $mainImageName }}</strong><br>
+                                        <span class="text-secondary">The acceptable formats are jpeg, jpg, png and gif only.<br>
+                                        Max file is 1048Kb.</span> 
+                                    </div>
+                                    @error('main_image')
+                                        <div class="text-danger small">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            
+                                {{-- introduction --}}
+                                <div class="form-group mb-2">
+                                    <label for="introduction" class="form-label">Introduction</label>
+                                    <textarea id="introduction" name="introduction" placeholder="This photo viewing introduction on spot page" class="text-area" rows="8"> {{ old('introduction', $spot->introduction) }} </textarea>
+                                    @error('introduction')
+                                        <p class="mb-0 text-danger small">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- Images --}}
+                                <div class="form-group mb-2">
+                                    <label for="images" class="form-label">Images</label>
+                                    <input type="file" id="images" name="images[]" class="form-control input-box" multiple>
+                                
+                                    {{-- プレビュー全体ラッパー --}}
+                                    <div id="all-image-previews" class="d-flex flex-wrap gap-2 mt-3">
+                                        {{-- 既存画像 --}}
+                                        <div id="existing-images-wrapper" class="d-flex flex-wrap gap-2">
+                                            @php $images = json_decode($spot->images, true) ?? []; @endphp
+                                            @foreach ($images as $image)
+                                                <div class="image-preview-box position-relative" data-image="{{ $image }}">
+                                                    <img src="{{ asset('storage/' . $image) }}" class="img-thumbnail" style="width: 150px;">
+                                                    <button type="button" class="btn btn-sm btn-danger position-absolute bottom-0 end-0 m-1 remove-existing-image">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                
+                                        {{-- 新規追加画像 --}}
+                                        <div id="image-preview" class="d-flex flex-wrap gap-2"></div>
+                                    </div>
+                                </div>
+                                {{-- 削除していない既存画像だけ保持する hidden --}}
+                                <div id="hidden-existing-images"></div>
+
+
+                                
+                                {{-- hidden input about location --}}
+                                <input type="hidden" name="geo_lat" id="geo_lat" value="{{ old('geo_lat', $spot->geo_lat) }}">
+                                <input type="hidden" name="geo_lng" id="geo_lng" value="{{ old('geo_lng', $spot->geo_lng) }}">
+                                <input type="hidden" name="geo_location" id="geo_location" value="{{ old('geo_location', $spot->geo_location) }}">
+                        </div>
+
+                        {{-- right side --}}
+                        <div class="col-12 col-md-6 map-container">    
+                            <label for="address" class="form-label">Search Symbol</label>
+                            <div class="search-container d-flex pb-3 align-items-center">
+                                <input type="text" id="address" placeholder="Input address " class="input-box me-2">
+                                <button type="button" onclick="geocodeAddress()" class="btn btn-green px-1">Search</button>
+                            </div>
+                            <div id="map" 
+                                class="spot-map-container" 
+                                data-lat="{{ old('geo_lat', $spot->geo_lat) }}" 
+                                data-lng="{{ old('geo_lng', $spot->geo_lng) }}">
+                            </div>
+
+
+                            <div id="place-photo" class="place-photo mb-5 w-100 text-center"></div>
+                        </div>
+
+                    </div>
+
+                    {{-- submit button --}}
+                        <div class="row my-4">
+                            <div class="col-12 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-navy w-50" form="spot-form">Update</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Add Google Maps info --}}
+                    <script src="{{ asset('js/spot/edit/edit-map.js') }}"></script>
+                    <script defer
+                        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&libraries=places&callback=initMap">
+                    </script>
+
+                    {{-- Add images --}}
+                    <script src="{{ asset('js/spot/edit/edit-images.js') }}"></script>
+                {{-- </div> --}}
+        </div>
     
+</div>
+
 @endsection
