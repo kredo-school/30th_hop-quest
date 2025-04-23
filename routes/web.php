@@ -233,7 +233,7 @@ Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->gro
     //VIEW QUEST
     Route::get('/{quest_id}', 'showViewQuest')->middleware(PageViewMiddleware::class)->name('show');
     //RESTORE - UNHIEDE
-    Route::post('/{quest_id}/restore', 'restore')->name('restore');
+    Route::patch('/{quest_id}/restore', 'restore')->name('restore');
     //SOFT DELETE - HIHE (back to Confirm--> change later redirect to MyPage)
     Route::delete('/{quest_id}/hide', 'softDelete')->name('softDelete');
 
