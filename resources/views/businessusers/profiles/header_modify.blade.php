@@ -358,10 +358,10 @@
                 @elseif($user->role_id == 2)
                     @switch($tab)
                         @case('businesses')
-                            @include('businessusers.posts.businesses.show_body', ['businesses' => $businesses])
+                            @include('businessusers.profiles.show_businesses', ['businesses' => $businesses])
                             @break
                         @case('promotions')
-                            @include('businessusers.posts.promotions.show_body', ['promotions' => $business_promotions])
+                            @include('businessusers.profiles.show_promotions', ['promotions' => $business_promotions])
                             @break
                         @case('quests')
                             @include('businessusers.profiles.quests', ['quests' => $quests])
