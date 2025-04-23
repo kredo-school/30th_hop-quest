@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->morphs('page'); // page_id, page_type
             $table->integer('views')->default(0);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
