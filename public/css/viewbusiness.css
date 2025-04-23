@@ -9,14 +9,17 @@
     width: 90%;
     max-width: 1400px;
     position: relative;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .main-image {
     width: 100%;
     height: auto;
-    border: solid 4px #D24848;
-    border-radius: 8px;
     object-fit: cover;
+    display: block;
 }
 
 .main-title {
@@ -50,8 +53,11 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
 }
 
 .profile-container {
@@ -284,6 +290,21 @@
 
 .fa-heart{
     font-size: 0.8rem;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* コメントいいねボタンのスタイル */
+.btn-sm.text-danger,
+.btn-sm.text-secondary {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-sm.text-danger i,
+.btn-sm.text-secondary i {
+    margin-right: 3px;
 }
 
 /* Top Button */
@@ -763,5 +784,86 @@
 
     .carousel-arrow.next {
         margin-right: 5px;
+    }
+}
+
+/* Promotion Card Styles */
+.promotion-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 100%;
+    border: none;
+}
+
+.promotion-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.promotion-img {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.promotion-description {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    height: 60px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+.promotion-container .row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+/* Business Reviews Section */
+.business-reviews {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 40px 0;
+    background-color: #f8f9fa;
+}
+
+.business-reviews-title {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.reviews-container {
+    width: 70%;
+    max-width: 1000px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 992px) {
+    .reviews-container {
+        width: 80%;
+    }
+}
+
+@media (max-width: 768px) {
+    .reviews-container {
+        width: 90%;
     }
 }

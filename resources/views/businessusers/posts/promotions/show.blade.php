@@ -91,14 +91,13 @@
                 </div>
             </section>
 
-            <div class="row pt-0">       
-                <div class="col align-center mb-5">
-                    <a href="{{ route('profile.header', ['id' => $business_promotion->user_id, 'tab' => 'promotions']) }}">
-                        <button class="btn btn-green text-uppercase w-25 position-absolute start-50 translate-middle mt-1">Back to Profile</button>
-                    </a>
-                </div>
+        <div class="row justify-content-center mb-5">
+            <div class="col-4">
+                <button onclick="window.history.back()" class="btn btn-red w-100">BACK</button>
             </div>
+        </div>
+    </div>   
+</div>
 
-            
             
 @endsection
