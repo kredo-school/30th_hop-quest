@@ -6,7 +6,7 @@
 @endsection
 @section('content')
     <div class="container mb-5 profile-edit-spacing">
-        <form action="{{ route('myprofile.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('myprofile.update', Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
             <div class="profile-container">
@@ -16,12 +16,14 @@
                         src="{{ Str::startsWith($user->header, 'data:image') ? $user->header : asset('images/profiles/header.jpg') }}"
                         alt="Header Image">
                 </label>
+                <input type="hidden" name="header_base64" id="headerBase64">
                 <label class="avatar">
                     <input type="file" id="avatar" name="avatar" accept="image/*">
                     <img id="avatarPreview"
                         src="{{ Str::startsWith($user->avatar, 'data:image') ? $user->avatar : asset('images/profiles/avatar.jpg') }}"
                         alt="Avatar Image">
                 </label>
+                <input type="hidden" name="avatar_base64" id="avatarBase64">
             </div>
             <div class="card rounded bg-white px-5 py-3 mt-5">
                 <h3 class="text-center mb-4 fw-bold">Edit Profile</h3>
@@ -80,8 +82,8 @@
                     <div class="text-center">
                         <button type="submit" class="btn btn-success px-5">SAVE</button>
                     </div>
+                </div>
         </form>
-    </div>
     </div>
     <!-- Password Change -->
     <div class="mt-5 p-4 px-5 bg-white rounded shadow-sm">
@@ -108,8 +110,8 @@
             <!-- Confirm New Password -->
             <div class="mb-4">
                 <label for="new_password_confirmation" class="form-label fw-bold">Confirm New Password</label>
-                <input type="password" name="new_password_confirmation" id="new_password_confirmation" class="form-control"
-                    required>
+                <input type="password" name="new_password_confirmation" id="new_password_confirmation"
+                    class="form-control" required>
             </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-success w-50">UPDATE PASSWORD</button>
@@ -118,5 +120,6 @@
     </div>
     {{-- @section('scripts')
     <script src="{{ asset('js/profile_edit.js') }}"></script> --}}
+
 @endsection
 @vite('resources/js/profile_edit.js')

@@ -44,15 +44,17 @@ class TouristProfileController extends Controller
         $user = Auth::user(); // Retrieve current user from database
         return view('tourists.profiles.myprofile_edit', compact('user'));
     }
-    public function update(Request $request, $id = null)
+
+    public function update(Request $request)
     {
-        \Log::info(':チェックマーク_緑: update() method called');
+        \Log::info('✅ update() method called');
         try {
             $targetUserId = $id ?? Auth::id();
             if (Auth::id() !== (int) $targetUserId) {
                 \Log::warning(":通行止め: Unauthorized update attempt by user ID " . Auth::id());
                 abort(403, 'Unauthorized access.');
             }
+
             $validated = $request->validate([
                 'name' => 'required|max:255',
                 'email' => 'required|email|unique:users,email,' . $targetUserId,
@@ -64,17 +66,43 @@ class TouristProfileController extends Controller
                 'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'header' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
+
+
             $user = User::findOrFail($targetUserId);
+            dd($user);
+
+            // Set basic fields
+            $user->name = $validated['name'];
+            $user->email = $validated['email'];
+            $user->introduction = $validated['introduction'] ?? null;
+            $user->instagram = $validated['instagram'] ?? null;
+            $user->facebook = $validated['facebook'] ?? null;
+            $user->x = $validated['x'] ?? null;
+            $user->tiktok = $validated['tiktok'] ?? null;
+
+            // Set images as base64
+            // Avatar fallback from base64 hidden input
             if ($request->hasFile('avatar')) {
-                $avatarPath = $request->file('avatar')->store('avatars', 'public');
-                $user->avatar = 'storage/' . $avatarPath;
-            }
-            if ($request->hasFile('header')) {
-                $headerPath = $request->file('header')->store('headers', 'public');
-                $user->header = 'storage/' . $headerPath;
+                $avatar = $request->file('avatar');
+                $data = file_get_contents($avatar->getRealPath());
+                $base64 = base64_encode($data);
+                $user->avatar = 'data:image/' . $avatar->extension() . ';base64,' . $base64;
+            } elseif ($request->filled('avatar_base64')) {
+                $user->avatar = $request->input('avatar_base64');
             }
 
-            $user->save(); // Save everything
+            // Header fallback from base64 hidden input
+            if ($request->hasFile('header')) {
+                $header = $request->file('header');
+                $data = file_get_contents($header->getRealPath());
+                $base64 = base64_encode($data);
+                $user->header = 'data:image/' . $header->extension() . ';base64,' . $base64;
+            } elseif ($request->filled('header_base64')) {
+                $user->header = $request->input('header_base64');
+            }
+
+
+            $user->save();
 
             \Log::info("✅ Profile updated for user ID: {$user->id}");
 
@@ -86,44 +114,47 @@ class TouristProfileController extends Controller
                 ->with('error', 'Failed to update profile.');
         }
     }
-    // Update the user's password
+
     public function updatePassword(Request $request)
     {
         $request->validate([
             'current_password' => 'required',
-            'new_password' => 'required|min:6|confirmed',
+            'new_password' => 'required|string|min:8|confirmed',
         ]);
-        // Password change logic is skipped here
-        return back()->with('success', 'Password has been updated.');
-    }
-    // Delete the user account
-    public function destroy()
-    {
+
         $user = Auth::user();
-        if ($user) {
-            $user->delete();
-            Auth::logout();
-            return redirect()->route('home')->with('status', 'Your account has been deleted.');
+
+        // Check if current password matches
+        if (!\Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Current password is incorrect.']);
         }
-        return redirect()->route('login')->with('error', 'User not found.');
+
+        // Update to new password
+        $user->password = \Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->route('profile.header', ['id' => $user->id])
+            ->with('success', 'Password updated successfully!');
     }
-    public function showOtherProfile($id)
-    {
-        // Retrieve user with quests and spots, including likes count and views relationship
-        $user = User::findOrFail($id);
-        // Determine if this profile belongs to the authenticated user
-        $isOwnProfile = Auth::check() && Auth::id() === $user->id;
-        // Temporary aliases for frontend compatibility
-        $user->myQuests = $user->quests;
-        $user->mySpots = $user->spots;
-        $quests = Quest::with('pageViews')
-            ->where('user_id', Auth::id())
-            ->get();
-        $spots = Spot::with('pageViews')
-            ->where('user_id', Auth::id())
-            ->get();
-        return view('tourists.profiles.show', compact('user', 'isOwnProfile'));
-    }
+
+
+    // public function showOtherProfile($id)
+    // {
+    //     // Retrieve user with quests and spots, including likes count and views relationship
+    //     $user = User::findOrFail($id);
+    //     // Determine if this profile belongs to the authenticated user
+    //     $isOwnProfile = Auth::check() && Auth::id() === $user->id;
+    //     // Temporary aliases for frontend compatibility
+    //     $user->myQuests = $user->quests;
+    //     $user->mySpots = $user->spots;
+    //     $quests = Quest::with('pageViews')
+    //         ->where('user_id', Auth::id())
+    //         ->get();
+    //     $spots = Spot::with('pageViews')
+    //         ->where('user_id', Auth::id())
+    //         ->get();
+    //     return view('tourists.profiles.show', compact('user', 'isOwnProfile'));
+    // }
     // Show another user's profile using mock data
     // public function showOtherProfile($id)
     // {
