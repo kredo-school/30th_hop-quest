@@ -38,7 +38,7 @@
                 <tr>
                     {{-- <td>{{$user->id}}</td> --}}
                     <td>
-                        <a href="{{route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark fw-bold">
+                        <a href="{{route('profile.header', $user->id)}}" class="text-decoration-none text-dark fw-bold">
                         @if($user->avatar)
                             <img src="{{ $user->avatar }}" alt="" class="rounded-circle avatar-sm d-block mx-auto">
                         @else
@@ -47,7 +47,7 @@
                         </a>
                     </td>
                     <td>
-                        <a href="{{route('profile.businesses', $user->id)}}" class="text-decoration-none text-dark">{{ $user->name }}</a>
+                        <a href="{{route('profile.header', $user->id)}}" class="text-decoration-none text-dark">{{ $user->name }}</a>
                     </td>
                     {{-- <td>
                         {{ $user->email }}
