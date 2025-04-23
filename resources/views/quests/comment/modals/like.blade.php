@@ -25,14 +25,14 @@
 
                         {{-- ユーザー名 --}}
                         <div class="col-7 text-start">
-                            <a href="#" class="text-decoration-none text-dark fw-bold">
+                            <a href="{{ route('profile.header', $user->id)}}" class="text-decoration-none text-dark fw-bold">
                                 {{ $user->name }}
                             </a>
                         </div>
 
-                        {{-- フォローボタン（ログインかつ自分以外のときだけ） --}}
+                        {{-- フォローボタン（ログイン中 && 自分じゃない && ユーザーIDが2以外のとき） --}}
                         @auth
-                            @if(!$isOwn)
+                            @if (!$isOwn && Auth::user()->role_id != 2)
                                 <div class="col-3 text-end">
                                     <form class="follow-toggle-form" data-user-id="{{ $user->id }}">
                                         @csrf

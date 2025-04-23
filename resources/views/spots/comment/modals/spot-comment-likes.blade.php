@@ -28,7 +28,7 @@
 
                         {{-- フォローボタン（ログインかつ自分以外のときだけ） --}}
                         @auth
-                            @if(!$isOwn)
+                            @if (!$isOwn && Auth::user()->role_id != 2)
                                 <div class="col-3 text-end">
                                     <form class="follow-toggle-form" data-user-id="{{ $user->id }}">
                                         @csrf

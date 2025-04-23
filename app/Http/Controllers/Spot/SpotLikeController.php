@@ -45,6 +45,9 @@ class SpotLikeController extends Controller
     // destroy() - delete the like / unlike a spot
     public function destroy($spot_id)
     {
+        if (!Auth::check()) {
+            return response()->json(['status' => 'error', 'message' => 'please login.'], 401);
+        }
         $spot = Spot::findOrFail($spot_id);
         
         SpotLike::where('user_id', Auth::id())
@@ -85,6 +88,9 @@ class SpotLikeController extends Controller
     }
 
     public function store($spot_id){
+        if (!Auth::check()) {
+            return response()->json(['status' => 'error', 'message' => 'Please login'], 401);
+        }
         try {
             DB::table('spot_likes')->insert([
                 'user_id' => Auth::id(),

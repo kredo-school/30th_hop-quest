@@ -104,7 +104,7 @@ class SpotController extends Controller
         $spot->images = json_encode($imagePaths);
         $spot->save();
 
-        return redirect()->route('spots.show', $spot->id);
+        return redirect()->route('spot.show', $spot->id);
     }
 
     public function showEdit($id){    
@@ -175,7 +175,7 @@ class SpotController extends Controller
             session()->forget('spot_edit_data');
             session()->forget('spot_id');
 
-            return redirect()->route('spots.show', $spot->id);
+            return redirect()->route('spot.show', $spot->id);
         }
 
         // 通常フォームからの更新（バリデーション含めて従来通り）
@@ -217,7 +217,7 @@ class SpotController extends Controller
         $spot->images = json_encode($allImages);
         $spot->save();
 
-        return redirect()->route('spots.show', $spot->id);
+        return redirect()->route('spot.show', $spot->id);
     }
 
 

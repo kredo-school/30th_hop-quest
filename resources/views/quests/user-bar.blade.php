@@ -37,7 +37,7 @@
                 
     
                 {{-- Comment --}}
-                <a href="#comment-section" class="d-flex align-items-center mx-3 mx-md-1 mx-lg-3 text-decoration-none text-dark">
+                <a href="#comment-section" class="d-flex align-items-center mx-md-1 mx-lg-3 text-decoration-none text-dark">
                     <i class="far fa-comment icon-sm"></i>
                     <span class="fw-semibold ms-2">{{ $quest_a->questcomments->count() }}</span>
                 </a>

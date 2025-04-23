@@ -29,7 +29,10 @@
                                 {{-- title --}}
                                 <div class="form-group mb-2">
                                     <label for="title" class="form-label">Title</label>
-                                    <input type="text" id="title" name="title" placeholder="What unique spot did you find?" class="input-box form-input" value="{{ old('title', $spot->title) }}" required>
+                                    <input type="text" id="title" name="title" placeholder="What unique spot did you find?" class="input-box form-input" value="{{ old('title', $spot->title) }}">
+                                    @error('title')
+                                        <p class="mb-0 text-danger small">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 {{-- main image --}}
@@ -53,7 +56,10 @@
                                 {{-- introduction --}}
                                 <div class="form-group mb-2">
                                     <label for="introduction" class="form-label">Introduction</label>
-                                    <textarea id="introduction" name="introduction" placeholder="This photo viewing introduction on spot page" class="text-area" rows="8" required> {{ old('introduction', $spot->introduction) }} </textarea>
+                                    <textarea id="introduction" name="introduction" placeholder="This photo viewing introduction on spot page" class="text-area" rows="8"> {{ old('introduction', $spot->introduction) }} </textarea>
+                                    @error('introduction')
+                                        <p class="mb-0 text-danger small">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 {{-- Images --}}
@@ -86,9 +92,9 @@
 
                                 
                                 {{-- hidden input about location --}}
-                                <input type="hidden" name="geo_lat" id="geo_lat">
-                                <input type="hidden" name="geo_lng" id="geo_lng">
-                                <input type="hidden" name="geo_location" id="geo_location">
+                                <input type="hidden" name="geo_lat" id="geo_lat" value="{{ old('geo_lat', $spot->geo_lat) }}">
+                                <input type="hidden" name="geo_lng" id="geo_lng" value="{{ old('geo_lng', $spot->geo_lng) }}">
+                                <input type="hidden" name="geo_location" id="geo_location" value="{{ old('geo_location', $spot->geo_location) }}">
                         </div>
 
                         {{-- right side --}}
@@ -104,7 +110,8 @@
                                 data-lng="{{ old('geo_lng', $spot->geo_lng) }}">
                             </div>
 
-                            <div id="place-photo" class="place-photo mb-5"></div>
+
+                            <div id="place-photo" class="place-photo mb-5 w-100 text-center"></div>
                         </div>
 
                     </div>
@@ -119,7 +126,7 @@
 
                     {{-- Add Google Maps info --}}
                     <script src="{{ asset('js/spot/edit/edit-map.js') }}"></script>
-                    <script async
+                    <script defer
                         src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&libraries=places&callback=initMap">
                     </script>
 

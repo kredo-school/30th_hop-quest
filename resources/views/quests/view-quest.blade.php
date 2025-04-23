@@ -123,7 +123,7 @@
                                             {{ $questbody->business_title }} {{-- カスタム入力なのでリンクなし --}}
                                         @else
                                             @if ($questbody->spot)
-                                                <a href="{{ route('spots.show', ['id' => $questbody->spot->id]) }}" class="text-decoration-none text-dark">
+                                                <a href="{{ route('spot.show', ['id' => $questbody->spot->id]) }}" class="text-decoration-none text-dark">
                                                     {{ $questbody->spot->title }}
                                                 </a>
                                             @elseif ($questbody->business)
