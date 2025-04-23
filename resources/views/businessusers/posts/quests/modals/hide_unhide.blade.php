@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="modal-footer border-0">
-                <form action="{{ route('quests.deactivate', $post['id'])}}" method="post">
+                <form action="{{ route('quest.softDelete', $post['id'])}}" method="post">
                     @csrf
                     @method('DELETE')
                     <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-outline-red">Cancel</button>
