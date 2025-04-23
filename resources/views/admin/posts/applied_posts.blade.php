@@ -38,13 +38,13 @@
                     {{-- <td>{{$user->id}}</td> --}}
                     <td>
                         @if($post->main_image)
-                            <img src="{{ $post->main_image }}" alt="" class="img-md d-block mx-auto">
+                            <a href="{{route('business.show', $post->id)}}" ><img src="{{ $post->main_image }}" alt="" class="img-sm d-block mx-auto"></a>
                         @else
                             <i class="fa-solid fa-image text-secondary profile-sm d-block text-center"></i>
                         @endif
                     </td>
                     <td>
-                        <a href="{{route('admin.posts.review', $post->id)}}" class="text-decoration-none text-dark">{{ $post->name }}</a>
+                        <a href="{{route('business.show', $post->id)}}" class="text-decoration-none text-dark">{{ $post->name }}</a>
                     </td>
                     <td class="align-middle">{{$post->user->name}}</th>
                     {{-- <td>
@@ -54,7 +54,7 @@
                         {{date('M d, Y H:i:s', strtotime($post->updated_at))}}
                     </td>
                     @if($post->official_certification == 2)
-                        <td rowspan="2">
+                        <td>
                             <form method="POST" action="{{ route('admin.posts.certify', $post->id) }}">
                                 @csrf
                                 <input type="hidden" name="action" value="approve">

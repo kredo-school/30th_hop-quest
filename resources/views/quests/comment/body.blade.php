@@ -43,9 +43,17 @@
                     @endauth
 
                     {{-- コメント投稿者の情報 --}}
+                    {{-- コメント投稿者の情報 --}}
                     <div class="comment-header my-2 d-flex align-items-center">
+                        @php
+                            $isOwnComment = Auth::check() && Auth::id() === $comment->user_id;
+                            $profileRoute = $isOwnComment
+                                ? route('myprofile.show')
+                                : route('profile.header', ['id' => $comment->user_id]);
+                        @endphp
+
                         {{-- アバターリンク --}}
-                        <a href="{{ route('profile.header', $comment->user->id) }}" class="text-decoration-none d-flex align-items-center me-2">
+                        <a href="{{ $profileRoute }}" class="text-decoration-none d-flex align-items-center me-2">
                             @if ($comment->user->avatar)
                                 <img src="{{ asset('storage/' . ltrim($comment->user->avatar, '/')) }}" class="avatar-sm rounded-circle" alt="user icon">
                             @else
@@ -55,7 +63,7 @@
 
                         {{-- ユーザー名リンク --}}
                         <div class="d-flex align-items-center flex-wrap">
-                            <a href="{{ route('profile.header', $comment->user->id) }}" class="text-decoration-none">
+                            <a href="{{ $profileRoute }}" class="text-decoration-none">
                                 <span class="username h6 mb-0"><strong>{{ $comment->user->name }}</strong></span>
                             </a>
                             {{-- 認証バッジ（任意） --}}
@@ -78,40 +86,25 @@
 
                     {{-- いいねなどのアクション --}}
                     <div class="comment-actions d-flex justify-content-end gap-3">
-                        <div class="comment-actions d-flex justify-content-end gap-3">
-                            <div class="comment-action-item d-flex align-items-center position-relative like-button-wrapper">
-                                <form 
-                                    action="{{ route('questcomment.toggleLike', $comment->id) }}" 
-                                    method="POST" 
-                                    data-comment-id="{{ $comment->id }}" 
-                                    class="like-comment-form me-1"
-                                >
-                                    @csrf
-                                    <button 
-                                        type="submit" 
-                                        class="btn btn-sm shadow-none comment-like-btn @guest like-disabled @endguest"
-                                    >
-                                        <i class="{{ $comment->QuestCommentlikes->where('user_id', Auth::id())->isNotEmpty() ? 'fa-solid text-danger' : 'fa-regular' }} fa-heart"></i>
-                                    </button>
-                                </form>
-                        
-                                @guest
-                                    <div class="login-tooltip d-none">
-                                        Please login to like comments
-                                    </div>
-                                @endguest
-                        
-                                <button class="btn btn-sm p-0 text-center open-comment-likes-modal"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#comment-likes-modal-{{ $comment->id }}"
-                                    data-comment-id="{{ $comment->id }}">
-                                    <span class="count comment-like-count" data-comment-id="{{ $comment->id }}">
-                                        {{ $comment->QuestCommentlikes->count() }}
-                                    </span>
+                        <div class="comment-action-item">
+                            <form action="{{ route('questcomment.toggleLike', $comment->id) }}" method="POST" data-comment-id="{{ $comment->id }}" class="like-comment-form">
+                                
+                                @csrf
+                                <button type="submit" class="btn btn-sm shadow-none comment-like-btn">
+                                    <i class="{{ $comment->QuestCommentlikes->where('user_id', Auth::id())->isNotEmpty() ? 'fa-solid text-danger' : 'fa-regular' }} fa-heart"></i>
                                 </button>
-                            </div>
-                        </div>                        
-                    </div>                    
+                            </form>
+                            <button class="btn btn-sm p-0 text-center open-comment-likes-modal"
+                                data-bs-toggle="modal"
+                                data-bs-target="#comment-likes-modal-{{ $comment->id }}"
+                                data-comment-id="{{ $comment->id }}">
+                                <span class="count comment-like-count" data-comment-id="{{ $comment->id }}">
+                                    {{ $comment->QuestCommentlikes->count() }}
+                                </span>
+                            </button>
+
+                        </div>
+                    </div>
                 </div>
                 @include('quests.comment.modals.like')
                 @endforeach

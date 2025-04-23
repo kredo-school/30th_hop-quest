@@ -52,10 +52,16 @@
                             @endif
                         </div>
                         @if($user->id == Auth::user()->id)
+                            @if($user->official_certification == 1 || $user->official_certification == 3)
                             {{-- edit profile --}}
                             <div class="col-md-2 col-sm-3 ms-auto">
                                 <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
                             </div>
+                            @else
+                            <div class="col-md-2 col-sm-3 ms-auto">
+                                <a href="#" class="btn btn-sm btn-navy mb-2 w-100">REVIWING</a>
+                            </div>
+                            @endif
                             <div class="col-md-2 col-sm-3">
                                 <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile{{ $user->id }}">DELETE</button>
                                 @include('businessusers.profiles.modals.delete')
@@ -96,8 +102,8 @@
                     {{-- url --}}
                     <div class="row mb-3">
                         <div class="col">
-                            @if($user->website_url)
-                                <a href="#" class="text-decoration-none text-dark ">{{ $user->website_url }}</a>
+                            @if($user->role_id==2 && $user->website_url)
+                                <a href="{{ strpos($user->website_url, 'http') === 0 ? $user->website_url : 'https://' . $user->website_url }}" class="text-decoration-none text-dark ">{{ $user->website_url }}</a>
                             @endif
                         </div>
                         {{-- @if(Auth::user()->role_id == 1)
@@ -268,7 +274,7 @@
                                         <div class="row mb-2">
                                             <div class="col-auto my-auto" rowspan="2">
                                                 @if($comment['type'] == 'businesses')
-                                                    <a href="{{route('businesses.show', $comment['business_id'])}}" >
+                                                    <a href="{{route('business.show', $comment['business_id'])}}" >
                                                         @if(Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
                                                             <img src="{{ $comment['main_image'] }}" alt="{{ $comment['title'] }}" class="img-sm">
                                                         @else
@@ -284,7 +290,7 @@
                                                         @endif
                                                     </a>
                                                 @elseif($comment['type'] == 'spots')
-                                                    <a href="{{route('quest.show', $comment['id'])}}" >
+                                                    <a href="{{route('spot.show', $comment['id'])}}" >
                                                         @if(Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
                                                             <img src="{{ $comment['main_image'] }}" alt="{{ $comment['title'] }}" class=" img-sm">
                                                         @else
@@ -345,9 +351,6 @@
                             @break
                         @case('spots')
                             @include('businessusers.profiles.spots', ['spots' => $spots])
-                            @break
-                        @case('likedPosts')
-                            @include('businessusers.profiles.liked_posts', ['likedPosts' => $likedPosts])
                             @break
                         @default
                             @include('businessusers.profiles.quests', ['quests' => $quests])
