@@ -22,7 +22,7 @@
                     <input type="text" name="title" id="title" class="input-box" placeholder="Kyoto Trip"
                         value="{{ old('title', $quest->title ?? '') }}">
                     @error('title')
-                        <p class="mb-0 text-danger small">{{ $message }}</p>
+                        <p class="ps-0 mb-0 text-danger small">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -55,6 +55,7 @@
                                 <p class="mb-0 text-danger small">{{ $message }}</p>
                             @enderror
                         </div>
+                            
                     </div>
                 @elseif ($role == 2)
                     {{-- 期間入力 --}}
@@ -79,24 +80,24 @@
                     <textarea name="introduction" id="introduction" class="text-area mx-0" cols="30" rows="5"
                             placeholder="My trip to Kyoto was...">{{ old('introduction', $quest->introduction ?? '') }}</textarea>
                     @error('introduction')
-                        <p class="mb-0 text-danger small">{{ $message }}</p>
+                        <p class="ps-0 mb-0 text-danger small">{{ $message }}</p>
                     @enderror
                 </div>
 
                 {{-- メイン画像 --}}
                 <div class="row pb-3">
                     <label for="main_image" class="form-label">Header photo</label>
-                    <div class="col-9 ps-0">
+                    <div class="col-12 p-0">
                         <input type="file" name="main_image" id="main_image" class="custom-file-input form-control">
                         @error('main_image')
                             <p class="mb-0 text-danger small">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="col-3 ms-auto pe-0">
+                    {{-- <div class="col-3 ms-auto pe-0">
                         <label for="main_image" class="btn btn-green custom-file-label w-100">
                             <i class="fa-solid fa-plus icon-xs d-inline"></i> Photo
                         </label>
-                    </div>
+                    </div> --}}
                     <p class="mt-0 ps-0 pb-0 xsmall">
                         Acceptable formats: jpeg, jpg, png, gif only.<br>Max size is 1048 KB
                     </p>
@@ -113,16 +114,6 @@
             </form>
 
         </section>   
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    
 </div>
 @endsection
 

@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
             uploadedImagesList.push(...selectedFiles.slice(0, availableSlots));
             updatePreview();
             updateFormFiles();
+            
         });
 
         function updatePreview() {

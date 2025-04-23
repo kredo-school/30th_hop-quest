@@ -4,6 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property \App\Models\User $user
+ * @property \App\Models\Spot $spot
+ */
+
 class SpotLike extends Model
 {
     protected $table = 'spot_likes'; 

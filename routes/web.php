@@ -154,7 +154,8 @@ Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
     Route::post('/comment/{comment_id}/like', [SpotCommentLikeController::class, 'like'])->name('comment.like');
     Route::delete('/comment/{comment_id}/unlike', [SpotCommentLikeController::class, 'unlike'])->name('comment.unlike');
 });
-Route::get('/spot/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('spot.show');
+Route::get('spot/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('spot.show');
+
 
 
 
@@ -176,7 +177,7 @@ Route::middleware('auth')->group(
         Route::patch('/myprofile/update', [TouristProfileController::class, 'update'])->name('myprofile.update');
     }
 );
-// Route::get('/profile/{id}', [TouristProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile/{id}', [TouristProfileController::class, 'show'])->name('profile.show');
 
 // tourists profile
 Route::get('/myprofile', [TouristProfileController::class, 'myProfileShow'])->name('myprofile.show');

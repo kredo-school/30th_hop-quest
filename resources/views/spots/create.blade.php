@@ -13,59 +13,52 @@
 @endphp
 
 <div class="bg-green pt-4 w-100 d-flex justify-content-center">
-    @if(session('error'))
+    {{-- @if(session('error'))
     <div class="container">
         <div class="alert alert-danger">
             {{ session('error') }}
         </div>
     </div>
-    @endif
+    @endif --}}
     <div class="col-9">
         <h3 class="color-navy poppins-semibold text-center pb-5 pt-2">Create Spot</h3>
 
         <div class="row row-cols-1 row-cols-md-2">
             {{-- left side --}}
             <div class="col-12 col-md-6 add-spot-container">
-                <form action="{{ route('spots.confirm') }}" method="POST" class="add-spot-form px-0" id="spot-form" enctype="multipart/form-data">
+                <form action="{{ route('spots.store') }}" method="POST" class="add-spot-form px-0" id="spot-form" enctype="multipart/form-data">
                     @csrf
 
                     {{-- title --}}
                     <div class="form-group mb-2">
                         <label for="title" class="form-label">Title</label>
-                        <input type="text" id="title" name="title" class="input-box form-input" value="{{ old('title', $spot->title) }}" required>
+                        <input type="text" id="title" name="title" class="input-box form-input" value="{{ old('title', $spot->title) }}">
+                        @error('title')
+                            <p class="mb-0 text-danger small">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- main image --}}
                     <div class="form-group mb-2">
                         <label for="main_image" class="form-label fw-bold">Cover Image</label>
                         <input type="file" id="main_image" name="main_image" class="form-control input-box" aria-describedby="main_image-info">
-                        @php
-                            $mainImagePath = session('spot_edit_data.main_image_path') ?? $spot->main_image;
-                        @endphp
-
-                        @if (!empty($mainImagePath))
-                            <div class="mb-2">
-                                <p class="text-secondary xsmall py-0">Current image:
-                                    <span class="text-dark xsmall raleway-semibold">
-                                        {{ basename($mainImagePath) }}
-                                    </span>
-                                </p>
-                            </div>
-                        @endif
+                        @error('main_image')
+                            <p class="mb-0 text-danger small">{{ $message }}</p>
+                        @enderror
 
                         <div class="xsmall" id="main_image-info">
                             The acceptable formats are jpeg, jpg, png and gif only.<br>
                             Max file is 1048Kb.
                         </div>
-                        @error('main_image')
-                            <div class="text-danger small">{{ $message }}</div>
-                        @enderror
                     </div>
                 
                     {{-- introduction --}}
                     <div class="form-group mb-2">
                         <label for="introduction" class="form-label">Introduction</label>
-                        <textarea id="introduction" name="introduction" class="text-area" rows="8" required>{{ old('introduction', $spot->introduction) }}</textarea>
+                        <textarea id="introduction" name="introduction" class="text-area" rows="8">{{ old('introduction', $spot->introduction) }}</textarea>
+                        @error('introduction')
+                            <p class="mb-0 text-danger small">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Images --}}
@@ -102,9 +95,12 @@
 
             {{-- right side --}}
             <div class="col-12 col-md-6 map-container">
-                <label for="address" class="form-label">Search Symbol</label>
+                <label for="address" name="address" class="form-label">Search Symbol</label>
                 <div class="search-container d-flex pb-3 align-items-center">
-                    <input type="text" id="address" placeholder="Input address " class="input-box me-2">
+                    <input type="text" id="address" name="address" placeholder="Input address " class="input-box me-2">
+                        @error('address')
+                            <p class="mb-0 text-danger small">{{ $message }}</p>
+                        @enderror
                     <button type="button" onclick="geocodeAddress()" class="btn btn-green px-1">Search</button>
                 </div>
                 @php
@@ -118,21 +114,21 @@
                     data-lng="{{ $geoLng }}">
                 </div>
 
-                <div id="place-photo" class="place-photo mb-5"></div>
+                <div id="place-photo" class="place-photo mb-5 w-100 text-center"></div>
             </div>
         </div>
 
         {{-- submit button --}}
         <div class="row mt-2">
-            <div class="col-12 d-flex justify-content-center">
-                <button type="submit" class="btn btn-navy w-50" form="spot-form">Confirm</button>
+            <div class="col-12 d-flex justify-content-center pb-5">
+                <button type="submit" class="btn btn-navy w-50" form="spot-form">register spot</button>
             </div>
         </div>
     </div>
 </div>
 
 {{-- JS --}}
-<script src="{{ asset('js/spot/edit/edit-map.js') }}"></script>
+<script src="{{ asset('js/spot/create/add-map.js') }}"></script>
 <script async src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&libraries=places&callback=initMap"></script>
 <script src="{{ asset('js/spot/create/add-images.js') }}"></script>
 @endsection

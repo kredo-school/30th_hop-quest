@@ -22,6 +22,10 @@ class QuestLikeController extends Controller
     }
     
     public function storeQuestLike($quest_id){
+        if (!Auth::check()) {
+            return response()->json(['status' => 'error', 'message' => 'please login.'], 401);
+        }
+
         $this->quest_like->user_id = Auth::user()->id;
         $this->quest_like->quest_id = $quest_id; //post we are liking
         $this->quest_like->save();
@@ -31,6 +35,9 @@ class QuestLikeController extends Controller
     }
 
     public function deleteQuestLike($quest_id){
+        if (!Auth::check()) {
+            return response()->json(['status' => 'error', 'message' => 'please login.'], 401);
+        }
         //delete()
         $this->quest_like->where('user_id', Auth::user()->id)
                     ->where('quest_id', $quest_id)
