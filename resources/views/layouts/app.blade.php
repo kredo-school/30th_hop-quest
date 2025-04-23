@@ -120,7 +120,7 @@
                     </li>
                     <li class="nav-item my-auto">
                         <li class="nav-item my-auto">
-                            <a href="#" class="nav-link" href="">FAQ</a>
+                            <a href="{{ route('faq')}}" class="nav-link" href="">FAQ</a>
                         </li>
                         {{-- <li class="nav-item my-auto"> --}}
                             {{-- @if (Auth::user()->role_id == 1)

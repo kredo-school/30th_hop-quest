@@ -433,7 +433,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-2 faq-jump col-6 text-center justify-content-center align-items-center mt-5">
-                    <a href="#" class="text-decoration-none">
+                    <a href="{{ route('faq')}}" class="text-decoration-none">
                         <button class="btn-faq slide">
                             Read Full FAQ
                         </button>
