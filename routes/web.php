@@ -37,9 +37,6 @@ use App\Http\Controllers\Business\BusinessPromotionController;
 
 
 
-
-
-
 Route::get('/', function () {
     return view('welcome');
 });

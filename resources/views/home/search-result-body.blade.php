@@ -24,10 +24,10 @@
             <a href="{{ route('spot.show', $post->id )}}" class="">
 
         @elseif($class === 'Business' && $post->category_id === 1)
-            {{-- <a href="{{ route('business.show', $post->id )}}" class=""> --}}
+            <a href="{{ route('business.show', $post->id )}}" class="">
 
         @elseif($class === 'Business' && $post->category_id === 2)
-            {{-- <a href="{{ route('business.show', $post->id )}}" class=""> --}}
+            <a href="{{ route('business.show', $post->id )}}" class="">
 
         @endif
 
@@ -74,10 +74,10 @@
                     <a href="{{ route('spot.show', $post->id )}}" class="text-decoration-none">
 
                 @elseif($class === 'Business' && $post->category_id === 1)
-                    {{-- <a href="{{ route('business.show', $post->id )}}" class="text-decoration-none"> --}}
+                    <a href="{{ route('business.show', $post->id )}}" class="text-decoration-none">
 
                 @elseif($class === 'Business' && $post->category_id === 2)
-                    {{-- <a href="{{ route('business.show', $post->id )}}" class="text-decoration-none"> --}}
+                    <a href="{{ route('business.show', $post->id )}}" class="text-decoration-none">
 
                 @endif
                         <h4 class="card-title text-dark"><strong>{{ $post->title ?? $post->name }}</strong></h4>

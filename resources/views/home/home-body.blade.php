@@ -22,13 +22,13 @@
             <a href="{{ route('quest.show', $post->id )}}" class="">
 
         @elseif($class === 'Spot')
-            {{-- <a href="{{ route('spot.show', $post->id )}}" class=""> --}}
+            <a href="{{ route('spot.show', $post->id )}}" class="">
 
         @elseif($class === 'Business' && $post->category_id === 1)
-            {{-- <a href="{{ route('business.show', $post->id )}}" class=""> --}}
+            <a href="{{ route('business.show', $post->id )}}" class="">
 
         @elseif($class === 'Business' && $post->category_id === 2)
-            {{-- <a href="{{ route('business.show', $post->id )}}" class=""> --}}
+            <a href="{{ route('business.show', $post->id )}}" class="">
 
         @endif
 
@@ -196,7 +196,7 @@
                     </button>
                 </div>
 
-                {{--  --}}
+                {{-- Number of views --}}
                 <div class="col-auto d-flex ms-3">
                     <div>
                         <img src="{{ asset('images/chart.png')}}" alt="">
