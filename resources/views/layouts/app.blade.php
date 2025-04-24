@@ -5,39 +5,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>HopQuest | @yield('title')</title>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <!-- Custom CSS -->
-
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-style.css') }}">
     @yield('css')
-
     <!-- jQuery -->
     <script src="{{ asset('js/home/jquery-3.6.0.min.js') }}"></script>
-
     <!-- CSS of slick -->
     <link rel="stylesheet" href="{{ asset('css/slick/slick.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/slick/slick-theme.css') }}" />
-
     <!-- JS of slick -->
     <script src="{{ asset('js/home/slick.min.js') }}"></script>
-
 </head>
 
 <body>
@@ -64,8 +54,6 @@
                                 class="nav-img me-lg-5"><span class="color-navy fw-bold"></span></a>
                     @endif
                 @endguest
-
-
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -90,7 +78,6 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
@@ -100,7 +87,6 @@
                             <li class="nav-item my-auto">
                                 <a href="{{ route('home') }}" class="nav-link" href="">HOME</a>
                             </li>
-
                             <li class="nav-item dropdown my-auto">
                                 @if (Auth::user()->role_id == 3)
                                 @else
@@ -130,10 +116,10 @@
                             </li>
                             <li class="nav-item my-auto">
                             <li class="nav-item my-auto">
-                                <a href="#" class="nav-link" href="">FAQ</a>
+                                <a href="{{ route('faq') }}" class="nav-link" href="">FAQ</a>
                             </li>
-                            <li class="nav-item my-auto">
-                                {{-- @if (Auth::user()->role_id == 1)
+                            {{-- <li class="nav-item my-auto"> --}}
+                            {{-- @if (Auth::user()->role_id == 1)
                         <li class="nav-item my-auto">
                             <a href="" class="nav-link d-xl-block d-none" href="">For Business</a>
                             <a class="nav-link d-block d-xl-none text-center business"><img src="{{asset('images/navbar/icomoon-free--office.svg')}}" alt="For business"><br>business</a>
@@ -144,7 +130,6 @@
                                 <a id="navbarDropdown" class="nav-link btn " href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{-- {{ Auth::user()->name }} --}}
-
                                     {{-- DROPDOWN --}}
                                     @php
                                         $avatar = Auth::user()->avatar;
@@ -153,7 +138,6 @@
                                             (Str::startsWith($avatar, 'http') || Str::startsWith($avatar, 'data:'));
                                         $avatarPath = $check ? $avatar : ($avatar ? asset('storage/' . $avatar) : null);
                                     @endphp
-
                                     @if ($avatarPath)
                                         <img src="{{ $avatarPath }}" alt="avatar" class="rounded-circle avatar-sm">
                                     @else
@@ -167,54 +151,42 @@
                                         <a href="{{ route('profile.header', Auth::user()->id) }}" class="dropdown-item">
                                             <i class="fa-solid fa-circle-user"></i> Profile
                                         </a>
-                                        <!-- Dropdown menu -->
-                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                            {{-- PROFILE --}}
-                                            @if (Auth::user()->role_id == 1)
-                                                <a href="{{ route('profile.header', Auth::user()->id) }}"
-                                                    class="dropdown-item">
-                                                    <i class="fa-solid fa-circle-user"></i> Profile
-                                                </a>
-                                            @elseif(Auth::user()->role_id == 2)
-                                                <a href="{{ route('profile.header', Auth::user()->id) }}"
-                                                    class="dropdown-item">
-                                                    <i class="fa-solid fa-circle-user"></i> Profile
-                                                </a>
-                                            @elseif(Auth::user()->role_id == 3)
-                                                @can('admin')
-                                                    <a href="{{ route('admin.users.business', Auth::user()->id) }}"
-                                                        class="dropdown-item">
-                                                        <i class="fa-solid fa-circle-user"></i> Admin
-                                                    </a>
-                                                @endcan
-                                            @endif
-                                            <hr class="dropdown-divider">
-                                            <a class="dropdown-item" href="{{ route('home') }}"
-                                                onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();">
-                                                <i class="fa-solid fa-arrow-right-from-bracket"></i> {{ __('Logout') }}
+                                    @elseif(Auth::user()->role_id == 2)
+                                        <a href="{{ route('profile.header', Auth::user()->id) }}" class="dropdown-item">
+                                            <i class="fa-solid fa-circle-user"></i> Profile
+                                        </a>
+                                    @elseif(Auth::user()->role_id == 3)
+                                        @can('admin')
+                                            <a href="{{ route('admin.users.business', Auth::user()->id) }}"
+                                                class="dropdown-item">
+                                                <i class="fa-solid fa-circle-user"></i> Admin
                                             </a>
-
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                class="d-none">
-                                                @csrf
-                                            </form>
-                                        </div>
+                                        @endcan
+                                    @endif
+                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item" href="{{ route('home') }}"
+                                        onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                        <i class="fa-solid fa-arrow-right-from-bracket"></i> {{ __('Logout') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
                             </li>
                         @endguest
                     </ul>
                 </div>
             </div>
         </nav>
-
         <main class="pt-5">
             @yield('content')
         </main>
-
         {{-- フッターの追加 --}}
         <footer class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <small class="text-dark">&copy; 2025 Kredo 30th batch All Rights Reserved.</small>
+                <small class="text-dark">&copy; 2025 Kredo 30th batch All Rights Reserved.</small>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item my-auto"><a href="" class="nav-link">About us</a></li>
                     <li class="nav-item my-auto"><a href="" class="nav-link">Sitemap</a></li>
