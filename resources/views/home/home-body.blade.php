@@ -72,13 +72,13 @@
                     <a href="{{ route('quest.show', $post->id )}}" class="text-decoration-none">
 
                 @elseif($class === 'Spot')
-                    {{-- <a href="{{ route('spot.show', $post->id )}}" class="text-decoration-none"> --}}
+                    <a href="{{ route('spot.show', $post->id )}}" class="text-decoration-none">
 
                 @elseif($class === 'Business' && $post->category_id === 1)
-                    {{-- <a href="{{ route('business.show', $post->id )}}" class="text-decoration-none"> --}}
+                    <a href="{{ route('business.show', $post->id )}}" class="text-decoration-none">
 
                 @elseif($class === 'Business' && $post->category_id === 2)
-                    {{-- <a href="{{ route('business.show', $post->id )}}" class="text-decoration-none"> --}}
+                    <a href="{{ route('business.show', $post->id )}}" class="text-decoration-none">
 
                 @endif
                         <h4 class="card-title text-dark"><strong>{{ $post->title ?? $post->name }}</strong></h4>
@@ -90,17 +90,27 @@
 
                 {{-- User Icon --}}
                 <div class="col-auto ms-1">
+                    @php
+                        $avatar     = $post->user->avatar;
+                        $check      = $avatar && (Str::startsWith($avatar, 'http') || Str::startsWith($avatar, 'data:'));
+                        $avatarPath = $check ? $avatar : ($avatar ? asset('storage/'. $avatar) : asset('images/home/free-user.png'));
+                    @endphp
+
                     @auth
                         @if ($post->user->id === Auth::user()->id)
                             <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
-                                <img src="{{ $post->user->avatar ? $post->user->avatar : asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
+                                <img src="{{ $avatarPath }}" class="card-icon" alt="card-icon">
+                            </a>
+                        @else
+                            <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                                <img src="{{ $avatarPath }}" class="card-icon" alt="card-icon">
                             </a>
                         @endif
                     @endauth
 
                     @guest
                         <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
-                            <img src="{{ $post->user->avatar ? $post->user->avatar : asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
+                            <img src="{{ $avatarPath }}" class="card-icon" alt="card-icon">
                         </a>
                     @endguest
 
@@ -110,7 +120,7 @@
                 <div class="col-auto ms-1 pt-2">
                     @auth
                         @if ($post->user->id === Auth::user()->id && Auth::user()->role_id === 1)
-                            <a href="{{ route('myprofile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                            <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
                                 <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
                             </a>
                         @elseif ($post->user->role_id === 2)
@@ -118,7 +128,7 @@
                                 <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
                             </a>
                             @elseif ($post->user->id !== Auth::user()->id && Auth::user()->role_id === 1)
-                            <a href="{{ route('profile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                            <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
                                 <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
                             </a>
                         @endif
@@ -126,7 +136,7 @@
 
                     @guest
                         @if ($post->user->role_id === 1)
-                            <a href="{{ route('profile.show', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
+                            <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
                                 <h1 class="username h5"><strong>{{ $post->user->name }}</strong></h1>
                             </a>
                         @elseif ($post->user->role_id === 2)
