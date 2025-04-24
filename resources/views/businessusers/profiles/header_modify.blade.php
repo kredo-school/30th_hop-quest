@@ -62,7 +62,15 @@
                         @if($user->id == Auth::user()->id)
                             {{-- edit profile --}}
                             <div class="col-md-2 col-sm-3 ms-auto">
-                                <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
+                                @if(Auth::user()->role_id == 1)
+                                    <a href="{{route('myprofile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
+                                @elseif(Auth::user()->role_id == 2)
+                                    @if(Auth::user()->official_certification !== 2)
+                                        <a href="{{route('profile.edit', Auth::user()->id)}}" class="btn btn-sm btn-green mb-2 w-100">EDIT</a>
+                                    @else
+                                        <a href="" class="btn btn-sm btn-navy mb-2 w-100">REVIEWING</a>
+                                    @endif
+                                @endif
                             </div>
                             <div class="col-md-2 col-sm-3">
                                 <button class="btn btn-sm btn-red mb-2 w-100 " data-bs-toggle="modal" data-bs-target="#delete-profile{{ $user->id }}">DELETE</button>
