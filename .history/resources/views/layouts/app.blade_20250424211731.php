@@ -147,17 +147,28 @@
 
                                     {{-- DROPDOWN --}}
                                     @php
-                                        $avatar = Auth::user()->avatar;
+                                        $avatar = $post->user->avatar;
                                         $check =
-                                            $avatar &&
+                                        $avatar &&
                                             (Str::startsWith($avatar, 'http') || Str::startsWith($avatar, 'data:'));
-                                        $avatarPath = $check ? $avatar : ($avatar ? asset('storage/' . $avatar) : null);
+                                        $avatarPath = $check
+                                            ? $avatar
+                                            : ($avatar
+                                            ? asset('storage/' . $avatar)
+                                                : asset('images/home/free-user.png'));
                                     @endphp
-
-                                    @if ($avatarPath)
-                                        <img src="{{ $avatarPath }}" alt="avatar" class="rounded-circle avatar-sm">
+                                    
+                                        @if(Auth::user()->avatar)
+                                        @if (Str::startsWith(Auth::user()->avatar, 'http') || Str::startsWith(Auth::user()->avatar, 'data:'))
+                                            <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}"
+                                                class="rounded-circle avatar-sm">
+                                        @else
+                                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                                                alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm">
+                                        @endif
                                     @else
-                                        <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                                        <a href="{{ route('profile.header', Auth::user()->avatar) }}"><i
+                                                class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i></a>
                                     @endif
                                 </a>
                                 <!-- Dropdown menu -->
@@ -167,39 +178,30 @@
                                         <a href="{{ route('profile.header', Auth::user()->id) }}" class="dropdown-item">
                                             <i class="fa-solid fa-circle-user"></i> Profile
                                         </a>
-                                        <!-- Dropdown menu -->
-                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                            {{-- PROFILE --}}
-                                            @if (Auth::user()->role_id == 1)
-                                                <a href="{{ route('profile.header', Auth::user()->id) }}"
-                                                    class="dropdown-item">
-                                                    <i class="fa-solid fa-circle-user"></i> Profile
-                                                </a>
-                                            @elseif(Auth::user()->role_id == 2)
-                                                <a href="{{ route('profile.header', Auth::user()->id) }}"
-                                                    class="dropdown-item">
-                                                    <i class="fa-solid fa-circle-user"></i> Profile
-                                                </a>
-                                            @elseif(Auth::user()->role_id == 3)
-                                                @can('admin')
-                                                    <a href="{{ route('admin.users.business', Auth::user()->id) }}"
-                                                        class="dropdown-item">
-                                                        <i class="fa-solid fa-circle-user"></i> Admin
-                                                    </a>
-                                                @endcan
-                                            @endif
-                                            <hr class="dropdown-divider">
-                                            <a class="dropdown-item" href="{{ route('home') }}"
-                                                onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();">
-                                                <i class="fa-solid fa-arrow-right-from-bracket"></i> {{ __('Logout') }}
+                                    @elseif(Auth::user()->role_id == 2)
+                                        <a href="{{ route('profile.header', Auth::user()->id) }}" class="dropdown-item">
+                                            <i class="fa-solid fa-circle-user"></i> Profile
+                                        </a>
+                                    @elseif(Auth::user()->role_id == 3)
+                                        @can('admin')
+                                            <a href="{{ route('admin.users.business', Auth::user()->id) }}"
+                                                class="dropdown-item">
+                                                <i class="fa-solid fa-circle-user"></i> Admin
                                             </a>
+                                        @endcan
+                                    @endif
+                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item" href="{{ route('home') }}"
+                                        onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                        <i class="fa-solid fa-arrow-right-from-bracket"></i> {{ __('Logout') }}
+                                    </a>
 
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                class="d-none">
-                                                @csrf
-                                            </form>
-                                        </div>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
                             </li>
                         @endguest
                     </ul>
