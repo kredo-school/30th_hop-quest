@@ -26,21 +26,21 @@
     <li class="{{ request('section') == 'followers' ? 'active-item' : '' }}">
         <a href="{{ route('profile.header', ['id' => $user->id, 'section' => 'followers']) }}"
             class="text-decoration-none">
-            {{ $user->followers->count() == 1 ? 'follower' : 'followers' }}
+            Followers
         </a>
     </li>
 
     <li class="{{ request('section') == 'follows' ? 'active-item' : '' }}">
         <a href="{{ route('profile.header', ['id' => $user->id, 'section' => 'follows']) }}"
             class="text-decoration-none">
-            following
+            Following
         </a>
     </li>
 
     <li class="{{ request('section') == 'comments' ? 'active-item' : '' }}">
         <a href="{{ route('profile.header', ['id' => $user->id, 'section' => 'comments']) }}"
             class="text-decoration-none">
-            {{ $user->businessComments->count() + $user->questComments->count() + $user->spotComments->count() == 1 ? 'comment' : 'comments' }}
+            Comments
         </a>
     </li>
 </ul>

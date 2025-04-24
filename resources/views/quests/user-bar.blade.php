@@ -36,16 +36,9 @@
         <div class="row d-flex flex-wrap align-items-center bg-white rounded-3  h-100">
             {{-- User Icon --}}
             <div class="col-auto m-2 align-items-center">
-                @php
-                    $isOwnProfile = Auth::check() && Auth::id() === $quest_a->user->id;
-                    $profileRoute = $isOwnProfile
-                        ? route('myprofile.show')
-                        : route('profile.header', ['id' => $quest_a->user->id]);
-                @endphp
 
-                <a href="{{ $profileRoute }}" class="text-decoration-none h5 d-flex my-0">
-                    @if($quest_a->user->avatar)
-                        <img src="{{ $quest_a->user->avatar }}" class="avatar-md rounded-circle ms-0 ms-md-2" alt="icon">
+
+                
                 <a href="{{ route('profile.header', $quest_a->user->id) }}" class="text-decoration-none h5 d-flex my-0">
                     @if ($quest_a->user->avatar)
                         <img src="{{ $quest_a->user->avatar }}" class="avatar-md rounded-circle ms-0 ms-md-2"
