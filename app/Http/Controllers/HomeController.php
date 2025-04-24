@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FAQ;
 use App\Models\Spot;
 use App\Models\User;
 use App\Models\Quest;
 use App\Models\Business;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 
 class HomeController extends Controller
 
@@ -23,13 +24,15 @@ class HomeController extends Controller
     private $business;
     private $quest;
     private $spot;
+    private $faq;
 
-    public function __construct(User $user, Business $business, Quest $quest, Spot $spot)
+    public function __construct(User $user, Business $business, Quest $quest, Spot $spot, FAQ $faq)
     {
         $this->user = $user;
         $this->business = $business;
         $this->quest = $quest;
         $this->spot = $spot;
+        $this->faq = $faq;
         // $this->middleware('auth');
     }
 
@@ -1044,6 +1047,8 @@ public function showQuests(Request $request){
 
     public function showFAQ(){
 
-        return view('home.faq');
+        $faqs = $this->faq->orderBy('id')->get();
+        
+        return view('home.faq')->with('faqs', $faqs);
     }
 }
