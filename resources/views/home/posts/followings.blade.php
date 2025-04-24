@@ -31,6 +31,9 @@
                     <h4 class="h4 text-center text-secondary">No posts yet</h4>
                 @endforelse
                 </div>
+                <div class="d-flex justify-content-end mb-5">
+                    {{ $all_followings->links() }}
+                </div>
             </div>   
         </div>
         </div>

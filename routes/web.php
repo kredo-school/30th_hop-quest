@@ -139,6 +139,8 @@ Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
 
     Route::get('/edit/{spot_id}', [SpotController::class, 'showEdit'])->name('edit');
     Route::patch('/update/{spot_id}', [SpotController::class, 'update'])->name('update');
+    Route::delete('/{id}/deactivate', [SpotController::class, 'deactivate'])->name('deactivate');
+    Route::patch('/{id}/activate', [SpotController::class, 'activate'])->name('activate');
     
     // Spot Likes
     Route::get('/{spot}/likes/json', [SpotLikeController::class, 'getLikesJson']);

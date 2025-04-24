@@ -831,7 +831,10 @@ public function showQuests(Request $request){
                 break;  
         }
     
-        return view('home.posts.events', compact('events'));
+        return view('home.posts.events', [
+            'events' => $paginated,
+            'sort' => $sort, // Blade側で現在の並び順を表示するため
+        ]);
     }
 
     public function showFollowings(Request $request){
