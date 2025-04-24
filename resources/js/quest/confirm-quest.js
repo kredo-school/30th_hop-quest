@@ -1,38 +1,42 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("toggle-visibility-form");
     const checkbox = document.getElementById("togglePrivate");
-    const methodInput = document.getElementById("form-method");
     const submitBtn = document.getElementById("confirm-submit-btn");
 
-    const questId = form.dataset.questId;
     const restoreUrl = window.questRoutes.restoreUrl;
     const softDeleteUrl = window.questRoutes.softDeleteUrl;
-    console.log(restoreUrl);
-    console.log(softDeleteUrl);
 
-    // 初期状態でボタンテキスト更新（ページ読み込み時）
     updateButtonLabel();
 
-    // チェック状態が変わったときにボタンのラベル変更
     checkbox.addEventListener("change", updateButtonLabel);
 
-    // フォーム送信時の挙動切り替え
     form.addEventListener("submit", function (e) {
-        e.preventDefault(); // JS制御するからデフォルト動作止める
-    
-        if (checkbox.checked) {
-            methodInput.value = "DELETE";
-            form.action = softDeleteUrl;
-        } else {
-            methodInput.value = "POST";
-            form.action = restoreUrl;
+        e.preventDefault();
+
+        // 既存の _method input を削除（念のため）
+        const oldMethod = form.querySelector('input[name="_method"]');
+        if (oldMethod) {
+            oldMethod.remove();
         }
-    
-        form.submit(); // ← 送信だけでOK！リダイレクトはLaravelに任せる
+
+        // 新しく _method input を追加
+        const methodInput = document.createElement('input');
+        methodInput.setAttribute('type', 'hidden');
+        methodInput.setAttribute('name', '_method');
+
+        // ❗ここが変更点！
+        methodInput.value = checkbox.checked ? 'DELETE' : 'POST';
+
+        form.appendChild(methodInput);
+
+        // action切り替え
+        form.action = checkbox.checked ? softDeleteUrl : restoreUrl;
+
+        // 送信！
+        form.submit();
     });
 
     function updateButtonLabel() {
         submitBtn.textContent = checkbox.checked ? "Save" : "Confirmed";
     }
 });
-

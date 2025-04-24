@@ -6,7 +6,7 @@
 
 <div class="{{ Auth::user()->role_id === 1 ? 'bg-green' : 'bg-blue' }}">
     <div class="container py-5 col-9">
-        <h3 class="color-navy poppins-semibold text-center">Create Your Quest</h3>
+        <h3 class="color-navy poppins-semibold text-center">Add Quest</h3>
         <section>
             <form action="{{ request('quest_id') ? route('quest.update', request('quest_id')) : route('quest.store') }}" method="POST" enctype="multipart/form-data" id="form1" class="bg-white rounded-5 p-5 my-3">
 
