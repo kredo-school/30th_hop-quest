@@ -73,9 +73,9 @@
 
 
     {{-- view Google Maps --}}
+    <script src="{{ asset('js/spot/view/show-map.js') }}"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&libraries=places&callback=initMap"></script>
 
     {{-- view images --}}
     <script src="{{ asset('js/spot/view/show-spot.js') }}"></script>
-    <script src="{{ asset('js/spot/view/show-map.js') }}"></script>
 @endsection

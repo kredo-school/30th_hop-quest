@@ -16,7 +16,14 @@ function initMap() {
         locationBias: { lat: defaultLat, lng: defaultLng },
         fields: ['photos'],
         query: 'landmark',
+
     };
+    const marker = new google.maps.Marker({
+        position: { lat: defaultLat, lng: defaultLng },
+        map: map,
+        title: "Spot Location"
+      });
+      
 
     const photoContainer = document.getElementById("spot-photo-container");
     const existingImages = photoContainer.querySelectorAll("img");
