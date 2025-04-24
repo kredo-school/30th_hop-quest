@@ -136,8 +136,14 @@
                                 {{-- {{ Auth::user()->name }} --}}
 
                             {{-- DROPDOWN --}}
-                            @if(Auth::user()->avatar)
-                                <img src="{{Auth::user()->avatar}}" alt="" class="rounded-circle avatar-sm">
+                            @php
+                                $avatar     = Auth::user()->avatar;
+                                $check      = $avatar && (Str::startsWith($avatar, 'http') || Str::startsWith($avatar, 'data:'));
+                                $avatarPath = $check ? $avatar : ($avatar ? asset('storage/'. $avatar) : null);
+                            @endphp
+
+                            @if($avatarPath)
+                                <img src="{{ $avatarPath }}" alt="avatar" class="rounded-circle avatar-sm">
                             @else
                                 <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
                             @endif
