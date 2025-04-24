@@ -80,9 +80,9 @@
                 alt=""
                 class="rounded-circle avatar-xl d-block mx-auto">
             
-                {{-- <i id="default-icon"
-                    class="fa-solid fa-circle-user text-secondary profile-xl rounded-circle d-block mx-auto"
-                    style="{{ Auth::user()->avatar ? 'display:none;' : '' }}"></i> --}}
+                <i id="default-icon"
+                    class="fa-solid fa-circle-user text-secondary profile-xl rounded-circle d-block d-none">
+                    </i>
             
                 <button type="button" class="btn btn-outline-red delete-avatar" id="delete-avatar" >
                     <i class=" fa-solid fa-trash-can" ></i>

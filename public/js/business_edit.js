@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 削除ボタンクリックで画像削除処理
     deleteBtn.addEventListener('click', function () {
-        if (!confirm('画像を削除しますか？')) return;
+        // if (!confirm('画像を削除しますか？')) return;
 
         fetch("http://127.0.0.1:8000/profile/image", {
             method: "DELETE",
@@ -53,7 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 preview.src = '';
                 preview.style.display = 'none';
                 if (icon) icon.style.display = 'block';
-                alert('画像を削除しました');
+                // alert('画像を削除しました');
+                
             } else {
                 alert('削除に失敗しました');
             }
