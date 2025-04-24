@@ -27,8 +27,16 @@
         </div>
     </div> 
 {{-- User information --}}
+@if($user->role_id == 1)
+<div class="row justify-content-center mt-2 mb-0">
+    <div class="col-2 sidebar ps-5 poppins-bold">
+        @include('businessusers.profiles.partial.sidebar')
+    </div>
+    <div class="col-8 ms-5 ps-5">
+@else
 <div class="row justify-content-center mt-2 mb-0">        
     <div class="col-8">
+@endif 
         <div class="profile-header position-relative"> 
             <div class="row">
                 <!-- Avatar image -->
