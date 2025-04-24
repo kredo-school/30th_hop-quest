@@ -75,10 +75,17 @@
             <!-- Avatar image -->
 
             <div class="col-auto profile-image">
-                <img id="avatar-preview"
-                src="{{ Auth::user()->avatar ?? asset('images/profiles/profile-circle-user.jpg') }}"
-                alt=""
-                class="rounded-circle avatar-xl d-block mx-auto">
+                @if(Auth::user()->role_id == 1)
+                    <img id="avatar-preview"
+                    src="{{ Auth::user()->avatar ?? asset('images/profiles/profile-circle-tourist.jpg') }}"
+                    alt=""
+                    class="rounded-circle avatar-xl d-block mx-auto">
+                @elseif(Auth::user()->role_id == 2)
+                    <img id="avatar-preview"
+                    src="{{ Auth::user()->avatar ?? asset('images/profiles/profile-circle-user.jpg') }}"
+                    alt=""
+                    class="rounded-circle avatar-xl d-block mx-auto">
+                @endif
             
                 <i id="default-icon"
                     class="fa-solid fa-circle-user text-secondary profile-xl rounded-circle d-block d-none">
