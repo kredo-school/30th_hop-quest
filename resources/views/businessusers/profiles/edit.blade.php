@@ -75,34 +75,18 @@
             <!-- Avatar image -->
 
             <div class="col-auto profile-image">
-                {{-- @php
-                    $avatar     = Auth::user()->avatar;
-                    $check      = $avatar && (Str::startsWith($avatar, 'http') || Str::startsWith($avatar, 'data:'));
-                    $avatarPath = $check ? $avatar : ($avatar ? asset('storage/'. $avatar) : asset('images/home/free-user.png'));
-                @endphp
-                <img src="{{ $avatarPath }}" > --}}
+       
+       
                 @if(Auth::user()->role_id == 1)
-                    @php
-                        $avatar     = Auth::user()->avatar;
-                        $check      = $avatar && (Str::startsWith($avatar, 'http') || Str::startsWith($avatar, 'data:'));
-                        $avatarPath = $check ? $avatar : ($avatar ? asset('storage/'. $avatar) : asset('images/profiles/profile-circle-tourist.jpg'));
-                    @endphp
-                    <img src="{{ $avatarPath }}" class="rounded-circle avatar-xl d-block mx-auto">
-                    {{-- <img id="avatar-preview"
+                    <img id="avatar-preview"
                     src="{{ Auth::user()->avatar ?? asset('images/profiles/profile-circle-tourist.jpg') }}"
                     alt=""
-                    class="rounded-circle avatar-xl d-block mx-auto"> --}}
+                    class="rounded-circle avatar-xl d-block mx-auto">
                 @elseif(Auth::user()->role_id == 2)
-                    @php
-                        $avatar     = Auth::user()->avatar;
-                        $check      = $avatar && (Str::startsWith($avatar, 'http') || Str::startsWith($avatar, 'data:'));
-                        $avatarPath = $check ? $avatar : ($avatar ? asset('storage/'. $avatar) : asset('images/profiles/profile-circle-user.jpg'));
-                    @endphp
-                    <img src="{{ $avatarPath }}" class="rounded-circle avatar-xl d-block mx-auto">
-                    {{-- <img id="avatar-preview"
+                    <img id="avatar-preview"
                     src="{{ Auth::user()->avatar ?? asset('images/profiles/profile-circle-user.jpg') }}"
                     alt=""
-                    class="rounded-circle avatar-xl d-block mx-auto"> --}}
+                    class="rounded-circle avatar-xl d-block mx-auto">
                 @endif
             
                 <i id="default-icon"
