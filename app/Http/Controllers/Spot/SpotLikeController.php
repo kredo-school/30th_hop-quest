@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Spot;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 use App\Models\Spot;
@@ -12,6 +13,7 @@ use App\Models\User;
 use App\Models\SpotLike;
 
 class SpotLikeController extends Controller
+
 {
     private $spot;
     private $user;
@@ -24,7 +26,7 @@ class SpotLikeController extends Controller
         $this->spot_like = $spot_like;
     }
 
-    public function show($id)
+    public function show($spot_id)
     {
         $spot = Spot::findOrFail($spot_id);
         
@@ -43,23 +45,9 @@ class SpotLikeController extends Controller
 
     }
 
-    public function store(Request $request)
-    {
-        $spot = Spot::findOrFail($spot_id);
-        
-        $this->like
-            ->where('user_id', Auth::user()->id)
-            ->where('spot_id', $spot_id)
-            ->delete();
-
-        // return redirect()->back();
-        return response()->json(['status' => 'success']);
-
-    }
-
     public function getLikesJson($spotId){
         $spot = Spot::with('likes.user')->findOrFail($spotId);
-        $authUser = auth()->user();
+        $authUser = Auth::user();
 
         $likes = $spot->likes->map(function ($like) use ($authUser) {
             $user = $like->user;

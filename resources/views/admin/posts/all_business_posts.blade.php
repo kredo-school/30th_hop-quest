@@ -40,7 +40,7 @@
                     <td >
                         <a href="#" class="text-decoration-none text-dark fw-bold">
                         @if($post->main_image)
-                            <img src="{{ $post->main_image }}" alt="" class="img-md d-block mx-auto">
+                            <img src="{{ $post->main_image }}" alt="" class="img-sm d-block mx-auto">
                         @else
                             <i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i>
                         @endif

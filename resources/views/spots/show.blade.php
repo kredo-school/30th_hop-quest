@@ -14,7 +14,7 @@
         <div class="col-11 col-md-9">
             <div class="py-4 position-relative w-100">
                 <div class="spot-main-image text-center px-0 rounded-3">
-                    <img src="{{ asset($spot->main_image) }}" alt="{{ $spot->title }}" class="h-auto-md-down rounded-3">
+                    <img src="{{ $spot->main_image }}" alt="{{ $spot->title }}" class="h-auto-md-down rounded-3">
                     <h5 class="spot-image-caption w-100 px-3">{{ $spot->title }}</h5>
                 </div>
             </div>

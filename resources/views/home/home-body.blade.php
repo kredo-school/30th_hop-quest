@@ -32,11 +32,11 @@
 
         @endif
 
-                @if ($post->main_image)
-                    <img src="{{ asset('storage/' . $post->main_image) }}" class="card-img-top body-image" alt="image">
-                @else
-                    <img src="{{ asset('storage/app/public/images/home/noImage.jpg')}}" class="card-img-top body-image" alt="image">
-                @endif
+            @if(Str::startsWith($post->main_image, 'http') || Str::startsWith($post->main_image, 'data:'))
+                <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="card-img-top body-image" alt="image">
+            @else
+                <img src="{{ asset('storage/' . $post->main_image) }}" alt="{{ $post->title }}" class="card-img-top body-image" alt="image">
+            @endif
             </a>
 
         {{-- Card Body --}}

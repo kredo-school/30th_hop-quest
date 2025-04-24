@@ -91,7 +91,7 @@
                         @if($post['avatar'])                           
                             <a href="{{ route('profile.header', $post['user_id']) }}"><img src="{{ $post['avatar'] }}" alt="" class="rounded-circle avatar-sm"></a>
                         @else
-                        <a href="{{ route('profile.header', $post['user_id']) }}"><i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i></a>                          
+                            <a href="{{ route('profile.header', $post['user_id']) }}"><i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i></a>                          
                         @endif
                     </button>
                 </div>

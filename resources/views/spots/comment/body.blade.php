@@ -46,7 +46,11 @@
                     {{-- User Icon --}}
                     <div class="comment-user-icon" id="usericon">
                         <a href="{{ route('profile.header', $comment->user->id) }}" class="spot-user-link">
-                            <img src="{{ asset($comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="spot-user-avatar">
+                        @if(Str::startsWith($comment->user->avatar, 'http') || Str::startsWith($comment->user->avatar, 'data:'))
+                            <img src="{{ $comment->user->avatar}}" alt="{{ $comment->user->name }}" class="rounded-circle avatar-sm">
+                        @else
+                            <img src="{{ asset('storage/' . $comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="rounded-circle avatar-sm">
+                        @endif
                         </a>
                     </div>
                     {{-- User Name --}}

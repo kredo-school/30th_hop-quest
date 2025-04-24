@@ -22,7 +22,7 @@
                     </div>
 
                     @if($business->official_certification==3)
-                        <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official" alt="official">              
+                        <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official-badge" alt="official">              
                     @else
                     @endif
                 </div>
@@ -343,6 +343,7 @@
                 <h2 class="quest-title">
                     Model Quest
                 </h2>
+                {{-- @include('businessusers.profiles.quests') --}}
 
 
             </section>
@@ -355,7 +356,7 @@
 
             <!-- Comments Section -->
             <hr>
-            {{-- @include('businessusers.posts.businesses.partials.comment_body') --}}
+            @include('businessusers.posts.businesses.partials.comment_body')
             <div class="d-flex justify-content-center mt-3">
                 {{-- {{ $business_comments->links() }} --}}
             </div>

@@ -45,25 +45,19 @@
                     {{-- コメント投稿者の情報 --}}
                     {{-- コメント投稿者の情報 --}}
                     <div class="comment-header my-2 d-flex align-items-center">
-                        @php
-                            $isOwnComment = Auth::check() && Auth::id() === $comment->user_id;
-                            $profileRoute = $isOwnComment
-                                ? route('myprofile.show')
-                                : route('profile.header', ['id' => $comment->user_id]);
-                        @endphp
 
                         {{-- アバターリンク --}}
-                        <a href="{{ $profileRoute }}" class="text-decoration-none d-flex align-items-center me-2">
-                            @if ($comment->user->avatar)
-                                <img src="{{ asset('storage/' . ltrim($comment->user->avatar, '/')) }}" class="avatar-sm rounded-circle" alt="user icon">
+                        <a href="{{ route('profile.header', ['id' => $comment->user_id]) }}" class="text-decoration-none d-flex align-items-center me-2">
+                            @if(Str::startsWith($comment->user->avatar, 'http') || Str::startsWith($comment->user->avatar, 'data:'))
+                                <img src="{{ $comment->user->avatar}}" alt="{{ $comment->user->name }}" class="rounded-circle avatar-sm">
                             @else
-                                <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                                <img src="{{ asset('storage/' . $comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="rounded-circle avatar-sm">
                             @endif
                         </a>
 
                         {{-- ユーザー名リンク --}}
                         <div class="d-flex align-items-center flex-wrap">
-                            <a href="{{ $profileRoute }}" class="text-decoration-none">
+                            <a href="{{ route('profile.header', ['id' => $comment->user_id]) }}" class="text-decoration-none text-dark">
                                 <span class="username h6 mb-0"><strong>{{ $comment->user->name }}</strong></span>
                             </a>
                             {{-- 認証バッジ（任意） --}}

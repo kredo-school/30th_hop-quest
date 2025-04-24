@@ -508,6 +508,8 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'category_id' => null,
                 'tab_id' => 4,
                 'duration' => $item->duration,
+                'start_date' => $item->start_date,
+                'end_date' => $item->end_date,
                 'official_certification' => null,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
