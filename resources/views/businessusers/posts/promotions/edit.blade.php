@@ -15,7 +15,7 @@
                     <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items)<p>
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-sm btn-red mb-2 w-100" data-bs-toggle="modal" data-bs-target="#delete-promotion">DELETE</button>
+                    <button class="btn btn-sm btn-red mb-2 w-100" data-bs-toggle="modal" data-bs-target="#delete-business_promotion{{$business_promotion->id}}">DELETE</button>
                 </div>
                 @include('businessusers.posts.promotions.modals.delete')
             </div>
@@ -85,17 +85,15 @@
             </div>
             {{-- File --}}
             <div class="row mb-3 ">
-                <div class="col">
-                    <label for="image" class="form-label">Photo upload<span class="color-red">*</span></label>
-                </div> 
-                <div class="row">  
+ 
                     <div class="col-4">
+                        <label for="image" class="form-label d-block">Photo upload<span class="color-red">*</span></label>
                         @if($business_promotion->image)
                             <img src="{{$business_promotion->image}}" class="img-lg mb-2"  alt="Promotion image">
                         @else
                             <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
                         @endif
-                        <input type="file" name="image" id="image" class="form-control form-control-sm w-100 mb-auto p-2" >
+                            <input type="file" name="image" id="image" class="form-control form-control-sm w-100 mb-auto p-2" >
                     </div>
                     @error('image')
                     <p class="mb-0 text-danger small">{{ $message }}</p>
@@ -104,7 +102,7 @@
                         Acceptable formats: jpeg, jpg, png, gif only <br>
                         Max file size is 1048 KB
                     </p>
-                </div>
+                {{-- </div> --}}
             </div>
             {{-- Buttons --}}
             <div class="row mt-3 justify-content-center">

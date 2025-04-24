@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/js/quest/view-quest.js',
                 'resources/js/quest/comment/quest-comment',
                 'resources/js/quest/map.js',
+                // 'resources/js/profile_edit.jsprofile_edit.js',
             ],
             refresh: true,
         }),

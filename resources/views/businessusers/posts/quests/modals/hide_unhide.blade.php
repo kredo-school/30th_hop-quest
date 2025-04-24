@@ -14,14 +14,18 @@
                     <p class="text-dark">{{$post['title']}}</p>
                 </div>
                 <div class="mb-2">
-                    <img src="{{$post['main_image']}}" alt="image" class=" img-lg">
+                    @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class=" img-sm">
+                    @else
+                        <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="img-sm">
+                    @endif
                 </div>
                 <div>
                     <p class="text-dark card_description">{{$post['introduction']}}</p>
                 </div>
             </div>
             <div class="modal-footer border-0">
-                <form action="{{ route('quests.deactivate', $post['id'])}}" method="post">
+                <form action="{{ route('quest.softDelete', $post['id'])}}" method="post">
                     @csrf
                     @method('DELETE')
                     <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-outline-red">Cancel</button>
@@ -48,14 +52,18 @@
                     <p class="text-dark">{{$post['title']}}</p>
                 </div>
                 <div class="mb-2">
-                    <img src="{{$post['main_image']}}" alt="image" class="img-lg">
+                    @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class=" img-sm">
+                    @else
+                        <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="img-sm">
+                    @endif
                 </div>
                 <div>
                     <p class="text-dark card_description">{{$post['introduction']}}</p>
                 </div>
             </div>
             <div class="modal-footer border-0">
-                <form action="{{route('quests.activate', $post['id'])}}" method="post">
+                <form action="{{route('quest.restore', $post['id'])}}" method="post">
                     @csrf
                     @method('PATCH')
                     <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-outline-green">Cancel</button>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessDetail;
+use App\Models\BusinessComment;
 use App\Models\BusinessInfoCategory;
 use App\Models\BusinessHour;
 use App\Models\Photo;
@@ -15,6 +16,7 @@ use App\Models\BusinessPromotion;
 use App\Http\Controllers\Business\PhotoController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class BusinessController extends Controller
 {
@@ -22,27 +24,30 @@ class BusinessController extends Controller
     private $business;
     private $business_promotion;
     private $business_hour;
-    private $business_info_category;
     private $photo;
+    private $businessDetail;
+    private $business_info_category;
 
-    public function __construct(Photo $photo, Business $business, User $user, BusinessPromotion $business_promotion, BusinessHour $business_hour, BusinessInfoCategory $business_info_category){
+    public function __construct(Photo $photo, Business $business, User $user, 
+        BusinessPromotion $business_promotion, BusinessHour $business_hour, BusinessInfoCategory $business_info_category)
+    {
+        $this->user = $user;
         $this->photo = $photo;
         $this->business = $business;
         $this->business_promotion = $business_promotion;
         $this->business_hour = $business_hour;
         $this->business_info_category = $business_info_category;
-        $this->user = $user;
-        $this->business_promotion = $business_promotion;
-        $this->business_hour = $business_hour;
     }
 
     public function create(){
         $all_businesses = $this->business->where('user_id', Auth::user()->id)->latest()->get();
         $business_info_category = BusinessInfoCategory::with('businessInfos')->get();
+        
         return view('businessusers.posts.businesses.add')
             ->with('all_businesses', $all_businesses)
             ->with('business_info_category', $business_info_category);
     }
+
 
     public function store(Request $request){
         $request->validate([
@@ -65,7 +70,9 @@ class BusinessController extends Controller
         
         // main_imageがある場合のみ処理
         if ($request->hasFile('main_image')) {
-            $this->business->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
+            // 画像をストレージに保存
+            $imagePath = $request->file('main_image')->store('images/businesses', 'public');
+            $this->business->main_image = '/' . $imagePath;
         } else {
             // デフォルト画像を設定するか、nullのままにする
             $this->business->main_image = null;
@@ -114,12 +121,13 @@ class BusinessController extends Controller
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $i => $photo) {
                 if ($photo) {
-                    $encoded = "data:image/" . $photo->extension() . ";base64," . base64_encode(file_get_contents($photo));
+                    // 画像をストレージに保存
+                    $imagePath = $photo->store('images/businesses/photos', 'public');
                     $priority = $request->input("priorities.$i") ?? ($i + 1);
     
                     Photo::create([
                         'business_id' => $this->business->id,
-                        'image' => $encoded,
+                        'image' => '/' . $imagePath,
                         'priority' => $priority,
                     ]);
                 }
@@ -190,7 +198,15 @@ class BusinessController extends Controller
         
         // main_imageがある場合のみ処理
         if ($request->hasFile('main_image')) {
-            $business_a->main_image = "data:image/".$request->main_image->extension().";base64,".base64_encode(file_get_contents($request->main_image));
+            // 既存の画像があれば削除（オプション）
+            if ($business_a->main_image && !Str::startsWith($business_a->main_image, 'data:')) {
+                $oldPath = ltrim($business_a->main_image, '/');
+                Storage::disk('public')->delete($oldPath);
+            }
+            
+            // 新しい画像を保存
+            $imagePath = $request->file('main_image')->store('images/businesses', 'public');
+            $business_a->main_image = '/' . $imagePath;
         } else {
             // デフォルト画像を設定するか、nullのままにする
             $business_a->main_image = null;
@@ -250,17 +266,22 @@ class BusinessController extends Controller
     {
         try {
             $business = $this->business->findOrFail($id);
-            $business_promotion = $this->business_promotion->where('business_id', $id)->get();
+            $business_promotion = BusinessPromotion::where('business_id', $id)->get();
             $business_hour = $this->business_hour->where('business_id', $id)->get();
             $business_info_category = BusinessInfoCategory::with(['businessInfos' => function($query) use ($id) {
                 $query->with(['businessDetails' => function($query) use ($id) {
                     $query->where('business_id', $id);
                 }]);
             }])->get();
+            $business_comments = BusinessComment::with(['user', 'BusinessCommentlikes'])
+            ->where('business_id', $id)
+            ->latest() // created_at の新しい順
+            ->paginate(5); // 5件ずつ
 
             return view('businessusers.posts.businesses.show')
                     ->with('business', $business)
                     ->with('business_hour', $business_hour)
+                    ->with('business_comments', $business_comments)
                     ->with('business_info_category', $business_info_category)
                     ->with('business_promotion', $business_promotion);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {

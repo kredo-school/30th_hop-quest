@@ -63,10 +63,6 @@ class Business extends Model
         return $this->hasMany(BusinessComment::class);
     }
 
-    public function likes(){
-        return $this->hasMany(BusinessLike::class);
-    }
-
     public function comments(){
         return $this->hasMany(BusinessComment::class);
     }
@@ -77,5 +73,9 @@ class Business extends Model
 
     public function businessHours(){
         return $this->hasMany(BusinessHour::class);
+    }
+
+    public function likes(){
+        return $this->hasMany(BusinessLike::class);
     }
 }

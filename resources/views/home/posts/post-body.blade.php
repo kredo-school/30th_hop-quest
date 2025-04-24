@@ -67,9 +67,20 @@
             {{-- Title --}}
             <div class="row mb-2">
                 <div class="col p-0">
-                    <a href="#" class="text-decoration-none">
-                        <h4 class="card-title text-dark fw-bold">{{ $post['title'] }}</h4>
-                    </a>
+                    @if($post['type'] == 'businesses')
+                        <a href="{{route('business.show', $post['id'])}}"  class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-1">{{ $post['title'] }}</h4>
+                        </a>
+                    @elseif($post['type'] == 'spots')
+                        <a href="{{ route('spot.show', $post['id']) }}" class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-1">{{ $post['title'] }}</h4>
+                        </a>
+                    @elseif($post['type'] == 'quests')
+                        <a href="{{route('quest.show', $post['id'])}}"  class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-1">{{ $post['title'] }}</h4>
+                        </a>
+                    @endif
+
                 </div>
             </div>
             {{-- Icon & Name & Official mark --}}
@@ -77,17 +88,17 @@
                 {{-- User Icon --}}
                 <div class="col-md-auto col-sm-2 my-auto p-0">                   
                     <button class="btn">
-                        @if($post['avatar'])
-                            <img src="{{ $post['avatar'] }}" alt="" class="rounded-circle avatar-sm">
+                        @if($post['avatar'])                           
+                            <a href="{{ route('profile.header', $post['user_id']) }}"><img src="{{ $post['avatar'] }}" alt="" class="rounded-circle avatar-sm"></a>
                         @else
-                            <i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i>
+                        <a href="{{ route('profile.header', $post['user_id']) }}"><i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i></a>                          
                         @endif
                     </button>
                 </div>
             
                 {{-- User Name --}}
                 <div class="col-md-auto col-sm-6 ms-2 p-0">
-                    <a href="#" class="text-decoration-none h5 d-inline align-items-center">
+                    <a href="{{ route('profile.header', $post['user_id']) }}" class="text-decoration-none h5 d-inline align-items-center">
                         <p class="username h4 my-auto" id="username">{{ $post['user_name'] }}</p></a>                 
                 </div>
 
@@ -102,30 +113,37 @@
                 </script>
 
                 {{-- User official mark --}}
-                <div class="col-md-auto col-sm-1 pb-2 p-1">
-                    @if($post['user_official_certification'] == 2)
+                <div class="col-md-auto col-sm-1 mt-1 p-1">
+                    @if($post['user_official_certification'] == 3)
                         <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0" alt="official-personal">
-                    @elseif($post['user_official_certification'] == 1)
+                    @else
                     @endif
                 </div>
 
                 {{-- Follow Button --}}
-                @if($post['user_id'] != Auth::user()->id)
-                    <div class="col-md-auto col-sm ms-auto p-0 mt-3">
-                        @if ($post['user']->isFollowed())
-                            <form method="POST" action="{{ route('follow.delete', $post['user']->id) }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn-following mb-2 w-100">Following</button>
-                            </form>
-                        @else
-                            <form method="POST" action="{{ route('follow.store', $post['user']->id) }}">
-                                @csrf
-                                <button type="submit" class="btn-follow mb-2 w-100">Follow</button>
-                            </form>
-                        @endif
-                    </div> 
-                @endif
+                @auth
+                    @if($post['user_id'] != Auth::user()->id)
+                        <div class="col-md-auto col-sm ms-auto p-0 mt-3">
+                            @if ($post['user']->isFollowed())
+                                <form method="POST" action="{{ route('follow.delete', $post['user']->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-following mb-2 w-100">Following</button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('follow.store', $post['user']->id) }}">
+                                    @csrf
+                                    <button type="submit" class="btn-follow mb-2 w-100">Follow</button>
+                                </form>
+                            @endif
+                        </div> 
+                    @endif
+                @endauth
+                
+                @guest
+                    
+                @endguest
+
             </div>
             
             {{-- Heart icon & Like function --}}

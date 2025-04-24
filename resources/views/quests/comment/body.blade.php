@@ -17,45 +17,44 @@
                 </div>
             </form>
             @if ($errors->has('content'))
-                    <div class="text-danger">
-                        {{ $errors->first('content') }}
-                    </div>
+                <div class="text-danger">
+                    {{ $errors->first('content') }}
+                </div>
             @endif
         @else
-                <p>If you want to post comments and like comments, please <a href="{{ route('login') }}">login</a>.</p>
+            <p>If you want to post comments and like comments, please <a href="{{ route('login') }}">login</a>.</p>
         @endauth
     </div>
 
     {{-- コメント一覧 --}}
-    @if($quest_a->questcomments->isNotEmpty())
+    @if ($quest_a->questcomments->isNotEmpty())
         <div class="comment-container">
-            @foreach($quest_a->questcomments as $comment)
+            @foreach ($quest_a->questcomments as $comment)
                 <div class="comment-content">
                     @auth
                         {{-- ゴミ箱アイコン（本人のみ表示） --}}
-                        @if(Auth::user()->id === $comment->user_id)
-                            <button class="comment-trash" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $comment->id }}">
+                        @if (Auth::user()->id === $comment->user_id)
+                            <button class="comment-trash" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal-{{ $comment->id }}">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                             {{-- Include Delete Modal --}}
-                            @include('quests.comment.modals.delete', ['comment' => $comment, 'quest_a' => $quest_a])
+                            @include('quests.comment.modals.delete', [
+                                'comment' => $comment,
+                                'quest_a' => $quest_a,
+                            ])
                         @endif
                     @endauth
 
                     {{-- コメント投稿者の情報 --}}
                     {{-- コメント投稿者の情報 --}}
                     <div class="comment-header my-2 d-flex align-items-center">
-                        @php
-                            $isOwnComment = Auth::check() && Auth::id() === $comment->user_id;
-                            $profileRoute = $isOwnComment
-                                ? route('myprofile.show')
-                                : route('profile.header', ['id' => $comment->user_id]);
-                        @endphp
-
                         {{-- アバターリンク --}}
-                        <a href="{{ $profileRoute }}" class="text-decoration-none d-flex align-items-center me-2">
+                        <a href="{{ route('profile.header', $comment->user->id) }}"
+                            class="text-decoration-none d-flex align-items-center me-2">
                             @if ($comment->user->avatar)
-                                <img src="{{ asset('storage/' . ltrim($comment->user->avatar, '/')) }}" class="avatar-sm rounded-circle" alt="user icon">
+                                <img src="{{ asset('storage/' . ltrim($comment->user->avatar, '/')) }}"
+                                    class="avatar-sm rounded-circle" alt="user icon">
                             @else
                                 <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
                             @endif
@@ -63,11 +62,11 @@
 
                         {{-- ユーザー名リンク --}}
                         <div class="d-flex align-items-center flex-wrap">
-                            <a href="{{ $profileRoute }}" class="text-decoration-none">
+                            <a href="{{ route('profile.header', $comment->user->id) }}" class="text-decoration-none">
                                 <span class="username h6 mb-0"><strong>{{ $comment->user->name }}</strong></span>
                             </a>
                             {{-- 認証バッジ（任意） --}}
-                            {{-- @if(optional($comment->user)->official_certification == 2)
+                            {{-- @if (optional($comment->user)->official_certification == 2)
                                 <img src="{{ asset('images/logo/official_personal.png') }}" class="avatar-xs ms-2" alt="official badge">
                             @endif --}}
                         </div>
@@ -86,36 +85,39 @@
 
                     {{-- いいねなどのアクション --}}
                     <div class="comment-actions d-flex justify-content-end gap-3">
-                        <div class="comment-action-item">
-                            <form action="{{ route('questcomment.toggleLike', $comment->id) }}" method="POST" data-comment-id="{{ $comment->id }}" class="like-comment-form">
-                                
-                                @csrf
-                                <button type="submit" class="btn btn-sm shadow-none comment-like-btn">
-                                    <i class="{{ $comment->QuestCommentlikes->where('user_id', Auth::id())->isNotEmpty() ? 'fa-solid text-danger' : 'fa-regular' }} fa-heart"></i>
-                                </button>
-                            </form>
-                            <button class="btn btn-sm p-0 text-center open-comment-likes-modal"
-                                data-bs-toggle="modal"
-                                data-bs-target="#comment-likes-modal-{{ $comment->id }}"
-                                data-comment-id="{{ $comment->id }}">
-                                <span class="count comment-like-count" data-comment-id="{{ $comment->id }}">
-                                    {{ $comment->QuestCommentlikes->count() }}
-                                </span>
-                            </button>
+                        <div class="comment-actions d-flex justify-content-end gap-3">
+                            <div
+                                class="comment-action-item d-flex align-items-center position-relative like-button-wrapper">
+                                <form action="{{ route('questcomment.toggleLike', $comment->id) }}" method="POST"
+                                    data-comment-id="{{ $comment->id }}" class="like-comment-form me-1">
+                                    @csrf
+                                    <button type="submit"
+                                        class="btn btn-sm shadow-none comment-like-btn @guest like-disabled @endguest">
+                                        <i
+                                            class="{{ $comment->QuestCommentlikes->where('user_id', Auth::id())->isNotEmpty() ? 'fa-solid text-danger' : 'fa-regular' }} fa-heart"></i>
+                                    </button>
+                                </form>
 
-                        </div>
-                        <div class="comment-action-item">
-                            <i class="fa-solid fa-chart-simple"></i>
-                            <button class="btn btn-sm p-0 text-center">
-                                <span class="count">0</span> {{-- 閲覧数機能が必要なら別途追加 --}}
-                            </button>
+                                @guest
+                                    <div class="login-tooltip d-none">
+                                        Please login to like comments
+                                    </div>
+                                @endguest
+
+                                <button class="btn btn-sm p-0 text-center open-comment-likes-modal"
+                                    data-bs-toggle="modal" data-bs-target="#comment-likes-modal-{{ $comment->id }}"
+                                    data-comment-id="{{ $comment->id }}">
+                                    <span class="count comment-like-count" data-comment-id="{{ $comment->id }}">
+                                        {{ $comment->QuestCommentlikes->count() }}
+                                    </span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 @include('quests.comment.modals.like')
-                @endforeach
-            </div>
-        @endif
+            @endforeach
+        </div>
+    @endif
 
-        @vite('resources/js/quest/comment/quest-comment.js')
-
+    @vite('resources/js/quest/comment/quest-comment.js')

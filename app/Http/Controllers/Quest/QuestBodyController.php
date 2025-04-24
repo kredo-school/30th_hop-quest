@@ -56,7 +56,7 @@ class QuestBodyController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $filename = time() . '_' . $image->getClientOriginalName();
-                $filePath = $image->storeAs('images/quest', $filename, 'public');
+                $filePath = $image->storeAs('images/quests', $filename, 'public');
                 $imageDataList[] = $filePath;
             }
         }else{
@@ -146,7 +146,7 @@ class QuestBodyController extends Controller
             foreach ($request->file('images') as $image) {
                 if ($image && $image->isValid()) {
                     $filename = time() . '_' . $image->getClientOriginalName();
-                    $filePath = $image->storeAs('images/quest', $filename, 'public');
+                    $filePath = $image->storeAs('images/quests', $filename, 'public');
                     $newImageList[] = $filePath;
                 }
             }

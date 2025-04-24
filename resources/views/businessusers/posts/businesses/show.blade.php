@@ -71,7 +71,7 @@
                         </div>
 
 
-                    <div class="profile-icons">
+                    <div class="profile-icons ms-5">
                         {{-- red heart/unlike --}}
                         <div class="mt-3">
                             @if($business->isLiked())                            
@@ -355,7 +355,10 @@
 
             <!-- Comments Section -->
             <hr>
-            @include('comment.body')
+            {{-- @include('businessusers.posts.businesses.partials.comment_body') --}}
+            <div class="d-flex justify-content-center mt-3">
+                {{-- {{ $business_comments->links() }} --}}
+            </div>
 
             <!-- Go to Top Button -->
             <div class="top-button-container">

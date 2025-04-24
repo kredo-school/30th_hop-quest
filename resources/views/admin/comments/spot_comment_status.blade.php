@@ -34,7 +34,7 @@
             <div class="modal-header border-success">
                 <h3 class="h3 text-success"><i class="fa-solid fa-user-check"></i> Activate Comment</h3>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-success">
                 Are you sure you want to activate this comment?
                 {{-- @if($comment['user_avatar'])
                     <img src="{{$comment['user_avatar']}}" alt="" class="rounded-circle avatar-sm">

@@ -29,7 +29,7 @@ class QuestController extends Controller{
         $this->user = $user;
         $this->business = $business;
     }
-
+    
 // =============================================================Add Quest
     public function showAddQuest(){
         return view('quests.add-quest');
@@ -37,36 +37,30 @@ class QuestController extends Controller{
 
     public function storeQuest(Request $request){
         $user = Auth::user();
-
-        try {
-            // 共通バリデーション
-            $rules = [
-                'title' => 'required|string|max:30',
-                'start_date' => 'nullable|date',
-                'end_date' => 'nullable|date|after_or_equal:start_date',
-                'duration' => 'nullable|integer|min:1|max:30',
-                'introduction' => 'nullable|string|max:500',
-                'main_image' => 'required|file|max:1048|mimes:jpg,jpeg,png,gif',
-                'is_public' => 'nullable|in:0,1',
-            ];
-
-            // ✅ ロールに応じた追加バリデーション
-            if ($user->role_id == 1) {
-                $rules['start_date'] = 'required|date';
-                $rules['end_date'] = 'required|date|after_or_equal:start_date';
-                // duration は無視される（nullable のままでOK）
-            } elseif ($user->role_id == 2) {
-                $rules['duration'] = 'required|integer|min:1|max:30';
-                // start_date / end_date は nullable のままでOK
-            }
-
-            // 実行
-            $validated = $request->validate($rules);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            dd($e->errors()); // バリデーションエラー表示
+    
+        // 共通バリデーションルール
+        $rules = [
+            'title' => 'required|string|max:30',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'duration' => 'nullable|integer|min:1|max:30',
+            'introduction' => 'required|string|max:500',
+            'main_image' => 'required|file|max:1048|mimes:jpg,jpeg,png,gif',
+            'is_public' => 'nullable|in:0,1',
+        ];
+    
+        // ロールに応じた追加バリデーション
+        if ($user->role_id == 1) {
+            $rules['start_date'] = 'required|date';
+            $rules['end_date'] = 'required|date|after_or_equal:start_date';
+        } elseif ($user->role_id == 2) {
+            $rules['duration'] = 'required|integer|min:1|max:30';
         }
-
-        // 🧠 モデル保存処理
+    
+        // バリデーション実行
+        $validated = $request->validate($rules);
+    
+        // モデル保存処理
         $quest = new Quest();
         $quest->title = $request->title;
         $quest->user_id = $user->id;
@@ -74,20 +68,20 @@ class QuestController extends Controller{
         $quest->end_date = $request->end_date;
         $quest->duration = $request->duration;
         $quest->introduction = $request->introduction;
-        // $quest->is_public = $request->is_public ?? "0";
-
+        $quest->is_public = $request->is_public ?? 0;  // デフォルト値設定
+    
         // 画像処理
-        $fileName = time() . '_' . $request->main_image->getClientOriginalName();
-        $filePath = $request->main_image->storeAs('images/quest', $fileName, 'public');
-        $quest->main_image = $filePath;
-
+        if ($request->hasFile('main_image')) {
+            $fileName = time() . '_' . $request->main_image->getClientOriginalName();
+            $filePath = $request->main_image->storeAs('images/quests', $fileName, 'public');
+            $quest->main_image = $filePath;
+        }
+    
         $quest->save();
-        $quest->refresh();
-        $quest->delete(); 
-
+    
         return redirect()->route('quest.edit', ['quest_id' => $quest->id]);
-
     }
+    
 
     // quest_idに基づいてデータを取得
     public function getSpotsByQuestId($questId){
@@ -211,7 +205,7 @@ class QuestController extends Controller{
 
         if ($request->hasFile('main_image')) {
             $fileName = time() . '_' . $request->main_image->getClientOriginalName();
-            $filePath = $request->main_image->storeAs('images/quest', $fileName, 'public');
+            $filePath = $request->main_image->storeAs('images/quests', $fileName, 'public');
             $quest->main_image = $filePath;
         }
 
@@ -290,8 +284,8 @@ class QuestController extends Controller{
                     'title' => $body->spot->title ?? 'Spot'
                     
                 ];
-            } elseif ($body->business && $body->business->address_2) {
-                $coords = self::getLatLngFromAddress($body->business->address_2);
+            } elseif ($body->business && $body->business->address_1) {
+                $coords = self::getLatLngFromAddress($body->business->address_1);
                 if ($coords) {
                     $locations[] = [
                         'lat' => $coords['lat'],
@@ -311,6 +305,7 @@ class QuestController extends Controller{
     }
 
     //Follow, Following
+
     public function toggleFollow($id){
         $authUser = Auth::user();
 
@@ -326,9 +321,8 @@ class QuestController extends Controller{
 
         if ($follow !== null) {
             $deleted = Follow::where('follower_id', $authUser->id)
-                 ->where('followed_id', $id)
-                 ->delete();
-
+                            ->where('followed_id', $id)
+                            ->delete();
         } else {
             Follow::create([
                 'follower_id' => $authUser->id,
@@ -343,13 +337,17 @@ class QuestController extends Controller{
         ]);
     }
 
+
     //Like Button
     public function toggleLike($id){
         $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
         $quest = Quest::findOrFail($id);
-    
         $like = $quest->questLikes()->where('user_id', $user->id)->first();
-    
+
         if ($like) {
             $like->delete();
             $liked = false;
@@ -360,12 +358,13 @@ class QuestController extends Controller{
             ]);
             $liked = true;
         }
-    
+
         return response()->json([
             'liked' => $liked,
             'like_count' => $quest->questLikes()->count(),
         ]);
     }
+    
 
     //Like Modal
     public function getLikes($id){
@@ -411,7 +410,7 @@ class QuestController extends Controller{
         // 地図用ロケーション作成
         $locations = [];
         foreach ($questBodies as $body) {
-            if ($body->spot && $body->spot->geo_lati && $body->spot->geo_lng) {
+            if ($body->spot && $body->spot->geo_lat && $body->spot->geo_lng) {
                 $locations[] = [
                     'lat' => $body->spot->geo_lat,
                     'lng' => $body->spot->geo_lng,
@@ -436,6 +435,14 @@ class QuestController extends Controller{
             'locations' => $locations, // 🔥 追加
         ]);
     }
+
+    public function getModalHtml($questId){
+        $quest = Quest::with('likes.user')->findOrFail($questId);
+        return view('quests.modals.quest.likes-modal', [
+            'quest_a' => $quest  // ← ここで quest_a として渡す！
+        ])->render();
+    }
+
 
 //===============================================================LatLng
     private static function getLatLngFromAddress($address){
@@ -469,7 +476,7 @@ class QuestController extends Controller{
         }
 
         // マイページなどに戻る or show にリダイレクト（任意）
-        return redirect()->route('quest.show', ['quest_id' => $quest->id]);
+        return redirect()->route('profile.header', Auth::user()->id);
     }
 //===============================================================SOFT DELETE
     public function softDelete($quest_id){
@@ -477,15 +484,9 @@ class QuestController extends Controller{
         $quest->delete();
 
         // ユーザーのロールIDによってリダイレクトを振り分け
-        $roleId = Auth::user()->role_id;
 
-        if ($roleId === 1) {
-            return redirect()->route('myprofile.show');
-        } elseif ($roleId === 2) {
-            return redirect()->route('profile.business');
-        } else {
-            return redirect()->route('home');
-        }
+        return redirect()->route('profile.header', Auth::user()->id);
+
     }
 //==============================================================PROFILE USE
     public function deactivate($id){
