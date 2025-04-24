@@ -50,7 +50,7 @@
                     {{-- User Icon --}}
                     <div class="comment-user-icon" id="usericon">
                         <a href="{{ route('profile.header', $comment->user->id) }}" class="spot-user-link">
-                            <img src="{{ asset($comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="avatar-md rounded-circle">
+                            <img src="{{ asset($comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="avatar-sm rounded-circle">
                         </a>
                     </div>
                     {{-- User Name --}}

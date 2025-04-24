@@ -11,14 +11,20 @@
             {{-- Like / Comment / Views - 横並び＋幅いっぱい --}}
             <div class="d-flex justify-content-center align-items-center w-100 fs-3">
                 {{-- Like --}}
-                <div class="d-flex align-items-center mx-3 mx-md-1 mx-lg-3">
+                <div class="like-button-wrapper d-flex align-items-center mx-3 mx-md-1 mx-lg-3">
                     {{-- Like Button --}}
                     <button 
-                    class="btn-like-toggle border-0 bg-transparent p-0"
+                    class="btn-like-toggle border-0 bg-transparent p-0 @guest like-disabled @endguest"
                     data-quest-id="{{ $quest_a->id }}"
                     data-liked="{{ $quest_a->isLiked() ? '1' : '0' }}">
                     <i class="fa{{ $quest_a->isLiked() ? 's' : 'r' }} fa-heart fs-3 like-icon {{ $quest_a->isLiked() ? 'text-danger' : '' }}"></i>
                     </button>
+
+                    @guest
+                        <div class="login-tooltip d-none">
+                            Please login to like this quest
+                        </div>
+                    @endguest
 
                     {{-- Like Count --}}
                     <span class="like-count ms-2 poppins-semibold" data-bs-toggle="modal" data-bs-target="#likes-modal-{{ $quest_a->id }}">
@@ -63,6 +69,9 @@
                     <a href="{{ route('profile.header', $quest_a->user->id) }}" class="text-decoration-none h5 d-flex my-0 me-3">
                         <h1 class="username h5 poppins-semibold mb-0" id="username">{{ $quest_a->user->name }}</h1>
                     </a>
+                    @if($quest_a->user->official_certification == 3)
+                        <img src="{{ asset('/images/logo/official_personal.png')}}" class="avatar-xs d-inline mx-1">
+                    @endif
 
                     {{-- Follow Button --}}
                     @php
@@ -71,7 +80,7 @@
                         $isFollowing = $authUser && $authUser->follows->contains('followed_id', $owner->id);
                     @endphp
                     @auth
-                        @if ($authUser->id == 2)
+                        @if ($authUser->role_id !== 2)
                             <form class="follow-toggle-form mb-0" data-user-id="{{ $owner->id }}">
                                 @csrf
                                 <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">

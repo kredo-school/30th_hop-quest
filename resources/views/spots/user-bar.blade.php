@@ -76,9 +76,6 @@
                     <a href="{{ route('profile.header', $spot->user->id) }}" class="text-decoration-none h5 d-flex align-items-center my-0 me-3">
                         <h1 class="username h5 poppins-semibold mb-0 me-2" id="username">{{ $spot->user->name }}</h1>
 
-                        @if ($spot->user->official_certification == 3)
-                            <img src="{{ asset('images/logo/official_personal.png') }}" alt="Official Badge" style="height: 24px;" class="ms-1">
-                        @endif
                     </a>
 
                     {{-- Follow Button --}}
@@ -88,7 +85,7 @@
                         $isFollowing = $authUser && $authUser->follows->contains('followed_id', $owner->id);
                     @endphp
                     @auth
-                        @if ($authUser->id == 2)
+                        @if ($authUser->role_id !== 2)
                             <form class="follow-toggle-form mb-0" data-user-id="{{ $owner->id }}">
                                 @csrf
                                 <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">
