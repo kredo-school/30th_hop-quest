@@ -147,10 +147,16 @@
 
                                     {{-- DROPDOWN --}}
                                     @if (Auth::user()->avatar)
-                                        <img src="{{ Auth::user()->avatar }}" alt=""
-                                            class="rounded-circle avatar-sm">
+                                        @if (Str::startsWith(Auth::user()->avatar, 'http') || Str::startsWith(Auth::user()->avatar, 'data:'))
+                                            <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}"
+                                                class="rounded-circle avatar-sm">
+                                        @else
+                                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                                                alt="{{ Auth::user()->name }}" class="rounded-circle avatar-sm">
+                                        @endif
                                     @else
-                                        <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                                        <a href="{{ route('profile.header', Auth::user()->avatar) }}"><i
+                                                class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i></a>
                                     @endif
                                 </a>
                                 <!-- Dropdown menu -->
