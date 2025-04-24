@@ -16,7 +16,7 @@
                 @if($post['type'] == 'spots')
                     <a href="{{ route('spot.show', $post['id']) }}" >
                         @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
-                            <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image">
+                            <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
                         @else
                             <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
                         @endif
@@ -24,35 +24,26 @@
                 @elseif($post['type'] == 'quests')
                     <a href="{{route('quest.show', $post['id'])}}" >
                         @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
-                            <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class=" post-image">
+                            <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
                         @else
                             <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
                         @endif
                     </a>
+                @elseif($post['type'] == 'businesses')
+                <a href="{{route('business.show', $post['id'])}}" >
+                    @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
+                    @else
+                        <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
+                    @endif
+                </a>
                 @endif
-  
             @elseif($post['user']->role_id == 2)
                 @if($post['official_certification']==2)
                     @if($post['type'] == 'businesses')
                         <a href="#" >
                             @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
                                 <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
-                            @else
-                                <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
-                            @endif
-                        </a>
-                    @elseif($post['type'] == 'promotions')
-                        <a href="{{ route('promotions.show', $post['id']) }}" >
-                            @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
-                                <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
-                            @else
-                                <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
-                            @endif
-                        </a>
-                    @elseif($post['type'] == 'quests')
-                        <a href="#" >
-                            @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
-                                <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
                             @else
                                 <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
                             @endif
@@ -128,51 +119,25 @@
             <!-- Title -->
             <div class="row mb-1">
                 <div class="col p-0">
-                    <a href="#" class="text-decoration-none">
-                        <h4 class="card-title text-dark fw-bold pb-2">{{ $post['title'] }}</h4>
-                    </a>
-                </div>
-            </div>
-
-            <!--Avatar-->
-            @if($section)
-            <div class="row align-items-center personal_space">
-                {{-- User Icon --}}
-                <div class="col-md-auto col-sm-2 my-auto p-0">                   
-                    <button class="btn">
-                        @if($post['user']->avatar)                           
-                            <a href="{{ route('profile.header', $post['user_id']) }}"><img src="{{ $post['user']->avatar }}" alt="" class="rounded-circle avatar-sm"></a>
-                        @else
-                        <a href="{{ route('profile.header', $post['user_id']) }}"><i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i></a>                          
-                        @endif
-                    </button>
-                </div>
-            
-                {{-- User Name --}}
-                <div class="col-md-auto col-sm-6 ms-2 p-0">
-                    <a href="{{ route('profile.header', $post['user_id']) }}" class="text-decoration-none h5 d-inline align-items-center">
-                        <p class="h5 my-auto" id="username">{{ $post['user']->name }}</p></a>                 
-                </div>
-
-                {{-- Javascript for character limit --}}
-                <script>
-                    document.querySelectorAll('.username').forEach(elem => {     //変更①　idではなくclassから引っ張ってくる。
-                        const text = elem.textContent;   //変更②　前まではusernameElemという変数を使っていましたが、上記の理由からただのelemに変更。
-                        if (text.length > 15){
-                        elem.textContent = text.substring(0, 15) + "...";　//変更③　変更②と同じ修正です。
-                        }
-                    });
-                </script>
-
-                {{-- User official mark --}}
-                <div class="col-md-auto col-sm-1 mt-1 p-1">
-                    @if($post['user']->official_certification == 3)
-                        <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0" alt="official-personal">
-                    @else
+                    @if($post['type'] == 'businesses')
+                        <a href="{{route('business.show', $post['id'])}}" class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-2">{{ $post['title'] }}</h4>
+                        </a>
+                    @elseif($post['type'] == 'quests')
+                        <a href="{{route('quest.show', $post['id'])}}" class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-2">{{ $post['title'] }}</h4>
+                        </a>
+                    @elseif($post['type'] == 'spots')
+                        <a href="{{route('spot.show', $post['id'])}}" class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-2">{{ $post['title'] }}</h4>
+                        </a>
+                    @elseif($post['type'] == 'promotions')
+                        <a href="{{route('promotions.show', $post['id'])}}" class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-2">{{ $post['title'] }}</h4>
+                        </a>
                     @endif
                 </div>
             </div>
-            @endif
 
             <!-- Duration -->
             @if($post['tab_id']==4)
