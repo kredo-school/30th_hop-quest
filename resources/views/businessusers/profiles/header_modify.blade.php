@@ -198,377 +198,370 @@
             </div>
 
 
-            {{-- === タブ切り替えエリア === --}}
+{{-- === タブ切り替えエリア === --}}
 
-            @include('businessusers.profiles.partial.tabs')
+@include('businessusers.profiles.partial.tabs')
 
-            {{-- === コンテンツ表示（Switch） === --}}
+{{-- === コンテンツ表示（Switch） === --}}
 
-            <div class="row justify-content-center mt-5">
-                @if ($section == 'followers')
-                    <!--Follower-->
-                    <div class="col-8">
-                        <div class="row mb-3 align-items-center ">
-                            <h3 class="text-center mb-3">Followers</h3>
-                            <ul class="list-group">
-                                @forelse($user->followers as $follower)
-                                    <div class="row bg-white p-2 mx-5 rounded-4 mb-3 d-flex align-items-center">
-                                        <div class="col-auto">
-                                            {{-- icon/avatar --}}
-                                            {{-- <a href="{{route('profile.show', $follower->follower->id)}}"> --}}
-                                            <a href="{{ route('profile.header', $follower->follower->id) }}">
-                                                @if ($follower->follower->avatar)
-                                                    <img src="{{ $follower->follower->avatar }}" alt=""
-                                                        class="rounded-circle avatar-sm">
-                                                @else
-                                                    <i class="fa-solid fa-circle-user text-secondary profile-sm"></i>
-                                                @endif
-                                            </a>
-                                        </div>
-                                        <div class="col ps-0 text-truncate">
-                                            {{-- name --}}
-                                            {{-- <a href="{{route('profile.show', $follower->follower->id)}}" 
-                                                class="text-decoration-none text-dark fw-bold"> --}}
-                                            <a href="{{ route('profile.header', $follower->follower->id) }}"
-                                                class="text-decoration-none text-dark fw-bold">
-                                                {{ $follower->follower->name }}
-                                            </a>
-                                        </div>
-                                        <div class="col-auto mt-3">
-                                            {{-- button --}}
-                                            @if ($follower->follower->id != Auth::user()->id && Auth::user()->role_id == 1)
-                                                @if ($follower->follower->isFollowed())
-                                                    {{-- unfollow --}}
-                                                    <form action="{{ route('follow.delete', $follower->follower->id) }}"
-                                                        method="post">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn-following ">Following</button>
-                                                    </form>
-                                                @else
-                                                    {{-- follow --}}
-                                                    <form action="{{ route('follow.store', $follower->follower->id) }}"
-                                                        method="post">
-                                                        @csrf
-                                                        <button type="submit" class="btn-follow ">Follow</button>
-                                                    </form>
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </div>
-                                @empty
-                                    <h4 class="h4 text-center text-secondary">No followers yet</h4>
-                                @endforelse
-                            </ul>
-                            <div class="d-flex justify-content-end mb-5">
-                                {{ $followers->links() }}
-                            </div>
-                            <!--Likes-->
-                        @elseif ($section == 'likes')
-                            <div class="col-12">
-                                <div class="row mb-3 align-items-center ">
-                                    <div class="row justify-content-center">
-                                        {{-- Liked Posts --}}
-                                        <div class="row mb-1 mt-4">
-                                            @forelse($likedPosts as $post)
-                                                <div class="col-lg-4 col-md-6 col-sm">
-                                                    @include('businessusers.profiles.post-body-profile')
-                                                </div>
-                                            @empty
-                                                <h4 class="h4 text-center text-secondary">No posts yet</h4>
-                                            @endforelse
-                                        </div>
-                                        <div class="d-flex justify-content-end mb-5">
-                                            {{ $likedPosts->links() }}
-                                        </div>
-                                    </div>
-                                    <!--Comment-->
-                                @elseif ($section == 'comments')
-                                    <div class="col-9">
-                                        <div class="row mb-3 align-items-center ">
-                                            <h3 class="text-center mb-3">Comments</h3>
-                                            <ul class="list-group">
-                                                @forelse($commentedPosts as $comment)
-                                                    <div class="row bg-white p-2 rounded-2 mb-3 d-flex align-items-center">
-                                                        <div class="row mb-2">
-                                                            <div class="col-auto my-auto" rowspan="2">
-                                                                @if ($comment['type'] == 'businesses')
-                                                                    <a
-                                                                        href="{{ route('business.show', $comment['business_id']) }}">
-                                                                        @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
-                                                                            <img src="{{ $comment['main_image'] }}"
-                                                                                alt="{{ $comment['title'] }}"
-                                                                                class="img-sm">
-                                                                        @else
-                                                                            <i
-                                                                                class="fa-solid fa-circle-user text-secondary profile-sm"></i>
-                                                                        @endif
-                                                                    </a>
-                                                                @elseif($comment['type'] == 'quests')
-                                                                    <a href="{{ route('quest.show', $comment['id']) }}">
-                                                                        @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
-                                                                            <img src="{{ $comment['main_image'] }}"
-                                                                                alt="{{ $comment['title'] }}"
-                                                                                class=" img-sm">
-                                                                        @else
-                                                                            <img src="{{ asset('storage/' . $comment['main_image']) }}"
-                                                                                alt="{{ $comment['title'] }}"
-                                                                                class="img-sm">
-                                                                        @endif
-                                                                    </a>
-                                                                @elseif($comment['type'] == 'spots')
-                                                                    <a href="{{ route('spot.show', $comment['id']) }}">
-                                                                        @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
-                                                                            <img src="{{ $comment['main_image'] }}"
-                                                                                alt="{{ $comment['title'] }}"
-                                                                                class=" img-sm">
-                                                                        @else
-                                                                            <img src="{{ asset('storage/' . $comment['main_image']) }}"
-                                                                                alt="{{ $comment['title'] }}"
-                                                                                class="img-sm">
-                                                                        @endif
-                                                                    </a>
-                                                                @endif
-                                                            </div>
-                                                            <div class="col">
-                                                                <div class="row">
-                                                                    <div class="col-8 mt-2">
-                                                                        <span class="fw-light text-dark">To: </span>
-                                                                        <a href="#"
-                                                                            class="text-decoration-none text-dark fw-bold">
-                                                                            {{ $comment['title'] }}
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col ps-0 text-truncate">
-                                                                    {{-- name --}}
-                                                                    <a href="{{ route('profile.header', $following->followed->id) }}"
-                                                                        class="text-decoration-none text-dark fw-bold">
-                                                                        {{ $following->followed->name }}
-                                                                    </a>
-                                                                </div>
-                                                                <div class="col-auto mt-3">
-                                                                    {{-- button --}}
-                                                                    @if ($following->followed->id != Auth::user()->id)
-                                                                        @if ($following->followed->isFollowed())
-                                                                            {{-- unfollow --}}
-                                                                            <form
-                                                                                action="{{ route('follow.delete', $following->followed->id) }}"
-                                                                                method="post">
-                                                                                @csrf
-                                                                                @method('DELETE')
-                                                                                <button type="submit"
-                                                                                    class="btn-following ">Following</button>
-                                                                            </form>
-                                                                        @else
-                                                                            {{-- follow --}}
-                                                                            <form
-                                                                                action="{{ route('follow.store', $following->followed->id) }}"
-                                                                                method="post">
-                                                                                @csrf
-                                                                                <button type="submit"
-                                                                                    class="btn-follow ">Follow</button>
-                                                                            </form>
-                                                                        @endif
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        @empty
-                                                            <h4 class="h4 text-center text-secondary">No following yet</h4>
-                                                @endforelse
-                                            </ul>
-                                            <div class="d-flex justify-content-end mb-5">
-                                                {{ $follows->links() }}
-                                            </div>
-                                            <!--Likes-->
-                                        @elseif ($section == 'likes')
-                                            <div class="col-12">
-                                                <div class="row mb-3 align-items-center ">
-                                                    <div class="row justify-content-center">
-                                                        {{-- Liked Posts --}}
-                                                        <div class="row mb-1 mt-4">
-                                                            @forelse($likedPosts as $post)
-                                                                <div class="col-lg-4 col-md-6 col-sm">
-                                                                    @include('businessusers.profiles.post-body-profile')
-                                                                </div>
-                                                            @empty
-                                                                <h4 class="h4 text-center text-secondary">No posts yet</h4>
-                                                            @endforelse
-                                                        </div>
-                                                        <div class="d-flex justify-content-end mb-5">
-                                                            {{ $likedPosts->links() }}
-                                                        </div>
-                                                    </div>
-                                                    <!--Comment-->
-                                                @elseif ($section == 'comments')
-                                                    <div class="col-9">
-                                                        <div class="row mb-3 align-items-center ">
-                                                            <h3 class="text-center mb-3">Comments</h3>
-                                                            <ul class="list-group">
-                                                                @forelse($commentedPosts as $comment)
-                                                                    <div
-                                                                        class="row bg-white p-2 rounded-2 mb-3 d-flex align-items-center">
-                                                                        <div class="row mb-2">
-                                                                            <div class="col-auto my-auto" rowspan="2">
-                                                                                @if ($comment['type'] == 'businesses')
-                                                                                    <a
-                                                                                        href="{{ route('business.show', $comment['business_id']) }}">
-                                                                                        @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
-                                                                                            <img src="{{ $comment['main_image'] }}"
-                                                                                                alt="{{ $comment['title'] }}"
-                                                                                                class="img-sm">
-                                                                                        @else
-                                                                                            <img src="{{ asset('storage/' . $comment['main_image']) }}"
-                                                                                                alt="{{ $comment['title'] }}"
-                                                                                                class="img-sm">
-                                                                                        @endif
-                                                                                    </a>
-                                                                                @elseif($comment['type'] == 'quests')
-                                                                                    <a
-                                                                                        href="{{ route('quest.show', $comment['id']) }}">
-                                                                                        @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
-                                                                                            <img src="{{ $comment['main_image'] }}"
-                                                                                                alt="{{ $comment['title'] }}"
-                                                                                                class=" img-sm">
-                                                                                        @else
-                                                                                            <img src="{{ asset('storage/' . $comment['main_image']) }}"
-                                                                                                alt="{{ $comment['title'] }}"
-                                                                                                class="img-sm">
-                                                                                        @endif
-                                                                                    </a>
-                                                                                @elseif($comment['type'] == 'spots')
-                                                                                    <a
-                                                                                        href="{{ route('quest.show', $comment['id']) }}">
-                                                                                        @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
-                                                                                            <img src="{{ $comment['main_image'] }}"
-                                                                                                alt="{{ $comment['title'] }}"
-                                                                                                class=" img-sm">
-                                                                                        @else
-                                                                                            <img src="{{ asset('storage/' . $comment['main_image']) }}"
-                                                                                                alt="{{ $comment['title'] }}"
-                                                                                                class="img-sm">
-                                                                                        @endif
-                                                                                    </a>
-                                                                                @endif
-                                                                            </div>
-                                                                            <div class="col">
-                                                                                <div class="row">
-                                                                                    <div class="col-8 mt-2">
-                                                                                        <span
-                                                                                            class="fw-light text-dark">To:
-                                                                                        </span>
-                                                                                        <a href="#"
-                                                                                            class="text-decoration-none text-dark fw-bold">
-                                                                                            {{ $comment['title'] }}
-                                                                                        </a>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <hr class="color-navy">
-                                                                                <div class="row text-center">
-                                                                                    <div class="col-auto">
-                                                                                        @if ($comment['rating'])
-                                                                                            @for ($i = 1; $i <= $comment['rating']; $i++)
-                                                                                                <i
-                                                                                                    class="fa-solid fa-star color-yellow "></i>
-                                                                                            @endfor
-                                                                                            @for ($i = 1; $i <= 5 - $comment['rating']; $i++)
-                                                                                                <i
-                                                                                                    class="fa-regular fa-star color-navy"></i>
-                                                                                            @endfor
-                                                                                        @endif
-                                                                                    </div>
-                                                                                    <div class="col-auto">
-                                                                                        <a href="#"
-                                                                                            class="text-decoration-none text-dark profile-comment">
-                                                                                            {{ $comment['comment'] }}
-                                                                                        </a>
-                                                                                    </div>
-                                                                                    <div>
-                                                                                        <div
-                                                                                            class="col-auto text-end text-secondary">
-                                                                                            {{ date('H:i, M d Y', strtotime($comment['created_at'])) }}
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                @empty
-                                                                    <h4 class="h4 text-center text-secondary">No comments
-                                                                        yet</h4>
-                                                                @endforelse
-                                                                <div class="d-flex justify-content-end mb-5">
-                                                                    {{ $commentedPosts->links() }}
-                                                                </div>
-                                                            @else
-                                                        </div>
-                                                    </div>
-                                                    @if ($user->role_id == 1)
-                                                        @switch($tab)
-                                                            @case('quests')
-                                                                @include('businessusers.profiles.quests', [
-                                                                    'quests' => $quests,
-                                                                ])
-                                                            @break
-
-                                                            @case('spots')
-                                                                @include('businessusers.profiles.spots', [
-                                                                    'spots' => $spots,
-                                                                ])
-                                                            @break
-
-                                                            @case('likedPosts')
-                                                                @include(
-                                                                    'businessusers.profiles.liked_posts',
-                                                                    [
-                                                                        'likedPosts' => $likedPosts,
-                                                                    ]
-                                                                )
-                                                            @break
-
-                                                            @default
-                                                                @include('businessusers.profiles.quests', [
-                                                                    'quests' => $quests,
-                                                                ])
-                                                        @endswitch
-                                                    @elseif($user->role_id == 2)
-                                                        @switch($tab)
-                                                            @case('businesses')
-                                                                @include(
-                                                                    'businessusers.posts.businesses.show_body',
-                                                                    ['businesses' => $businesses]
-                                                                )
-                                                            @break
-
-                                                            @case('promotions')
-                                                                @include(
-                                                                    'businessusers.posts.promotions.show_body',
-                                                                    ['promotions' => $business_promotions]
-                                                                )
-                                                            @break
-
-                                                            @case('quests')
-                                                                @include('businessusers.profiles.quests', [
-                                                                    'quests' => $quests,
-                                                                ])
-                                                            @break
-
-                                                            @default
-                                                                @include(
-                                                                    'businessusers.posts.businesses.show_body',
-                                                                    ['businesses' => $businesses]
-                                                                )
-                                                        @endswitch
-                                                    @endif
-                                                    @empty
-                                                        <h4 class="h4 text-center text-secondary">No comments yet</h4>
-                    @endforelse
-                    <div class="d-flex justify-content-end mb-5">
-                        {{ $commentedPosts->links() }}
-                    </div>
+<div class="row justify-content-center mt-5">
+@if ($section == 'followers')
+<!--Follower-->
+<div class="col-8">
+<div class="row mb-3 align-items-center ">
+<h3 class="text-center mb-3">Followers</h3>
+<ul class="list-group">
+@forelse($user->followers as $follower)
+    <div class="row bg-white p-2 mx-5 rounded-4 mb-3 d-flex align-items-center">
+        <div class="col-auto">
+            {{-- icon/avatar --}}
+            {{-- <a href="{{route('profile.show', $follower->follower->id)}}"> --}}
+            <a href="{{ route('profile.header', $follower->follower->id) }}">
+                @if ($follower->follower->avatar)
+                    <img src="{{ $follower->follower->avatar }}" alt=""
+                        class="rounded-circle avatar-sm">
                 @else
+                    <i class="fa-solid fa-circle-user text-secondary profile-sm"></i>
+                @endif
+            </a>
+        </div>
+        <div class="col ps-0 text-truncate">
+            {{-- name --}}
+            {{-- <a href="{{route('profile.show', $follower->follower->id)}}" 
+                class="text-decoration-none text-dark fw-bold"> --}}
+            <a href="{{ route('profile.header', $follower->follower->id) }}"
+                class="text-decoration-none text-dark fw-bold">
+                {{ $follower->follower->name }}
+            </a>
+        </div>
+        <div class="col-auto mt-3">
+            {{-- button --}}
+            @if ($follower->follower->id != Auth::user()->id && Auth::user()->role_id == 1)
+                @if ($follower->follower->isFollowed())
+                    {{-- unfollow --}}
+                    <form action="{{ route('follow.delete', $follower->follower->id) }}"
+                        method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn-following ">Following</button>
+                    </form>
+                @else
+                    {{-- follow --}}
+                    <form action="{{ route('follow.store', $follower->follower->id) }}"
+                        method="post">
+                        @csrf
+                        <button type="submit" class="btn-follow ">Follow</button>
+                    </form>
+                @endif
+            @endif
+        </div>
+    </div>
+@empty
+    <h4 class="h4 text-center text-secondary">No followers yet</h4>
+@endforelse
+</ul>
+<div class="d-flex justify-content-end mb-5">
+{{ $followers->links() }}
+</div>
+<!--Likes-->
+@elseif ($section == 'likes')
+<div class="col-12">
+<div class="row mb-3 align-items-center ">
+    <div class="row justify-content-center">
+        {{-- Liked Posts --}}
+        <div class="row mb-1 mt-4">
+            @forelse($likedPosts as $post)
+                <div class="col-lg-4 col-md-6 col-sm">
+                    @include('businessusers.profiles.post-body-profile')
+                </div>
+            @empty
+                <h4 class="h4 text-center text-secondary">No posts yet</h4>
+            @endforelse
+        </div>
+        <div class="d-flex justify-content-end mb-5">
+            {{ $likedPosts->links() }}
+        </div>
+    </div>
+    <!--Comment-->
+@elseif ($section == 'comments')
+    <div class="col-9">
+        <div class="row mb-3 align-items-center ">
+            <h3 class="text-center mb-3">Comments</h3>
+            <ul class="list-group">
+                @forelse($commentedPosts as $comment)
+                    <div class="row bg-white p-2 rounded-2 mb-3 d-flex align-items-center">
+                        <div class="row mb-2">
+                            <div class="col-auto my-auto" rowspan="2">
+                                @if ($comment['type'] == 'businesses')
+                                    <a
+                                        href="{{ route('business.show', $comment['business_id']) }}">
+                                        @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
+                                            <img src="{{ $comment['main_image'] }}"
+                                                alt="{{ $comment['title'] }}"
+                                                class="img-sm">
+                                        @else
+                                            <i
+                                                class="fa-solid fa-circle-user text-secondary profile-sm"></i>
+                                        @endif
+                                    </a>
+                                @elseif($comment['type'] == 'quests')
+                                    <a href="{{ route('quest.show', $comment['id']) }}">
+                                        @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
+                                            <img src="{{ $comment['main_image'] }}"
+                                                alt="{{ $comment['title'] }}"
+                                                class=" img-sm">
+                                        @else
+                                            <img src="{{ asset('storage/' . $comment['main_image']) }}"
+                                                alt="{{ $comment['title'] }}"
+                                                class="img-sm">
+                                        @endif
+                                    </a>
+                                @elseif($comment['type'] == 'spots')
+                                    <a href="{{ route('spot.show', $comment['id']) }}">
+                                        @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
+                                            <img src="{{ $comment['main_image'] }}"
+                                                alt="{{ $comment['title'] }}"
+                                                class=" img-sm">
+                                        @else
+                                            <img src="{{ asset('storage/' . $comment['main_image']) }}"
+                                                alt="{{ $comment['title'] }}"
+                                                class="img-sm">
+                                        @endif
+                                    </a>
+                                @endif
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-8 mt-2">
+                                        <span class="fw-light text-dark">To: </span>
+                                        <a href="#"
+                                            class="text-decoration-none text-dark fw-bold">
+                                            {{ $comment['title'] }}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col ps-0 text-truncate">
+                                    {{-- name --}}
+                                    <a href="{{ route('profile.header', $following->followed->id) }}"
+                                        class="text-decoration-none text-dark fw-bold">
+                                        {{ $following->followed->name }}
+                                    </a>
+                                </div>
+                                <div class="col-auto mt-3">
+                                    {{-- button --}}
+                                    @if ($following->followed->id != Auth::user()->id)
+                                        @if ($following->followed->isFollowed())
+                                            {{-- unfollow --}}
+                                            <form
+                                                action="{{ route('follow.delete', $following->followed->id) }}"
+                                                method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="btn-following ">Following</button>
+                                            </form>
+                                        @else
+                                            {{-- follow --}}
+                                            <form
+                                                action="{{ route('follow.store', $following->followed->id) }}"
+                                                method="post">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="btn-follow ">Follow</button>
+                                            </form>
+                                        @endif
+                                    @endif
+                                </div>
+                            </div>
+                        @empty
+                            <h4 class="h4 text-center text-secondary">No following yet</h4>
+                @endforelse
+            </ul>
+            <div class="d-flex justify-content-end mb-5">
+                {{ $follows->links() }}
+            </div>
+            <!--Likes-->
+        @elseif ($section == 'likes')
+            <div class="col-12">
+                <div class="row mb-3 align-items-center ">
+                    <div class="row justify-content-center">
+                        {{-- Liked Posts --}}
+                        <div class="row mb-1 mt-4">
+                            @forelse($likedPosts as $post)
+                                <div class="col-lg-4 col-md-6 col-sm">
+                                    @include('businessusers.profiles.post-body-profile')
+                                </div>
+                            @empty
+                                <h4 class="h4 text-center text-secondary">No posts yet</h4>
+                            @endforelse
+                        </div>
+                        <div class="d-flex justify-content-end mb-5">
+                            {{ $likedPosts->links() }}
+                        </div>
+                    </div>
+                    <!--Comment-->
+                @elseif ($section == 'comments')
+                    <div class="col-9">
+                        <div class="row mb-3 align-items-center ">
+                            <h3 class="text-center mb-3">Comments</h3>
+                            <ul class="list-group">
+                                @forelse($commentedPosts as $comment)
+                                    <div
+                                        class="row bg-white p-2 rounded-2 mb-3 d-flex align-items-center">
+                                        <div class="row mb-2">
+                                            <div class="col-auto my-auto" rowspan="2">
+                                                @if ($comment['type'] == 'businesses')
+                                                    <a
+                                                        href="{{ route('business.show', $comment['business_id']) }}">
+                                                        @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
+                                                            <img src="{{ $comment['main_image'] }}"
+                                                                alt="{{ $comment['title'] }}"
+                                                                class="img-sm">
+                                                        @else
+                                                            <img src="{{ asset('storage/' . $comment['main_image']) }}"
+                                                                alt="{{ $comment['title'] }}"
+                                                                class="img-sm">
+                                                        @endif
+                                                    </a>
+                                                @elseif($comment['type'] == 'quests')
+                                                    <a
+                                                        href="{{ route('quest.show', $comment['id']) }}">
+                                                        @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
+                                                            <img src="{{ $comment['main_image'] }}"
+                                                                alt="{{ $comment['title'] }}"
+                                                                class=" img-sm">
+                                                        @else
+                                                            <img src="{{ asset('storage/' . $comment['main_image']) }}"
+                                                                alt="{{ $comment['title'] }}"
+                                                                class="img-sm">
+                                                        @endif
+                                                    </a>
+                                                @elseif($comment['type'] == 'spots')
+                                                    <a
+                                                        href="{{ route('quest.show', $comment['id']) }}">
+                                                        @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
+                                                            <img src="{{ $comment['main_image'] }}"
+                                                                alt="{{ $comment['title'] }}"
+                                                                class=" img-sm">
+                                                        @else
+                                                            <img src="{{ asset('storage/' . $comment['main_image']) }}"
+                                                                alt="{{ $comment['title'] }}"
+                                                                class="img-sm">
+                                                        @endif
+                                                    </a>
+                                                @endif
+                                            </div>
+                                            <div class="col">
+                                                <div class="row">
+                                                    <div class="col-8 mt-2">
+                                                        <span
+                                                            class="fw-light text-dark">To:
+                                                        </span>
+                                                        <a href="#"
+                                                            class="text-decoration-none text-dark fw-bold">
+                                                            {{ $comment['title'] }}
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <hr class="color-navy">
+                                                <div class="row text-center">
+                                                    <div class="col-auto">
+                                                        @if ($comment['rating'])
+                                                            @for ($i = 1; $i <= $comment['rating']; $i++)
+                                                                <i
+                                                                    class="fa-solid fa-star color-yellow "></i>
+                                                            @endfor
+                                                            @for ($i = 1; $i <= 5 - $comment['rating']; $i++)
+                                                                <i
+                                                                    class="fa-regular fa-star color-navy"></i>
+                                                            @endfor
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <a href="#"
+                                                            class="text-decoration-none text-dark profile-comment">
+                                                            {{ $comment['comment'] }}
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <div
+                                                            class="col-auto text-end text-secondary">
+                                                            {{ date('H:i, M d Y', strtotime($comment['created_at'])) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                @empty
+                                    <h4 class="h4 text-center text-secondary">No comments
+                                        yet</h4>
+                                @endforelse
+                                <div class="d-flex justify-content-end mb-5">
+                                    {{ $commentedPosts->links() }}
+                                </div>
+                            @else
+                        </div>
+                    </div>
+                    @if ($user->role_id == 1)
+                        @switch($tab)
+                            @case('quests')
+                                @include('businessusers.profiles.quests', [
+                                    'quests' => $quests,
+                                ])
+                            @break
+
+                            @case('spots')
+                                @include('businessusers.profiles.spots', [
+                                    'spots' => $spots,
+                                ])
+                            @break
+
+                            @case('likedPosts')
+                                @include(
+                                    'businessusers.profiles.liked_posts',
+                                    [
+                                        'likedPosts' => $likedPosts,
+                                    ]
+                                )
+                            @break
+
+                            @default
+                                @include('businessusers.profiles.quests', [
+                                    'quests' => $quests,
+                                ])
+                        @endswitch
+                    @elseif($user->role_id == 2)
+                        @switch($tab)
+                            @case('businesses')
+                                @include(
+                                    'businessusers.posts.businesses.show_body',
+                                    ['businesses' => $businesses]
+                                )
+                            @break
+
+                            @case('promotions')
+                                @include(
+                                    'businessusers.posts.promotions.show_body',
+                                    ['promotions' => $business_promotions]
+                                )
+                            @break
+
+                            @case('quests')
+                                @include('businessusers.profiles.quests', [
+                                    'quests' => $quests,
+                                ])
+                            @break
+
+                            @default
+                                @include(
+                                    'businessusers.posts.businesses.show_body',
+                                    ['businesses' => $businesses]
+                                )
+                        @endswitch
+                    @endif
                 </div>
             </div>
             @if ($user->role_id == 1)
