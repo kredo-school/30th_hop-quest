@@ -18,7 +18,7 @@ class BusinessDetail extends Model
 
     public function businessInfo()
     {
-        return $this->belongsTo(BusinessInfo::class, 'business_info_id');
+        return $this->hasMany(BusinessInfo::class);
     }
 
     public function business()

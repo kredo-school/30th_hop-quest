@@ -11,11 +11,11 @@ class BusinessInfo extends Model
 
     public function category()
     {
-        return $this->belongsTo(BusinessInfoCategory::class, 'business_info_category_id');
+        return $this->belongsTo(BusinessInfoCategory::class);
     }
 
     public function businessDetails()
     {
-        return $this->hasMany(BusinessDetail::class, 'business_info_id');
+        return $this->hasMany(BusinessDetail::class);
     }
 }
