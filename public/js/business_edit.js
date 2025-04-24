@@ -54,7 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 preview.style.display = 'none';
                 if (icon) icon.style.display = 'block';
                 // alert('画像を削除しました');
-                
+                document.getElementById("default-icon").classList.remove("d-none");
+                document.getElementById("avatar-preview").classList.add("d-none");
             } else {
                 alert('削除に失敗しました');
             }
