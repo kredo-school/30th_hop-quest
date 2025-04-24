@@ -30,10 +30,15 @@
             @elseif($post['type'] == 'quests')
                 <a href="{{route('quest.show', $post['id'])}}" >
                     @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image" alt="image">
+                    @else
+                        <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image" alt="image">
+                    @endif
+                    {{-- @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
                         <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class=" post-image">
                     @else
                         <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
-                    @endif
+                    @endif --}}
                 </a>
             @endif
         </div>
