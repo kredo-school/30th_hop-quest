@@ -46,10 +46,14 @@
                     {{-- User Icon --}}
                     <div class="comment-user-icon" id="usericon">
                         <a href="{{ route('profile.header', $comment->user->id) }}" class="spot-user-link">
-                        @if(Str::startsWith($comment->user->avatar, 'http') || Str::startsWith($comment->user->avatar, 'data:'))
-                            <img src="{{ $comment->user->avatar}}" alt="{{ $comment->user->name }}" class="rounded-circle avatar-sm">
+                        @if($comment->user->avatar)
+                            @if(Str::startsWith($comment->user->avatar, 'http') || Str::startsWith($comment->user->avatar, 'data:'))
+                                <img src="{{ $comment->user->avatar}}" alt="{{ $comment->user->name }}" class="rounded-circle avatar-sm">
+                            @else
+                                <img src="{{ asset('storage/' . $comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="rounded-circle avatar-sm">
+                            @endif
                         @else
-                            <img src="{{ asset('storage/' . $comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="rounded-circle avatar-sm">
+                            <i class="fa-solid fa-circle-user text-secondary text-decoration-none profile-sm text-center"></i>
                         @endif
                         </a>
                     </div>
@@ -59,7 +63,7 @@
                             {{ $comment->user->name }}
                         </a>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto ms-auto">
                         <p class="spot-date m-0 ms-3 text-secondary">{{ date('M d, Y', strtotime($comment->created_at)) }}</p>
                     </div>
                 </div>
