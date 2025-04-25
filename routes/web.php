@@ -145,8 +145,13 @@ Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
     
     // Spot Likes
     Route::get('/{spot}/likes/json', [SpotLikeController::class, 'getLikesJson']);
+    // フォーム送信用（redirect back）
     Route::post('/{spot_id}/like', [SpotLikeController::class, 'storeSpotLike'])->name('like.store');
     Route::delete('/{spot_id}/unlike', [SpotLikeController::class, 'deleteSpotLike'])->name('like.delete');
+
+    // AJAX用（JSONレスポンス）
+    Route::post('/{spot_id}/like/json', [SpotLikeController::class, 'storeSpotLikeJson'])->name('like.store.json');
+    Route::delete('/{spot_id}/unlike/json', [SpotLikeController::class, 'deleteSpotLikeJson'])->name('like.delete.json');
     Route::get('/{spot}/likes/modal', [SpotLikeController::class, 'getModalHtml']);
 
     // Spot Comments
@@ -231,7 +236,7 @@ Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->gro
     //VIEW QUEST
     Route::get('/{quest_id}', 'showViewQuest')->middleware(PageViewMiddleware::class)->name('show');
     //RESTORE - UNHIEDE
-    Route::patch('/{quest_id}/restore', 'restore')->name('restore');
+    Route::match(['post', 'patch'], '/{quest_id}/restore', 'restore')->name('restore');
     //SOFT DELETE - HIHE (back to Confirm--> change later redirect to MyPage)
     Route::delete('/{quest_id}/hide', 'softDelete')->name('softDelete');
 

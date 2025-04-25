@@ -19,7 +19,7 @@
                         {{-- アバター＋ユーザー名 --}}
                         <a href="{{ route('profile.header', $user->id) }}" class="d-flex align-items-center text-decoration-none">
                             @if($user->avatar)
-                                <img src="{{ $user->avatar }}" class="avatar-md rounded-circle me-2" alt="icon">
+                                <img src="{{ $user->avatar }}" class="avatar-sm rounded-circle me-2" alt="icon">
                             @else
                                 <i class="fa-solid fa-circle-user text-secondary icon-md text-center me-2"></i>
                             @endif

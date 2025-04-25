@@ -81,6 +81,7 @@ class SpotController extends Controller
         // ✅ メイン画像保存
         $main_image_name = time() . '_main_' . $request->file('main_image')->getClientOriginalName();
         $main_image_path = $request->file('main_image')->storeAs($dir, $main_image_name, 'public');
+        $main_image_path = '/' . ltrim($main_image_path, '/'); // ← 追加！
 
         // ✅ その他画像保存
         $imagePaths = [];
@@ -88,7 +89,8 @@ class SpotController extends Controller
             foreach ($request->file('images') as $image) {
                 $file_name = time() . '_' . $image->getClientOriginalName();
                 $path = $image->storeAs($dir, $file_name, 'public');
-                $imagePaths[] = $path;
+                $imagePaths[] = '/' . ltrim($path, '/'); // ← 追加！
+
             }
         }
 
@@ -159,10 +161,9 @@ class SpotController extends Controller
                 if (Storage::disk('public')->exists($tempPath)) {
                     $fileName = time() . '_main_' . basename($tempPath);
                     $newPath = 'images/spots/' . $fileName;
-            
-                    // move to permanent location
                     Storage::disk('public')->move($tempPath, $newPath);
-                    $spot->main_image = $newPath;
+                    $spot->main_image = '/' . ltrim($newPath, '/'); // ← 追加！
+
                 }
             }
 
@@ -192,7 +193,8 @@ class SpotController extends Controller
         if ($request->hasFile('main_image')) {
             $main_image_name = time() . '_main_' . $request->file('main_image')->getClientOriginalName();
             $main_image_path = $request->file('main_image')->storeAs($dir, $main_image_name, 'public');
-            $spot->main_image = $main_image_path;
+            $spot->main_image = '/' . ltrim($main_image_path, '/'); // ← 追加！
+
         }
 
         $newImagePaths = [];
@@ -200,7 +202,8 @@ class SpotController extends Controller
             foreach ($request->file('images') as $image) {
                 $file_name = time() . '_' . $image->getClientOriginalName();
                 $path = $image->storeAs($dir, $file_name, 'public');
-                $newImagePaths[] = $path; 
+                $newImagePaths[] = '/' . ltrim($path, '/'); // ← 追加！
+
             }
         }
 
@@ -217,7 +220,17 @@ class SpotController extends Controller
         $spot->images = json_encode($allImages);
         $spot->save();
 
-        return redirect()->route('spot.show', $spot->id);
+        return redirect()->route('profile.header', $spot->user_id);
+    }
+
+    public function deactivate($id){
+        $this->spot->destroy($id);
+        return redirect()->back();
+    }
+
+    public function activate($id){
+        $this->spot->onlyTrashed()->findOrFail($id)->restore();
+        return redirect()->back();
     }
 
     public function deactivate($id){

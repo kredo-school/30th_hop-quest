@@ -9,7 +9,7 @@
 
 @section('content')
 <div class="{{ Auth::user()->role_id === 1 ? 'bg-green' : 'bg-blue' }}">
-    <p class="attention color-navy poppins-semibold text-center pt-5 pb-3 fs-4 {{ Auth::user()->id == 1 ? 'bg-quest-blue' : 'bg-quest-green' }}">
+    <p class="attention color-navy poppins-semibold text-center pt-5 pb-3 fs-4 {{ Auth::user()->role_id == 1 ? 'bg-quest-blue' : 'bg-quest-green' }}">
         Not yet published. This page is for confirmation only.
     </p>
     <div class="container py-5 col-9 px-0">

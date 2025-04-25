@@ -74,8 +74,8 @@ class QuestController extends Controller{
         if ($request->hasFile('main_image')) {
             $fileName = time() . '_' . $request->main_image->getClientOriginalName();
             $filePath = $request->main_image->storeAs('images/quests', $fileName, 'public');
-            $quest->main_image = $filePath;
-        }
+            $quest->main_image = '/' . $filePath; // 先頭にスラッシュを追加
+        }        
     
         $quest->save();
     
@@ -206,8 +206,8 @@ class QuestController extends Controller{
         if ($request->hasFile('main_image')) {
             $fileName = time() . '_' . $request->main_image->getClientOriginalName();
             $filePath = $request->main_image->storeAs('images/quests', $fileName, 'public');
-            $quest->main_image = $filePath;
-        }
+            $quest->main_image = '/' . $filePath; // ← storeと同様に '/' を追加
+        }        
 
         $quest->save();
         $quest->refresh();
@@ -468,16 +468,29 @@ class QuestController extends Controller{
     
 
 //===============================================================RESTORE
-    public function restore($quest_id){
-        $quest = Quest::withTrashed()->findOrFail($quest_id);
+public function restore($quest_id){
+    $quest = Quest::withTrashed()->findOrFail($quest_id);
 
-        if ($quest->trashed()) {
-            $quest->restore();
-        }
-
-        // マイページなどに戻る or show にリダイレクト（任意）
-        return redirect()->route('profile.header', Auth::user()->id);
+    if ($quest->trashed()) {
+        $quest->restore();
     }
+
+    $previousUrl = url()->previous();
+
+    // URLに 'confirm' が含まれていれば quest.show にリダイレクト
+    if (str_contains($previousUrl, '/quest/confirm')) {
+        return redirect()->route('quest.show', $quest_id);
+    }
+
+    // URLに 'profile' が含まれていれば profile.header にリダイレクト
+    if (str_contains($previousUrl, '/profile')) {
+        return redirect()->route('profile.header', Auth::id());
+    }
+
+    // それ以外の場合は fallback として quest.show に
+    return redirect()->route('quest.show', $quest_id);
+}
+
 //===============================================================SOFT DELETE
     public function softDelete($quest_id){
         $quest = Quest::withTrashed()->findOrFail($quest_id);
@@ -500,3 +513,4 @@ class QuestController extends Controller{
     }
 
 }
+
