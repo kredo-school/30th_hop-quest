@@ -62,8 +62,8 @@ Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
 });
 
 //FOLLOWS
-Route::post('/follow/{user_id}/store', [FollowController::class, 'store'])->name('follow.store');
-Route::delete('/follow/{user_id}/delete', [FollowController::class, 'delete'])->name('follow.delete');
+Route::post('/follow/store/{user_id}', [FollowController::class, 'storeFollow'])->name('store.follow');
+Route::delete('/follow/delete/{user_id}', [FollowController::class, 'deleteFollow'])->name('delete.follow');
 
 //PROMOTION
 Route::group(['prefix' => '/promotion', 'as' => 'promotions.'], function () {

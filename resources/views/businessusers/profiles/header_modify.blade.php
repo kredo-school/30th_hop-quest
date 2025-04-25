@@ -122,14 +122,14 @@
                         <div class="col-md-2 col-sm-2 ">
                             @if ($user->isFollowed())
                                 {{-- unfollow --}}
-                                <form action="{{ route('follow.delete', $user->id) }}" method="post">
+                                <form action="{{ route('delete.follow', $user->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-following fw-bold mb-2 w-100">Following</button>
                                 </form>
                             @else
                                 {{-- follow --}}
-                                <form action="{{ route('follow.store', $user->id) }}" method="post">
+                                <form action="{{ route('store.follow', $user->id) }}" method="post">
                                     @csrf
                                     <button type="submit" class="btn btn-follow fw-bold mb-2 w-100">Follow</button>
                                 </form>
@@ -217,7 +217,7 @@
                                             @if ($follower->follower->id != Auth::user()->id && Auth::user()->role_id == 1)
                                                 @if ($follower->follower->isFollowed())
                                                     <!-- unfollow -->
-                                                    <form action="{{ route('follow.delete', $follower->follower->id) }}"
+                                                    <form action="{{ route('delete.follow', $follower->follower->id) }}"
                                                         method="post">
                                                         @csrf
                                                         @method('DELETE')
@@ -225,7 +225,7 @@
                                                     </form>
                                                 @else
                                                     <!-- follow -->
-                                                    <form action="{{ route('follow.store', $follower->follower->id) }}"
+                                                    <form action="{{ route('store.follow', $follower->follower->id) }}"
                                                         method="post">
                                                         @csrf
                                                         <button type="submit" class="btn-follow ">Follow</button>
@@ -274,7 +274,7 @@
                                                         @if ($following->followed->isFollowed())
                                                             {{-- unfollow --}}
                                                             <form
-                                                                action="{{ route('follow.delete', $following->followed->id) }}"
+                                                                action="{{ route('delete.follow', $following->followed->id) }}"
                                                                 method="post">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -284,7 +284,7 @@
                                                         @else
                                                             {{-- follow --}}
                                                             <form
-                                                                action="{{ route('follow.store', $following->followed->id) }}"
+                                                                action="{{ route('store.follow', $following->followed->id) }}"
                                                                 method="post">
                                                                 @csrf
                                                                 <button type="submit" class="btn-follow ">Follow</button>
