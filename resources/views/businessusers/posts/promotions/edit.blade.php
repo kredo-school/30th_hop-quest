@@ -15,7 +15,7 @@
                     <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items)<p>
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-sm btn-red mb-2 w-100" data-bs-toggle="modal" data-bs-target="#delete-promotion">DELETE</button>
+                    <button class="btn btn-sm btn-red mb-2 w-100" data-bs-toggle="modal" data-bs-target="#delete-business_promotion{{$business_promotion->id}}">DELETE</button>
                 </div>
                 @include('businessusers.posts.promotions.modals.delete')
             </div>

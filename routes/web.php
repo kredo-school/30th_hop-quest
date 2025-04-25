@@ -50,10 +50,11 @@ Route::get('/faq', [Homecontroller::class, 'showFAQ'])->name('faq'); // for show
 
 
 //PROFILES
-Route::group(['prefix' => '/business/profile', 'as' => 'profile.'], function () {
+Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
     Route::get('/{id}', [ProfileController::class, 'showProfile'])->name('header');
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
+    Route::delete('/header', [ProfileController::class, 'deleteHeader'])->name('header.delete');
     Route::patch('/{id}/update', [ProfileController::class, 'update'])->name('update');
     Route::delete('/{id}/deactivate', [ProfileController::class, 'deactivate'])->name('deactivate');
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
@@ -74,6 +75,7 @@ Route::group(['prefix' => '/promotion', 'as' => 'promotions.'], function () {
     Route::get('/confirm', [BusinessPromotionController::class, 'confirm'])->name('confirm');
     Route::delete('/{id}/deactivate', [BusinessPromotionController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [BusinessPromotionController::class, 'activate'])->name('activate');
+    Route::delete('/{id}/delete', [BusinessPromotionController::class, 'delete'])->name('delete');
 });
 
 //BUSINESS
@@ -88,6 +90,9 @@ Route::group(['prefix' => '/business', 'as' => 'businesses.'], function () {
     Route::patch('photos/{business}/update', [PhotoController::class, 'update'])->name('photos.update');
     Route::delete('/{id}/deactivate', [BusinessController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [BusinessController::class, 'activate'])->name('activate');
+    // Business Comments
+    Route::post('/{spot_id}/comment/store', [BusinessCommentController::class, 'store'])->name('comment.store');
+    Route::delete('/{spot_id}/comment/{comment_id}/destroy', [BusinessCommentController::class, 'destroy'])->name('comment.destroy');
 });
 Route::get('/business/{id}', [BusinessController::class, 'show'])->middleware(PageViewMiddleware::class)->name('business.show');
 
@@ -131,15 +136,17 @@ Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
     Route::post('/store', [SpotController::class, 'store'])->name('store');
     Route::get('/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('show');
     Route::post('/confirm/{spot_id?}', [SpotController::class, 'showConfirm'])->name('confirm');
-    Route::get('/confirm/{spot_id?}', [SpotController::class, 'showConfirm'])->name('confirm.get'); 
+    Route::get('/confirm/{spot_id?}', [SpotController::class, 'showConfirm'])->name('confirm.get');
 
     Route::get('/edit/{spot_id}', [SpotController::class, 'showEdit'])->name('edit');
     Route::patch('/update/{spot_id}', [SpotController::class, 'update'])->name('update');
+    Route::delete('/{id}/deactivate', [SpotController::class, 'deactivate'])->name('deactivate');
+    Route::patch('/{id}/activate', [SpotController::class, 'activate'])->name('activate');
     
     // Spot Likes
     Route::get('/{spot}/likes/json', [SpotLikeController::class, 'getLikesJson']);
-    Route::post('/{spot_id}/like', [SpotLikeController::class, 'store'])->name('like.store');
-    Route::delete('/{spot_id}/unlike', [SpotLikeController::class, 'destroy'])->name('like.delete');
+    Route::post('/{spot_id}/like', [SpotLikeController::class, 'storeSpotLike'])->name('like.store');
+    Route::delete('/{spot_id}/unlike', [SpotLikeController::class, 'deleteSpotLike'])->name('like.delete');
     Route::get('/{spot}/likes/modal', [SpotLikeController::class, 'getModalHtml']);
 
     // Spot Comments
@@ -148,16 +155,11 @@ Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
     Route::get('/comment/{comment}/likes/modal', [SpotCommentLikeController::class, 'getCommentModalHtml']);
 
     // Spot Comment Likes
+    Route::post('/comment/{comment_id}/like', [SpotCommentLikeController::class, 'like'])->name('comment.like.store');
+    Route::delete('/comment/{comment_id}/unlike', [SpotCommentLikeController::class, 'unlike'])->name('comment.like.delete');
     Route::get('/comment/{comment_id}/likes/json', [SpotCommentLikeController::class, 'getLikesJson']);
-    Route::post('/comment/{comment_id}/like', [SpotCommentLikeController::class, 'like'])->name('comment.like');
-    Route::delete('/comment/{comment_id}/unlike', [SpotCommentLikeController::class, 'unlike'])->name('comment.unlike');
 });
 Route::get('spot/{id}', [SpotController::class, 'show'])->middleware(PageViewMiddleware::class)->name('spot.show');
-
-
-
-
-
 
 // password reset
 Route::get('/password/reset', [ForgotPasswordController::class, 'show'])->name('password.request');
@@ -175,11 +177,11 @@ Route::middleware('auth')->group(
         Route::patch('/myprofile/update', [TouristProfileController::class, 'update'])->name('myprofile.update');
     }
 );
-Route::get('/profile/{id}', [TouristProfileController::class, 'show'])->name('profile.show');
+// Route::get('/profile/{id}', [TouristProfileController::class, 'show'])->name('profile.show');
 
 // tourists profile
-Route::get('/myprofile', [TouristProfileController::class, 'myProfileShow'])->name('myprofile.show');
-Route::get('/profile/{id}', [TouristProfileController::class, 'showOtherProfile'])->name('profile.show');
+// Route::get('/myprofile', [TouristProfileController::class, 'myProfileShow'])->name('myprofile.show');
+// Route::get('/profile/{id}', [TouristProfileController::class, 'showOtherProfile'])->name('profile.show');
 
 // Password Update
 Route::patch('/password/update', [TouristProfileController::class, 'updatePassword'])->name('password.update');
@@ -188,7 +190,7 @@ Route::patch('/password/update', [TouristProfileController::class, 'updatePasswo
 Route::delete('/myprofile', [TouristProfileController::class, 'destroy'])->name('myprofile.destroy');
 
 //ADMIN
-Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => 'admin'], function(){
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function () {
     // Route::get('/main', [UsersController::class, 'showLists'])->name('main');
     Route::get('/users/business', [UsersController::class, 'indexBusiness'])->name('users.business');
     Route::get('/users/applied', [UsersController::class, 'indexApplied'])->name('users.applied');
@@ -229,7 +231,7 @@ Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->gro
     //VIEW QUEST
     Route::get('/{quest_id}', 'showViewQuest')->middleware(PageViewMiddleware::class)->name('show');
     //RESTORE - UNHIEDE
-    Route::post('/{quest_id}/restore', 'restore')->name('restore');
+    Route::patch('/{quest_id}/restore', 'restore')->name('restore');
     //SOFT DELETE - HIHE (back to Confirm--> change later redirect to MyPage)
     Route::delete('/{quest_id}/hide', 'softDelete')->name('softDelete');
 
@@ -238,7 +240,6 @@ Route::prefix('/quest')->name('quest.')->controller(QuestController::class)->gro
     Route::get('/{id}/likes', 'getLikes')->name('likes');
     Route::delete('/delete/{questId}', 'deleteQuest')->name('delete');
     Route::post('/follow/{userId}', [QuestController::class, 'toggleFollow'])->name('quest.toggleFollow');
-    
 });
 
 
@@ -250,7 +251,7 @@ Route::prefix('/questbody')->name('questbody.')->controller(QuestBodyController:
     Route::delete('/delete/{id}', 'deleteQuestBody')->name('delete');
     Route::post('/image/delete', 'deleteImage')->name('image.delete');
     Route::post('/agenda/{id}', 'toggleAgenda')->name('toggleAgenda');
-    Route::get('/getAllQuestBodies/{questId}','getAllQuestBodies')->name('getAllQuestBody');
+    Route::get('/getAllQuestBodies/{questId}', 'getAllQuestBodies')->name('getAllQuestBody');
 
     // ✅補助機能（QuestBody関連）
     Route::get('/user/searchbusinesses', 'getMyBusinesses')->name('mybusinesses');
@@ -269,7 +270,7 @@ Route::prefix('/questcomment')->name('questcomment.')->controller(QuestCommentCo
 
 
 //Like to each post without page refresh (AJAX)
-Route::prefix('like')->group(function(){
+Route::prefix('like')->group(function () {
     Route::post('{type}/{id}/store', [LikeController::class, 'store'])->name('like.store');
     Route::delete('{type}/{id}/delete', [LikeController::class, 'destroy'])->name('like.delete');
 });
@@ -277,5 +278,3 @@ Route::prefix('like')->group(function(){
 // Follow to other user without page refresh
 Route::post('/follow/{user_id}/store', [FollowController::class, 'follow'])->name('follow.store');
 Route::delete('/follow/{user_id}/delete', [FollowController::class, 'unfollow'])->name('follow.delete');
-
-

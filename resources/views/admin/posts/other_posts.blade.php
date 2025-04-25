@@ -37,11 +37,20 @@
                 <tr>
                     {{-- <td>{{$user->id}}</td> --}}
                     <td>
-                        <a href="#" class="text-decoration-none text-dark fw-bold">
-                        @if($post['main_image'])
-                            <img src="{{ $post['main_image'] }}" alt="" class="img-md d-block mx-auto">
-                        @else
-                            <i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i>
+                        @if($post['type'] == 'quests')
+                            <a href="{{route('quest.show', $post['id'])}}" >
+                                @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                                    <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="img-sm d-block mx-autoe">
+                                @else
+                                    <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="img-sm d-block mx-auto">
+                                @endif
+                        @elseif($post['type'] == 'spots')
+                            <a href="{{route('spot.show', $post['id'])}}" >
+                                @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                                    <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="img-sm d-block mx-autoe">
+                                @else
+                                    <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="img-sm d-block mx-auto">
+                                @endif
                         @endif
                         </a>
                     </td>

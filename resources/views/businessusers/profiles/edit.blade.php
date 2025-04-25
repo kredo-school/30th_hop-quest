@@ -13,12 +13,13 @@
 <div class="row justify-content-center pt-5">
     <div class="col-8">
         <div class="row">
-            <div class="col">
-                <h4 class=" d-inline me-3">Edit Profile</h4>
+            <div class="col">               
                 @if(Auth::user()->role_id == 1)
-                    <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items)<p>
+                    <h3 class="color-white poppins-semibold text-center">Edit Your Profile</h3>
+                    <p class="text-center">(<span class="color-red fw-bold">*</span> Required items)<p>
                 @elseif(Auth::user()->role_id == 2)
-                    <p class="d-inline ">(<span class="color-red fw-bold">*</span> Required items for official certification badge)<p>
+                    <h3 class="color-navy poppins-semibold text-center">Edit Your Profile</h3>
+                    <p class="text-center">(<span class="color-red fw-bold">*</span> Required items for official certification badge application)<p>
                 @endif
             </div>
         </div>
@@ -34,9 +35,17 @@
 <div class="row">
     <div class="pt-2 px-0">
         @if(Auth::user()->header)
-            <img src="{{Auth::user()->header}}" class="header-image"  alt="">
+            <img id="header-preview"
+                src="{{ Auth::user()->header }}"
+                alt="Header Image"
+                class="header-image img-fluid mx-auto d-block">
         @else
-            <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
+            <img id="header-preview"
+                src="{{ asset('images/logo/header_logo.jpg') }}"
+                alt="No Header"
+                class="header-image img-fluid mx-auto d-block"
+                style="display:none;">
+            {{-- <i id="header-icon" class="fa-solid fa-image text-secondary icon-xxl d-block text-center"></i> --}}
         @endif
     </div>
 </div>
@@ -46,63 +55,68 @@
     <div class="col-8"> 
           {{-- Header image upload --}}
         <div class="row mb-3">
-            <label for="header" class="form-label mb-2">Header photo</label>
-            <input type="file" name="header" id="header" class="form-control form-control-sm w-100 p-2" >
-            <p class="mb-0 form-text text-danger">
+            <div class="col">
+                <label for="header" class="form-label mb-2">Header photo </label>
+                <button type="button" class="btn btn-red delete-header" id="delete-header" >
+                    <i class=" fa-solid fa-trash-can" ></i>
+                </button>
+                
+                <input type="file" name="header" id="header" class="form-control form-control-sm w-100 p-2">
+                <p class="mb-0 form-text text-danger">
                 Acceptable formats: jpeg, jpg, png, gif only <br>
                 Max file size is 1048 KB
-            </p>
+                </p>
+            </div>
+
+                
+            
+
             @error('header')
             <p class="mb-0 text-danger small">{{ $message }}</p>
             @enderror
         </div>     
         <div class="row mb-3">
             <!-- Avatar image -->
-            <div class="col-auto profile-image">
-                @if(Auth::user()->avatar)
-                    <img src="{{Auth::user()->avatar}}" alt="" class="rounded-circle avatar-xl d-block mx-auto">                          
-                @else
-                    <i class="fa-solid fa-circle-user text-secondary profile-xl d-block text-center"></i>
-                @endif
-                <!--delete-->
-                {{-- <button type="button" id="delete-avatar" data-image="{{ Auth::user()->avatar }}"><i class="delete-avatar fa-solid fa-trash text-danger"></i></button>      
-                <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        const deleteBtn = document.getElementById('delete-avatar');
-                        if (!deleteBtn) return;
-                    
-                        deleteBtn.addEventListener('click', function () {
-                            if (!confirm('画像を削除しますか？')) return;
-                    
-                            fetch("{{ route('profile.avatar.delete') }}", {
-                                method: "DELETE",
-                                headers: {
-                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-                                }
-                            })
-                            .then(response => {
-                                if (response.ok) {
-                                    alert('画像を削除しました');
-                                    location.reload();
-                                } else {
-                                    alert('削除に失敗しました');
-                                }
-                            });
-                        });
-                    });
-                    </script> --}}
-            </div>
-            <div class="col">
 
-                
-                
+            <div class="col-auto profile-image">
+       
+       
+                @if(Auth::user()->role_id == 1)
+                    <img id="avatar-preview"
+                    src="{{ Auth::user()->avatar ?? asset('images/profiles/profile-circle-tourist.jpg') }}"
+                    alt=""
+                    class="rounded-circle avatar-xl d-block mx-auto">
+                @elseif(Auth::user()->role_id == 2)
+                    <img id="avatar-preview"
+                    src="{{ Auth::user()->avatar ?? asset('images/profiles/profile-circle-user.jpg') }}"
+                    alt=""
+                    class="rounded-circle avatar-xl d-block mx-auto">
+                @endif
+{{--             
+                <i id="default-icon"
+                    class="fa-solid fa-circle-user text-secondary profile-xl rounded-circle d-block d-none">
+                    </i> --}}
+                <div>
+                <button type="button" class="btn btn-red delete-avatar-profile" id="delete-avatar" >
+                    <i class=" fa-solid fa-trash-can" ></i>
+                </button>
+                </div>
+            </div>
+            
+
+            
+            <div class="col">
                 <label for="avatar" class="form-label mb-2">Avatar photo</label>
-                <input type="file" name="avatar" id="" class="form-control form-control-sm w-100 mb-auto p-2" >
-                
+                <input type="file" name="avatar" id="avatar" class="form-control form-control-sm w-100 mb-auto p-2">
                 <p class="mb-0 form-text text-danger">
                     Acceptable formats: jpeg, jpg, png, gif only <br>
                     Max file size is 1048 KB
                 </p>
+            </div>
+                                   
+            
+        
+            <div class="col">
                 @error('avatar')
                 <p class="mb-0 text-danger small">{{ $message }}</p>
                 @enderror
@@ -111,11 +125,17 @@
         {{-- User information --}}
         <div class="row mb-3">
             <div class="col">
-                <label for="name" class="form-label">Business user name<span class="color-red">*</span></label>
+                <label for="name" class="form-label">User name<span class="color-red">*</span></label>
                 <input type="text" name="name" id="name" value="{{old('name', Auth::user()->name)}}" class="form-control">
             </div>
         </div>
         <div class="row mb-3">
+            @if(Auth::user()->role_id == 1)
+            <div class="col">
+                <label for="email" class="form-label">E-mail address<span class="color-red">*</span></label>
+                <input type="email" name="email" id="email" value="{{old('email', Auth::user()->email)}}" class="form-control">
+            </div>
+            @else
             <div class="col-6">
                 <label for="email" class="form-label">E-mail address<span class="color-red">*</span></label>
                 <input type="email" name="email" id="email" value="{{old('email', Auth::user()->email)}}" class="form-control">
@@ -124,13 +144,11 @@
                 <label for="website_url" class="form-label">Website URL</label>
                 <input type="text" name="website_url" id="website_url" value="{{old('email', Auth::user()->website_url)}}" class="form-control">
             </div>
+            @endif
         </div>
         <div class="row mb-3">
             <div class="col-6">
-                @if(Auth::user()->role_id == 1)
-                    <label for="zip" class="form-label">ZIP code</label>
-                    <input type="text" name="zip" id="zip" value="{{old('zip', Auth::user()->zip)}}" class="form-control">
-                @elseif(Auth::user()->role_id == 2)
+                @if(Auth::user()->role_id == 2)
                     <label for="zip" class="form-label">ZIP code<span class="color-red">*</span></label>
                     <input type="text" name="zip" id="zip" value="{{old('zip', Auth::user()->zip)}}" class="form-control">
                 @endif
@@ -139,10 +157,7 @@
                 @enderror
             </div>
             <div class="col-6">
-                @if(Auth::user()->role_id == 1)
-                    <label for="phonenumber" class="form-label">Phone number</label>
-                    <input type="text" name="phonenumber" id="phonenumber" value="{{old('phonenumber', Auth::user()->phonenumber)}}" class="form-control">
-                @elseif(Auth::user()->role_id == 2)
+                @if(Auth::user()->role_id == 2)
                     <label for="phonenumber" class="form-label">Phone number<span class="color-red">*</span></label>
                     <input type="text" name="phonenumber" id="phonenumber" value="{{old('phonenumber', Auth::user()->phonenumber)}}" class="form-control">
                 @endif
@@ -153,10 +168,7 @@
         </div>
         <div class="row mb-3">
             <div class="col">
-                @if(Auth::user()->role_id == 1)
-                    <label for="address" class="form-label">Address</label>
-                    <input type="text" name="address" id="address" value="{{old('address', Auth::user()->address)}}" class="form-control">
-                @elseif(Auth::user()->role_id == 2)
+                @if(Auth::user()->role_id == 2)
                     <label for="address" class="form-label">Address<span class="color-red">*</span></label>
                     <input type="text" name="address" id="address" value="{{old('address', Auth::user()->address)}}" class="form-control">
                 @endif
@@ -256,4 +268,5 @@
     </div>
 </div>
 </div>
+<script src="{{ asset('js/business_edit.js') }}"></script>
 @endsection

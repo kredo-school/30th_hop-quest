@@ -666,4 +666,13 @@ thead{
     font-weight: 600;
 }
 
+.profile-image{
+    position:relative;
+}
 
+.delete-avatar-profile{
+    position: absolute;
+    right: 0px;
+    bottom:20px;
+    z-index: 10px;
+}

@@ -476,7 +476,7 @@ class QuestController extends Controller{
         }
 
         // マイページなどに戻る or show にリダイレクト（任意）
-        return redirect()->route('quest.show', ['quest_id' => $quest->id]);
+        return redirect()->route('profile.header', Auth::user()->id);
     }
 //===============================================================SOFT DELETE
     public function softDelete($quest_id){
@@ -484,15 +484,9 @@ class QuestController extends Controller{
         $quest->delete();
 
         // ユーザーのロールIDによってリダイレクトを振り分け
-        $roleId = Auth::user()->role_id;
 
-        if ($roleId === 1) {
-            return redirect()->route('myprofile.show');
-        } elseif ($roleId === 2) {
-            return redirect()->route('profile.business');
-        } else {
-            return redirect()->route('home');
-        }
+        return redirect()->route('profile.header', Auth::user()->id);
+
     }
 //==============================================================PROFILE USE
     public function deactivate($id){

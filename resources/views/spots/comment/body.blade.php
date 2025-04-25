@@ -4,9 +4,9 @@
 <div class="comment-section">
     <div class="w-full mt-2">
         <h5 class="font-normal">
-        Comments({{ $spot->comments->count() }})
+            Comments({{ $spot->comments->count() }})
         </h5>
-        
+
         {{-- add comment section --}}
         @auth
             <form action="{{ route('spots.comment.store', $spot->id) }}" method="post">
@@ -46,7 +46,15 @@
                     {{-- User Icon --}}
                     <div class="comment-user-icon" id="usericon">
                         <a href="{{ route('profile.header', $comment->user->id) }}" class="spot-user-link">
-                            <img src="{{ asset($comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="spot-user-avatar">
+                        @if($comment->user->avatar)
+                            @if(Str::startsWith($comment->user->avatar, 'http') || Str::startsWith($comment->user->avatar, 'data:'))
+                                <img src="{{ $comment->user->avatar}}" alt="{{ $comment->user->name }}" class="rounded-circle avatar-sm">
+                            @else
+                                <img src="{{ asset('storage/' . $comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="rounded-circle avatar-sm">
+                            @endif
+                        @else
+                            <i class="fa-solid fa-circle-user text-secondary text-decoration-none profile-sm text-center"></i>
+                        @endif
                         </a>
                     </div>
                     {{-- User Name --}}
@@ -55,7 +63,7 @@
                             {{ $comment->user->name }}
                         </a>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto ms-auto">
                         <p class="spot-date m-0 ms-3 text-secondary">{{ date('M d, Y', strtotime($comment->created_at)) }}</p>
                     </div>
                 </div>
@@ -97,26 +105,28 @@
                                     {{ $comment->SpotCommentlikes->count() }}
                                 </span>
                             </button>
-                        </div>
-                        
-                    </div>                        
-                </div>       
-
+                            {{-- Include Delete Modal --}}
+                            @include('spots.comment.modals.delete', [
+                                'comment' => $comment,
+                                'spot' => $spot,
+                            ])
+                        </div>                    
+                    </div>
+                </div>
             </div>
-        </div>
+           </div>
         @endforeach
 
-        @if($spot->comments->count() == 0)
+        @if ($spot->comments->count() == 0)
             <div class="text-center mt-3">
                 <p>There is no comment yet.</p>
             </div>
         @endif
     </div>
 </div>
-@foreach($spot->comments as $comment)
-        <!-- コメント表示部分 -->
-        @include('spots.comment.modals.spot-comment-likes', ['id' => $comment->id])
+@foreach ($spot->comments as $comment)
+    <!-- コメント表示部分 -->
+    @include('spots.comment.modals.spot-comment-likes', ['id' => $comment->id])
 @endforeach
 {{-- view images --}}
 <script src="{{ asset('js/spot/view/comment.js') }}"></script>
-

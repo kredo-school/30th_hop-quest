@@ -66,7 +66,7 @@
 
 .card-body.content-lg{
     display: flow-root;
-    height:300px;
+    height:310px;
     margin-bottom: 20px;
     overflow: hidden;
 }
@@ -133,5 +133,15 @@
     font-weight: bold; 
 }
 
+.fa-heart.home{
+    font-size: 1.25rem;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.fa-heart:hover{
+    color: #D24848;
+    transform: scale(1.2, 1.2); 
+}
 
 

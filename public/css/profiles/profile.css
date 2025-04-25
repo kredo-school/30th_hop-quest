@@ -80,11 +80,32 @@ body {
 }
 
 /* Highlight the current (active) item */
-.sidebar ul li.active-item a::before {
+li.active-item a::before {
     content: '■ ';
     color: #3B3B6B;
     font-size: 0.9rem;
     margin-right: 4px;
+}
+.nav-link {
+    padding-left: 1.2rem;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+
+li.active-item a::before {
+    content: '■';
+    margin-left: -1.2rem;
+    margin-right: 0.5rem;
+    color: #3B3B6B;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #3B3B6B;
+    transform: translateX(2px);
+    transition: all 0.3s ease;
 }
 
 /* Title-like item for Liked */

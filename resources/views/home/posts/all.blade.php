@@ -34,6 +34,14 @@
         </div>
     </div>   
 </div>
+<div class="top-button-container">
+    <button class="top-button">
+        <a href="#" class="text-decoration-none color-navy">
+            <i class="fa-solid fa-plane-up fs-3"></i>
+            <p class="color-navy m-0 p-0 text-center fs-8 poppins-semibold">Go TOP</p>
+        </a>
+    </button>
+</div>
 </div>
     @endsection
         

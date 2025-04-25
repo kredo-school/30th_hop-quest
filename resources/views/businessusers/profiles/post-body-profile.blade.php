@@ -13,28 +13,37 @@
             @endif
             <!--Main_Image-->
             @if($post['user']->role_id == 1)
+                @if($post['type'] == 'spots')
+                    <a href="{{ route('spot.show', $post['id']) }}" >
+                        @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                            <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
+                        @else
+                            <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
+                        @endif
+                    </a>
+                @elseif($post['type'] == 'quests')
+                    <a href="{{route('quest.show', $post['id'])}}" >
+                        @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                            <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
+                        @else
+                            <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
+                        @endif
+                    </a>
+                @elseif($post['type'] == 'businesses')
+                <a href="{{route('business.show', $post['id'])}}" >
+                    @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
+                    @else
+                        <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
+                    @endif
+                </a>
+                @endif
             @elseif($post['user']->role_id == 2)
                 @if($post['official_certification']==2)
                     @if($post['type'] == 'businesses')
                         <a href="#" >
                             @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
                                 <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
-                            @else
-                                <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
-                            @endif
-                        </a>
-                    @elseif($post['type'] == 'promotions')
-                        <a href="{{ route('promotions.show', $post['id']) }}" >
-                            @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
-                                <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
-                            @else
-                                <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
-                            @endif
-                        </a>
-                    @elseif($post['type'] == 'quests')
-                        <a href="#" >
-                            @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
-                                <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
                             @else
                                 <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
                             @endif
@@ -110,9 +119,23 @@
             <!-- Title -->
             <div class="row mb-1">
                 <div class="col p-0">
-                    <a href="#" class="text-decoration-none">
-                        <h4 class="card-title text-dark fw-bold pb-2">{{ $post['title'] }}</h4>
-                    </a>
+                    @if($post['type'] == 'businesses')
+                        <a href="{{route('business.show', $post['id'])}}" class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-2">{{ $post['title'] }}</h4>
+                        </a>
+                    @elseif($post['type'] == 'quests')
+                        <a href="{{route('quest.show', $post['id'])}}" class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-2">{{ $post['title'] }}</h4>
+                        </a>
+                    @elseif($post['type'] == 'spots')
+                        <a href="{{route('spot.show', $post['id'])}}" class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-2">{{ $post['title'] }}</h4>
+                        </a>
+                    @elseif($post['type'] == 'promotions')
+                        <a href="{{route('promotions.show', $post['id'])}}" class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-2">{{ $post['title'] }}</h4>
+                        </a>
+                    @endif
                 </div>
             </div>
 
@@ -210,7 +233,7 @@
             </div>
         </div>
 
-        @if($user->id == Auth::user()->id && $post['user_id'] == $user->id && $post['type'] !== 'spots' )
+        @if($user->id == Auth::user()->id && $post['user_id'] == $user->id )
                 <div class="card-footer bg-white">
                     {{-- status --}}
                         <div class="row ">

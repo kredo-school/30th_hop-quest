@@ -53,7 +53,7 @@
     flex-direction: column;
     background-color: white;
     border-radius: 0.5rem;
-    padding: 1.5rem;
+    padding : 1rem 1.5rem;
     position: relative;
 }
 
@@ -161,4 +161,14 @@
 .comment-action-item .count {
     margin-left: 4px;
     line-height: 1;
+}
+
+.star {
+    font-size: 20px;
+    cursor: pointer;
+    color: lightgray;
+    transition: color 0.2s;
+}
+.star.selected {
+    color: gold;
 }

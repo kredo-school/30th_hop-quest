@@ -9,7 +9,7 @@
 
 @section('sub_content')
 <div class="">
-    <table class="table border bg-white table-hover align-middle text-secondary">
+    <table class="table border bg-white table-hover align-middle text-secondary mt-5">
         <thead class="table-primary text-secondary text-uppercase small">
             <tr>
                 {{-- <th class="align-middle">ID</th> --}}
@@ -85,6 +85,7 @@
 
             @endforelse
         </tbody>
+    </table>
         <div class="d-flex justify-content-end mb-5">
             {{ $applied_users->links() }}
         </div>

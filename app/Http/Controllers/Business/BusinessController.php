@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Business;
 use App\Models\BusinessDetail;
+use App\Models\BusinessComment;
 use App\Models\BusinessInfoCategory;
 use App\Models\BusinessHour;
 use App\Models\Photo;
+use App\Models\Quest;
 use App\Models\BusinessPromotion;
 use App\Http\Controllers\Business\PhotoController;
 use Illuminate\Support\Facades\DB;
@@ -26,9 +28,10 @@ class BusinessController extends Controller
     private $photo;
     private $businessDetail;
     private $business_info_category;
+    private $quest;
 
     public function __construct(Photo $photo, Business $business, User $user, 
-        BusinessPromotion $business_promotion, BusinessHour $business_hour, BusinessInfoCategory $business_info_category)
+        BusinessPromotion $business_promotion, BusinessHour $business_hour, BusinessInfoCategory $business_info_category, Quest $quest)
     {
         $this->user = $user;
         $this->photo = $photo;
@@ -36,6 +39,7 @@ class BusinessController extends Controller
         $this->business_promotion = $business_promotion;
         $this->business_hour = $business_hour;
         $this->business_info_category = $business_info_category;
+        $this->quest = $quest;
     }
 
     public function create(){
@@ -265,6 +269,7 @@ class BusinessController extends Controller
     {
         try {
             $business = $this->business->findOrFail($id);
+            // $quest = $this->quest->findOrFail($id);
             $business_promotion = BusinessPromotion::where('business_id', $id)->get();
             $business_hour = $this->business_hour->where('business_id', $id)->get();
             $business_info_category = BusinessInfoCategory::with(['businessInfos' => function($query) use ($id) {
@@ -272,21 +277,20 @@ class BusinessController extends Controller
                     $query->where('business_id', $id);
                 }]);
             }])->get();
-            
-            // ビジネスコメントを取得
-            $business->load(['businessComments' => function($query) {
-                $query->with(['user', 'BusinessCommentLikes'])
-                      ->latest()
-                      ->take(3);
-            }]);
+            $business_comments = BusinessComment::with(['user', 'BusinessCommentlikes'])
+            ->where('business_id', $id)
+            ->latest() // created_at の新しい順
+            ->paginate(5); // 5件ずつ
 
             return view('businessusers.posts.businesses.show')
                     ->with('business', $business)
                     ->with('business_hour', $business_hour)
+                    ->with('business_comments', $business_comments)
                     ->with('business_info_category', $business_info_category)
                     ->with('business_promotion', $business_promotion);
+                    // ->with('quests', $quest);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->route('businesses.show', $id)->with('error', 'ビジネス情報が見つかりませんでした。');
+            return redirect()->route('business.show', $id)->with('error', 'ビジネス情報が見つかりませんでした。');
         }
     }
 

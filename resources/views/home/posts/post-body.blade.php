@@ -1,6 +1,6 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/post-body.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/style.css')}}"> --}}
 @endsection
 
 
@@ -30,10 +30,15 @@
             @elseif($post['type'] == 'quests')
                 <a href="{{route('quest.show', $post['id'])}}" >
                     @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image" alt="image">
+                    @else
+                        <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image" alt="image">
+                    @endif
+                    {{-- @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
                         <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class=" post-image">
                     @else
                         <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
-                    @endif
+                    @endif --}}
                 </a>
             @endif
         </div>
@@ -67,9 +72,20 @@
             {{-- Title --}}
             <div class="row mb-2">
                 <div class="col p-0">
-                    <a href="#" class="text-decoration-none">
-                        <h4 class="card-title text-dark fw-bold">{{ $post['title'] }}</h4>
-                    </a>
+                    @if($post['type'] == 'businesses')
+                        <a href="{{route('business.show', $post['id'])}}"  class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-1">{{ $post['title'] }}</h4>
+                        </a>
+                    @elseif($post['type'] == 'spots')
+                        <a href="{{ route('spot.show', $post['id']) }}" class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-1">{{ $post['title'] }}</h4>
+                        </a>
+                    @elseif($post['type'] == 'quests')
+                        <a href="{{route('quest.show', $post['id'])}}"  class="text-decoration-none">
+                            <h4 class="card-title text-dark fw-bold pb-1">{{ $post['title'] }}</h4>
+                        </a>
+                    @endif
+
                 </div>
             </div>
             {{-- Icon & Name & Official mark --}}
@@ -78,16 +94,25 @@
                 <div class="col-md-auto col-sm-2 my-auto p-0">                   
                     <button class="btn">
                         @if($post['avatar'])
-                            <img src="{{ $post['avatar'] }}" alt="" class="rounded-circle avatar-sm">
+                        @if(Str::startsWith($post['avatar'], 'http') || Str::startsWith($post['avatar'], 'data:'))
+                            <img src="{{ $post['avatar']}}" alt="#" class="rounded-circle avatar-sm">
                         @else
-                            <i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i>
+                            <img src="{{ asset('storage/' . $post['avatar']) }}" alt="#" class="rounded-circle avatar-sm">
                         @endif
+                    @else
+                        <i class="fa-solid fa-circle-user text-secondary text-decoration-none profile-sm text-center"></i>
+                    @endif
+                        {{-- @if($post['avatar'])                           
+                            <a href="{{ route('profile.header', $post['user_id']) }}"><img src="{{ $post['avatar'] }}" alt="" class="rounded-circle avatar-sm"></a>
+                        @else
+                            <a href="{{ route('profile.header', $post['user_id']) }}"><i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i></a>                          
+                        @endif --}}
                     </button>
                 </div>
             
                 {{-- User Name --}}
                 <div class="col-md-auto col-sm-6 ms-2 p-0">
-                    <a href="#" class="text-decoration-none h5 d-inline align-items-center">
+                    <a href="{{ route('profile.header', $post['user_id']) }}" class="text-decoration-none h5 d-inline align-items-center">
                         <p class="username h4 my-auto" id="username">{{ $post['user_name'] }}</p></a>                 
                 </div>
 
@@ -102,10 +127,10 @@
                 </script>
 
                 {{-- User official mark --}}
-                <div class="col-md-auto col-sm-1 pb-2 p-1">
-                    @if($post['user_official_certification'] == 2)
+                <div class="col-md-auto col-sm-1 mt-1 p-1">
+                    @if($post['user_official_certification'] == 3)
                         <img src="{{ asset('images/logo/official_personal.png')}}" class="official-personal d-inline ms-0" alt="official-personal">
-                    @elseif($post['user_official_certification'] == 1)
+                    @else
                     @endif
                 </div>
 
@@ -148,7 +173,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn p-0">
-                                <i class="fa-solid fa-heart color-red {{ $post['is_liked'] ? 'text-danger' : 'text-secondary' }}" ></i>
+                                <i class="fa-solid fa-heart home color-red {{ $post['is_liked'] ? 'text-danger' : 'text-secondary' }}" ></i>
                             </button>
                         </form>
                     @else
@@ -158,7 +183,7 @@
                         <form action="{{ route($likeStoreRoute, $post['id']) }}" method="post">
                             @csrf
                             <button type="sumbit" class="btn p-0">
-                                <i class="fa-regular fa-heart"></i>
+                                <i class="fa-regular fa-heart home"></i>
                             </button>
                         </form>
                     @endif
