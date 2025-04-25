@@ -79,8 +79,9 @@
                         $owner = $quest_a->user;
                         $isFollowing = $authUser && $authUser->follows->contains('followed_id', $owner->id);
                     @endphp
+
                     @auth
-                        @if ($authUser->role_id !== 2)
+                        @if ($authUser->role_id !== 2 && $authUser->id !== $owner->id)
                             <form class="follow-toggle-form mb-0" data-user-id="{{ $owner->id }}">
                                 @csrf
                                 <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">
@@ -88,8 +89,7 @@
                                 </button>
                             </form>
                         @endif
-                    @endauth
-                    
+                    @endauth              
                 </div>
             </div>
 
