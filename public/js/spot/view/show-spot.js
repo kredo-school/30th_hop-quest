@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const spotId = this.dataset.spotId;
             const liked = this.dataset.liked === '1';
             const url = liked 
-                ? `/spot/${spotId}/unlike`
-                : `/spot/${spotId}/like`;
+                ? `/spot/${spotId}/unlike/json`
+                : `/spot/${spotId}/like/json`;
             const method = liked ? 'DELETE' : 'POST';
 
             fetch(url, {

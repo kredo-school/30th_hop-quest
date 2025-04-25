@@ -23,14 +23,18 @@ class SpotController extends Controller
         $this->user = $user;
     }
 
-    public function show($id)
-    {
-        // $spot = Spot::findOrFail($id);
+    public function show($id){
         $spot = $this->spot->findOrFail($id);
         $user = $this->user->findOrFail($spot->user_id);
 
-        // Convert storage path to URL
+        // メイン画像URL化
         $spot->main_image = Storage::url($spot->main_image);
+
+        // 追加：images（複数）のURL化
+        $imagePaths = json_decode($spot->images, true) ?? [];
+        $spot->images = array_map(function ($path) {
+            return Storage::url($path);
+        }, $imagePaths);
 
         return view('spots.show')
             ->with('spot', $spot)
@@ -63,75 +67,34 @@ class SpotController extends Controller
 
 
     public function store(Request $request){
-        if ($request->input('from_confirm') === 'true') {
-            $data = session('spot_edit_data', []);
 
-            $spot = new Spot();
-            $spot->user_id = Auth::id();
-            $spot->title = $data['title'];
-            $spot->introduction = $data['introduction'];
-            $spot->geo_lat = $data['geo_lat'];
-            $spot->geo_lng = $data['geo_lng'];
-            $spot->geo_location = $data['geo_location'];
-
-            $dir = 'images/spots';
-
-            // ---- main_image の移動 ----
-            if (!empty($data['main_image_path'])) {
-                $tempPath = str_replace('/storage/', '', $data['main_image_path']); // "temp/..."
-                $filename = time() . '_main_' . basename($tempPath);
-                $newPath = "$dir/$filename";
-                Storage::disk('public')->move($tempPath, $newPath);
-                $spot->main_image = $newPath;
-            }
-
-            // ---- 画像の移動 ----
-            $finalImages = [];
-            $existingImages = $data['existing_images'] ?? [];
-
-            foreach ($existingImages as $img) {
-                $finalImages[] = $img;
-            }
-
-            foreach ($data['image_paths'] ?? [] as $img) {
-                $tempPath = str_replace('/storage/', '', $img);
-                $filename = time() . '_' . basename($tempPath);
-                $newPath = "$dir/$filename";
-                Storage::disk('public')->move($tempPath, $newPath);
-                $finalImages[] = Storage::url($newPath);
-            }
-
-            $spot->images = json_encode($finalImages);
-            $spot->save();
-
-            session()->forget(['spot_edit_data', 'spot_id', 'spot_mode']);
-
-            return redirect()->route('spots.show', $spot->id);
-        }
-
-        // 通常の登録処理
         $request->validate([
-            'title' => 'required',
-            'introduction' => 'required',
+            'title' => 'required|string|max:255',
+            'introduction' => 'required|string',
             'main_image' => 'required|image|mimes:jpeg,jpg,png,gif|max:1048',
             'images.*' => 'image|mimes:jpeg,jpg,png,gif|max:1048',
-            'images' => 'array|max:6'
+            'images' => 'array|max:6',
         ]);
 
         $dir = 'images/spots';
 
+        // ✅ メイン画像保存
         $main_image_name = time() . '_main_' . $request->file('main_image')->getClientOriginalName();
         $main_image_path = $request->file('main_image')->storeAs($dir, $main_image_name, 'public');
+        $main_image_path = '/' . ltrim($main_image_path, '/'); // ← 追加！
 
+        // ✅ その他画像保存
         $imagePaths = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $file_name = time() . '_' . $image->getClientOriginalName();
                 $path = $image->storeAs($dir, $file_name, 'public');
-                $imagePaths[] = Storage::url($path);
+                $imagePaths[] = '/' . ltrim($path, '/'); // ← 追加！
+
             }
         }
 
+        // ✅ Spot作成
         $spot = new Spot();
         $spot->user_id = Auth::id();
         $spot->title = $request->title;
@@ -143,86 +106,7 @@ class SpotController extends Controller
         $spot->images = json_encode($imagePaths);
         $spot->save();
 
-        return redirect()->route('spots.show', $spot->id);
-    }
-
-
-
-    public function showConfirm(Request $request, $id = null){
-
-        if (!$request->isMethod('post')) {
-            if ($id) {
-                return redirect()->route('spots.edit', ['spot_id' => $id]);
-            } else {
-                return redirect()->route('spots.create');
-            }
-        }
-
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'introduction' => 'required|string',
-            'main_image' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:1048',
-            'images.*' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:1048',
-            'geo_lat' => 'nullable',
-            'geo_lng' => 'nullable',
-            'geo_location' => 'nullable|string',
-        ]);
-
-        $sessionData = [];
-
-        // テキスト系フィールド
-        foreach (['title', 'introduction', 'geo_lat', 'geo_lng', 'geo_location'] as $key) {
-            if (!is_null($request->input($key))) {
-                $sessionData[$key] = $request->input($key);
-            }
-        }
-
-        // main_image の保存
-        if ($request->hasFile('main_image')) {
-            $mainImage = $request->file('main_image');
-            $mainImagePath = $mainImage->store('temp/main_images', 'public');
-            $sessionData['main_image_path'] = Storage::url($mainImagePath);
-        }
-
-        // main_image の保存 or セッションの値を維持
-        if ($request->hasFile('main_image')) {
-            $mainImage = $request->file('main_image');
-            $mainImagePath = $mainImage->store('temp/main_images', 'public');
-            $sessionData['main_image_path'] = Storage::url($mainImagePath);
-        } elseif (session()->has('spot_edit_data.main_image_path')) {
-            // 新しいファイルがない時でも、セッションの値を引き継ぐ
-            $sessionData['main_image_path'] = session('spot_edit_data.main_image_path');
-        }
-
-        // 新規画像の保存
-        // dd($request->file('images'));
-        if ($request->hasFile('images')) {
-            $imagePaths = [];
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('temp/images', 'public');
-                $imagePaths[] = Storage::url($path);
-            }
-            $sessionData['image_paths'] = $imagePaths;
-        }
-
-        // 既存画像（削除されていないもの）
-        if ($request->filled('existing_images')) {
-            $existing = $request->input('existing_images');
-            $sessionData['existing_images'] = array_map(function ($img) {
-                return Str::startsWith($img, '/storage') ? $img : Storage::url($img);
-            }, $existing);
-        }        
-
-        $mode = $id ? 'update' : 'store';
-        // dd($sessionData);
-        session([
-            'spot_edit_data' => $sessionData,
-            'spot_id' => $id,
-            'spot_mode' => $mode,
-        ]);
-
-        $spot = $id ? Spot::findOrFail($id) : new Spot();
-        return view('spots.confirm-create', compact('spot'));
+        return redirect()->route('spot.show', $spot->id);
     }
 
     public function showEdit($id){    
@@ -277,10 +161,9 @@ class SpotController extends Controller
                 if (Storage::disk('public')->exists($tempPath)) {
                     $fileName = time() . '_main_' . basename($tempPath);
                     $newPath = 'images/spots/' . $fileName;
-            
-                    // move to permanent location
                     Storage::disk('public')->move($tempPath, $newPath);
-                    $spot->main_image = $newPath;
+                    $spot->main_image = '/' . ltrim($newPath, '/'); // ← 追加！
+
                 }
             }
 
@@ -293,7 +176,7 @@ class SpotController extends Controller
             session()->forget('spot_edit_data');
             session()->forget('spot_id');
 
-            return redirect()->route('spots.show', $spot->id);
+            return redirect()->route('spot.show', $spot->id);
         }
 
         // 通常フォームからの更新（バリデーション含めて従来通り）
@@ -310,7 +193,8 @@ class SpotController extends Controller
         if ($request->hasFile('main_image')) {
             $main_image_name = time() . '_main_' . $request->file('main_image')->getClientOriginalName();
             $main_image_path = $request->file('main_image')->storeAs($dir, $main_image_name, 'public');
-            $spot->main_image = $main_image_path;
+            $spot->main_image = '/' . ltrim($main_image_path, '/'); // ← 追加！
+
         }
 
         $newImagePaths = [];
@@ -318,22 +202,35 @@ class SpotController extends Controller
             foreach ($request->file('images') as $image) {
                 $file_name = time() . '_' . $image->getClientOriginalName();
                 $path = $image->storeAs($dir, $file_name, 'public');
-                $newImagePaths[] = Storage::url($path);
+                $newImagePaths[] = '/' . ltrim($path, '/'); // ← 追加！
+
             }
         }
+
 
         $existingImages = $request->input('existing_images', []);
         $allImages = array_merge($existingImages, $newImagePaths);
 
         $spot->title = $request->title;
         $spot->introduction = $request->introduction;
-        $spot->geo_location = $request->geo_location;
-        $spot->geo_lat = $request->geo_lat;
-        $spot->geo_lng = $request->geo_lng;
+        $spot->geo_location = $request->filled('geo_location') ? $request->geo_location : $spot->geo_location;
+        $spot->geo_lat = $request->filled('geo_lat') ? $request->geo_lat : $spot->geo_lat;
+        $spot->geo_lng = $request->filled('geo_lng') ? $request->geo_lng : $spot->geo_lng;
+
         $spot->images = json_encode($allImages);
         $spot->save();
 
-        return redirect()->route('spots.show', $spot->id);
+        return redirect()->route('profile.header', $spot->user_id);
+    }
+
+    public function deactivate($id){
+        $this->spot->destroy($id);
+        return redirect()->back();
+    }
+
+    public function activate($id){
+        $this->spot->onlyTrashed()->findOrFail($id)->restore();
+        return redirect()->back();
     }
 
 

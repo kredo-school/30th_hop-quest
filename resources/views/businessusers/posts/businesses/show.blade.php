@@ -1,8 +1,5 @@
 @extends('layouts.app')
 
-@php
-use Illuminate\Support\Str;
-@endphp
 
 <link rel="stylesheet" href="{{ asset('css/viewbusiness.css') }}">
 
@@ -15,7 +12,7 @@ use Illuminate\Support\Str;
             <!-- Main Image Section -->
             <section class="main-image-section">
                 <div class="main-image-wrapper mt-3">
-                    <img class="main-image" alt="Main picture" src="{{ asset('storage'.$business->main_image) }}" />
+                    <img class="main-image" alt="Main picture" src="{{ $business->main_image }}" />
 
                     <div class="main-title">
                         {{ $business->name }}
@@ -25,7 +22,7 @@ use Illuminate\Support\Str;
                     </div>
 
                     @if($business->official_certification==3)
-                        <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official-badge" alt="official">              
+                        <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official" alt="official">              
                     @else
                     @endif
                 </div>
@@ -65,7 +62,7 @@ use Illuminate\Support\Str;
                         </div>
 
 
-                    <div class="profile-icons">
+                    <div class="profile-icons ms-5">
                         {{-- red heart/unlike --}}
                         <div class="mt-3">
                             @if($business->isLiked())                            
@@ -128,7 +125,7 @@ use Illuminate\Support\Str;
             </section>
 
             <!-- Business Promotion -->
-            <section class="business-promotion">
+            <!-- <section class="business-promotion">
                 <h3>Business Promotion</h3>
                 <div class="promotion-container">
                     @if(count($business_promotion) > 0)
@@ -140,39 +137,8 @@ use Illuminate\Support\Str;
 
                             <div class="carousel-items-container">
                                 @foreach($business_promotion as $index => $promotion)
-                                    <div class="promotion-item {{ $index < 3 ? 'active' : '' }}">
-                                        <div class="card promotion-card">
-                                            <div class="card-header border-0 bg-light p-3">
-                                                <!-- Promotion Title -->
-                                                <h4 class="fw-bold">{{ $promotion->title }}</h4>
-                                                
-                                                <!-- Promotion Period -->
-                                                @if((!$promotion->promotion_start || !$promotion->promotion_end))
-                                                    <!-- No date specified -->
-                                                @elseif($promotion->promotion_start == $promotion->promotion_end)
-                                                    <h6 class="fw-bold">{{ date('M d Y', strtotime($promotion->promotion_start)) }}</h6>
-                                                @elseif($promotion->promotion_start && $promotion->promotion_end)
-                                                    @if(($promotion->promotion_start < $promotion->promotion_end))
-                                                        <h6 class="fw-bold">{{ date('M d Y', strtotime($promotion->promotion_start)) }} ~ {{ date('M d Y', strtotime($promotion->promotion_end)) }}</h6>     
-                                                    @else
-                                                        <h6 class="fw-bold">{{ date('M d Y', strtotime($promotion->promotion_end)) }} ~ {{ date('M d Y', strtotime($promotion->promotion_start)) }}</h6> 
-                                                    @endif                              
-                                                @endif
-                                            </div>
-                                            
-                                            <!-- Promotion Image -->
-                                            <div class="position-relative">
-                                                <a href="{{ route('promotions.show', $promotion->id) }}">
-                                                    <img src="{{ asset('storage'.$promotion->image) }}" class="card-img-top promotion-img" alt="{{ $promotion->title }}">
-                                                </a>
-                                            </div>
-                                            
-                                            <!-- Promotion Description -->
-                                            <div class="card-body">
-                                                <p class="card-text promotion-description">{{ Str::limit($promotion->introduction, 100) }}</p>
-                                                <a href="{{ route('promotions.show', $promotion->id) }}" class="btn btn-sm btn-outline-primary mt-2">check details</a>
-                                            </div>
-                                        </div>
+                                    <div class="promotion-item {{ $index < 5 ? 'active' : '' }}">
+                                        
                                     </div>
                                 @endforeach
                             </div>
@@ -320,16 +286,17 @@ use Illuminate\Support\Str;
                 </div>
             </section>
 
-            <!-- Business Details -->
+            <!-- Details -->
             <section class="details-section">
                 <h2 class="details-title">
-                    Business Details
+                    Details
                 </h2>
+
                 <div class="details-container">
                     @foreach($business_info_category as $index => $category)
                         <div class="amenity-group">
                             <div class="amenity-group-title">
-                                {{ $category->name }} 
+                                {{ $category->name }} :
                             </div>
                             <div class="amenity-items-container">
                                 <div class="amenity-grid">
@@ -363,11 +330,12 @@ use Illuminate\Support\Str;
                 </div>
             </section>
 
-            <!-- Business Reviews -->
-            <section class="business-reviews">
-                <h2 class="business-reviews-title">
-                    Business Reviews
+            <!-- Quest Section -->
+            <section class="quest-section">
+                <h2 class="quest-title">
+                    Model Quest
                 </h2>
+
                 <div class="reviews-container">
                     @if(isset($business->businessComments) && $business->businessComments->count() > 0)
                         <div class="card mb-4">
@@ -484,7 +452,14 @@ use Illuminate\Support\Str;
                         </div>
                     @endif
                 </div>
-            </section>
+
+
+            <!-- Comments Section -->
+            <hr>
+            @include('businessusers.posts.businesses.partials.comment_body')
+            <div class="d-flex justify-content-center mt-3">
+                {{-- {{ $business_comments->links() }} --}}
+            </div>
 
             <!-- Go to Top Button -->
             <div class="top-button-container">

@@ -1,5 +1,7 @@
-<div class="bg-blue">
+delete<div class="bg-blue">
 @extends('layouts.app')
+
+@section('title', 'Promotion View')
 
 @section('title', 'Promotion View')
 
@@ -7,8 +9,11 @@
     <link rel="stylesheet" href="{{ asset('css/promotion-body.css')}}">
     {{-- <link rel="stylesheet" href="{{ asset('css/viewbusiness.css') }}"> --}}
 
+    {{-- <link rel="stylesheet" href="{{ asset('css/viewbusiness.css') }}"> --}}
+
 
 @section('content')
+
     <div class="page-wrapper mt-5 pb-5">
         <div class="page-container">
 
@@ -28,7 +33,7 @@
                     </div>
                     <div class="post-dates">
                         @if($business_promotion->updated_at)
-                            <h5 >Updated: {{ $business_promotion->updated_at->format('M d Y')}}</h5>
+                            <h5 >Posted: {{ $business_promotion->updated_at->format('M d Y')}}</h5>
                         @else
                             <h5 >Posted: {{ $business_promotion->created_at->format('M d Y')}}</h5>
                         @endif
@@ -91,13 +96,20 @@
                 </div>
             </section>
 
-        <div class="row justify-content-center mb-5">
-            <div class="col-4">
-                <button onclick="window.history.back()" class="btn btn-red w-100">BACK</button>
+            <div class="row pt-0">       
+                <div class="col align-center mb-5">
+                    <a href="{{ route('profile.header', ['id' => $business_promotion->user_id, 'tab' => 'promotions']) }}">
+                        <button class="btn btn-green text-uppercase w-25 position-absolute start-50 translate-middle mt-1">Back to Profile</button>
+                    </a>
+                </div>
             </div>
-        </div>
-    </div>   
-</div>
 
             
+            
+            </div>
+
+            
+            
 @endsection
+
+    

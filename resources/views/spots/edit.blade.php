@@ -23,12 +23,16 @@
                     <div class="row row-cols-1 row-cols-md-2">
                         {{-- left side --}}
                         <div class="col-12 col-md-6 add-spot-container">
-                            <form action="{{ route('spots.confirm', $spot->id) }}" method="POST" class="add-spot-form px-0" id="spot-form" enctype="multipart/form-data">
+                            <form action="{{ route('spots.update', $spot->id) }}" method="POST" class="add-spot-form px-0" id="spot-form" enctype="multipart/form-data">
                                 @csrf
+                                @method('PATCH')
                                 {{-- title --}}
                                 <div class="form-group mb-2">
                                     <label for="title" class="form-label">Title</label>
-                                    <input type="text" id="title" name="title" placeholder="What unique spot did you find?" class="input-box form-input" value="{{ old('title', $spot->title) }}" required>
+                                    <input type="text" id="title" name="title" placeholder="What unique spot did you find?" class="input-box form-input" value="{{ old('title', $spot->title) }}">
+                                    @error('title')
+                                        <p class="mb-0 text-danger small">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 {{-- main image --}}
@@ -52,7 +56,10 @@
                                 {{-- introduction --}}
                                 <div class="form-group mb-2">
                                     <label for="introduction" class="form-label">Introduction</label>
-                                    <textarea id="introduction" name="introduction" placeholder="This photo viewing introduction on spot page" class="text-area" rows="8" required> {{ old('introduction', $spot->introduction) }} </textarea>
+                                    <textarea id="introduction" name="introduction" placeholder="This photo viewing introduction on spot page" class="text-area" rows="8"> {{ old('introduction', $spot->introduction) }} </textarea>
+                                    @error('introduction')
+                                        <p class="mb-0 text-danger small">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 {{-- Images --}}
@@ -67,7 +74,7 @@
                                             @php $images = json_decode($spot->images, true) ?? []; @endphp
                                             @foreach ($images as $image)
                                                 <div class="image-preview-box position-relative" data-image="{{ $image }}">
-                                                    <img src="{{ asset($image) }}" class="img-thumbnail" style="width: 150px;">
+                                                    <img src="{{ asset('storage/' . $image) }}" class="img-thumbnail" style="width: 150px;">
                                                     <button type="button" class="btn btn-sm btn-danger position-absolute bottom-0 end-0 m-1 remove-existing-image">
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
@@ -85,9 +92,9 @@
 
                                 
                                 {{-- hidden input about location --}}
-                                <input type="hidden" name="geo_lat" id="geo_lat">
-                                <input type="hidden" name="geo_lng" id="geo_lng">
-                                <input type="hidden" name="geo_location" id="geo_location">
+                                <input type="hidden" name="geo_lat" id="geo_lat" value="{{ old('geo_lat', $spot->geo_lat) }}">
+                                <input type="hidden" name="geo_lng" id="geo_lng" value="{{ old('geo_lng', $spot->geo_lng) }}">
+                                <input type="hidden" name="geo_location" id="geo_location" value="{{ old('geo_location', $spot->geo_location) }}">
                         </div>
 
                         {{-- right side --}}
@@ -103,7 +110,8 @@
                                 data-lng="{{ old('geo_lng', $spot->geo_lng) }}">
                             </div>
 
-                            <div id="place-photo" class="place-photo mb-5"></div>
+
+                            <div id="place-photo" class="place-photo mb-5 w-100 text-center"></div>
                         </div>
 
                     </div>
@@ -111,14 +119,14 @@
                     {{-- submit button --}}
                         <div class="row my-4">
                             <div class="col-12 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-navy w-50" form="spot-form">Check</button>
+                                <button type="submit" class="btn btn-navy w-50" form="spot-form">Update</button>
                             </div>
                         </div>
                     </div>
 
                     {{-- Add Google Maps info --}}
                     <script src="{{ asset('js/spot/edit/edit-map.js') }}"></script>
-                    <script async
+                    <script defer
                         src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&libraries=places&callback=initMap">
                     </script>
 

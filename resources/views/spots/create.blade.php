@@ -20,13 +20,13 @@
         </div>
     </div>
     @endif
-    <div class="col-9">
-        <h3 class="color-navy poppins-semibold text-center pb-5 pt-2">Create Spot</h3>
+    <div class="col-9 pt-4">
+        <h3 class="color-navy poppins-semibold text-center pb-5 pt-2">Add Spot</h3>
 
         <div class="row row-cols-1 row-cols-md-2">
             {{-- left side --}}
             <div class="col-12 col-md-6 add-spot-container">
-                <form action="{{ route('spots.confirm') }}" method="POST" class="add-spot-form px-0" id="spot-form" enctype="multipart/form-data">
+                <form action="{{ route('spots.store') }}" method="POST" class="add-spot-form" id="spot-form" enctype="multipart/form-data">
                     @csrf
 
                     {{-- title --}}
@@ -118,7 +118,7 @@
                     data-lng="{{ $geoLng }}">
                 </div>
 
-                <div id="place-photo" class="place-photo mb-5"></div>
+                <div id="place-photo" class="place-photo mb-5 w-100 text-center"></div>
             </div>
         </div>
 
@@ -132,7 +132,7 @@
 </div>
 
 {{-- JS --}}
-<script src="{{ asset('js/spot/edit/edit-map.js') }}"></script>
+<script src="{{ asset('js/spot/create/add-map.js') }}"></script>
 <script async src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&libraries=places&callback=initMap"></script>
 <script src="{{ asset('js/spot/create/add-images.js') }}"></script>
 @endsection

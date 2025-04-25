@@ -68,8 +68,18 @@ class Business extends Model
     }
 
     public function businessDetails(){
+
         return $this->hasMany(BusinessDetail::class);
     }
+
+    public function hasBusinessInfo($infoName){
+        return $this->businessDetails
+            ->load('businessInfo')
+            ->pluck('businessInfo')
+            ->filter()
+            ->contains('name', $infoName);
+    }
+
 
     public function businessHours(){
         return $this->hasMany(BusinessHour::class);

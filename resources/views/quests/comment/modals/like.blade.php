@@ -25,22 +25,24 @@
 
                         {{-- ユーザー名 --}}
                         <div class="col-7 text-start">
-                            <a href="#" class="text-decoration-none text-dark fw-bold">
+                            <a href="{{ route('profile.header', $user->id)}}" class="text-decoration-none text-dark fw-bold">
                                 {{ $user->name }}
                             </a>
                         </div>
 
-                        {{-- フォローボタン（自分以外のときだけ表示） --}}
-                        @if(!$isOwn)
-                            <div class="col-3 text-end">
-                                <form class="follow-toggle-form" data-user-id="{{ $user->id }}">
-                                    @csrf
-                                    <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">
-                                        {{ $isFollowing ? 'Following' : 'Follow' }}
-                                    </button>
-                                </form>
-                            </div>
-                        @endif
+                        {{-- フォローボタン（ログイン中 && 自分じゃない && ユーザーロールIDが2以外のとき） --}}
+                        @auth
+                            @if (!$isOwn && Auth::user()->role_id !== 2)
+                                <div class="col-3 text-end">
+                                    <form class="follow-toggle-form" data-user-id="{{ $user->id }}">
+                                        @csrf
+                                        <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">
+                                            {{ $isFollowing ? 'Following' : 'Follow' }}
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endauth
                     </div>
                 @empty
                     <p class="text-center text-muted">No likes yet.</p>

@@ -9,7 +9,7 @@
 
 @section('content')
 <div class="{{ Auth::user()->role_id === 1 ? 'bg-green' : 'bg-blue' }}">
-    <p class="attention color-navy poppins-semibold text-center pt-5 pb-3 fs-4 {{ Auth::user()->id == 1 ? 'bg-quest-blue' : 'bg-quest-green' }}">
+    <p class="attention color-navy poppins-semibold text-center pt-5 pb-3 fs-4 {{ Auth::user()->role_id == 1 ? 'bg-quest-blue' : 'bg-quest-green' }}">
         Not yet published. This page is for confirmation only.
     </p>
     <div class="container py-5 col-9 px-0">
@@ -85,7 +85,7 @@
                                                     @if ($body->spot)
                                                         {{ $body->spot->title }}
                                                     @elseif ($body->business)
-                                                        @if ($quest_a->user_id === 2)
+                                                        @if ($quest_a->user->role_id === 2)
                                                             {{ $body->business_title }}
                                                         @else
                                                             {{ $body->business->name }}
@@ -143,13 +143,18 @@
                             <div class="spot-entry">
                                 <div class="row pb-3 justify-content-between align-items-center">
                                     <h4 class="spot-name poppins-bold col-md-10 text-start">
-                                        @if ($quest_a->user_id == 2)
-                                            {{ $questbody->business_title }}
+                                        @if ($quest_a->user->role_id == 2 && $questbody->business_title)
+                                            {{ $questbody->business_title }} {{-- カスタム入力なのでリンクなし --}}
                                         @else
                                             @if ($questbody->spot)
-                                                {{ $questbody->spot->title }}
+                                                <a href="{{ route('spot.show', ['id' => $questbody->spot->id]) }}" class="text-decoration-none text-dark">
+                                                    {{ $questbody->spot->title }}
+                                                </a>
                                             @elseif ($questbody->business)
-                                                {{ $questbody->business->name }}
+                                                <a href="" class="text-decoration-none text-dark">
+                                                    {{-- route('business.show', ['id' => $questbody->business->id])  --}}
+                                                    {{ $questbody->business->name }}
+                                                </a>
                                             @else
                                                 <span class="text-muted">Undefined</span>
                                             @endif

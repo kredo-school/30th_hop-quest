@@ -61,12 +61,12 @@
 
 .card-body.content-md{
     display: flow-root;
-    height:260px;
+    height:auto;
 }
 
 .card-body.content-lg{
     display: flow-root;
-    height:300px;
+    height:310px;
     margin-bottom: 20px;
     overflow: hidden;
 }

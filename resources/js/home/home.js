@@ -101,3 +101,28 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+    document.addEventListener('DOMContentLoaded', function(){
+        const target    = document.querySelector('.faq-body');
+        const question  = document.querySelectorAll('.first-question');
+        const observer  = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting){
+                    entry.target.classList.add('active');
+
+                    target.addEventListener("animationend", () =>{
+                        question.forEach(q => q.classList.add('active'));
+                    }, {once: true});
+
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.7
+        });
+
+        if(target){
+            observer.observe(target);
+        }
+    });

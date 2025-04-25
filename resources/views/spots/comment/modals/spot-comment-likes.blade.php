@@ -18,7 +18,7 @@
                         {{-- アバター＋ユーザー名 --}}
                         <a href="{{ route('profile.header', $user->id) }}" class="d-flex align-items-center text-decoration-none">
                             @if($user->avatar)
-                                <img src="{{ $user->avatar }}" class="avatar-md rounded-circle me-2" alt="icon">
+                                <img src="{{ $user->avatar }}" class="avatar-sm rounded-circle me-2" alt="icon">
                             @else
                                 <i class="fa-solid fa-circle-user text-secondary icon-md text-center me-2"></i>
                             @endif
@@ -26,15 +26,17 @@
                             <span class="fw-bold text-dark">{{ $user->name }}</span>
                         </a>
 
-                        {{-- フォローボタン（自分以外のときだけ） --}}
+                        {{-- フォローボタン（ログインかつ自分以外のときだけ） --}}
                         @auth
-                            @if ($authUser->id == 2)
-                                <form class="follow-toggle-form mb-0" data-user-id="{{ $owner->id }}">
-                                    @csrf
-                                    <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">
-                                        {{ $isFollowing ? 'Following' : 'Follow' }}
-                                    </button>
-                                </form>
+                            @if (!$isOwn && Auth::user()->role_id != 2)
+                                <div class="col-3 text-end">
+                                    <form class="follow-toggle-form" data-user-id="{{ $user->id }}">
+                                        @csrf
+                                        <button type="button" class="btn px-3 py-0 {{ $isFollowing ? 'btn-following' : 'btn-follow' }}">
+                                            {{ $isFollowing ? 'Following' : 'Follow' }}
+                                        </button>
+                                    </form>
+                                </div>
                             @endif
                         @endauth
                     </div>

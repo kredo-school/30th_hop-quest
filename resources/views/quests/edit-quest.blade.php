@@ -14,7 +14,7 @@
 </script>
 <div class="{{ Auth::user()->role_id === 1 ? 'bg-green' : 'bg-blue' }}">
     <div class="container py-5 col-9">
-        <h3 class="color-navy poppins-semibold text-center">Create Your Quest</h3>
+        <h3 class="color-navy poppins-semibold text-center">Edit Quest</h3>
             <section id="form2" class="reveal-section">
                 <form action="{{ route('questbody.store') }}" method="post" enctype="multipart/form-data" id="body_form" class="bg-white rounded-5 px-5 py-3 my-5">
                     @csrf
@@ -318,17 +318,16 @@
                                 <div class="spot-entry">
                                     <div class="row pb-3 justify-content-between align-items-center">
                                         <h4 class="spot-name poppins-bold col-md-10 text-start">
-                                            @if ($quest->user_id == 2 && $questbody->business_title)
+                                            @if ($quest->user->role_id == 2 && $questbody->business_title)
                                                 {{ $questbody->business_title }} {{-- カスタム入力なのでリンクなし --}}
                                             @else
                                                 @if ($questbody->spot)
-                                                    <a href="{{ route('spots.show', ['id' => $questbody->spot->id]) }}" class="text-decoration-none text-dark">
+                                                    <a href="{{ route('spot.show', ['id' => $questbody->spot->id]) }}" class="text-decoration-none text-dark">
                                                         {{ $questbody->spot->title }}
                                                     </a>
                                                 @elseif ($questbody->business)
-                                                    <a href="}}" class="text-decoration-none text-dark">
-                                                        {{-- {{ route('business.show', ['id' => $questbody->business->id])  --}}
-                                                        {{ $questbody->business->name }}
+                                                    <a href="{{ route('business.show', ['id' => $questbody->business->id]) }}" class="text-decoration-none text-dark">
+                                                        {{$questbody->business->name }}
                                                     </a>
                                                 @else
                                                     <span class="text-muted">Undefined</span>
@@ -393,7 +392,7 @@
                         </div>
                     @endforeach
                 @else
-                        <h4>No Entry. Please add Spots or businesses on your Quest!</h4>
+                        <h4>No Entry. </h4>
                 @endif
             </div>
             {{-- CONFIRM + BACK BUTTONS --}}

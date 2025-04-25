@@ -56,8 +56,9 @@ class QuestBodyController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $filename = time() . '_' . $image->getClientOriginalName();
-                $filePath = $image->storeAs('images/quest', $filename, 'public');
-                $imageDataList[] = $filePath;
+                $filePath = $image->storeAs('images/quests', $filename, 'public');
+                $imageDataList[] = '/' . ltrim($filePath, '/');
+
             }
         }else{
             dd("📷 画像が届いてない", $request->allFiles());
@@ -146,8 +147,9 @@ class QuestBodyController extends Controller
             foreach ($request->file('images') as $image) {
                 if ($image && $image->isValid()) {
                     $filename = time() . '_' . $image->getClientOriginalName();
-                    $filePath = $image->storeAs('images/quest', $filename, 'public');
-                    $newImageList[] = $filePath;
+                    $filePath = $image->storeAs('images/quests', $filename, 'public');
+                    $newImageList[] = '/' . ltrim($filePath, '/');
+
                 }
             }
         }
