@@ -20,7 +20,7 @@
         </div>
     </div>
     @endif
-    <div class="col-9">
+    <div class="col-9 pt-4">
         <h3 class="color-navy poppins-semibold text-center pb-5 pt-2">Add Spot</h3>
 
         <div class="row row-cols-1 row-cols-md-2">

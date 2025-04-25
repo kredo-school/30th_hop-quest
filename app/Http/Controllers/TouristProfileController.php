@@ -69,7 +69,7 @@ class TouristProfileController extends Controller
 
 
             $user = User::findOrFail($targetUserId);
-            dd($user);
+            // dd($user);
 
             // Set basic fields
             $user->name = $validated['name'];
