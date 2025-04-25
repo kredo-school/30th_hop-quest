@@ -30,9 +30,9 @@
                             </a>
                         </div>
 
-                        {{-- フォローボタン（ログイン中 && 自分じゃない && ユーザーIDが2以外のとき） --}}
+                        {{-- フォローボタン（ログイン中 && 自分じゃない && ユーザーロールIDが2以外のとき） --}}
                         @auth
-                            @if (!$isOwn && Auth::user()->role_id != 2)
+                            @if (!$isOwn && Auth::user()->role_id !== 2)
                                 <div class="col-3 text-end">
                                     <form class="follow-toggle-form" data-user-id="{{ $user->id }}">
                                         @csrf

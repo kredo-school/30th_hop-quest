@@ -45,27 +45,24 @@
                         @endif
                     @endauth
 
-                    {{-- Icon & Name & Post Date --}}
-                    <div class="comment-header">
-                        {{-- User Icon --}}
-                        <div class="comment-user-icon" id="usericon">
-                            <a href="{{ route('profile.header', $comment->user->id) }}" class="spot-user-link">
-                                <img src="{{ asset($comment->user->avatar) }}" alt="{{ $comment->user->name }}"
-                                    class="spot-user-avatar">
-                            </a>
-                        </div>
-                        {{-- User Name --}}
-                        <div class="comment-username" id="touristname">
-                            <a href="{{ route('profile.header', $comment->user->id) }}"
-                                class="spot-user-link text-decoration-none poppins-semibold text-dark fs-5">
-                                {{ $comment->user->name }}
-                            </a>
-                        </div>
-                        <div class="col-auto">
-                            <p class="spot-date m-0 ms-3 text-secondary">
-                                {{ date('M d, Y', strtotime($comment->created_at)) }}</p>
-                        </div>
+                {{-- Icon & Name & Post Date --}}
+                <div class="comment-header">
+                    {{-- User Icon --}}
+                    <div class="comment-user-icon" id="usericon">
+                        <a href="{{ route('profile.header', $comment->user->id) }}" class="spot-user-link">
+                            <img src="{{ asset($comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="avatar-sm rounded-circle">
+                        </a>
                     </div>
+                    {{-- User Name --}}
+                    <div class="comment-username" id="touristname">
+                        <a href="{{ route('profile.header', $comment->user->id) }}" class="spot-user-link text-decoration-none poppins-semibold text-dark fs-5">
+                            {{ $comment->user->name }}
+                        </a>
+                    </div>
+                    <div class="col-auto">
+                        <p class="spot-date m-0 ms-3 text-secondary">{{ date('M d, Y', strtotime($comment->created_at)) }}</p>
+                    </div>
+                </div>
 
                     {{-- comment body --}}
                     <div class="comment-text" id="content">
