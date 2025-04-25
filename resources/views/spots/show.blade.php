@@ -19,7 +19,7 @@
                     @else
                         <img src="{{ asset('storage/' . $spot->main_image) }}" alt="{{ $spot->title }}" class="img-sm d-block mx-auto">
                     @endif
-                    <h5 class="spot-image-caption w-100 px-3">{{ $spot->title }}</h5>
+                    <h3 class="spot-image-caption w-100 px-3">{{ $spot->title }}</h3>
                 </div>
             </div>
             
