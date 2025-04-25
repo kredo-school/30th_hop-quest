@@ -56,7 +56,11 @@
           {{-- Header image upload --}}
         <div class="row mb-3">
             <div class="col">
-                <label for="header" class="form-label mb-2">Header photo</label>
+                <label for="header" class="form-label mb-2">Header photo </label>
+                <button type="button" class="btn btn-red delete-header" id="delete-header" >
+                    <i class=" fa-solid fa-trash-can" ></i>
+                </button>
+                
                 <input type="file" name="header" id="header" class="form-control form-control-sm w-100 p-2">
                 <p class="mb-0 form-text text-danger">
                 Acceptable formats: jpeg, jpg, png, gif only <br>
@@ -88,10 +92,10 @@
                     alt=""
                     class="rounded-circle avatar-xl d-block mx-auto">
                 @endif
-            
+{{--             
                 <i id="default-icon"
                     class="fa-solid fa-circle-user text-secondary profile-xl rounded-circle d-block d-none">
-                    </i>
+                    </i> --}}
             
                 <button type="button" class="btn btn-outline-red delete-avatar" id="delete-avatar" >
                     <i class=" fa-solid fa-trash-can" ></i>
