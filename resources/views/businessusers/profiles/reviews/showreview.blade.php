@@ -64,10 +64,10 @@
                     </div>
                     <div class="col-4">
                         <div class="card border-0">
-                            <div class="card-header border-none bg-navy-thead text-white">
+                            <div class="card-header border-none bg-navy-thead text-white text-center">
                                 POSTED AT
                             </div>
-                            <div class="card-body">
+                            <div class="card-body text-center">
                                 {{ $business_comment->created_at }}
                             </div>
                         </div>

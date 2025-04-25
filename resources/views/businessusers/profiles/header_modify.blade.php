@@ -49,7 +49,7 @@
             <div class="col-8">
     @endif
 
-    <div class="profile-header position-relative">
+    <div class="profile-header position-relative mt-3">
         <div class="row">
             <!-- Avatar image -->
             <div class="col-md-auto col-sm profile-image mb-3">
