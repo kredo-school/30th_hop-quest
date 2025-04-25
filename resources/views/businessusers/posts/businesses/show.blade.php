@@ -36,7 +36,7 @@
                             <div class="col-md-auto col-sm-2 my-auto p-0 profile-pic">                   
                                 <button class="btn">
                                     @if($business->user->avatar)
-                                        <img src="{{ $business->user->avatar }}" alt="" class="rounded-circle avatar-sm">
+                                        <img src="{{ asset('storage' .$business->user->avatar) }}" alt="" class="rounded-circle avatar-sm">
                                     @else
                                         <i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i>
                                     @endif
@@ -53,21 +53,12 @@
                         
                         <!--Follow-->
                         <div class="col-md-1 col-sm-1 ">
-                            @if($business->user->isFollowed())
-                            {{-- unfollow --}}
-                                <form action="{{route('follow.delete', $business->user->id)}}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-following btn-sm mt-3 w-100">Following</button>
-                                </form>
-        
-                            @else
-                            {{-- follow --}}
-                            <form action="{{route('follow.store', $business->user->id )}}" method="post">
-                                @csrf
-                                <button type="submit" class="btn btn-follow btn-sm mt-3 w-100">Follow</button>
-                            </form>
-                            @endif 
+                            @if(Auth::check())
+                                <div class="follow-container" data-user-id="{{ $business->user->id }}" data-is-followed="{{ $business->user->isFollowed() ? 'true' : 'false' }}">
+                                    <button type="button" class="btn btn-follow btn-sm mt-3 w-100 follow-button {{ $business->user->isFollowed() ? 'd-none' : '' }}">Follow</button>
+                                    <button type="button" class="btn btn-following btn-sm mt-3 w-100 unfollow-button {{ $business->user->isFollowed() ? '' : 'd-none' }}">Following</button>
+                                </div>
+                            @endif
                         </div>
 
 
@@ -169,23 +160,23 @@
 
             <!-- Business Introduction -->
             <section class="business-introduction">
-                <h3>Business Introduction</h3>
-                <div class="introduction-box">                   
-                    <p>{{ $business->introduction }}</p>
-                </div>
-            </section>
-
-            <!-- Business Location -->
-            <section class="business-location">
-                <h3>Business Location</h3>
-                <div class="location-wrapper">
-                    <div class="location-details">
+                <h3>Business Summary</h3>
+                <div class="business-summary-container">
+                    <div class="introduction-box">                   
+                        <p>{{ $business->introduction }}</p>
+                    </div>
+     
+                    <div class="business-information">
                         <div class="info-row">
                             <div class="info-label">
                                 Service Category :
                             </div>
                             <div class="info-value">
-                                {{ $business->service_category }}
+                            @if($business->service_category) == 1
+                                location
+                            @else
+                                 event
+                            @endif
                             </div>
                         </div>
                         <div class="info-row">
@@ -229,9 +220,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="location-map">
-                        <img alt="Google map view" src="{{ asset('public/google-map-view.svg') }}" />
-                    </div>
                 </div>
             </section>
 
@@ -246,21 +234,25 @@
                         @if($business->instagram)
                             <a href="#" class="text-decoration-none">
                             <i class="fa-brands fa-instagram text-dark icon-md px-4"></i>
+                            {{ $business->instagram }}
                             </a>
                         @endif
                         @if($business->facebook)
                             <a href="#" class="text-decoration-none">
                             <i class="fa-brands fa-facebook text-dark icon-md px-4"></i>
+                            {{ $business->facebook }}
                             </a>
                         @endif
                         @if($business->x)
                             <a href="#" class="text-decoration-none">
                             <i class="fa-brands fa-x-twitter text-dark icon-md px-4"></i>
+                            {{ $business->x }}
                             </a>
                         @endif
                         @if($business->tiktok)
                             <a href="#" class="text-decoration-none">
                             <i class="fa-brands fa-tiktok text-dark icon-md px-4"></i>
+                            {{ $business->tiktok }}
                             </a>
                         @endif
                     </div>

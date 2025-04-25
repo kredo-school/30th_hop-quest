@@ -11,6 +11,12 @@ class BusinessDetail extends Model
         'business_info_id',
         'is_valid'
     ];
+
+    public function businessInfo()
+    {
+        return $this->hasMany(BusinessInfo::class, 'business_info_id');
+    }
+
     public function business()
     {
         return $this->belongsTo(Business::class);

@@ -197,6 +197,7 @@
         </footer>
     </div>
     @yield('js')
+    @stack('scripts')
 </body>
 
 </html>
