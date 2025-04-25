@@ -20,7 +20,12 @@ delete<div class="bg-blue">
             <!-- Main Image Section -->
             <section class="main-image-section">
                 <div class="main-image-wrapper mt-3">
-                    <img class="main-image" alt="Main picture" src="{{ $business_promotion->image }}" />
+                    @if(Str::startsWith($business_promotion->image, 'http') || Str::startsWith($business_promotion->image, 'data:'))
+                        <img src="{{ $business_promotion->image }}" alt="{{ $business_promotions->title }}" class="main-image" alt="Main picture">
+                    @else
+                        <img src="{{ asset('storage/' . $business_promotion->image) }}" alt="{{ $business_promotion->title }}" class="main-image" alt="Main picture">
+                    @endif
+                    {{-- <img class="main-image" alt="Main picture" src="{{ $business_promotion->image }}" /> --}}
 
                     <div class="main-title">
                         {{ $business_promotion->title }}
