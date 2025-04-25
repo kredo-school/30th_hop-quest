@@ -1,132 +1,83 @@
+let map;
+let service;
+
 function initMap() {
-    const inputLat = parseFloat(document.getElementById("geo_lat").value);
-    const inputLng = parseFloat(document.getElementById("geo_lng").value);
-
-    const lat = isNaN(inputLat) ? 35.681236 : inputLat;  // 東京駅
-    const lng = isNaN(inputLng) ? 139.767125 : inputLng;
-
-    console.log("初期緯度・経度:", { lat, lng });
-
-    const initialLatLng = { lat, lng };
-    const hasLatLng = !isNaN(inputLat) && !isNaN(inputLng);
-
-    const map = new google.maps.Map(document.getElementById("map"), {
-        center: initialLatLng,
-        zoom: 15,
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 35.682839, lng: 139.759455 },
+        zoom: 12,
     });
-
-    let marker = null; // ← 初期ではピンなし
-
-    map.addListener("click", function (event) {
-        console.log("地図クリック:", event.latLng.toString());
-
-        if (!marker) {
-            marker = new google.maps.Marker({
-                position: event.latLng,
-                map: map,
-                draggable: true,
-            });
-
-            marker.addListener("dragend", function (event) {
-                const latLng = event.latLng;
-                document.getElementById("geo_lat").value = latLng.lat();
-                document.getElementById("geo_lng").value = latLng.lng();
-                showPlacePhoto(latLng);
-            });
-        } else {
-            marker.setPosition(event.latLng);
-        }
-
-        document.getElementById("geo_lat").value = event.latLng.lat();
-        document.getElementById("geo_lng").value = event.latLng.lng();
-        showPlacePhoto(event.latLng);
-    });
-
-    window.map = map;
-    window.marker = marker;
-}
-
-
-
-function showPlacePhoto(latLng) {
-    console.log("写真取得対象位置:", latLng.toString());
-
-    const placeRequest = {
-        locationBias: { lat: latLng.lat(), lng: latLng.lng() },
-        fields: ['photos'],
-        query: 'landmark',
-    };
-
-    const service = new google.maps.places.PlacesService(document.createElement('div'));
-
-    service.findPlaceFromQuery(placeRequest, function(results, status) {
-        console.log("findPlaceFromQuery 結果:", { status, results });
-
-        const photoContainer = document.getElementById("place-photo");
-        if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
-            const place = results[0];
-            console.log("場所情報:", place);
-            if (place.photos && place.photos.length > 0) {
-                const photoUrl = place.photos[0].getUrl({ maxWidth: 400, maxHeight: 300 });
-                console.log("写真URL:", photoUrl);
-                photoContainer.innerHTML = `<img src="${photoUrl}" alt="場所の写真" style="width: 100%; max-width: 400px;">`;
-            } else {
-                console.log("写真なし");
-                photoContainer.innerHTML = `<p>写真が見つかりませんでした。</p>`;
-            }
-        } else {
-            console.warn("写真取得失敗 or 結果なし");
-            photoContainer.innerHTML = `<p>写真を取得できませんでした。</p>`;
-        }
-    });
+    service = new google.maps.places.PlacesService(map);
 }
 
 function geocodeAddress() {
     const address = document.getElementById("address").value;
-    if (!address) {
-        alert("住所を入力してください");
-        return;
-    }
-
     const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: address }, (results, status) => {
+        if (status === "OK") {
+            const location = results[0].geometry.location;
+            
+            // hidden inputに位置情報を設定
+            document.getElementById("geo_lat").value = location.lat();
+            document.getElementById("geo_lng").value = location.lng();
+            document.getElementById("geo_location").value = results[0].formatted_address;
+            
+            map.setCenter(location);
+            new google.maps.Marker({
+                map: map,
+                position: location,
+            });
 
-    geocoder.geocode({ address: address }, function(results, status) {
-        if (status === "OK" && results[0]) {
-            const latLng = results[0].geometry.location;
-            console.log("ジオコーディング成功:", latLng.toString());
-
-            const map = window.map;
-            let marker = window.marker;
-
-            map.setCenter(latLng);
-
-            if (!marker) {
-                marker = new google.maps.Marker({
-                    position: latLng,
-                    map: map,
-                    draggable: true,
-                });
-
-                marker.addListener("dragend", function (event) {
-                    const latLng = event.latLng;
-                    document.getElementById("geo_lat").value = latLng.lat();
-                    document.getElementById("geo_lng").value = latLng.lng();
-                    showPlacePhoto(latLng);
-                });
-
-                window.marker = marker;
-            } else {
-                marker.setPosition(latLng);
-            }
-
-            document.getElementById("geo_lat").value = latLng.lat();
-            document.getElementById("geo_lng").value = latLng.lng();
-            showPlacePhoto(latLng);
+            getPlacePhoto(results[0].place_id);
         } else {
-            console.warn("ジオコーディング失敗:", status);
-            alert("住所から位置を特定できませんでした。");
+            alert("住所の取得に失敗しました: " + status);
+        }
+    });
+    
+    // フォーム送信を防止しないように変更
+    return true;
+}
+
+function getPlacePhoto(placeId) {
+    const request = {
+        placeId: placeId,
+        fields: ["photos"]
+    };
+
+    service.getDetails(request, (place, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            if (place.photos) {
+                const photoUrl = place.photos[0].getUrl({ maxWidth: 150, maxHeight: 100 });
+                document.getElementById("place-photo").innerHTML = `<img src="${photoUrl}" alt="Place Photo" style="width:200px; height:auto; max-width:100%;">`;
+            } else {
+                document.getElementById("place-photo").innerHTML = "    写真が見つかりませんでした。";
+            }
+        } else {
+            document.getElementById("place-photo").innerHTML = "写真の取得に失敗しました。";
         }
     });
 }
+
+// イベントリスナーをform要素に追加してフォーム送信の処理を確実にする
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('spot-form');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            // フォームの検証（必要に応じて）
+            const geoLat = document.getElementById('geo_lat').value;
+            const geoLng = document.getElementById('geo_lng').value;
+            
+            if (!geoLat || !geoLng) {
+                alert('Please input your location.');
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        });
+    }
+});
+
+// Google Maps API のコールバック関数として登録
+window.initMap = initMap;
+window.geocodeAddress = geocodeAddress;
 
 

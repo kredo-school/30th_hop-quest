@@ -12,7 +12,7 @@
             <!-- Main Image Section -->
             <section class="main-image-section">
                 <div class="main-image-wrapper mt-3">
-                    <img class="main-image" alt="Main picture" src="{{ $business->main_image }}" />
+                    <img class="main-image" alt="Main picture" src="{{ asset('storage' . $business->main_image) }}" />
 
                     <div class="main-title">
                         {{ $business->name }}
@@ -343,22 +343,123 @@
                 <h2 class="quest-title">
                     Model Quest
                 </h2>
-
-
+                <div class="reviews-container">
+                    @if(isset($business->businessComments) && $business->businessComments->count() > 0)
+                        <div class="card mb-4">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Latest Reviews</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                @foreach($business->businessComments->take(3) as $comment)
+                                    <div class="border-bottom p-4">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div class="d-flex align-items-center">
+                                                @if($comment->user->avatar)
+                                                    <img src="{{ asset('storage' .$comment->user->avatar) }}" alt="User Avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                                @else
+                                                    <i class="fa-solid fa-circle-user text-secondary" style="font-size: 40px;"></i>
+                                                @endif
+                                                <div class="ms-3">
+                                                    <h5 class="mb-0">{{ $comment->user->name }}</h5>
+                                                    <small class="text-muted">{{ $comment->created_at->format('Y-m-d H:i') }}</small>
+                                                </div>
+                                            </div>
+                                            <div class="comment-stars" data-rating="{{ $comment->rating }}">
+                                                <i class="fa-regular fa-star text-warning"></i>
+                                                <i class="fa-regular fa-star text-warning"></i>
+                                                <i class="fa-regular fa-star text-warning"></i>
+                                                <i class="fa-regular fa-star text-warning"></i>
+                                                <i class="fa-regular fa-star text-warning"></i>
+                                            </div>
+                                        </div>
+                                        <p class="mb-2">{{ Str::limit($comment->content, 150) }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                @if(Auth::check())
+                                                    @if($comment->isLiked())
+                                                        <form action="{{ route('business.comments.like.delete', $comment->id) }}" method="post" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm text-danger">
+                                                                <i class="fa-solid fa-heart"></i>
+                                                                <span>{{ $comment->BusinessCommentLikes->count() }}</span>
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <form action="{{ route('business.comments.like.store', $comment->id) }}" method="post" class="d-inline">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm text-secondary">
+                                                                <i class="fa-regular fa-heart"></i>
+                                                                <span>{{ $comment->BusinessCommentLikes->count() }}</span>
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @else
+                                                    <button class="btn btn-sm {{ $comment->isLiked() ? 'text-danger' : 'text-secondary' }}" disabled>
+                                                        <i class="fa-{{ $comment->isLiked() ? 'solid' : 'regular' }} fa-heart"></i>
+                                                        <span>{{ $comment->BusinessCommentLikes->count() }}</span>
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <div class="alert alert-info">
+                            No reviews yet.
+                        </div>
+                    @endif
+                    
+                    <div class="text-center mb-4">
+                        <a href="{{ route('business.comments.showcomments', $business->id) }}" class="btn btn-outline-primary btn-sm">
+                            See All Reviews
+                        </a>
+                    </div>
+                    
+                    @if(Auth::check())
+                        <div class="card mt-4">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">Post Review</h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('business.comments.addcomment', $business->id) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="business_id" value="{{ $business->id }}">
+                                    <div class="mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <label for="rating" class="form-label mb-0 me-3">Rating</label>
+                                            <div class="star-rating">
+                                                <input type="hidden" name="rating" id="rating-value" value="{{ old('rating', 0) }}" required>
+                                                <div class="d-flex">
+                                                    <i class="fa-regular fa-star text-warning star-rating-item" data-rating="1"></i>
+                                                    <i class="fa-regular fa-star text-warning star-rating-item" data-rating="2"></i>
+                                                    <i class="fa-regular fa-star text-warning star-rating-item" data-rating="3"></i>
+                                                    <i class="fa-regular fa-star text-warning star-rating-item" data-rating="4"></i>
+                                                    <i class="fa-regular fa-star text-warning star-rating-item" data-rating="5"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @error('rating')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="3" placeholder="Please write your review..." required>{{ old('content') }}</textarea>
+                                        @error('content')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+                </div>
             </section>
-
-            <!-- Hotel Images -->
-            <div class="hotel-images">
-                <img class="hotel-image" alt="Hotel Room" src="{{ asset('public/rectangle-287.png') }}" />
-                <img class="hotel-image" alt="Hotel Facilities" src="{{ asset('public/rectangle-288.png') }}" />
-            </div>
-
-            <!-- Comments Section -->
-            <hr>
-            @include('businessusers.posts.businesses.partials.comment_body')
-            <div class="d-flex justify-content-center mt-3">
-                {{-- {{ $business_comments->links() }} --}}
-            </div>
 
             <!-- Go to Top Button -->
             <div class="top-button-container">
@@ -372,7 +473,6 @@
             </div>
         </div>
     </div>
-
 
     {{-- public/map.js --}}
     <script src="{{ asset('map.js') }}"></script>
