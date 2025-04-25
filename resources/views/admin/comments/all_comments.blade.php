@@ -47,10 +47,16 @@
                             </a>
                         </td>
                         <td>
-                            <a href="#" class="text-decoration-none text-dark" >{{ $comment['user_name'] }}</a>
+                            <a href="{{route('profile.header', $comment['user_id'])}}" class="text-decoration-none text-dark" >{{ $comment['user_name'] }}</a>
                         </td>
                         <td class="">
-                            <a href="{{route('profile.header', $comment['user_id'])}}" class="text-decoration-none text-dark">{{$comment['content']}}</a>
+                            @if($comment['type'] == 'businesses')
+                                <a href="{{route('business.show', $comment['business_id'])}}" class="text-decoration-none text-dark">{{$comment['content']}}</a>
+                            @elseif($comment['type'] == 'quests')
+                                <a href="{{route('quest.show', $comment['quest_id'])}}" class="text-decoration-none text-dark">{{$comment['content']}}</a>
+                            @elseif($comment['type'] == 'spots')
+                                <a href="{{route('spot.show', $comment['spot_id'])}}" class="text-decoration-none text-dark">{{$comment['content']}}</a>
+                            @endif
                         </td>
                         <td>
                             {{date('M d, Y H:i:s', strtotime($comment['created_at']))}}

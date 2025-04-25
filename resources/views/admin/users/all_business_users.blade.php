@@ -44,7 +44,12 @@
                         </a>
                     </td>
                     <td>
-                        <a href="{{route('profile.header', $user->id)}}" class="text-decoration-none text-dark">{{ $user->name }}</a>
+                        @if($user->official_certification ==3)
+                            <a href="{{route('profile.header', $user->id)}}" class="text-decoration-none text-dark">{{ $user->name }}</a>&nbsp;<img src="{{ asset('images/logo/official_personal.png') }}"
+                        class="official-personal d-inline ms-0 avatar-xxs" alt="official-personal">
+                        @else
+                            <a href="{{route('profile.header', $user->id)}}" class="text-decoration-none text-dark">{{ $user->name }}</a>
+                        @endif
                     </td>
                     {{-- <td>
                         {{ $user->email }}

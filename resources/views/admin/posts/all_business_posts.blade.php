@@ -54,7 +54,12 @@
                             </a> --}}
                     </td>
                     <td>
-                        <a href="#" class="text-decoration-none text-dark" >{{ $post->name }}</a>
+                        @if($post->official_certification == 3)
+                            <a href="{{route('business.show', $post->id)}}" class="text-decoration-none text-dark" >{{ $post->name }}</a>&nbsp;<img src="{{ asset('images/logo/OfficialBadge.png') }}"
+                        class="official-personal d-inline ms-0 avatar-xs" alt="official-personal">
+                        @else
+                            <a href="{{route('business.show', $post->id)}}" class="text-decoration-none text-dark" >{{ $post->name }}</a>
+                        @endif
                     </td>
                     <td class="align-middle">
                         <a href="{{route('profile.header', $post->user->id)}}" class="text-decoration-none text-dark">{{$post->user->name}}</a>
