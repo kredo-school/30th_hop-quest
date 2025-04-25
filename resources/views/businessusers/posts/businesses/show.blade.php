@@ -437,7 +437,7 @@ use Illuminate\Support\Str;
                         </div>
                     @endif
                     
-                    <div class="text-end mb-4">
+                    <div class="text-center mb-4">
                         <a href="{{ route('business.comments.showcomments', $business->id) }}" class="btn btn-outline-primary btn-sm">
                             See All Reviews
                         </a>
@@ -476,7 +476,7 @@ use Illuminate\Support\Str;
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="text-end">
+                                    <div class="text-center">
                                         <button type="submit" class="btn btn-primary">Add</button>
                                     </div>
                                 </form>
