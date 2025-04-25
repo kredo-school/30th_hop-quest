@@ -41,22 +41,6 @@
                                 <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
                             @endif
                         </a>
-                    @elseif($post['type'] == 'promotions')
-                        <a href="{{ route('promotions.show', $post['id']) }}" >
-                            @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
-                                <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
-                            @else
-                                <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
-                            @endif
-                        </a>
-                    @elseif($post['type'] == 'quests')
-                        <a href="#" >
-                            @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
-                                <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image ">
-                            @else
-                                <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image opacity-50">
-                            @endif
-                        </a>
                     @endif
                 @else
                     @if($post['type'] == 'businesses')
