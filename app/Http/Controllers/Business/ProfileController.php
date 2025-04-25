@@ -84,6 +84,7 @@ class ProfileController extends Controller
     if($request->avatar){
         $user_a->avatar = "data:image/".$request->avatar->extension().";base64,".base64_encode(file_get_contents($request->avatar));
     }
+   
 
     $current_cert = $user_a->official_certification;
 
@@ -108,6 +109,20 @@ class ProfileController extends Controller
     return redirect()->route('profile.header',Auth::user()->id);
 
     }
+
+    public function deleteAvatar(Request $request)
+{
+    $user = Auth::user();
+
+    if ($user->avatar) {
+        $user->avatar = null;
+        $user->save();
+
+        return response()->json(['message' => 'Avatar deleted'], 200);
+    }
+
+    return response()->json(['message' => 'No avatar found'], 404);
+}
 
     public function followers($id){
         $user_a = $this->user->findOrFail($id);

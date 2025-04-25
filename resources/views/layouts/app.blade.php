@@ -120,9 +120,9 @@
                     </li>
                     <li class="nav-item my-auto">
                         <li class="nav-item my-auto">
-                            <a href="#" class="nav-link" href="">FAQ</a>
+                            <a href="{{ route('faq')}}" class="nav-link" href="">FAQ</a>
                         </li>
-                        <li class="nav-item my-auto">
+                        {{-- <li class="nav-item my-auto"> --}}
                             {{-- @if (Auth::user()->role_id == 1)
                         <li class="nav-item my-auto">
                             <a href="" class="nav-link d-xl-block d-none" href="">For Business</a>
@@ -182,7 +182,20 @@
         <main class="pt-5">
             @yield('content')
         </main>
-    </div>
+
+        {{-- フッターの追加 --}}
+        <footer class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <div class="container">
+                <small class="text-dark">&copy; 2025 Kredo 30th batch All Rights Reserved.</small>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item my-auto"><a href="" class="nav-link">About us</a></li>
+                    <li class="nav-item my-auto"><a href="" class="nav-link">Sitemap</a></li>
+                    <li class="nav-item my-auto"><a href="" class="nav-link">Terms of service</a></li>
+                    <li class="nav-item my-auto"><a href="" class="nav-link">FAQ</a></li>
+                </ul>
+            </div>
+        </footer>
+</div>
     @yield('js')
     @stack('scripts')
 </body>

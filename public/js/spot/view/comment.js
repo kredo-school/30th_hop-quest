@@ -1,87 +1,85 @@
 document.addEventListener('DOMContentLoaded', function () {
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    // モーダル表示時にリロード
-    document.querySelectorAll('[id^="likes-modal-"]').forEach(modal => {
+    // コメントLikeモーダル表示直前に更新
+    document.querySelectorAll('[id^="comment-likes-modal-"]').forEach(modal => {
         modal.addEventListener('show.bs.modal', function () {
-            const questId = this.id.replace('likes-modal-', '');
-            refreshQuestLikesModal(questId);
+            const commentId = this.id.replace('comment-likes-modal-', '');
+            refreshSpotCommentLikesModal(commentId);
         });
     });
 
-    // Like トグル
-    document.querySelectorAll('.btn-like-toggle').forEach(button => {
-        button.addEventListener('click', async function () {
-            const questId = this.dataset.questId;
+    // コメントLikeボタン処理
+    document.querySelectorAll('.comment-like-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const commentId = this.dataset.commentId;
             const liked = this.dataset.liked === '1';
+            const url = liked
+                ? `/spot/comment/${commentId}/unlike`
+                : `/spot/comment/${commentId}/like`;
+            const method = liked ? 'DELETE' : 'POST';
 
-            const url = `/quest/${questId}/toggle-like`;
-            const method = 'POST'; // Spotと同じく POST でトグル
-
-
-            try {
-                const res = await fetch(url, {
-                    method: method,
-                    headers: {
-                        'X-CSRF-TOKEN': token,
-                        'Content-Type': 'application/json',
-                    }
-                });
-
-                const data = await res.json();
-
+            fetch(url, {
+                method,
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
                 const icon = this.querySelector('.like-icon');
-                const countElem = this.closest('.d-flex').querySelector('.like-count');
-
+                const countSpan = document.getElementById(`like-count-${commentId}`);
+                
                 if (liked) {
                     icon.classList.remove('fas', 'text-danger');
                     icon.classList.add('far');
                     this.dataset.liked = '0';
-                    if (countElem) countElem.textContent = parseInt(countElem.textContent) - 1;
                 } else {
                     icon.classList.remove('far');
                     icon.classList.add('fas', 'text-danger');
                     this.dataset.liked = '1';
-                    if (countElem) countElem.textContent = parseInt(countElem.textContent) + 1;
                 }
 
-                refreshQuestLikesModal(questId);
+                if (data.count !== undefined) {
+                    countSpan.textContent = data.count;
+                }
 
-            } catch (err) {
-                console.error('❌ Like toggle failed:', err);
-            }
+                refreshSpotCommentLikesModal(commentId);
+            })
+            .catch(error => {
+                console.error('Like toggle failed:', error);
+            });
         });
     });
 
     bindFollowButtons();
 });
 
-// モーダル中身更新
-async function refreshQuestLikesModal(questId) {
+// モーダル再描画関数（コメント用）
+async function refreshSpotCommentLikesModal(commentId) {
     try {
-        const res = await fetch(`/quest/${questId}/likes/html`);
+        const res = await fetch(`/spot/comment/${commentId}/likes/modal`);
         if (!res.ok) throw new Error('モーダルの取得に失敗');
 
         const html = await res.text();
-        const oldModal = document.getElementById(`likes-modal-${questId}`);
+        const oldModal = document.getElementById(`comment-likes-modal-${commentId}`);
 
         if (oldModal) {
             oldModal.outerHTML = html;
-            const newModal = document.getElementById(`likes-modal-${questId}`);
+            const newModal = document.getElementById(`comment-likes-modal-${commentId}`);
             if (newModal) {
                 newModal.addEventListener('show.bs.modal', function () {
-                    refreshQuestLikesModal(questId);
+                    refreshSpotCommentLikesModal(commentId);
                 });
             }
         }
 
         bindFollowButtons();
     } catch (error) {
-        console.error("🚨 モーダルHTML更新失敗:", error);
+        console.error("🚨 コメントモーダルHTML更新失敗:", error);
     }
 }
-
-// フォロー切替
 function bindFollowButtons() {
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -109,6 +107,7 @@ function bindFollowButtons() {
 
                 const result = await res.json();
 
+                // ✅ message で分岐
                 if (result.message === 'Followed') {
                     button.classList.remove('btn-follow');
                     button.classList.add('btn-following');
