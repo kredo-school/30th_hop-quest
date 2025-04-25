@@ -301,7 +301,7 @@ class HomeController extends Controller
 //Allshow
     public function showAll(Request $request){
     $sort = $request->get('sort', 'likes_count');
-    $perPage = 6;
+    $perPage = 9;
     $currentPage = LengthAwarePaginator::resolveCurrentPage();
     // Spots
     $spots = Spot::with('user')

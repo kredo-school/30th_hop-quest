@@ -1,5 +1,6 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/post-body.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/quest/view-quest.css') }}">
 @endsection
 
 <main>
