@@ -54,6 +54,7 @@ Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
     Route::get('/{id}', [ProfileController::class, 'showProfile'])->name('header');
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
+    Route::delete('/header', [ProfileController::class, 'deleteHeader'])->name('header.delete');
     Route::patch('/{id}/update', [ProfileController::class, 'update'])->name('update');
     Route::delete('/{id}/deactivate', [ProfileController::class, 'deactivate'])->name('deactivate');
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');

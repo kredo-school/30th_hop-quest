@@ -96,11 +96,11 @@
                 <i id="default-icon"
                     class="fa-solid fa-circle-user text-secondary profile-xl rounded-circle d-block d-none">
                     </i> --}}
-            
-                <button type="button" class="btn btn-outline-red delete-avatar" id="delete-avatar" >
+                <div>
+                <button type="button" class="btn btn-red delete-avatar-profile" id="delete-avatar" >
                     <i class=" fa-solid fa-trash-can" ></i>
                 </button>
-
+                </div>
             </div>
             
 

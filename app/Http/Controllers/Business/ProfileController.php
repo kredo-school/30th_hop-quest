@@ -124,6 +124,15 @@ class ProfileController extends Controller
     return response()->json(['message' => 'No avatar found'], 404);
 }
 
+    public function deleteHeader()
+    {
+        $user = Auth::user();
+        $user->header = null;
+        $user->save();
+
+        return response()->json(['message' => 'Header deleted']);
+    }
+
     public function followers($id){
         $user_a = $this->user->findOrFail($id);
 
