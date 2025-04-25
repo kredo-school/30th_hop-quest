@@ -41,11 +41,11 @@
                 class="header-image img-fluid mx-auto d-block">
         @else
             <img id="header-preview"
-                src=""
+                src="{{ asset('images/logo/header_logo.jpg') }}"
                 alt="No Header"
                 class="header-image img-fluid mx-auto d-block"
                 style="display:none;">
-            <i id="header-icon" class="fa-solid fa-image text-secondary icon-xxl d-block text-center"></i>
+            {{-- <i id="header-icon" class="fa-solid fa-image text-secondary icon-xxl d-block text-center"></i> --}}
         @endif
     </div>
 </div>

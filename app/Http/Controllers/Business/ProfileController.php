@@ -56,7 +56,7 @@ class ProfileController extends Controller
         // CREATING: unique:<table>,<column>
         'introduction' => 'required_if:official_certification,2|max:1000',
         'phonenumber' => 'required_if:official_certification,2|max:20',
-        'zip' => 'required_if:official_certification,2|max:7',
+        'zip' => 'required_if:official_certification,2|max:9',
         'address' => 'required_if:official_certification,2|max:255'
     ], [
         'introduction.required_if' => 'Required for official certification badge',
