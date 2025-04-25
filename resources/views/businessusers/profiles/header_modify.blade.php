@@ -368,7 +368,7 @@
                                                             </a>
                                                         @elseif($comment['type'] == 'spots')
                                                             <a
-                                                                href="{{ route('spot.show', $comment['id']) }}">
+                                                                href="{{ route('spot.show', $comment['spot_id']) }}">
                                                                 @if (Str::startsWith($comment['main_image'], 'http') || Str::startsWith($comment['main_image'], 'data:'))
                                                                     <img src="{{ $comment['main_image'] }}"
                                                                         alt="{{ $comment['title'] }}"
