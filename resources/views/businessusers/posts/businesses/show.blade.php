@@ -39,7 +39,7 @@ use Illuminate\Support\Str;
                             <div class="col-md-auto col-sm-2 my-auto p-0 profile-pic">                   
                                 <button class="btn">
                                     @if($business->user->avatar)
-                                        <img src="{{ $business->user->avatar }}" alt="" class="rounded-circle avatar-sm">
+                                        <img src="{{ asset('storage' .$business->user->avatar) }}" alt="" class="rounded-circle avatar-sm">
                                     @else
                                         <i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i>
                                     @endif
@@ -56,21 +56,12 @@ use Illuminate\Support\Str;
                         
                         <!--Follow-->
                         <div class="col-md-1 col-sm-1 ">
-                            @if($business->user->isFollowed())
-                            {{-- unfollow --}}
-                                <form action="{{route('follow.delete', $business->user->id)}}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-following btn-sm mt-3 w-100">Following</button>
-                                </form>
-        
-                            @else
-                            {{-- follow --}}
-                            <form action="{{route('follow.store', $business->user->id )}}" method="post">
-                                @csrf
-                                <button type="submit" class="btn btn-follow btn-sm mt-3 w-100">Follow</button>
-                            </form>
-                            @endif 
+                            @if(Auth::check())
+                                <div class="follow-container" data-user-id="{{ $business->user->id }}" data-is-followed="{{ $business->user->isFollowed() ? 'true' : 'false' }}">
+                                    <button type="button" class="btn btn-follow btn-sm mt-3 w-100 follow-button {{ $business->user->isFollowed() ? 'd-none' : '' }}">Follow</button>
+                                    <button type="button" class="btn btn-following btn-sm mt-3 w-100 unfollow-button {{ $business->user->isFollowed() ? '' : 'd-none' }}">Following</button>
+                                </div>
+                            @endif
                         </div>
 
 
@@ -201,25 +192,25 @@ use Illuminate\Support\Str;
                 </div>
             </section>
         
-            <!-- Business Introduction -->
+            <!-- Business summary -->
             <section class="business-introduction">
-                <h3>Business Introduction</h3>
-                <div class="introduction-box">                   
-                    <p>{{ $business->introduction }}</p>
-                </div>
-            </section>
-
-            <!-- Business Location -->
-            <section class="business-location">
-                <h3>Business Location</h3>
-                <div class="location-wrapper">
-                    <div class="location-details">
+                <h3>Business Summary</h3>
+                <div class="business-summary-container">
+                    <div class="introduction-box">                   
+                        <p>{{ $business->introduction }}</p>
+                    </div>
+     
+                    <div class="business-information">
                         <div class="info-row">
                             <div class="info-label">
                                 Service Category :
                             </div>
                             <div class="info-value">
-                                {{ $business->service_category }}
+                            @if($business->service_category) == 1
+                                location
+                            @else
+                                 event
+                            @endif
                             </div>
                         </div>
                         <div class="info-row">
@@ -263,9 +254,6 @@ use Illuminate\Support\Str;
                             </div>
                         </div>
                     </div>
-                    <div class="location-map">
-                        <img alt="Google map view" src="{{ asset('public/google-map-view.svg') }}" />
-                    </div>
                 </div>
             </section>
 
@@ -280,21 +268,25 @@ use Illuminate\Support\Str;
                         @if($business->instagram)
                             <a href="#" class="text-decoration-none">
                             <i class="fa-brands fa-instagram text-dark icon-md px-4"></i>
+                            {{ $business->instagram }}
                             </a>
                         @endif
                         @if($business->facebook)
                             <a href="#" class="text-decoration-none">
                             <i class="fa-brands fa-facebook text-dark icon-md px-4"></i>
+                            {{ $business->facebook }}
                             </a>
                         @endif
                         @if($business->x)
                             <a href="#" class="text-decoration-none">
                             <i class="fa-brands fa-x-twitter text-dark icon-md px-4"></i>
+                            {{ $business->x }}
                             </a>
                         @endif
                         @if($business->tiktok)
                             <a href="#" class="text-decoration-none">
                             <i class="fa-brands fa-tiktok text-dark icon-md px-4"></i>
+                            {{ $business->tiktok }}
                             </a>
                         @endif
                     </div>
@@ -385,10 +377,10 @@ use Illuminate\Support\Str;
                             <div class="card-body p-0">
                                 @foreach($business->businessComments->take(3) as $comment)
                                     <div class="border-bottom p-4">
-                                        <div class="d-flex justify-content-between">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
                                             <div class="d-flex align-items-center">
                                                 @if($comment->user->avatar)
-                                                    <img src="{{ asset('storage'.$comment->user->avatar) }}" alt="User Avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                                    <img src="{{ asset('storage' .$comment->user->avatar) }}" alt="User Avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
                                                 @else
                                                     <i class="fa-solid fa-circle-user text-secondary" style="font-size: 40px;"></i>
                                                 @endif
@@ -397,37 +389,42 @@ use Illuminate\Support\Str;
                                                     <small class="text-muted">{{ $comment->created_at->format('Y-m-d H:i') }}</small>
                                                 </div>
                                             </div>
+                                            <div class="comment-stars" data-rating="{{ $comment->rating }}">
+                                                <i class="fa-regular fa-star text-warning"></i>
+                                                <i class="fa-regular fa-star text-warning"></i>
+                                                <i class="fa-regular fa-star text-warning"></i>
+                                                <i class="fa-regular fa-star text-warning"></i>
+                                                <i class="fa-regular fa-star text-warning"></i>
+                                            </div>
                                         </div>
-                                        <div class="mt-3">
-                                            <p class="mb-2">{{ Str::limit($comment->content, 150) }}</p>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    @if(Auth::check())
-                                                        @if($comment->isLiked())
-                                                            <form action="{{ route('business.comments.like.delete', $comment->id) }}" method="post" class="d-inline">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-sm text-danger">
-                                                                    <i class="fa-solid fa-heart"></i>
-                                                                    <span>{{ $comment->BusinessCommentLikes->count() }}</span>
-                                                                </button>
-                                                            </form>
-                                                        @else
-                                                            <form action="{{ route('business.comments.like.store', $comment->id) }}" method="post" class="d-inline">
-                                                                @csrf
-                                                                <button type="submit" class="btn btn-sm text-secondary">
-                                                                    <i class="fa-regular fa-heart"></i>
-                                                                    <span>{{ $comment->BusinessCommentLikes->count() }}</span>
-                                                                </button>
-                                                            </form>
-                                                        @endif
+                                        <p class="mb-2">{{ Str::limit($comment->content, 150) }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                @if(Auth::check())
+                                                    @if($comment->isLiked())
+                                                        <form action="{{ route('business.comments.like.delete', $comment->id) }}" method="post" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm text-danger">
+                                                                <i class="fa-solid fa-heart"></i>
+                                                                <span>{{ $comment->BusinessCommentLikes->count() }}</span>
+                                                            </button>
+                                                        </form>
                                                     @else
-                                                        <button class="btn btn-sm {{ $comment->isLiked() ? 'text-danger' : 'text-secondary' }}" disabled>
-                                                            <i class="fa-{{ $comment->isLiked() ? 'solid' : 'regular' }} fa-heart"></i>
-                                                            <span>{{ $comment->BusinessCommentLikes->count() }}</span>
-                                                        </button>
+                                                        <form action="{{ route('business.comments.like.store', $comment->id) }}" method="post" class="d-inline">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm text-secondary">
+                                                                <i class="fa-regular fa-heart"></i>
+                                                                <span>{{ $comment->BusinessCommentLikes->count() }}</span>
+                                                            </button>
+                                                        </form>
                                                     @endif
-                                                </div>
+                                                @else
+                                                    <button class="btn btn-sm {{ $comment->isLiked() ? 'text-danger' : 'text-secondary' }}" disabled>
+                                                        <i class="fa-{{ $comment->isLiked() ? 'solid' : 'regular' }} fa-heart"></i>
+                                                        <span>{{ $comment->BusinessCommentLikes->count() }}</span>
+                                                    </button>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -455,6 +452,24 @@ use Illuminate\Support\Str;
                                 <form action="{{ route('business.comments.addcomment', $business->id) }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="business_id" value="{{ $business->id }}">
+                                    <div class="mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <label for="rating" class="form-label mb-0 me-3">Rating</label>
+                                            <div class="star-rating">
+                                                <input type="hidden" name="rating" id="rating-value" value="{{ old('rating', 0) }}" required>
+                                                <div class="d-flex">
+                                                    <i class="fa-regular fa-star text-warning star-rating-item" data-rating="1"></i>
+                                                    <i class="fa-regular fa-star text-warning star-rating-item" data-rating="2"></i>
+                                                    <i class="fa-regular fa-star text-warning star-rating-item" data-rating="3"></i>
+                                                    <i class="fa-regular fa-star text-warning star-rating-item" data-rating="4"></i>
+                                                    <i class="fa-regular fa-star text-warning star-rating-item" data-rating="5"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @error('rating')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                     <div class="mb-3">
                                         <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="3" placeholder="Please write your review..." required>{{ old('content') }}</textarea>
                                         @error('content')

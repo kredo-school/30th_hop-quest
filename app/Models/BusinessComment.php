@@ -42,6 +42,9 @@ class BusinessComment extends Model
     }
 
     public function isLiked(){
-        return $this->businessCommentLikes()->where('user_id', Auth::user()->id)->exists();
+        if(Auth::check()){
+            return $this->businessCommentLikes()->where('user_id', Auth::user()->id)->exists();
+        }
+        return false;
     }
 }
