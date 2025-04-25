@@ -10,6 +10,7 @@
 @section('js')
     <script src="{{ asset('js/like.js')}}"></script>
     <script src="{{ asset('js/follow.js')}}"></script>
+@endsection
 
 @section('content')
     {{-- @guest --}}
@@ -444,4 +445,4 @@
     </div>
 @endsection
 
-@vite('resources/js/home/home.js')
+@vite(['resources/js/home/home.js'])

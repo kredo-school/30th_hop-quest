@@ -32,11 +32,11 @@
 
         @endif
 
-                @if ($post->main_image)
-                    <img src="{{ asset('storage/' . $post->main_image) }}" class="card-img-top body-image" alt="image">
-                @else
-                    <img src="{{ asset('storage/app/public/images/home/noImage.jpg')}}" class="card-img-top body-image" alt="image">
-                @endif
+            @if(Str::startsWith($post->main_image, 'http') || Str::startsWith($post->main_image, 'data:'))
+                <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="card-img-top body-image" alt="image">
+            @else
+                <img src="{{ asset('storage/' . $post->main_image) }}" alt="{{ $post->title }}" class="card-img-top body-image" alt="image">
+            @endif
             </a>
 
         {{-- Card Body --}}
@@ -90,21 +90,27 @@
 
                 {{-- User Icon --}}
                 <div class="col-auto ms-1">
+                    @php
+                        $avatar     = $post->user->avatar;
+                        $check      = $avatar && (Str::startsWith($avatar, 'http') || Str::startsWith($avatar, 'data:'));
+                        $avatarPath = $check ? $avatar : ($avatar ? asset('storage/'. $avatar) : asset('images/home/free-user.png'));
+                    @endphp
+
                     @auth
                         @if ($post->user->id === Auth::user()->id)
                             <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
-                                <img src="{{ asset('storage/'. $post->user->avatar) ?? asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
+                                <img src="{{ $avatarPath }}" class="card-icon" alt="card-icon">
                             </a>
                         @else
                             <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
-                                <img src="{{ asset('storage/'. $post->user->avatar) ?? asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
+                                <img src="{{ $avatarPath }}" class="card-icon" alt="card-icon">
                             </a>
                         @endif
                     @endauth
 
                     @guest
                         <a href="{{ route('profile.header', $post->user->id )}}" class="text-decoration-none h5 d-flex align-items-center">
-                            <img src="{{ asset('storage/'. $post->user->avatar) ?? asset('images/home/free-user.png') }}" class="card-icon" alt="card-icon">
+                            <img src="{{ $avatarPath }}" class="card-icon" alt="card-icon">
                         </a>
                     @endguest
 
