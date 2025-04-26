@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('facebook')->nullable();
             $table->string('x')->nullable();
             $table->string('tiktok')->nullable();
-            $table->integer('official_certification')->default(1)->comment('certified:1->2');
+            $table->integer('official_certification')->default(1);
             $table->string('identification_number')->nullable();
             $table->date('display_start')->nullable();
             $table->date('display_end')->nullable();  

@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('facebook')->nullable();
             $table->string('x')->nullable();
             $table->string('tiktok')->nullable();
-            $table->integer('official_certification')->default(1)->comment('certified:1->2');
+            $table->integer('official_certification')->default(1);
             // $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
