@@ -123,54 +123,6 @@
     height: 20px;
 }
 
-.business-location {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 40px;
-    padding: 40px 0;
-    background-color: #f8f9fa;
-}
-
-.business-location h3 {
-    color: #333;
-    font-size: 1.8rem;
-    margin-bottom: 25px;
-    font-weight: 600;
-}
-
-.location-wrapper {
-    width: 90%;
-    max-width: 1400px;
-    display: flex;
-    gap: 40px;
-    flex-direction: row;
-    align-items: flex-start;
-}
-
-.location-details {
-    flex: 1.2;
-    background-color: transparent;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.location-map {
-    flex: 1;
-    min-width: 400px;
-    height: 450px;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.location-map img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
 
 .info-row {
     background-color: #fff;
@@ -367,13 +319,37 @@
     font-weight: 600;
 }
 
-.introduction-box {
+.business-summary-container {
     width: 90%;
     max-width: 1400px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 30px;
+    justify-content: space-between;
+}
+
+.introduction-box {
+    flex: 1;
+    width: 48%;
     background-color: white;
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.business-information {
+    flex: 1;
+    width: 48%;
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .introduction-box p {
@@ -382,6 +358,22 @@
     font-size: 1rem;
     text-align: justify;
     margin: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+@media (max-width: 992px) {
+    .business-summary-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .introduction-box,
+    .business-information {
+        width: 100%;
+        max-width: 100%;
+    }
 }
 
 .page-wrapper {
@@ -866,4 +858,32 @@
     .reviews-container {
         width: 90%;
     }
+}
+
+/* Star Rating Styles */
+.star-rating {
+    display: flex;
+    align-items: center;
+}
+
+.star-rating-item {
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: transform 0.2s ease;
+}
+
+.star-rating-item:hover {
+    transform: scale(1.2);
+}
+
+/* Comment Stars Styles */
+.comment-stars {
+    display: flex;
+    align-items: center;
+}
+
+.comment-stars i {
+    font-size: 1.2rem;
+    margin-right: 3px;
 }

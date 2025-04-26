@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'レビュー詳細')
+@section('title', 'comments details')
+
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/viewbusiness-comments.css') }}">
+@endsection
 
 @section('content')
 <div class="container py-5">
@@ -13,18 +17,27 @@
                 <div class="card-body">
                     @foreach($comments as $comment)
                     <div class="mb-4 comment-item">
-                        <div class="d-flex align-items-center mb-3">
-                            @if($comment->user->avatar)
-                                <img src="{{ asset('storage'.$comment->user->avatar) }}" alt="User Avatar" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
-                            @else
-                                <i class="fa-solid fa-circle-user text-secondary" style="font-size: 50px;"></i>
-                            @endif
-                            <div class="ms-3">
-                                <h5 class="mb-0">{{ $comment->user->name }}</h5>
-                                <small class="text-muted">POSTED: {{ $comment->created_at->format('Y年m月d日 H:i') }}</small>
-                                @if($comment->created_at != $comment->updated_at)
-                                    <small class="text-muted d-block">UPDATED: {{ $comment->updated_at->format('Y年m月d日 H:i') }}</small>
+                        <div class="comment-header">
+                            <div class="user-info">
+                                @if($comment->user->avatar)
+                                    <img src="{{ asset('storage' .$comment->user->avatar) }}" alt="User Avatar" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                @else
+                                    <i class="fa-solid fa-circle-user text-secondary" style="font-size: 50px;"></i>
                                 @endif
+                                <div class="ms-3">
+                                    <h5 class="mb-0">{{ $comment->user->name }}</h5>
+                                    <small class="text-muted">POSTED: {{ $comment->created_at->format('Y年m月d日 H:i') }}</small>
+                                    @if($comment->created_at != $comment->updated_at)
+                                        <small class="text-muted d-block">UPDATED: {{ $comment->updated_at->format('Y年m月d日 H:i') }}</small>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="comment-stars" data-rating="{{ $comment->rating }}">
+                                <i class="fa-regular fa-star text-warning"></i>
+                                <i class="fa-regular fa-star text-warning"></i>
+                                <i class="fa-regular fa-star text-warning"></i>
+                                <i class="fa-regular fa-star text-warning"></i>
+                                <i class="fa-regular fa-star text-warning"></i>
                             </div>
                         </div>
                         
@@ -36,12 +49,12 @@
                             <div>
                                 @if(Auth::check())
                                     @if($comment->isLiked())
-                                        <form action="{{ route('business.comments.unlike', $comment->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('business.comments.like.delete', $comment->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm text-danger">
                                                 <i class="fa-solid fa-heart"></i>
-                                                {{ $comment->BusinessCommentLikes->count() }} いいね
+                                                {{ $comment->BusinessCommentLikes->count() }}
                                             </button>
                                         </form>
                                     @else
@@ -49,23 +62,19 @@
                                             @csrf
                                             <button type="submit" class="btn btn-sm text-secondary">
                                                 <i class="fa-regular fa-heart"></i>
-                                                {{ $comment->BusinessCommentLikes->count() }} いいね
-                                            </button>
+                                                {{ $comment->BusinessCommentLikes->count() }} 
                                         </form>
                                     @endif
                                 @else
                                     <span class="btn btn-sm text-secondary">
                                         <i class="fa-regular fa-heart"></i>
-                                        {{ $comment->BusinessCommentLikes->count() }} いいね
+                                        {{ $comment->BusinessCommentLikes->count() }}
                                     </span>
                                 @endif
                             </div>
                             
                             @if(Auth::check() && Auth::id() === $comment->user_id)
                                 <div>
-                                    <a href="{{ route('business.comments.edit', $comment->id) }}" class="btn btn-sm btn-outline-secondary">
-                                        <i class="fa-solid fa-edit me-1"></i> EDIT
-                                    </a>
                                     <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $comment->id }}">
                                         <i class="fa-solid fa-trash me-1"></i> DELETE
                                     </button>
@@ -76,18 +85,18 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalLabel{{ $comment->id }}">レビューを削除</h5>
+                                                <h5 class="modal-title" id="deleteModalLabel{{ $comment->id }}">Delete Review</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>このレビューを削除してもよろしいですか？</p>
+                                                <p>Are you sure you want to delete this review?</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-                                                <form action="{{ route('business.comments.destroy', $comment->id) }}" method="POST">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <form action="{{ route('business.comments.like.delete', $comment->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">削除</button>
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -119,15 +128,7 @@
     </div>
 </div>
 
-<style>
-    .comment-item {
-        transition: all 0.3s ease;
-    }
-    .comment-item:hover {
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        padding: 15px;
-        margin: -15px;
-    }
-</style>
-@endsection 
+{{--promotion carousel --}}
+<script src="{{ asset('js/viewbusiness.js') }}"></script>
+    
+@endsection

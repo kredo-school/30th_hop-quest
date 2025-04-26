@@ -11,6 +11,7 @@ class BusinessDetail extends Model
         'business_info_id',
         'is_valid'
     ];
+
     public function business()
     {
         return $this->belongsTo(Business::class);
