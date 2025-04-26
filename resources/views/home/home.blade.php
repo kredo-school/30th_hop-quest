@@ -14,15 +14,15 @@
 
 @section('content')
     {{-- @guest --}}
-    {{-- Header video --}}
+    {{-- 第1セクション　ビデオ --}}
     <div class="wrapper-header position-relative overflow-hidden d-flex align-items-center justify-content-center">
         <video autoplay muted loop playsinline class="header_video">
-            <source src="{{ asset('videos/header-video-1.mp4') }}" type="video/mp4">
+            <source src="{{ asset('videos/header-video-1.mp4') }}" type="video/mp4">{{-- ビデオの表示 --}}
         </video>
     
         {{-- Header video's title --}}
         <div class="title">
-            <h1 class="text-light z-1 title-text poppins-bold">Welcome to HopQuest</h1>
+            <h1 class="text-light z-1 title-text poppins-bold">Welcome to HopQuest</h1>{{-- ショートタイトル on video --}}
             <br>
             <h2 class="text-light z-1 title-text poppins-semibold">Plan Your Next Adventure</h2>
             <h2 class="text-light z-1 title-text poppins-semibold">Share Spots and Quests with the World</h2>
@@ -31,20 +31,17 @@
         <div class="btn-arrow d-flex align-items-center">
             <a href="#wrapper-body-second" class="text-decoration-none btn-arrow-link">
                 <h3 class="text-light z-1 poppins-semibold">
-                    <span class="take-to-body">View Popular Contents ></span>
-                    {{-- <img src="{{ asset('images/icons8-矢印-100.png')}}" alt=""> --}}
+                    <span class="take-to-body">View Popular Contents ></span>{{-- リンク（Popular Contentsに行くための） --}}
                 </h3>
-                {{-- <h3 class="text-light z-1 poppins-semibold take-to-body">
-                    View Popular Contents <img src="{{ asset('images/icons8-矢印-100.png')}}" alt="">
-                </h3> --}}
             </a>
         </div>
     </div>
   
     {{-- @else --}}
+    {{-- 第2セクション --}}
     {{-- Body for Popular Contents --}}
     <div class="wrapper-body-second" id="wrapper-body-second">
-        <div class="container-fluid second-body"></div> {{-- For Background --}}
+        <div class="container-fluid second-body"></div> {{-- バックグラウンドのためのDiv　For Background --}}
 
         {{-- Popular Contents --}}
         <div class="col tag-title">
@@ -103,19 +100,18 @@
                     </h1>
                 </a>
             </div>            
-            {{-- <div class="line-2"></div> --}}
         </div>
 
         
         {{-- Under-line below categories --}}
         <div class="for-line">
-            <div class="line"></div>
+            <div class="line"></div> {{-- タブの下に表示されているアンダーライン（アニメーション付属） --}}
         </div>
 
 
 
         {{-- Slider Carousel --}}
-        <div class="sliderdiv">
+        <div class="sliderdiv">　　　　{{-- カルーセルスライダーの表示 --}}
                             
                 {{-- Tab content --}}
                 <div class="container-fluid wrapper-body tab-content" id="tab-fol">
@@ -123,11 +119,6 @@
                         <div class="slider mt-5 {{ Auth::guest() ? 'no-dots' : '' }}">
                             @if (Auth::check())
                                 @forelse($popular_follwings as $post)
-                                    {{-- @if ($post->user && $post->user->isFollowed())
-                                        <div class="slide">
-                                            @include('home.home-body')         
-                                        </div>                               
-                                    @endif --}}
                                     @if ($post->user)
                                         <div class="slide">
                                             @include('home.home-body')         
@@ -220,34 +211,27 @@
 
 
         <script>
-            document.addEventListener('DOMContentLoaded', function(){
+            document.addEventListener('DOMContentLoaded', function(){    //HTMLが読み込まれたら発火
                 
                 function animationOthers(){
-                    document.querySelector('.tag-title')?.classList.add('active');
-                    document.querySelector('.tag-category')?.classList.add('active');
-                    document.querySelector('.slider')?.classList.add('active');
-                    document.querySelector('.all-posts')?.classList.add('active');
-                    document.querySelector('.all-posts-img')?.classList.add('active');
-
-                    // const line2 = document.querySelector('.line-2');
-                    // if(line2){
-                    //     setTimeout(() => {
-                    //         line2.classList.add('active');
-                    //     }, 100);
-                    // }
+                    document.querySelector('.tag-title')?.classList.add('active');      // tag-titleクラスに対してactiveの追加
+                    document.querySelector('.tag-category')?.classList.add('active');   // tag-categoryクラスに対して・・・
+                    document.querySelector('.slider')?.classList.add('active');         // sliderクラスに対して・・・
+                    document.querySelector('.all-posts')?.classList.add('active');      // all-postsクラスに対して・・・
+                    document.querySelector('.all-posts-img')?.classList.add('active');  // all-posts-imgクラスに対して・・・
                 }
             
-                const target = document.querySelector('.line');
+                const target = document.querySelector('.line');                         // .lineクラス上の全てのコードをtargetとして
 
-                const observer = new IntersectionObserver(entries => {
-                    entries.forEach(entry => {
-                        if(entry.isIntersecting){
-                            entry.target.classList.add('active');
+                const observer = new IntersectionObserver(entries => {                  // 画面上に見えるかどうかの監視
+                    entries.forEach(entry => {                                          
+                        if(entry.isIntersecting){                                       // 画面に入ったかどうか
+                            entry.target.classList.add('active');                       // 見えたからactive追加
 
-                            entry.target.addEventListener('transitionend', () => {
-                                animationOthers();
+                            entry.target.addEventListener('transitionend', () => {      // アニメーションが終わった時の見極め
+                                animationOthers();                                      // 上で定義した関数の呼び出し
 
-                                const initialSlider = document.querySelector(`#${defaultTab} .slider`);
+                                const initialSlider = document.querySelector(`#${defaultTab} .slider`); // デフォルトタブの内部のsliderを探す＆定義
                                 if (initialSlider) {
                                     initialSlider.classList.add('active'); 
                                     initSlick(initialSlider);
@@ -265,9 +249,6 @@
                 if(target){
                     observer.observe(target);
                 }
-                // targets.forEach(target => {
-                //     observer.observe(target);
-                // });
             });
         </script>
     </div>

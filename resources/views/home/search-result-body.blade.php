@@ -88,7 +88,7 @@
                     $avatarPath = $check
                         ? $avatar
                         : ($avatar
-                            ? asset('storage/' . $avatar)
+                            ? asset($avatar)
                             : asset('images/home/free-user.png'));
                 @endphp
 

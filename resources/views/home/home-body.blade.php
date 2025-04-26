@@ -29,7 +29,7 @@
     @endif
 
     @if (Str::startsWith($post->main_image, 'http') || Str::startsWith($post->main_image, 'data:'))
-        <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="card-img-top body-image" alt="image">
+        <img src="{{ asset($post->main_image) }}" alt="{{ $post->title }}" class="card-img-top body-image" alt="image">
     @else
         <img src="{{ asset($post->main_image) }}" alt="{{ $post->title }}" class="card-img-top body-image"
             alt="image">
@@ -89,7 +89,7 @@
                     $avatarPath = $check
                         ? $avatar
                         : ($avatar
-                            ? asset('storage/' . $avatar)
+                            ? asset($avatar)
                             : asset('images/home/free-user.png'));
                 @endphp
 
