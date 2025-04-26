@@ -136,7 +136,7 @@
 
                 {{-- Follow Button --}}
                 @auth
-                    @if($post['user_id'] != Auth::user()->id)
+                    @if($post['user_id'] != Auth::user()->id && Auth::user()->role_id == 1)
                         <div class="col-md-auto col-sm ms-auto p-0 mt-3">
                             @if ($post['user']->isFollowed())
                                 <form method="POST" action="{{ route('delete.follow', $post['user']->id) }}">
