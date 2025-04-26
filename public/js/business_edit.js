@@ -1,19 +1,49 @@
-document.getElementById('header').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (!file) return;
+document.addEventListener("DOMContentLoaded", function () {
+    const headerInput = document.getElementById('header');
+    const headerPreview = document.getElementById('header-preview');
+    const headerIcon = document.getElementById('header-icon');
+    const deleteHeaderBtn = document.getElementById('delete-header');
 
-    const reader = new FileReader();
+    // ヘッダー画像のアップロード時プレビュー表示
+    headerInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
 
-    reader.onload = function(e) {
-        const preview = document.getElementById('header-preview');
-        const icon = document.getElementById('header-icon');
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            headerPreview.src = e.target.result;
+            headerPreview.style.display = 'block';
+            if (headerIcon) headerIcon.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    });
 
-        preview.src = e.target.result;
-        preview.style.display = 'block';
-        if (icon) icon.style.display = 'none';
-    }
+    // ヘッダー画像の削除
+    deleteHeaderBtn.addEventListener('click', function () {
+        // if (!confirm('ヘッダー画像を削除しますか？')) return;
 
-    reader.readAsDataURL(file);
+        fetch("http://127.0.0.1:8000/profile/header", {
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                "Accept": "application/json"
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                headerPreview.src = '';
+                headerPreview.style.display = 'none';
+                if (headerIcon) headerIcon.style.display = 'block';
+                document.getElementById("header-preview").classList.add("d-none");
+                document.getElementById("header-icon").classList.remove("d-none");
+            } else {
+                alert('ヘッダー画像の削除に失敗しました');
+            }
+        })
+        .catch(() => {
+            ;
+        });
+    });
 });
 
 
@@ -39,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 削除ボタンクリックで画像削除処理
     deleteBtn.addEventListener('click', function () {
-        if (!confirm('画像を削除しますか？')) return;
+        // if (!confirm('画像を削除しますか？')) return;
 
         fetch("http://127.0.0.1:8000/profile/image", {
             method: "DELETE",
@@ -53,13 +83,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 preview.src = '';
                 preview.style.display = 'none';
                 if (icon) icon.style.display = 'block';
-                alert('画像を削除しました');
+                // alert('画像を削除しました');
+                document.getElementById("default-icon").classList.remove("d-none");
+                document.getElementById("avatar-preview").classList.add("d-none");
             } else {
                 alert('削除に失敗しました');
             }
         })
         .catch(() => {
-            alert('エラーが発生しました');
+            ;
         });
     });
 });

@@ -12,7 +12,12 @@
             <!-- Main Image Section -->
             <section class="main-image-section">
                 <div class="main-image-wrapper mt-3">
-                    <img class="main-image" alt="Main picture" src="{{ $business->main_image }}" />
+                    @if(Str::startsWith($business->main_image, 'http') || Str::startsWith($business->main_image, 'data:'))
+                        <img src="{{ $business->main_image }}" alt="{{ $business->title }}" class="card-img-top body-image" alt="image">
+                    @else
+                        <img src="{{ asset('storage/' . $business->main_image) }}" alt="{{ $business->title }}" class="card-img-top body-image" alt="image">
+                    @endif
+                    {{-- <img class="main-image" alt="Main picture" src="{{ $business->main_image }}" /> --}}
 
                     <div class="main-title">
                         {{ $business->name }}
@@ -22,7 +27,7 @@
                     </div>
 
                     @if($business->official_certification==3)
-                        <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official" alt="official">              
+                        <img src="{{ asset('images/logo/Official_Badge.png') }}" class="official-badge" alt="official">              
                     @else
                     @endif
                 </div>
@@ -343,6 +348,7 @@
                 <h2 class="quest-title">
                     Model Quest
                 </h2>
+                {{-- @include('businessusers.profiles.quests') --}}
 
 
             </section>

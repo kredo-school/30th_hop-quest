@@ -56,7 +56,7 @@ class ProfileController extends Controller
         // CREATING: unique:<table>,<column>
         'introduction' => 'required_if:official_certification,2|max:1000',
         'phonenumber' => 'required_if:official_certification,2|max:20',
-        'zip' => 'required_if:official_certification,2|max:7',
+        'zip' => 'required_if:official_certification,2|max:9',
         'address' => 'required_if:official_certification,2|max:255'
     ], [
         'introduction.required_if' => 'Required for official certification badge',
@@ -123,6 +123,15 @@ class ProfileController extends Controller
 
     return response()->json(['message' => 'No avatar found'], 404);
 }
+
+    public function deleteHeader()
+    {
+        $user = Auth::user();
+        $user->header = null;
+        $user->save();
+
+        return response()->json(['message' => 'Header deleted']);
+    }
 
     public function followers($id){
         $user_a = $this->user->findOrFail($id);
@@ -506,6 +515,8 @@ protected function getPaginatedLikedPosts(Request $request, $id){
                 'category_id' => null,
                 'tab_id' => 4,
                 'duration' => $item->duration,
+                'start_date' => $item->start_date,
+                'end_date' => $item->end_date,
                 'official_certification' => null,
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,

@@ -9,7 +9,7 @@
 
 @section('sub_content')
 <div class="">
-    <table class="table border bg-white table-hover align-middle text-secondary">
+    <table class="table border bg-white table-hover align-middle text-secondary mt-5">
         <thead class="table-primary text-secondary text-uppercase small">
             <tr>
                 {{-- <th class="align-middle">ID</th> --}}
@@ -41,7 +41,12 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{route('admin.users.review', $user->id)}}" class="text-decoration-none text-dark">{{ $user->name }}</a>
+                        @if($user->official_certification ==3)
+                            <a href="{{route('profile.header', $user->id)}}" class="text-decoration-none text-dark">{{ $user->name }}</a>&nbsp;<img src="{{ asset('images/logo/official_personal.png') }}"
+                        class="official-personal d-inline ms-0 avatar-xxs" alt="official-personal">
+                        @else
+                            <a href="{{route('profile.header', $user->id)}}" class="text-decoration-none text-dark">{{ $user->name }}</a>
+                        @endif
                     </td>
                     {{-- <td>
                         {{ $user->email }}
@@ -85,6 +90,7 @@
 
             @endforelse
         </tbody>
+    </table>
         <div class="d-flex justify-content-end mb-5">
             {{ $applied_users->links() }}
         </div>

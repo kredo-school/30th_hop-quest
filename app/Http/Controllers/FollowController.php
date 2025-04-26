@@ -14,7 +14,7 @@ class FollowController extends Controller
         $this->follow = $follow;
     }
 
-    public function store($user_id){
+    public function storeFollow($user_id){
         $this->follow->follower_id =  Auth::user()->id;  //user who clicks "follow"
         $this->follow->followed_id =  $user_id;  //target user (being followed)
         $this->follow->save();
@@ -23,7 +23,7 @@ class FollowController extends Controller
         return redirect()->back();
     }
 
-    public function delete($user_id){
+    public function deleteFollow($user_id){
         $this->follow->where('follower_id', Auth::user()->id)
                     ->where('followed_id', $user_id)
                     ->delete();

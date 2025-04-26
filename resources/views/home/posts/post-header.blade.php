@@ -1,9 +1,13 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/post-body.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/quest/view-quest.css') }}">
 @endsection
 
 <main>
+    
+
 <div class="row justify-content-center tag-category">
+    @if(!Auth::check() || Auth::user()->role_id != 2)
     <div class="col-auto">
         <a href="{{ route('posts.followings') }}" class="text-decoration-none text-dark" data-category="followings">
             <h1 class="poppins-semibold {{ request()->is('home/posts/followings*') ? 'active' : '' }}">
@@ -11,6 +15,8 @@
             </h1>
         </a>
     </div>
+    @else
+    @endif
     <div class="col-auto ms-5">
         <a href="{{ route('posts.spots') }}" class="text-decoration-none text-dark" data-category="spot">
             <h1 class="poppins-semibold {{ request()->is('home/posts/spots*') ? 'active' : '' }}">

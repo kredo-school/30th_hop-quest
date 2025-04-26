@@ -9,7 +9,7 @@
 
 @section('sub_content')
 <div class="">
-    <table class="table border bg-white table-hover align-middle text-secondary ">
+    <table class="table border bg-white table-hover align-middle text-secondary mt-5">
         <thead class="table-primary text-secondary text-uppercase small">
             <tr>
                 {{-- <th class="align-middle">ID</th> --}}
@@ -38,13 +38,24 @@
                     {{-- <td>{{$user->id}}</td> --}}
                     <td>
                         @if($post->main_image)
-                            <a href="{{route('business.show', $post->id)}}" ><img src="{{ $post->main_image }}" alt="" class="img-sm d-block mx-auto"></a>
+                        <a href="{{route('business.show', $post->id)}}" >
+                            @if(Str::startsWith($post->main_image, 'http') || Str::startsWith($post->main_image, 'data:'))
+                                <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="img-sm d-block mx-autoe">
+                            @else
+                                <img src="{{ asset('storage/' . $post->main_image) }}" alt="{{ $post->title }}" class="img-sm d-block mx-auto">
+                            @endif
+                        </a>
                         @else
                             <i class="fa-solid fa-image text-secondary profile-sm d-block text-center"></i>
                         @endif
                     </td>
                     <td>
-                        <a href="{{route('business.show', $post->id)}}" class="text-decoration-none text-dark">{{ $post->name }}</a>
+                        @if($post->official_certification == 3)
+                            <a href="{{route('business.show', $post->id)}}" class="text-decoration-none text-dark" >{{ $post->name }}</a>&nbsp;<img src="{{ asset('images/logo/OfficialBadge.png') }}"
+                        class="official-personal d-inline ms-0 avatar-xs" alt="official-personal">
+                        @else
+                            <a href="{{route('business.show', $post->id)}}" class="text-decoration-none text-dark" >{{ $post->name }}</a>
+                        @endif
                     </td>
                     <td class="align-middle">{{$post->user->name}}</th>
                     {{-- <td>
@@ -88,6 +99,7 @@
 
             @endforelse
         </tbody>
+    </table>
         <div class="d-flex justify-content-end mb-5">
             {{ $applied_posts->links() }}
         </div>

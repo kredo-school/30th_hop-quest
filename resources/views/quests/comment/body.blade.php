@@ -28,8 +28,8 @@
 
     {{-- コメント一覧 --}}
     @if ($quest_a->questcomments->isNotEmpty())
-        <div class="comment-container">
-            @foreach ($quest_a->questcomments as $comment)
+        @foreach ($quest_a->questcomments as $comment)
+            <div class="comment-container">           
                 <div class="comment-content">
                     @auth
                         {{-- ゴミ箱アイコン（本人のみ表示） --}}
@@ -49,20 +49,23 @@
                     {{-- コメント投稿者の情報 --}}
                     {{-- コメント投稿者の情報 --}}
                     <div class="comment-header my-2 d-flex align-items-center">
+
                         {{-- アバターリンク --}}
-                        <a href="{{ route('profile.header', $comment->user->id) }}"
-                            class="text-decoration-none d-flex align-items-center me-2">
-                            @if ($comment->user->avatar)
-                                <img src="{{ asset('storage/' . ltrim($comment->user->avatar, '/')) }}"
-                                    class="avatar-sm rounded-circle" alt="user icon">
+                        <a href="{{ route('profile.header', ['id' => $comment->user_id]) }}" class="text-decoration-none d-flex align-items-center me-2">
+                            @if($comment->user->avatar)
+                                @if(Str::startsWith($comment->user->avatar, 'http') || Str::startsWith($comment->user->avatar, 'data:'))
+                                    <img src="{{ $comment->user->avatar}}" alt="{{ $comment->user->name }}" class="rounded-circle avatar-sm">
+                                @else
+                                    <img src="{{ asset('storage/' . $comment->user->avatar) }}" alt="{{ $comment->user->name }}" class="rounded-circle avatar-sm">
+                                @endif
                             @else
-                                <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                                <i class="fa-solid fa-circle-user text-secondary text-decoration-none profile-sm text-center"></i>
                             @endif
                         </a>
 
                         {{-- ユーザー名リンク --}}
                         <div class="d-flex align-items-center flex-wrap">
-                            <a href="{{ route('profile.header', $comment->user->id) }}" class="text-decoration-none">
+                            <a href="{{ route('profile.header', $comment->user->id) }}" class="text-decoration-none poppins-semibold text-dark">
                                 <span class="username h6 mb-0"><strong>{{ $comment->user->name }}</strong></span>
                             </a>
                             {{-- 認証バッジ（任意） --}}
@@ -115,9 +118,9 @@
                         </div>
                     </div>
                 </div>
-                @include('quests.comment.modals.like')
-            @endforeach
+            @include('quests.comment.modals.like')           
         </div>
+        @endforeach
     @endif
 
     @vite('resources/js/quest/comment/quest-comment.js')

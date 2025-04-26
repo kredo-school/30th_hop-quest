@@ -37,17 +37,29 @@
             @forelse($posts as $post)
                 <tr>
                     {{-- <td>{{$user->id}}</td> --}}
-                    <td >
-                        <a href="#" class="text-decoration-none text-dark fw-bold">
-                        @if($post->main_image)
-                            <img src="{{ $post->main_image }}" alt="" class="img-md d-block mx-auto">
-                        @else
-                            <i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i>
-                        @endif
+                    <td >                        
+                        <a href="{{route('business.show', $post->id)}}" >
+                            @if(Str::startsWith($post->main_image, 'http') || Str::startsWith($post->main_image, 'data:'))
+                                <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="img-sm d-block mx-autoe">
+                            @else
+                                <img src="{{ asset('storage/' . $post->main_image) }}" alt="{{ $post->title }}" class="img-sm d-block mx-auto">
+                            @endif
                         </a>
+                        
+                            {{-- @if(Str::startsWith($post->main_image, 'http') || Str::startsWith($post->main_image, 'data:'))
+                                <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="img-sm d-block mx-autoe">
+                            @else
+                                <img src="{{ asset('storage/' . $post->main_image) }}" alt="{{ $post->title }}" class="img-sm d-block mx-auto">
+                            @endif
+                            </a> --}}
                     </td>
                     <td>
-                        <a href="#" class="text-decoration-none text-dark" >{{ $post->name }}</a>
+                        @if($post->official_certification == 3)
+                            <a href="{{route('business.show', $post->id)}}" class="text-decoration-none text-dark" >{{ $post->name }}</a>&nbsp;<img src="{{ asset('images/logo/OfficialBadge.png') }}"
+                        class="official-personal d-inline ms-0 avatar-xs" alt="official-personal">
+                        @else
+                            <a href="{{route('business.show', $post->id)}}" class="text-decoration-none text-dark" >{{ $post->name }}</a>
+                        @endif
                     </td>
                     <td class="align-middle">
                         <a href="{{route('profile.header', $post->user->id)}}" class="text-decoration-none text-dark">{{$post->user->name}}</a>

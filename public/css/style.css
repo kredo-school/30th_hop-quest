@@ -197,6 +197,13 @@ h6{
 }
 /* ---------------AVATAR--------------- */
 
+/* for admin list*/
+.avatar-xxs{
+    height: 1.5rem;
+    width: 1.5rem;
+    object-fit: cover;
+}
+
 /* for body*/
 .avatar-xs{
     height: 1.875rem;
@@ -670,11 +677,22 @@ thead{
     position:relative;
 }
 
-.delete-avatar{
+.delete-avatar-profile{
     position: absolute;
-    right: 20px;
+    right: 0px;
     bottom:20px;
     z-index: 10px;
 }
 
-
+html, body {
+    height: 100%;
+    margin: 0;
+}
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1;
+}

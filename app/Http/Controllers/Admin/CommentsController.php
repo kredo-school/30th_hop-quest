@@ -31,7 +31,7 @@ class CommentsController extends Controller
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
         // Businesses
-        $businesses = BusinessComment::with('user')
+        $businesses = BusinessComment::with('user', 'business')
         ->withTrashed()
         ->get()
         ->map(function ($item) {
@@ -39,7 +39,7 @@ class CommentsController extends Controller
                 'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
-                'spot_id' => $item->spot_id,
+                'business_id' => optional($item->business)->id,
                 'content' => $item->content,
                 'user_name' => optional($item->user)->name,
                 'user_avatar' => optional($item->user)->avatar,
@@ -52,7 +52,7 @@ class CommentsController extends Controller
             ];
         });
         // Spots
-        $spots = SpotComment::with('user')
+        $spots = SpotComment::with('user', 'spot')
         ->withTrashed()
         ->get()
         ->map(function ($item) {
@@ -60,7 +60,7 @@ class CommentsController extends Controller
                 'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
-                'spot_id' => $item->spot_id,
+                'spot_id' => optional($item->spot)->id,
                 'content' => $item->content,
                 'user_name' => optional($item->user)->name,
                 'user_avatar' => optional($item->user)->avatar,
@@ -74,7 +74,7 @@ class CommentsController extends Controller
         });
 
         // Quests
-        $quests = QuestComment::with('user')
+        $quests = QuestComment::with('user','quest')
         ->withTrashed()
         ->get()
         ->map(function ($item) {
@@ -82,7 +82,7 @@ class CommentsController extends Controller
                 'id' => $item->id,
                 'user' => $item->user,
                 'user_id' => $item->user_id,
-                'spot_id' => $item->spot_id,
+                'quest_id' => optional($item->quest)->id,
                 'content' => $item->content,
                 'user_name' => optional($item->user)->name,
                 'user_avatar' => optional($item->user)->avatar,

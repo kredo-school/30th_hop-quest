@@ -54,6 +54,7 @@ Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
     Route::get('/{id}', [ProfileController::class, 'showProfile'])->name('header');
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::delete('/image', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
+    Route::delete('/header', [ProfileController::class, 'deleteHeader'])->name('header.delete');
     Route::patch('/{id}/update', [ProfileController::class, 'update'])->name('update');
     Route::delete('/{id}/deactivate', [ProfileController::class, 'deactivate'])->name('deactivate');
     // Route::patch('/business/profile/{id}/promotions', [ProfileController::class, 'showPromotions'])->name('promotions.show');
@@ -61,8 +62,8 @@ Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
 });
 
 //FOLLOWS
-Route::post('/follow/{user_id}/store', [FollowController::class, 'store'])->name('follow.store');
-Route::delete('/follow/{user_id}/delete', [FollowController::class, 'delete'])->name('follow.delete');
+Route::post('/follow/store/{user_id}', [FollowController::class, 'storeFollow'])->name('store.follow');
+Route::delete('/follow/delete/{user_id}', [FollowController::class, 'deleteFollow'])->name('delete.follow');
 
 //PROMOTION
 Route::group(['prefix' => '/promotion', 'as' => 'promotions.'], function () {
@@ -139,7 +140,6 @@ Route::group(['prefix' => '/spot', 'as' => 'spots.'], function () {
 
     Route::get('/edit/{spot_id}', [SpotController::class, 'showEdit'])->name('edit');
     Route::patch('/update/{spot_id}', [SpotController::class, 'update'])->name('update');
-
     Route::delete('/{id}/deactivate', [SpotController::class, 'deactivate'])->name('deactivate');
     Route::patch('/{id}/activate', [SpotController::class, 'activate'])->name('activate');
     

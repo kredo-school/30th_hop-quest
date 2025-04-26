@@ -41,11 +41,11 @@
                 class="header-image img-fluid mx-auto d-block">
         @else
             <img id="header-preview"
-                src=""
+                src="{{ asset('images/logo/header_logo.jpg') }}"
                 alt="No Header"
                 class="header-image img-fluid mx-auto d-block"
                 style="display:none;">
-            <i id="header-icon" class="fa-solid fa-image text-secondary icon-xxl d-block text-center"></i>
+            {{-- <i id="header-icon" class="fa-solid fa-image text-secondary icon-xxl d-block text-center"></i> --}}
         @endif
     </div>
 </div>
@@ -56,7 +56,11 @@
           {{-- Header image upload --}}
         <div class="row mb-3">
             <div class="col">
-                <label for="header" class="form-label mb-2">Header photo</label>
+                <label for="header" class="form-label mb-2">Header photo </label>
+                <button type="button" class="btn btn-red delete-header" id="delete-header" >
+                    <i class=" fa-solid fa-trash-can" ></i>
+                </button>
+                
                 <input type="file" name="header" id="header" class="form-control form-control-sm w-100 p-2">
                 <p class="mb-0 form-text text-danger">
                 Acceptable formats: jpeg, jpg, png, gif only <br>
@@ -75,19 +79,28 @@
             <!-- Avatar image -->
 
             <div class="col-auto profile-image">
-                <img id="avatar-preview"
-                src="{{ Auth::user()->avatar ?? asset('images/profiles/profile-circle-user.jpg') }}"
-                alt=""
-                class="rounded-circle avatar-xl d-block mx-auto">
-            
-                {{-- <i id="default-icon"
-                    class="fa-solid fa-circle-user text-secondary profile-xl rounded-circle d-block mx-auto"
-                    style="{{ Auth::user()->avatar ? 'display:none;' : '' }}"></i> --}}
-            
-                <button type="button" class="btn btn-outline-red delete-avatar" id="delete-avatar" >
+       
+       
+                @if(Auth::user()->role_id == 1)
+                    <img id="avatar-preview"
+                    src="{{ Auth::user()->avatar ?? asset('images/profiles/profile-circle-tourist.jpg') }}"
+                    alt=""
+                    class="rounded-circle avatar-xl d-block mx-auto">
+                @elseif(Auth::user()->role_id == 2)
+                    <img id="avatar-preview"
+                    src="{{ Auth::user()->avatar ?? asset('images/profiles/profile-circle-user.jpg') }}"
+                    alt=""
+                    class="rounded-circle avatar-xl d-block mx-auto">
+                @endif
+{{--             
+                <i id="default-icon"
+                    class="fa-solid fa-circle-user text-secondary profile-xl rounded-circle d-block d-none">
+                    </i> --}}
+                <div>
+                <button type="button" class="btn btn-red delete-avatar-profile" id="delete-avatar" >
                     <i class=" fa-solid fa-trash-can" ></i>
                 </button>
-
+                </div>
             </div>
             
 

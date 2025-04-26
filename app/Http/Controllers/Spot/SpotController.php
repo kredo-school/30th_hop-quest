@@ -28,13 +28,13 @@ class SpotController extends Controller
         $user = $this->user->findOrFail($spot->user_id);
 
         // メイン画像URL化
-        $spot->main_image = Storage::url($spot->main_image);
+        // $spot->main_image = Storage::url($spot->main_image);
 
-        // 追加：images（複数）のURL化
-        $imagePaths = json_decode($spot->images, true) ?? [];
-        $spot->images = array_map(function ($path) {
-            return Storage::url($path);
-        }, $imagePaths);
+        // // 追加：images（複数）のURL化
+        // $imagePaths = json_decode($spot->images, true) ?? [];
+        // $spot->images = array_map(function ($path) {
+        //     return Storage::url($path);
+        // }, $imagePaths);
 
         return view('spots.show')
             ->with('spot', $spot)
@@ -232,8 +232,6 @@ class SpotController extends Controller
         $this->spot->onlyTrashed()->findOrFail($id)->restore();
         return redirect()->back();
     }
-
-
 
 }
 

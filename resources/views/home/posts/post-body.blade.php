@@ -1,6 +1,6 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/post-body.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/style.css')}}"> --}}
 @endsection
 
 
@@ -30,10 +30,15 @@
             @elseif($post['type'] == 'quests')
                 <a href="{{route('quest.show', $post['id'])}}" >
                     @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
+                        <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class="post-image" alt="image">
+                    @else
+                        <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image" alt="image">
+                    @endif
+                    {{-- @if(Str::startsWith($post['main_image'], 'http') || Str::startsWith($post['main_image'], 'data:'))
                         <img src="{{ $post['main_image'] }}" alt="{{ $post['title'] }}" class=" post-image">
                     @else
                         <img src="{{ asset('storage/' . $post['main_image']) }}" alt="{{ $post['title'] }}" class="post-image">
-                    @endif
+                    @endif --}}
                 </a>
             @endif
         </div>
@@ -88,11 +93,20 @@
                 {{-- User Icon --}}
                 <div class="col-md-auto col-sm-2 my-auto p-0">                   
                     <button class="btn">
-                        @if($post['avatar'])                           
+                        @if($post['avatar'])
+                            @if(Str::startsWith($post['avatar'], 'http') || Str::startsWith($post['avatar'], 'data:'))
+                                <img src="{{ $post['avatar']}}" alt="#" class="rounded-circle avatar-sm">
+                            @else
+                                <img src="{{ asset('storage/' . $post['avatar']) }}" alt="#" class="rounded-circle avatar-sm">
+                            @endif
+                        @else
+                            <i class="fa-solid fa-circle-user text-secondary text-decoration-none profile-sm text-center"></i>
+                        @endif
+                        {{-- @if($post['avatar'])                           
                             <a href="{{ route('profile.header', $post['user_id']) }}"><img src="{{ $post['avatar'] }}" alt="" class="rounded-circle avatar-sm"></a>
                         @else
-                        <a href="{{ route('profile.header', $post['user_id']) }}"><i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i></a>                          
-                        @endif
+                            <a href="{{ route('profile.header', $post['user_id']) }}"><i class="fa-solid fa-circle-user text-secondary profile-sm d-block text-center"></i></a>                          
+                        @endif --}}
                     </button>
                 </div>
             
@@ -122,16 +136,16 @@
 
                 {{-- Follow Button --}}
                 @auth
-                    @if($post['user_id'] != Auth::user()->id)
+                    @if($post['user_id'] != Auth::user()->id && Auth::user()->role_id == 1)
                         <div class="col-md-auto col-sm ms-auto p-0 mt-3">
                             @if ($post['user']->isFollowed())
-                                <form method="POST" action="{{ route('follow.delete', $post['user']->id) }}">
+                                <form method="POST" action="{{ route('delete.follow', $post['user']->id) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn-following mb-2 w-100">Following</button>
                                 </form>
                             @else
-                                <form method="POST" action="{{ route('follow.store', $post['user']->id) }}">
+                                <form method="POST" action="{{ route('store.follow', $post['user']->id) }}">
                                     @csrf
                                     <button type="submit" class="btn-follow mb-2 w-100">Follow</button>
                                 </form>
@@ -159,7 +173,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn p-0">
-                                <i class="fa-solid fa-heart color-red {{ $post['is_liked'] ? 'text-danger' : 'text-secondary' }}" ></i>
+                                <i class="fa-solid fa-heart home color-red {{ $post['is_liked'] ? 'text-danger' : 'text-secondary' }}" ></i>
                             </button>
                         </form>
                     @else
@@ -169,7 +183,7 @@
                         <form action="{{ route($likeStoreRoute, $post['id']) }}" method="post">
                             @csrf
                             <button type="sumbit" class="btn p-0">
-                                <i class="fa-regular fa-heart"></i>
+                                <i class="fa-regular fa-heart home"></i>
                             </button>
                         </form>
                     @endif

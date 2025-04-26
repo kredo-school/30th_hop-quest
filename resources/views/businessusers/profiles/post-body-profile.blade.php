@@ -252,7 +252,7 @@
             </div>
         </div>
 
-        @if($user->id == Auth::user()->id && $post['user_id'] == $user->id)
+        @if($user->id == Auth::user()->id && $post['user_id'] == $user->id )
                 <div class="card-footer bg-white">
                     {{-- status --}}
                         <div class="row ">

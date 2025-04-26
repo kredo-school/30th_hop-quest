@@ -301,7 +301,7 @@ class HomeController extends Controller
 //Allshow
     public function showAll(Request $request){
     $sort = $request->get('sort', 'likes_count');
-    $perPage = 6;
+    $perPage = 9;
     $currentPage = LengthAwarePaginator::resolveCurrentPage();
     // Spots
     $spots = Spot::with('user')
@@ -834,7 +834,10 @@ public function showQuests(Request $request){
                 break;  
         }
     
-        return view('home.posts.events', compact('events'));
+        return view('home.posts.events', [
+            'events' => $paginated,
+            'sort' => $sort, // Blade側で現在の並び順を表示するため
+        ]);
     }
 
     public function showFollowings(Request $request){

@@ -141,7 +141,11 @@
                                     @if ($avatarPath)
                                         <img src="{{ $avatarPath }}" alt="avatar" class="rounded-circle avatar-sm">
                                     @else
-                                        <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                                        @if(Auth::user()->role_id == 3)
+                                            <i class="fa-solid fa-circle-user color-green icon-md"></i>
+                                        @else
+                                            <i class="fa-solid fa-circle-user text-secondary icon-md"></i>
+                                        @endif
                                     @endif
                                 </a>
                                 <!-- Dropdown menu -->
