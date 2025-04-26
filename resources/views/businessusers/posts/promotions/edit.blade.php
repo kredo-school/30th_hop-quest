@@ -89,7 +89,11 @@
                     <div class="col-4">
                         <label for="image" class="form-label d-block">Photo upload<span class="color-red">*</span></label>
                         @if($business_promotion->image)
-                            <img src="{{$business_promotion->image}}" class="img-lg mb-2"  alt="Promotion image">
+                            @if(Str::startsWith($business_promotion->image, 'http') || Str::startsWith($business_promotion->image, 'data:'))
+                                <img src="{{ $business_promotion->image}}" alt="#" class="img-lg mb-2">
+                            @else
+                                <img src="{{ asset('storage/' . $business_promotion->image) }}" alt="#" class="img-lg mb-2">
+                            @endif
                         @else
                             <i class="fa-solid fa-image text-secondary icon-xl d-block text-center"></i>
                         @endif

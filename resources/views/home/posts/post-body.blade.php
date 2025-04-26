@@ -94,14 +94,14 @@
                 <div class="col-md-auto col-sm-2 my-auto p-0">                   
                     <button class="btn">
                         @if($post['avatar'])
-                        @if(Str::startsWith($post['avatar'], 'http') || Str::startsWith($post['avatar'], 'data:'))
-                            <img src="{{ $post['avatar']}}" alt="#" class="rounded-circle avatar-sm">
+                            @if(Str::startsWith($post['avatar'], 'http') || Str::startsWith($post['avatar'], 'data:'))
+                                <img src="{{ $post['avatar']}}" alt="#" class="rounded-circle avatar-sm">
+                            @else
+                                <img src="{{ asset('storage/' . $post['avatar']) }}" alt="#" class="rounded-circle avatar-sm">
+                            @endif
                         @else
-                            <img src="{{ asset('storage/' . $post['avatar']) }}" alt="#" class="rounded-circle avatar-sm">
+                            <i class="fa-solid fa-circle-user text-secondary text-decoration-none profile-sm text-center"></i>
                         @endif
-                    @else
-                        <i class="fa-solid fa-circle-user text-secondary text-decoration-none profile-sm text-center"></i>
-                    @endif
                         {{-- @if($post['avatar'])                           
                             <a href="{{ route('profile.header', $post['user_id']) }}"><img src="{{ $post['avatar'] }}" alt="" class="rounded-circle avatar-sm"></a>
                         @else
