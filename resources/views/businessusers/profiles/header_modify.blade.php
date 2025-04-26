@@ -1,7 +1,7 @@
 @if ($user->role_id == 1)
     <div class="bg-navy text-white">
-@else
-    <div class="bg-blue text-dark">
+    @else
+        <div class="bg-blue text-dark">
 @endif
 
 @extends('layouts.app')
@@ -17,63 +17,37 @@
 @section('content')
 
     <!-- Header image -->
-    @php
-        $header = $user->header;
-        $headerSrc = '';
-
-        if (Str::startsWith($header, 'data:image')) {
-            $headerSrc = $header;
-        } elseif (Str::startsWith($header, '/images/')) {
-            $filePath = public_path('storage/' . $header);
-            if (file_exists($filePath)) {
-                $headerSrc = asset('storage/' . $header);
-            }
-        }
-
-        if (!$headerSrc) {
-            $headerSrc = asset('images/logo/header_logo.jpg');
-        }
-    @endphp
-
-    <img src="{{ $headerSrc }}" alt="Header Image" class="header-image">
-
-
+    <div class="row">
+        <div class="mb-3 pt-3">
+            @if ($user->header)
+                <img src="{{ $user->header }}" alt="" class="header-image">
+            @else
+                <img src="{{ asset('images/logo/header_logo.jpg') }}" alt="header_logo" class="header-image">
+            @endif
+        </div>
+    </div>
+    {{-- User information --}}
     @if ($user->role_id == 1)
         <div class="row justify-content-center mt-2 mb-0">
             <div class="col-2 sidebar ps-5 poppins-bold">
                 @include('businessusers.profiles.partial.sidebar')
             </div>
             <div class="col-8 ms-5 ps-5">
-    @else
-        <div class="row justify-content-center mt-2 mb-0">
-            <div class="col-8">
+            @else
+                <div class="row justify-content-center mt-2 mb-0">
+                    <div class="col-8">
     @endif
 
     <div class="profile-header position-relative mt-3">
         <div class="row">
             <!-- Avatar image -->
             <div class="col-md-auto col-sm profile-image mb-3">
-                @php
-                    $avatar = $user->avatar;
-                    $avatarSrc = '';
-            
-                    if (Str::startsWith($avatar, 'data:image')) {
-                        $avatarSrc = $avatar;
-                    } elseif (Str::startsWith($avatar, '/images/')) {
-                        $filePath = public_path('storage/' . $avatar);
-                        if (file_exists($filePath)) {
-                            $avatarSrc = asset('storage/' . $avatar);
-                        }
-                    }
-                @endphp
-            
-                @if ($avatarSrc)
-                    <img src="{{ $avatarSrc }}" alt="" class="rounded-circle avatar-xxl">
+                @if ($user->avatar)
+                    <img src="{{ $user->avatar }}" alt="" class="rounded-circle avatar-xxl">
                 @else
                     <i class="fa-solid fa-circle-user text-secondary profile-xxl d-block text-center"></i>
                 @endif
-            </div>            
-
+            </div>
             {{-- <div class="col-2"></div> --}}
             <!-- Username -->
             <div class="col-md col-sm">
