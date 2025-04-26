@@ -233,15 +233,5 @@ class SpotController extends Controller
         return redirect()->back();
     }
 
-    public function deactivate($id){
-        $this->spot->destroy($id);
-        return redirect()->back();
-    }
-
-    public function activate($id){
-        $this->spot->onlyTrashed()->findOrFail($id)->restore();
-        return redirect()->back();
-    }
-
 }
 
