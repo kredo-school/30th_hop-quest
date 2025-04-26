@@ -19,20 +19,20 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register.submit') }}">
                         @csrf
 
                         <!-- Username -->
                         <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
+                            <label for="name" class="form-label">Username</label>
                             <div class="input-group">
-                                <input id="username" type="text" name="username" value="{{ old('username') }}"
+                                <input id="name" type="text" name="name" value="{{ old('name') }}"
                                     placeholder="Enter your username" required class="form-control">
                                 <span class="input-group-text">
                                     <i class="fas fa-user text-primary"></i>
                                 </span>
                             </div>
-                            @error('username')
+                            @error('name')
                                 <div class="text-danger small">{{ $message }}</div>
                             @enderror
                         </div>
@@ -67,7 +67,7 @@
                         </div>
 
                         <!-- Confirm Password -->
-                        <div class="mb-3">
+                        <div class="mb-5">
                             <label for="password_confirmation" class="form-label">Confirm Password</label>
                             <div class="input-group">
                                 <input id="password_confirmation" type="password" name="password_confirmation" required
@@ -82,15 +82,16 @@
                         </div>
 
                         <!-- Register Button -->
-                        <div class="d-grid mt-5">
+                        <div class="d-grid mb-5">
                             <button type="submit" class="btn btn-danger">REGISTER</button>
                         </div>
 
                         <!-- Extra Links -->
-                        <div class="text-end mt-5">
-                            <a href="{{ route('login') }}" class="text-decoration-none text-dark">Already have an
-                                account?
-                                Login</a>
+                        <div class="text-end m-4 g-3">
+                            <a href="{{ route('login') }}" class="text-decoration-none text-dark text-end poppins-bold">Already have an account?</a>
+                        </div>
+                        <div class="text-end m-4 g-3">
+                            <a href="{{ route('register.business') }}" class="text-decoration-none text-dark text-end poppins-bold">Create account for Business</a>
                         </div>
                     </form>
                 </div>
