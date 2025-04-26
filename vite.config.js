@@ -32,7 +32,7 @@ export default defineConfig({
                 'resources/js/quest/quest/edit-quest-modal.js',
 
                 // quest-body folder
-                'resources/js/quest/comment/edit-questbody-modal.js',
+                'resources/js/quest/quest-body/edit-questbody-modal.js',
 
                 
             ],
