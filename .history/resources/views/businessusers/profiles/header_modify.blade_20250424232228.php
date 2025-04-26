@@ -19,8 +19,8 @@
     <!-- Header image -->
     <div class="row">
         <div class="mb-3 pt-3">
-            @if ($user->header)
-                <img src="{{ $user->header }}" alt="" class="header-image">
+            @if ($headerPath)
+                <img src="{{ $headerPath }}" alt="Header Image" class="header-image">
             @else
                 <img src="{{ asset('images/logo/header_logo.jpg') }}" alt="header_logo" class="header-image">
             @endif
