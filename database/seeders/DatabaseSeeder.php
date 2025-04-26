@@ -18,5 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UsersSeeder::class,
         ]);
+
+        // ✅ TestDataSeeder を呼び出す
+        $this->call(TestDataSeeder::class);
     }
 }

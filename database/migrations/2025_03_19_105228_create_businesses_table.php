@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name');
+            $table->longText('main_image')->nullable();
             $table->text('introduction')->nullable();
             $table->integer('category_id')->default(1)->comment('1:locations 2:events');
             $table->string('status')->nullable();
@@ -22,11 +23,13 @@ return new class extends Migration
             $table->date('term_end')->nullable();           
             $table->integer('business_hours')->nullable();
             $table->text('sp_notes')->nullable();
-            $table->string('address')->nullable();
+            $table->string('address_1')->nullable();
+            $table->string('address_2')->nullable();
             $table->string('zip',10)->nullable();
             $table->string('google_api_code')->nullable();
             $table->string('phonenumber')->nullable();
             $table->string('email');
+            $table->string('website_url')->nullable();
             $table->string('instagram')->nullable();
             $table->string('facebook')->nullable();
             $table->string('x')->nullable();
@@ -35,7 +38,6 @@ return new class extends Migration
             $table->string('identification_number')->nullable();
             $table->date('display_start')->nullable();
             $table->date('display_end')->nullable();  
-            $table->char('is_public');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
@@ -47,6 +49,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('businesses');
+        Schema::dropIfExists('busineses');
     }
 };
