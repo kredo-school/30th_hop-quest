@@ -1,66 +1,71 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+HopQuest: Share Your Travel Adventures
+Live App URL: https://hopquest30th-af035b680d5f.herokuapp.com/home
+Design & Planning Materials (Figma, etc.): Hop Quest Project featured by Kredo Online
+1. Overview
+HopQuest is a web application designed for travelers to share their memories and favorite spots with a community of fellow adventurers. Users can post their travel logs (Quests) and discovered locations (Spots), as well as interact with others' posts through likes and comments. For businesses like tourist shops or facilities, HopQuest serves as a platform to promote their services and events directly to travelers.
+Development Team: Kenya, Kazuma, Tsukasa, Takeshi, Naoko, Fumihiko
+Team Slogan: We love journey! We love communication! We love adventures!
+Development Period: February - End of April, 2025 (Kredo Global Intern Course)
+2. User Roles & Permissions
+User Type	Feature Overview
+Guest	Browse and view posts.
+Tourist	Create/edit Quests & Spots, like, comment, and follow other users.
+Business	All Tourist features, plus: post business info & events, apply for an official badge, and display promotions.
+Admin	Manage all users and posts, approve official badges, and handle content visibility settings.
+3. Key Features
+■ User Authentication
+Secure login/registration system for Tourist and Business users via email and password.
+Password reset functionality.
+■ Posting Features
+Quests: Post travel logs in a schedule-like format, allowing users to add multiple spots for each day of their journey.
+Spots: Share information about specific locations, including photos and location data integrated with Google Maps.
+Business Posts: Register detailed information such as store details, events, business hours, addresses, and payment methods.
+Promotions: Announce special discounts, campaigns, and other offers.
+■ Social & Community Features
+Like, comment, follow, and view follower lists.
+Star-based rating and review system for businesses.
+■ Content Discovery & Search
+Top page features a carousel of popular Quests, Spots, and Events.
+Keyword search, category filtering, and sorting options.
+Detailed post pages with integrated map views.
+■ User Profiles
+Customizable profile with avatar and header images.
+View personal post history, liked posts, follow status, and comment history.
+Toggle post visibility between public and private.
+■ Admin Panel
+Approve, reject, or delete user-generated posts.
+Handle and verify applications for official business badges.
+Manage site-wide content visibility and set post display durations from the admin dashboard.
+4. UI/UX Highlights
+Responsive Design: Fully optimized for a seamless experience on smartphones.
+High Visibility: Clean layout with a focus on large photos and clear map displays.
+Intuitive Navigation: User-friendly interface with tab-based UI and an accessible FAQ section.
+Interactive Maps: Engaging user experience through interactive map integration.
+5. Technical Details
+Languages/Technologies: PHP (OOP), Laravel, MySQL, HTML, CSS, Bootstrap, JavaScript
+Development Style: Team-based development, collaborating with Filipino engineers in English.
+Deployment: Heroku
+Design & PM Tools: Figma, FigJam, ER Diagram (Miro), Backlog
+Development Tools: Visual Studio Code, Git, GitHub, SourceTree
+6. Test Users
+Use the following credentials to explore the app.
+Common Password for all users: password
+Tourist Users
+id	name	email
+1	Alice	alice@example.com
+2	Bob	bob@example.com
+3	Charlie	charlie@example.com
+4	David	david@example.com
+5	Eve	eve@example.com
+6	Frank	frank@example.com
+Business Users
+id	name	email
+7	Grace	grace@example.com
+8	Heidi	heidi@example.com
+9	Ivan	ivan@example.com
+10	Judy	judy@example.com
+11	Mallory	mallory@example.com
+12	Niaj	niaj@example.com
+Admin User
+id	name	email
+13	admin	admin@example.com
